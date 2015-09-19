@@ -329,7 +329,7 @@ GO
 
 --Inserta las aeronaves en la tabla de aeronaves
 INSERT INTO [ABSTRACCIONX4].[AERONAVES] (AERO_MOD , AERO_MATRI , AERO_CANT_BUTACAS,  AERO_CANT_KGS , AERO_FAB , AERO_SERV)
-SELECT Aeronave_Modelo , Aeronave_Matricula matricula, max(Butaca_Nro), Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio 
+SELECT Aeronave_Modelo , Aeronave_Matricula matricula, MAX(Butaca_Nro), Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio 
 FROM gd_esquema.Maestra
 GROUP BY Aeronave_Modelo , Aeronave_Matricula , Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio
 GO
@@ -339,7 +339,57 @@ INSERT [ABSTRACCIONX4].[ROLES] (ROL_NOMBRE)
 VALUES ('CLIENTE')
 INSERT [ABSTRACCIONX4].[ROLES] (ROL_NOMBRE)
 VALUES ('ADMINISTRADOR')
+GO
+
+--Inserta las funciones del sistema en la Tabla FUNCIONALIDAD
+--No se considera el login ya que se aclara que no es una funcionalidad asignable a un rol.
+INSERT INTO [ABSTRACCIONX4].[FUNCIONALIDADES] (FUNC_COD, FUNC_DESC) VALUES (1,'Aqui ira el nombre de una funcionalidad')
+
+GO
 
 
+-- Inserta las rutas aereas en la tabla rutas aereas 
+-- NOTA: AUN NO FUNCIONA. EN DISCUCION EN LA ISSUE.
 
+INSERT [ABSTRACCIONX4].[RUTAS_AEREAS]
 
+	(	[RUTA_COD],
+		[RUTA_SERV],
+		[CIU_COD_O],
+		[CIU_COD_D],
+		[RUTA_PRECIO_BASE_KG],
+		[RUTA_PRECIO_BASE_PASAJE]
+	)
+
+SELECT	Ruta_Codigo,
+		Tipo_Servicio,
+		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].CIUDADES C WHERE C.CIU_DESC = Ruta_Ciudad_Origen),
+		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].CIUDADES C WHERE C.CIU_DESC = Ruta_Ciudad_Destino),
+		MAX(Ruta_Precio_BaseKG) as Precio_BaseKG,
+		MAX(Ruta_Precio_BasePasaje) as Precio_BasePasaje 
+	FROM gd_esquema.Maestra
+	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino,Tipo_Servicio
+GO
+
+-- Inserta los viajes en la tabla viajes
+-- NOTA: AUN NO FUNCIONA. EN DISCUCION EN LA ISSUE. 
+
+INSERT [ABSTRACCIONX4].[VIAJES]
+
+	(	
+		[VIAJE_FECHA_SALIDA],
+		[VIAJE_FECHA_LLEGADA],
+		[VIAJE_FECHA_LLEGADAE],
+		[AERO_MATRI],
+		[RUTA_COD]
+	)
+
+	SELECT	FechaSalida,
+			Fecha_LLegada_Estimada,
+			FechaLLegada,
+			Aeronave_Matricula 
+			-- FALTA DETERMINAR EN LA ISSUE QUE SE HACE CON RUTA COD
+			FROM gd_esquema.Maestra 
+	GROUP BY FechaSalida,Fecha_LLegada_Estimada,FechaLLegada,Ruta_Codigo,Aeronave_Matricula
+
+GO
