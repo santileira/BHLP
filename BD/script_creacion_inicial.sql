@@ -23,7 +23,7 @@ GO
 --Rol: Si el estado es 0, se encuentra inactivo, si es 1 activo.
 --Esta tabla contiene código, nombre y estado del rol (activo/inactivo)
 
-
+--TIENE INSERT
 CREATE TABLE [ABSTRACCIONX4].[ROLES](
 	[ROL_COD] [int] IDENTITY NOT NULL,
 	[ROL_ESTADO] [int] NULL, --para su baja lógica
@@ -36,7 +36,7 @@ CREATE TABLE [ABSTRACCIONX4].[ROLES](
 
 GO
 
-
+--TIENE INSERT
 --Tabla Funcionalidad: Contiene los códigos, nombres de cada funcionalidad. 
 CREATE TABLE [ABSTRACCIONX4].[FUNCIONALIDADES](
 	[FUNC_COD] [numeric] (18,0) NOT NULL,
@@ -49,6 +49,7 @@ CONSTRAINT [PK_FUNCIONALIDADES] PRIMARY KEY CLUSTERED
 
 GO
 
+--SIN INSERT
 --Tabla Funciones por rol: Contiene las funcionalidades habilitadas para cada rol del sistema.
 CREATE TABLE [ABSTRACCIONX4].[FUNCIONES_ROLES](
 	[ROL_COD] [int] NOT NULL,
@@ -73,7 +74,7 @@ REFERENCES [ABSTRACCIONX4].[FUNCIONALIDADES] ([FUNC_COD])
 
 GO
 
-
+--SIN INSERT
 -- Tabla Usuarios: 
 
 CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
@@ -93,6 +94,7 @@ REFERENCES [ABSTRACCIONX4].[ROLES] ([ROL_COD])
 
 GO
 
+--TIENE INSERT
 -- Tabla Clientes:
 
 CREATE TABLE [ABSTRACCIONX4].[CLIENTES](
@@ -111,6 +113,7 @@ CREATE TABLE [ABSTRACCIONX4].[CLIENTES](
 
 GO
 
+--TIENE INSERT
 -- Tabla Ciudades:
 
 CREATE TABLE [ABSTRACCIONX4].[CIUDADES](
@@ -124,6 +127,7 @@ CREATE TABLE [ABSTRACCIONX4].[CIUDADES](
 
 GO
 
+--TIENE INSERT
 -- Tabla Ruta Aérea:
 
 CREATE TABLE [ABSTRACCIONX4].[RUTAS_AEREAS](
@@ -152,7 +156,7 @@ ALTER TABLE [ABSTRACCIONX4].[RUTAS_AEREAS]  WITH CHECK ADD  CONSTRAINT [FK_RUTAS
 REFERENCES [ABSTRACCIONX4].[CIUDADES] ([CIU_COD])
 
 GO
-
+--TIENE INSERT
 -- Tabla de Aeronaves
 
 CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
@@ -176,7 +180,7 @@ CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
 
 GO
 
-
+--TIENE INSERT
 -- Tabla De Viajes
 
 CREATE TABLE [ABSTRACCIONX4].[VIAJES](
@@ -204,6 +208,7 @@ ALTER TABLE [ABSTRACCIONX4].[VIAJES]  WITH CHECK ADD  CONSTRAINT [FK_VIAJES_RUTA
 REFERENCES [ABSTRACCIONX4].[RUTAS_AEREAS] ([RUTA_ID])
 
 GO
+
 
 
 -- Tabla Pasajes
@@ -347,12 +352,25 @@ INSERT INTO [ABSTRACCIONX4].[CIUDADES] (CIU_DESC)
 SELECT DISTINCT RUTA_CIUDAD_ORIGEN FROM gd_esquema.Maestra
 GO
 
+--SELECT * FROM [ABSTRACCIONX4].[CIUDADES]
+
+SELECT COUNT(distinct Aeronave_Matricula) FROM gd_esquema.Maestra 
+
 --Inserta las aeronaves en la tabla de aeronaves
-INSERT INTO [ABSTRACCIONX4].[AERONAVES] (AERO_MOD , AERO_MATRI , AERO_CANT_BUTACAS,  AERO_CANT_KGS , AERO_FAB , AERO_SERV)
+INSERT INTO [ABSTRACCIONX4].[AERONAVES] 
+	(	AERO_MOD , 
+		AERO_MATRI , 
+		AERO_CANT_BUTACAS ,  
+		AERO_CANT_KGS , 
+		AERO_FAB , 
+		AERO_SERV
+	)
 SELECT Aeronave_Modelo , Aeronave_Matricula matricula, MAX(Butaca_Nro), Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio 
 FROM gd_esquema.Maestra
 GROUP BY Aeronave_Modelo , Aeronave_Matricula , Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio
 GO
+
+--SELECT * FROM [ABSTRACCIONX4].[AERONAVES]
 
 -- Inserta los roles en la tabla roles
 INSERT [ABSTRACCIONX4].[ROLES] (ROL_NOMBRE)
@@ -370,20 +388,20 @@ GO
 
 -- Inserta las rutas aereas en la tabla rutas aereas 
 
-INSERT [ABSTRACCIONX4].[RUTAS_AEREAS]
+INSERT INTO [ABSTRACCIONX4].[RUTAS_AEREAS]
 
-	(	[RUTA_COD],
-		[RUTA_SERV],
-		[CIU_COD_O],
-		[CIU_COD_D],
-		[RUTA_PRECIO_BASE_KG],
-		[RUTA_PRECIO_BASE_PASAJE]
+	(	RUTA_COD,
+		RUTA_SERV,
+		CIU_COD_O,
+		CIU_COD_D,
+		RUTA_PRECIO_BASE_KG,
+		RUTA_PRECIO_BASE_PASAJE
 	)
 
 SELECT	Ruta_Codigo,
 		Tipo_Servicio,
-		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].CIUDADES C WHERE C.CIU_DESC = Ruta_Ciudad_Origen),
-		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].CIUDADES C WHERE C.CIU_DESC = Ruta_Ciudad_Destino),
+		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Origen),
+		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Destino),
 		MAX(Ruta_Precio_BaseKG) as Precio_BaseKG,
 		MAX(Ruta_Precio_BasePasaje) as Precio_BasePasaje 
 	FROM gd_esquema.Maestra
@@ -392,21 +410,21 @@ GO
 
 -- Inserta los viajes en la tabla viajes 
 
-INSERT [ABSTRACCIONX4].[VIAJES]
+INSERT INTO[ABSTRACCIONX4].[VIAJES]
 
 	(	
-		[VIAJE_FECHA_SALIDA],
-		[VIAJE_FECHA_LLEGADA],
-		[VIAJE_FECHA_LLEGADAE],
-		[AERO_MATRI],
-		[RUTA_ID]
+		VIAJE_FECHA_SALIDA ,
+		VIAJE_FECHA_LLEGADA ,
+		VIAJE_FECHA_LLEGADAE ,
+		AERO_MATRI ,
+		RUTA_ID
 	)
 
 	SELECT	FechaSalida,
 			Fecha_LLegada_Estimada,
 			FechaLLegada,
 			Aeronave_Matricula, 
-			(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].RUTAS_AEREAS R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
+			(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
 			FROM gd_esquema.Maestra 
 	GROUP BY FechaSalida,Fecha_LLegada_Estimada,FechaLLegada,Ruta_Codigo,Aeronave_Matricula
 
@@ -415,19 +433,25 @@ GO
 -- Inserta los clientes en la tabla clientes
 -- FALLA PORQUE HAY 2 FORROS QUE TIENEN EL MISMO DNI. HIJO DE SU MADRE.
 
-INSERT [ABSTRACCIONX4].[CLIENTES]
+INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 
 	(	
-		[CLI_DNI],
-		[CLI_NOMBRE],
-		[CLI_APELLIDO],
-		[CLI_DIRECCION],
-		[CLI_TELEFONO],
-		[CLI_MAIL],
-		[CLI_FECHA_NAC]
+		CLI_DNI ,
+		CLI_NOMBRE ,
+		CLI_APELLIDO ,
+		CLI_DIRECCION ,
+		CLI_TELEFONO ,
+		CLI_MAIL ,
+		CLI_FECHA_NAC
 	)
 
 	SELECT DISTINCT Cli_Dni, Cli_Nombre, Cli_Apellido, Cli_Dir, Cli_Telefono, Cli_Mail, Cli_Fecha_Nac FROM gd_esquema.Maestra
 
 GO
 
+-- Inserta pasajes en la tabla pasajes
+
+
+
+
+select * from gd_esquema.Maestra
