@@ -210,6 +210,8 @@ REFERENCES [ABSTRACCIONX4].[RUTAS_AEREAS] ([RUTA_ID])
 
 GO
 
+--Tabla De Butacas (SANTI HACER INSERT)
+
 CREATE TABLE [ABSTRACCIONX4].[BUTACAS] (
 	[BUT_NRO] [int] NOT NULL,
 	[BUT_PISO] [int] NOT NULL,
@@ -231,7 +233,7 @@ GO
 
 
 
--- Tabla Pasajes
+-- Tabla Pasajes (SANTI HACER INSERT)
 
 CREATE TABLE [ABSTRACCIONX4].[PASAJES](
 	[PASAJE_COD] [int] IDENTITY NOT NULL,
@@ -271,7 +273,7 @@ REFERENCES [ABSTRACCIONX4].[BUTACAS] ([AERO_MATRI])
 GO*/
 
 
--- Tabla Encomiendas:
+-- Tabla Encomiendas (FRAN HACER INSERT)
 
 CREATE TABLE [ABSTRACCIONX4].[ENCOMIENDAS](
 	[ENCOMIENDA_COD] [int] IDENTITY NOT NULL,
@@ -386,8 +388,7 @@ GO
 
 --SELECT * FROM [ABSTRACCIONX4].[CIUDADES]
 
-SELECT COUNT(distinct Aeronave_Matricula) FROM gd_esquema.Maestra 
-
+ 
 --Inserta las aeronaves en la tabla de aeronaves
 INSERT INTO [ABSTRACCIONX4].[AERONAVES] 
 	(	AERO_MOD , 
@@ -403,12 +404,13 @@ GROUP BY Aeronave_Modelo , Aeronave_Matricula , Aeronave_KG_Disponibles , Aerona
 GO
 
 --SELECT * FROM [ABSTRACCIONX4].[AERONAVES]
+--SELECT COUNT(distinct Aeronave_Matricula) FROM gd_esquema.Maestra
 
 -- Inserta los roles en la tabla roles
 INSERT [ABSTRACCIONX4].[ROLES] (ROL_NOMBRE , ROL_ESTADO)
-VALUES ('CLIENTE' , 0)
+VALUES ('CLIENTE' , 1)
 INSERT [ABSTRACCIONX4].[ROLES] (ROL_NOMBRE , ROL_ESTADO)
-VALUES ('ADMINISTRADOR' , 0)
+VALUES ('ADMINISTRADOR' , 1)
 GO
 
 --Inserta las funciones del sistema en la Tabla FUNCIONALIDAD
@@ -437,10 +439,12 @@ SELECT	Ruta_Codigo,
 		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Destino),
 		MAX(Ruta_Precio_BaseKG) as Precio_BaseKG,
 		MAX(Ruta_Precio_BasePasaje) as Precio_BasePasaje,
-		0 
+		1 
 	FROM gd_esquema.Maestra
 	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino,Tipo_Servicio
 GO
+
+SELECT * FROM [ABSTRACCIONX4].RUTAS_AEREAS
 
 -- Inserta los viajes en la tabla viajes 
 
@@ -458,11 +462,14 @@ INSERT INTO[ABSTRACCIONX4].[VIAJES]
 			Fecha_LLegada_Estimada,
 			FechaLLegada,
 			Aeronave_Matricula, 
-			(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
+			(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) 
+			AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
 			FROM gd_esquema.Maestra 
 	GROUP BY FechaSalida,Fecha_LLegada_Estimada,FechaLLegada,Ruta_Codigo,Aeronave_Matricula
 
 GO
+
+
 
 -- Inserta los clientes en la tabla clientes
 -- FALLA PORQUE HAY 2 FORROS QUE TIENEN EL MISMO DNI. HIJO DE SU MADRE.
@@ -484,8 +491,3 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 GO
 
 -- Inserta encomiendas en la tabla encomiendas
-
-
-
-
-select * from gd_esquema.Maestra
