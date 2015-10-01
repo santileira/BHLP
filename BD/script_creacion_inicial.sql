@@ -491,3 +491,20 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 GO
 
 -- Inserta encomiendas en la tabla encomiendas
+
+-- Inserta butacas en la tabla butacas
+
+INSERT INTO [ABSTRACCIONX4].[BUTACAS]
+	(
+		BUT_NRO ,
+		BUT_PISO ,
+		BUT_TIPO ,
+		AERO_MATRI 
+	)
+
+	SELECT DISTINCT Butaca_Nro , Butaca_Piso , Butaca_Tipo , Aeronave_Matricula
+	FROM gd_esquema.Maestra
+	WHERE Butaca_Nro != 0 AND Butaca_Piso != 0 
+GO
+
+
