@@ -528,4 +528,3 @@ FROM gd_esquema.Maestra
 WHERE Pasaje_Codigo != 0
 		
 select * from [ABSTRACCIONX4].[VIAJES]
-

@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba
 {
-    public partial class Form1 : Form
+    public partial class FormLoginAdministrador : Form
     {
-        public Form1()
+        public FormLoginAdministrador()
         {
             InitializeComponent();
+        }
+
+        private void FormPrincipalAdministrador_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
