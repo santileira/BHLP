@@ -35,7 +35,7 @@ namespace AerolineaFrba
         private void button1_Click(object sender, EventArgs e)
         {
             Form formularioSiguiente;
-            if (comboRoles.SelectedItem.ToString() == "Administrador")
+            if (comboRoles.Text == "Administrador")
             {
                 formularioSiguiente = new FormLoginAdministrador();
                 formularioSiguiente.Visible = true;
