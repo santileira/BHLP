@@ -129,7 +129,7 @@ GO
 
 -- Tabla Servicios:
 CREATE TABLE [ABSTRACCIONX4].[SERVICIOS](
-	[SERV_COD] [varchar] (20) NOT NULL, 
+	[SERV_COD] [varchar] (30) NOT NULL, 
 	[SERV_PORC] [int] NOT NULL,
 CONSTRAINT [PK_SERVICIOS] PRIMARY KEY CLUSTERED 
 (
@@ -265,7 +265,6 @@ ALTER TABLE [ABSTRACCIONX4].[AERONAVES]  WITH CHECK ADD  CONSTRAINT [FK_AERONAVE
 REFERENCES [ABSTRACCIONX4].[SERVICIOS] ([SERV_COD])
 
 GO
-
 
 --TIENE INSERT
 -- Tabla De Viajes
@@ -487,6 +486,18 @@ GO
 
 --SELECT * FROM [ABSTRACCIONX4].[CIUDADES]
 
+
+-- Inserta servicios en la tabla de servicios
+
+INSERT INTO [ABSTRACCIONX4].[SERVICIOS]
+	(
+		[SERV_COD] ,
+		[SERV_PORC] 
+	)
+SELECT DISTINCT Tipo_Servicio , AVG((Ruta_Precio_BasePasaje * 100)/Pasaje_Precio)
+FROM gd_esquema.Maestra WHERE Pasaje_Precio != 0
+GROUP BY Tipo_Servicio
+
  
 --Inserta las aeronaves en la tabla de aeronaves
 INSERT INTO [ABSTRACCIONX4].[AERONAVES] 
@@ -495,9 +506,14 @@ INSERT INTO [ABSTRACCIONX4].[AERONAVES]
 		AERO_CANT_BUTACAS ,  
 		AERO_CANT_KGS , 
 		AERO_FAB , 
-		AERO_SERV
+		SERV_COD
 	)
-SELECT Aeronave_Modelo , Aeronave_Matricula matricula, MAX(Butaca_Nro), Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio 
+SELECT  Aeronave_Modelo , 
+		Aeronave_Matricula matricula, 
+		MAX(Butaca_Nro), 
+		Aeronave_KG_Disponibles , 
+		Aeronave_Fabricante , 		
+		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = Tipo_Servicio)
 FROM gd_esquema.Maestra
 GROUP BY Aeronave_Modelo , Aeronave_Matricula , Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio
 GO
@@ -524,7 +540,7 @@ GO
 INSERT INTO [ABSTRACCIONX4].[RUTAS_AEREAS]
 
 	(	RUTA_COD,
-		RUTA_SERV,
+		SERV_COD,
 		CIU_COD_O,
 		CIU_COD_D,
 		RUTA_PRECIO_BASE_KG,
@@ -533,7 +549,7 @@ INSERT INTO [ABSTRACCIONX4].[RUTAS_AEREAS]
 	)
 
 SELECT	Ruta_Codigo,
-		Tipo_Servicio,
+		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = Tipo_Servicio),
 		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Origen),
 		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Destino),
 		MAX(Ruta_Precio_BaseKG) as Precio_BaseKG,
@@ -543,7 +559,7 @@ SELECT	Ruta_Codigo,
 	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino,Tipo_Servicio
 GO
 
-SELECT * FROM [ABSTRACCIONX4].RUTAS_AEREAS
+--SELECT * FROM [ABSTRACCIONX4].RUTAS_AEREAS
 
 -- Inserta los viajes en la tabla viajes 
 
@@ -590,7 +606,7 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 GO
 
 -- Inserta encomiendas en la tabla encomiendas (FALTA!!)
-
+/*
 INSERT INTO [ABSTRACCIONX4].[ENCOMIENDAS]
 	(
 		[CLI_COD],
@@ -610,7 +626,7 @@ INSERT INTO [ABSTRACCIONX4].[ENCOMIENDAS]
 		0 
 	FROM gd_esquema.Maestra
 	WHERE Paquete_Codigo != 0
-GO
+GO*/
 
 -- Inserta butacas en la tabla butacas
 
@@ -628,7 +644,7 @@ INSERT INTO [ABSTRACCIONX4].[BUTACAS]
 GO
 
 -- Inserta pasajes en la tabla pasajes--SOLUCIONAR
-
+/*
 INSERT INTO [ABSTRACCIONX4].[PASAJES]
 	(
 		[CLI_COD] ,
@@ -649,16 +665,7 @@ FROM gd_esquema.Maestra
 WHERE Pasaje_Codigo != 0
 GROUP BY Pasaje_Precio,Pasaje_FechaCompra,Butaca_Nro,Aeronave_Matricula,Ruta_Codigo,Ruta_Precio_BaseKG,Ruta_Precio_BasePasaje,FechaSalida,FechaLLegada,Fecha_LLegada_Estimada
 		
-select * from [ABSTRACCIONX4].[VIAJES]
+select * from [ABSTRACCIONX4].[VIAJES]*/
 
--- Inserta servicios en la tabla de servicios
 
-INSERT INTO [ABSTRACCIONX4].[SERVICIOS]
-	(
-		[SERV_COD] ,
-		[SERV_PORC] 
-	)
-SELECT DISTINCT Tipo_Servicio , AVG((Ruta_Precio_BasePasaje * 100)/Pasaje_Precio)
-FROM gd_esquema.Maestra WHERE Pasaje_Precio != 0
-GROUP BY Tipo_Servicio
 
