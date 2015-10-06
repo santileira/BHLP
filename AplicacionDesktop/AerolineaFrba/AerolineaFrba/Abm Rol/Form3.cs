@@ -16,5 +16,10 @@ namespace AerolineaFrba.Abm_Rol
         {
             InitializeComponent();
         }
+
+        private void Baja_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

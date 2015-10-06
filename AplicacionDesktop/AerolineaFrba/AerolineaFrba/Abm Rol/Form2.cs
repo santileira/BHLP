@@ -22,7 +22,7 @@ namespace AerolineaFrba.Abm_Rol
         {
             string queryselect = "SELECT top 10 Ruta_Ciudad_Origen FROM gd_esquema.Maestra";
             SqlCommand command = new SqlCommand(queryselect, Program.conexion);
-
+            
             SqlDataAdapter a = new SqlDataAdapter(command);
 
             DataTable t = new DataTable();
