@@ -25,7 +25,7 @@ namespace AerolineaFrba
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Abm_Rol.Principal());
+            Application.Run(new Menu());
         }
     }
 }

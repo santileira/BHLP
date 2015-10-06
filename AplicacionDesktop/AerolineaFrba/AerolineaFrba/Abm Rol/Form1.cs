@@ -25,8 +25,8 @@ namespace AerolineaFrba.Abm_Rol
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
-/*
-        private void button2_Click(object sender, EventArgs e)
+
+        private void button2_Click_1(object sender, EventArgs e)
         {
             formularioSiguiente = new Baja();
             formularioSiguiente.Visible = true;
@@ -39,6 +39,6 @@ namespace AerolineaFrba.Abm_Rol
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
- * */
+
     }
 }
