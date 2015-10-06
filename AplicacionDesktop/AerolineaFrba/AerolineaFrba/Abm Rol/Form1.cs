@@ -22,20 +22,23 @@ namespace AerolineaFrba.Abm_Rol
         private void button1_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Alta();
-            formularioSiguiente.Visible = true;
-            this.Visible = false;
+            this.cambiarVisibilidades(formularioSiguiente);
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
             formularioSiguiente = new Baja();
-            formularioSiguiente.Visible = true;
-            this.Visible = false;
+            this.cambiarVisibilidades(formularioSiguiente);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Modificacion();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }

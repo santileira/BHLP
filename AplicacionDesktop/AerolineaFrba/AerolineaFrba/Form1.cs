@@ -22,8 +22,32 @@ namespace AerolineaFrba
         private void button1_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Abm_Rol.Principal();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Abm_Aeronave.Principal();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Abm_Ciudad.Principal();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Abm_Ruta.Principal();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
+
     }
 }
