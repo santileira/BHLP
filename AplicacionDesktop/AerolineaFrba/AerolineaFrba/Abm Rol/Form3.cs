@@ -21,5 +21,18 @@ namespace AerolineaFrba.Abm_Rol
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (lstFuncionalidadesAEliminar.SelectedIndex != -1)
+                lstFuncionalidadesAEliminar.Items.RemoveAt(lstFuncionalidadesAEliminar.SelectedIndex);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string valor = lstFuncionalidadesTotales.Text;
+            if (!lstFuncionalidadesAEliminar.Items.Contains(valor))
+                lstFuncionalidadesAEliminar.Items.Add(lstFuncionalidadesTotales.Text);
+        }
     }
 }
