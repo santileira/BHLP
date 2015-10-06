@@ -16,5 +16,10 @@ namespace AerolineaFrba.Abm_Ruta
         {
             InitializeComponent();
         }
+
+        private void Principal_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
