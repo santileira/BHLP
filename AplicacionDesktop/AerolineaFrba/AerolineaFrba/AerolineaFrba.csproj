@@ -56,11 +56,29 @@
     <Compile Include="Abm Ciudad\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Rol\Form1.cs">
+    <Compile Include="Abm Rol\Baja.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Rol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Abm Rol\Baja.Designer.cs">
+      <DependentUpon>Baja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Rol\Modificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Rol\Modificacion.Designer.cs">
+      <DependentUpon>Modificacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Rol\Principal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Rol\Principal.Designer.cs">
+      <DependentUpon>Principal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Rol\Alta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Rol\Alta.Designer.cs">
+      <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Ruta\Form1.cs">
       <SubType>Form</SubType>
@@ -130,6 +148,18 @@
     <Compile Include="Registro Llegada Destino\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Abm Rol\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Rol\Baja.resx">
+      <DependentUpon>Baja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Rol\Modificacion.resx">
+      <DependentUpon>Modificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Rol\Principal.resx">
+      <DependentUpon>Principal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormIngreso.resx">
       <DependentUpon>FormIngreso.cs</DependentUpon>
     </EmbeddedResource>
