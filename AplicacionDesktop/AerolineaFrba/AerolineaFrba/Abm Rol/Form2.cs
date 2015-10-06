@@ -45,10 +45,11 @@ namespace AerolineaFrba.Abm_Rol
                 lstFuncionalidadesNuevas.Items.Add(lstFuncionalidadesTotales.Text);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
-            if(lstFuncionalidadesNuevas.SelectedIndex != -1)
+            if (lstFuncionalidadesNuevas.SelectedIndex != -1)
                 lstFuncionalidadesNuevas.Items.RemoveAt(lstFuncionalidadesNuevas.SelectedIndex);
         }
+
     }
 }

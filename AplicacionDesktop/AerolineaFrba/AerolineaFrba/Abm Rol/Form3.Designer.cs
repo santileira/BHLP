@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lstFuncionalidadesTotales = new System.Windows.Forms.ListBox();
@@ -38,34 +37,27 @@
             this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lstFuncionalidadesAEliminar = new System.Windows.Forms.ListBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(203, 214);
+            this.button3.Location = new System.Drawing.Point(203, 206);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(214, 52);
+            this.button3.Size = new System.Drawing.Size(214, 60);
             this.button3.TabIndex = 17;
             this.button3.Text = "BAJA FISICA";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(203, 173);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(214, 35);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "QUITAR DE LA LISTA DE BAJAS LOGICAS";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(203, 132);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(214, 35);
+            this.button1.Size = new System.Drawing.Size(214, 60);
             this.button1.TabIndex = 15;
             this.button1.Text = "BAJA LOGICA";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -126,16 +118,26 @@
             this.lstFuncionalidadesAEliminar.Size = new System.Drawing.Size(156, 134);
             this.lstFuncionalidadesAEliminar.TabIndex = 19;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(441, 282);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(156, 35);
+            this.button2.TabIndex = 27;
+            this.button2.Text = "QUITAR SELECCIONADO";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(687, 329);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lstFuncionalidadesAEliminar);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lstFuncionalidadesTotales);
@@ -153,7 +155,6 @@
         #endregion
 
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox lstFuncionalidadesTotales;
@@ -162,5 +163,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lstFuncionalidadesAEliminar;
+        private System.Windows.Forms.Button button2;
     }
 }
