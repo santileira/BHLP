@@ -107,9 +107,10 @@ namespace AerolineaFrba.Abm_Rol
         private void ejecutarConsulta(string query)
         {
             SqlCommand command = new SqlCommand();
+            SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, Program.conexion);
+            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
@@ -117,6 +118,7 @@ namespace AerolineaFrba.Abm_Rol
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
+            conexion.Close();
         }
 
   
@@ -125,14 +127,18 @@ namespace AerolineaFrba.Abm_Rol
         {
             string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
 
+            SqlConnection conexion = Program.conexion();
+
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(queryselect, Program.conexion);
+            SqlDataAdapter a = new SqlDataAdapter(queryselect, conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
             //Ligar el datagrid con la fuente de datos
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
+
+            conexion.Close();
        
 
             chkEstadoIgnorar.Checked = true;
@@ -172,6 +178,7 @@ namespace AerolineaFrba.Abm_Rol
                     {
                         string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                         ejecutarCommand(cadenaComando);
+                        ejecutarConsulta("SELECT * FROM [ABSTRACCIONX4].[ROLES]");
                     }
                 }
                 else
@@ -182,6 +189,7 @@ namespace AerolineaFrba.Abm_Rol
                         {
                             string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                             ejecutarCommand(cadenaComando);
+                            ejecutarConsulta("SELECT * FROM [ABSTRACCIONX4].[ROLES]");
                         }
                     }
             }
@@ -190,7 +198,7 @@ namespace AerolineaFrba.Abm_Rol
        private void ejecutarCommand(string cadenaComando)
        {
             SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion;
+            command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
             command.CommandText = cadenaComando;
             command.CommandTimeout = 0;
