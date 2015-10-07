@@ -33,8 +33,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.optEstadoBaja = new System.Windows.Forms.RadioButton();
             this.optEstadoAlta = new System.Windows.Forms.RadioButton();
-            this.cboFiltro2 = new System.Windows.Forms.ComboBox();
-            this.cboFiltro1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
             this.txtFiltro4 = new System.Windows.Forms.TextBox();
@@ -57,8 +55,6 @@
             // 
             this.groupBox1.Controls.Add(this.chkEstadoIgnorar);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.cboFiltro2);
-            this.groupBox1.Controls.Add(this.cboFiltro1);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
             this.groupBox1.Controls.Add(this.txtFiltro4);
@@ -84,6 +80,7 @@
             this.chkEstadoIgnorar.TabIndex = 15;
             this.chkEstadoIgnorar.Text = "Ignorar el estado para filtrar";
             this.chkEstadoIgnorar.UseVisualStyleBackColor = true;
+            this.chkEstadoIgnorar.CheckedChanged += new System.EventHandler(this.chkEstadoIgnorar_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -118,31 +115,6 @@
             this.optEstadoAlta.Text = "Estado ALTA";
             this.optEstadoAlta.UseVisualStyleBackColor = true;
             // 
-            // cboFiltro2
-            // 
-            this.cboFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro2.FormattingEnabled = true;
-            this.cboFiltro2.Items.AddRange(new object[] {
-            "ROL_ESTADO",
-            "ROL_NOMBRE"});
-            this.cboFiltro2.Location = new System.Drawing.Point(159, 57);
-            this.cboFiltro2.Name = "cboFiltro2";
-            this.cboFiltro2.Size = new System.Drawing.Size(94, 21);
-            this.cboFiltro2.TabIndex = 10;
-            // 
-            // cboFiltro1
-            // 
-            this.cboFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro1.FormattingEnabled = true;
-            this.cboFiltro1.Items.AddRange(new object[] {
-            "ROL_ESTADO",
-            "ROL_NOMBRE"});
-            this.cboFiltro1.Location = new System.Drawing.Point(159, 27);
-            this.cboFiltro1.Name = "cboFiltro1";
-            this.cboFiltro1.Size = new System.Drawing.Size(94, 21);
-            this.cboFiltro1.TabIndex = 9;
-            this.cboFiltro1.SelectedIndexChanged += new System.EventHandler(this.cboFiltro1_SelectedIndexChanged);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(515, 58);
@@ -151,10 +123,11 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Seleccionar";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtFiltro1
             // 
-            this.txtFiltro1.Location = new System.Drawing.Point(257, 25);
+            this.txtFiltro1.Location = new System.Drawing.Point(159, 20);
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(90, 20);
             this.txtFiltro1.TabIndex = 16;
@@ -196,11 +169,10 @@
             // 
             // txtFiltro2
             // 
-            this.txtFiltro2.Location = new System.Drawing.Point(259, 59);
+            this.txtFiltro2.Location = new System.Drawing.Point(160, 58);
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
-            this.txtFiltro2.Visible = false;
             // 
             // label2
             // 
@@ -242,6 +214,8 @@
             // 
             // dg
             // 
+            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(26, 232);
             this.dg.Name = "dg";
@@ -297,8 +271,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Label lblErrores;
-        private System.Windows.Forms.ComboBox cboFiltro2;
-        private System.Windows.Forms.ComboBox cboFiltro1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton optEstadoBaja;
         private System.Windows.Forms.RadioButton optEstadoAlta;

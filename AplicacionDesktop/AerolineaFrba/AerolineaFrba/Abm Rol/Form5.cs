@@ -37,17 +37,29 @@ namespace AerolineaFrba.Abm_Rol
 
                 if (txtFiltro1.TextLength != 0)
                 {
-                    string condicion = cboFiltro1.Text + " LIKE '%" + txtFiltro1.Text + "%'";
+                    string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
                 if (txtFiltro2.TextLength != 0)
                 {
-                    string condicion = cboFiltro2.Text + "= '" + txtFiltro2.Text + "'";
+                    string condicion = "ROL_NOMBRE" + "= '" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
                 if (chkEstadoIgnorar.Checked == false)
+                {
+                    string condicion;
+                    if (optEstadoAlta.Enabled)
+                    {
+                       condicion = "ROL_ESTADO" + " = 1";
+                    }
+                    else
+                    {
+                        condicion = "ROL_ESTADO" + " = 0";
+                    }
+                this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                }
 
                 this.ejecutarConsulta(queryselect);
             }
@@ -68,13 +80,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosEntradaErroneos()
         {
-            //FILTRO 1
-      //      if (txtFiltro1.TextLength == 0)
+       
+            return (txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);
         
-
-
-
-            return (txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro1.SelectedIndex == -1 && cboFiltro2.SelectedIndex == -1 && cboFiltro3.SelectedIndex == -1);
         }
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
@@ -103,20 +111,7 @@ namespace AerolineaFrba.Abm_Rol
 
         }
 
-        private void cboFiltro1_SelectedIndexChanged(object sender, EventArgs e)
-        {/*
-            this.aplicarVisibilidad(cboFiltro1, txtFiltro1, chkFiltro1)
-            if (cboFiltro1.Text == "ROL_NOMBRE")
-            {
-                txtFiltro1.Visible = true;
-                chkFiltro1.Visible = false;
-            }
-            else if (cboFiltro1.Text == "ROL_ESTADO")
-            {
-                txtFiltro1.Visible = false;
-                chkFiltro1.Visible = true;
-            }*/
-        }
+  
 
         private void iniciar()
         {
@@ -132,17 +127,29 @@ namespace AerolineaFrba.Abm_Rol
             dg.DataMember = "Busqueda";
 
             chkEstadoIgnorar.Checked = true;
-            optEstadoAlta.Checked = false;
+            optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;
 
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
 
-            cboFiltro1.SelectedIndex = -1;
-            cboFiltro2.SelectedIndex = -1;
+            
             cboFiltro3.SelectedIndex = -1;
             
+        }
+
+        private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
+        {
+           optEstadoAlta.Enabled = !chkEstadoIgnorar.Checked;
+           optEstadoBaja.Enabled = !chkEstadoIgnorar.Checked;
+           
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
