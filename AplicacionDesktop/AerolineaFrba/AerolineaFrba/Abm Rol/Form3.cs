@@ -167,20 +167,18 @@ namespace AerolineaFrba.Abm_Rol
             {
                 if (e.ColumnIndex == 0)
                 {
-                    DialogResult resultado = MessageBox.Show("¿Está seguro que quiere dar de baja lógica este registro?", "Advertencia", MessageBoxButtons.YesNo);
-                    if (resultado == System.Windows.Forms.DialogResult.Yes)
+                    DialogResult resultado = mostrarMensaje("lógica");
+                    if (apretoSi(resultado))
                     {
                         string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0";
                         ejecutarCommand(cadenaComando);
-
-
                     }
                 }
                 else
                     if (e.ColumnIndex == 1)
                     {
-                        DialogResult resultado = MessageBox.Show("¿Está seguro que quiere dar de baja física este registro?", "Advertencia", MessageBoxButtons.YesNo);
-                        if (resultado == System.Windows.Forms.DialogResult.Yes)
+                        DialogResult resultado = mostrarMensaje("física");
+                        if (apretoSi(resultado))
                         {
                             string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES]";
                             ejecutarCommand(cadenaComando);
@@ -189,14 +187,23 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        public void ejecutarCommand(string cadenaComando)
-        {
+       private void ejecutarCommand(string cadenaComando)
+       {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion;
             command.CommandType = System.Data.CommandType.Text;
             command.CommandText = cadenaComando;
             command.CommandTimeout = 0;
             command.ExecuteReader();
+        }
+
+        private Boolean apretoSi(DialogResult resultado){
+            return resultado == System.Windows.Forms.DialogResult.Yes;
+        }
+
+        private DialogResult mostrarMensaje(string tipoDeBaja)
+        {
+            return MessageBox.Show("¿Está seguro que quiere dar de baja " + tipoDeBaja + " este registro?", "Advertencia", MessageBoxButtons.YesNo);
         }
 
 
