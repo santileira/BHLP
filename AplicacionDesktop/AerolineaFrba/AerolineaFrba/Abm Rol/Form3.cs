@@ -170,7 +170,7 @@ namespace AerolineaFrba.Abm_Rol
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
-                        string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0";
+                        string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                         ejecutarCommand(cadenaComando);
                     }
                 }
@@ -180,7 +180,7 @@ namespace AerolineaFrba.Abm_Rol
                         DialogResult resultado = mostrarMensaje("física");
                         if (apretoSi(resultado))
                         {
-                            string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES]";
+                            string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                             ejecutarCommand(cadenaComando);
                         }
                     }
@@ -206,6 +206,11 @@ namespace AerolineaFrba.Abm_Rol
             return MessageBox.Show("¿Está seguro que quiere dar de baja " + tipoDeBaja + " este registro?", "Advertencia", MessageBoxButtons.YesNo);
         }
 
+        private string darValorDadoIndex(int index)
+        {
+            return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString() + "'";
+        }
+            
 
     }
 
