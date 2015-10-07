@@ -17,37 +17,12 @@ namespace AerolineaFrba.Abm_Rol
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.eliminarDeLaLista(lstFuncionalidadesActuales);
-        }
+       
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            this.eliminarDeLaLista(lstFuncionalidadesAEliminar);
-        }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Modificacion_Load(object sender, EventArgs e)
         {
-            this.agregarALaLista(lstFuncionalidadesActuales, lstFuncionalidadesAEliminar);
-        }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            this.agregarALaLista(lstFuncionalidadesTotales, lstFuncionalidadesActuales);
-        }
-
-        private void eliminarDeLaLista(ListBox lista)
-        {
-            if (lista.SelectedIndex != -1)
-                lista.Items.RemoveAt(lista.SelectedIndex);
-        }
-
-        private void agregarALaLista(ListBox lista1, ListBox lista2)
-        {
-            string valor = lista1.Text;
-            if (!lista2.Items.Contains(valor))
-                lista2.Items.Add(lista1.Text);
         }
 
 

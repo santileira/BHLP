@@ -17,7 +17,7 @@ namespace AerolineaFrba.Abm_Rol
         {
             InitializeComponent();
         }
-
+        /*
         private void Alta_Load(object sender, EventArgs e)
         {
             string queryselect = "SELECT top 10 Ruta_Ciudad_Origen FROM gd_esquema.Maestra";
@@ -35,21 +35,134 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesTotales.DataSource = t;
 
             //dg.DataSource = ds;
-            //dg.DataMember = "Busqueda";
+            //dg.DataMember = "Busqueda";*
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        */
+        private void button1_Click(object sender, EventArgs e)
         {
-            string valor = lstFuncionalidadesTotales.Text;
-            if (!lstFuncionalidadesNuevas.Items.Contains(valor))
-                lstFuncionalidadesNuevas.Items.Add(lstFuncionalidadesTotales.Text);
+            this.iniciar();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void iniciar()
         {
-            if (lstFuncionalidadesNuevas.SelectedIndex != -1)
-                lstFuncionalidadesNuevas.Items.RemoveAt(lstFuncionalidadesNuevas.SelectedIndex);
+            txtNombre.Text = "";
+            lstFuncionalidadesActuales.Items.Clear();
+            txtNombre.Focus();
+
+            string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
+            SqlCommand command = new SqlCommand(queryselect, Program.conexion);
+            SqlDataAdapter a = new SqlDataAdapter(command);
+            DataTable t = new DataTable();
+            //Llenar el Dataset
+            a.Fill(t);
+
+            lstFuncionalidadesTotales.DisplayMember = "FUNC_DESC";
+            lstFuncionalidadesTotales.DataSource = t;
+
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (this.datosCorrectos())
+            {
+                MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
+                string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
+                this.ejecutarCommand(cadenaComando);
+            }
+        }
+
+        private Boolean datosCorrectos()
+        {
+            Boolean huboErroresEnText = this.validarTextNombre();
+            Boolean huboErroresEnList = false;
+
+            if (lstFuncionalidadesActuales.Items.Count > 0 && huboErroresEnText)
+            {
+                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
+                huboErroresEnList = true;
+            }
+
+            return !(huboErroresEnText || huboErroresEnList);
+        }
+
+        private Boolean esTexto(TextBox txt)
+        {
+            String textPattern = "[A-Za-z]";
+            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
+
+            return regexTexto.IsMatch(txt.Text);
+        }
+
+        private Boolean esNumero(TextBox txt)
+        {
+            String numericPattern = "[0-9]";
+            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
+
+            return regexNumero.IsMatch(txt.Text);
+        }
+
+        private void Alta_Load(object sender, EventArgs e)
+        {
+            this.iniciar();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.agregarALaLista(lstFuncionalidadesTotales, lstFuncionalidadesActuales);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.eliminarDeLaLista(lstFuncionalidadesActuales);
+        }
+
+        private void eliminarDeLaLista(ListBox lista)
+        {
+            if (lista.SelectedIndex != -1)
+                lista.Items.RemoveAt(lista.SelectedIndex);
+        }
+
+        private void agregarALaLista(ListBox lista1, ListBox lista2)
+        {
+            string valor = lista1.Text;
+            if (!lista2.Items.Contains(valor))
+                lista2.Items.Add(lista1.Text);
+        }
+
+        private void ejecutarCommand(string cadenaComando)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion;
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = cadenaComando;
+            command.CommandTimeout = 0;
+
+            command.ExecuteReader();
+        }
+
+        private Boolean validarTextNombre()
+        {
+            Boolean huboErrores = false;
+
+            if (txtNombre.TextLength == 0)
+            {
+                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if (txtNombre.TextLength > 60)
+            {
+                MessageBox.Show("El nombre debe tener a lo sumo 60 caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if (!this.esTexto(txtNombre))
+            {
+                MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            return huboErrores;
+        }
     }
 }
