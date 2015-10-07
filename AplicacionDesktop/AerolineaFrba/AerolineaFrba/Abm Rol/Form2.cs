@@ -13,6 +13,8 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Alta : Form
     {
+        SqlCommand command = new SqlCommand();
+
         public Alta()
         {
             InitializeComponent();
@@ -68,6 +70,12 @@ namespace AerolineaFrba.Abm_Rol
                 MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
                 string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 this.ejecutarCommand(cadenaComando);
+
+                foreach(String funcion in lstFuncionalidadesActuales.Items)
+                {
+                    cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
+                    this.ejecutarCommand(cadenaComando);
+                }
             }
         }
 
@@ -104,6 +112,10 @@ namespace AerolineaFrba.Abm_Rol
         private void Alta_Load(object sender, EventArgs e)
         {
             this.iniciar();
+
+            command.Connection = Program.conexion;
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -131,13 +143,8 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarCommand(string cadenaComando)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion;
-            command.CommandType = System.Data.CommandType.Text;
             command.CommandText = cadenaComando;
-            command.CommandTimeout = 0;
-
-            command.ExecuteReader();
+            command.ExecuteReader().Close(); 
         }
 
         private Boolean validarTextNombre()
