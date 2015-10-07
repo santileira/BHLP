@@ -62,6 +62,11 @@ namespace AerolineaFrba.Abm_Rol
                 }
 
                 this.ejecutarConsulta(queryselect);
+
+                if (dg.Rows.Count == 1)
+                {
+                    MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
+                }
             }
             else
                 MessageBox.Show("Los datos de entrada son incorrectos", "Error en la consulta", MessageBoxButtons.OK);
@@ -99,9 +104,10 @@ namespace AerolineaFrba.Abm_Rol
         private void ejecutarConsulta(string query)
         {
             SqlCommand command = new SqlCommand();
+            SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, Program.conexion);
+            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
@@ -109,6 +115,7 @@ namespace AerolineaFrba.Abm_Rol
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
+            conexion.Close();
         }
 
   
@@ -117,14 +124,18 @@ namespace AerolineaFrba.Abm_Rol
         {
             string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
 
+            SqlConnection conexion = Program.conexion();
+
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(queryselect, Program.conexion);
+            SqlDataAdapter a = new SqlDataAdapter(queryselect, conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
             //Ligar el datagrid con la fuente de datos
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
+
+            conexion.Close();
 
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;

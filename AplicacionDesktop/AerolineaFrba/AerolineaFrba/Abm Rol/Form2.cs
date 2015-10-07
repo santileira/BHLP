@@ -23,7 +23,10 @@ namespace AerolineaFrba.Abm_Rol
         private void Alta_Load(object sender, EventArgs e)
         {
             string queryselect = "SELECT top 10 Ruta_Ciudad_Origen FROM gd_esquema.Maestra";
-            SqlCommand command = new SqlCommand(queryselect, Program.conexion);
+            
+            SqlConnection conexion = Program.conexion();
+
+            SqlCommand command = new SqlCommand(queryselect, conexion);
             
             SqlDataAdapter a = new SqlDataAdapter(command);
 
@@ -37,12 +40,18 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesTotales.DataSource = t;
 
             //dg.DataSource = ds;
+<<<<<<< HEAD
             //dg.DataMember = "Busqueda";*
         }
         */
         private void button1_Click(object sender, EventArgs e)
         {
             this.iniciar();
+=======
+            //dg.DataMember = "Busqueda";
+
+            conexion.Close();
+>>>>>>> 7d0dc4e82651cd7275fd5ee9106a3c3a55ec77fd
         }
 
         private void iniciar()
