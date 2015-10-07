@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkEstadoIgnorar = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.optEstadoBaja = new System.Windows.Forms.RadioButton();
+            this.optEstadoAlta = new System.Windows.Forms.RadioButton();
+            this.cboFiltro2 = new System.Windows.Forms.ComboBox();
+            this.cboFiltro1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.txtFiltro1 = new System.Windows.Forms.TextBox();
             this.txtFiltro4 = new System.Windows.Forms.TextBox();
             this.cboFiltro3 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
-            this.txtFiltro1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
-            this.cboFiltro2 = new System.Windows.Forms.ComboBox();
-            this.cboFiltro1 = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.optEstadoAlta = new System.Windows.Forms.RadioButton();
-            this.optEstadoBaja = new System.Windows.Forms.RadioButton();
-            this.chkEstadoIgnorar = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -60,12 +60,12 @@
             this.groupBox1.Controls.Add(this.cboFiltro2);
             this.groupBox1.Controls.Add(this.cboFiltro1);
             this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.txtFiltro1);
             this.groupBox1.Controls.Add(this.txtFiltro4);
             this.groupBox1.Controls.Add(this.cboFiltro3);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtFiltro2);
-            this.groupBox1.Controls.Add(this.txtFiltro1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 15);
@@ -75,6 +75,74 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
             // 
+            // chkEstadoIgnorar
+            // 
+            this.chkEstadoIgnorar.AutoSize = true;
+            this.chkEstadoIgnorar.Location = new System.Drawing.Point(173, 115);
+            this.chkEstadoIgnorar.Name = "chkEstadoIgnorar";
+            this.chkEstadoIgnorar.Size = new System.Drawing.Size(154, 17);
+            this.chkEstadoIgnorar.TabIndex = 15;
+            this.chkEstadoIgnorar.Text = "Ignorar el estado para filtrar";
+            this.chkEstadoIgnorar.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.optEstadoBaja);
+            this.groupBox2.Controls.Add(this.optEstadoAlta);
+            this.groupBox2.Location = new System.Drawing.Point(9, 86);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(140, 84);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Filtrar por estado";
+            // 
+            // optEstadoBaja
+            // 
+            this.optEstadoBaja.AutoSize = true;
+            this.optEstadoBaja.Location = new System.Drawing.Point(6, 52);
+            this.optEstadoBaja.Name = "optEstadoBaja";
+            this.optEstadoBaja.Size = new System.Drawing.Size(87, 17);
+            this.optEstadoBaja.TabIndex = 14;
+            this.optEstadoBaja.TabStop = true;
+            this.optEstadoBaja.Text = "Estado BAJA";
+            this.optEstadoBaja.UseVisualStyleBackColor = true;
+            // 
+            // optEstadoAlta
+            // 
+            this.optEstadoAlta.AutoSize = true;
+            this.optEstadoAlta.Location = new System.Drawing.Point(6, 29);
+            this.optEstadoAlta.Name = "optEstadoAlta";
+            this.optEstadoAlta.Size = new System.Drawing.Size(88, 17);
+            this.optEstadoAlta.TabIndex = 13;
+            this.optEstadoAlta.TabStop = true;
+            this.optEstadoAlta.Text = "Estado ALTA";
+            this.optEstadoAlta.UseVisualStyleBackColor = true;
+            // 
+            // cboFiltro2
+            // 
+            this.cboFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFiltro2.FormattingEnabled = true;
+            this.cboFiltro2.Items.AddRange(new object[] {
+            "ROL_ESTADO",
+            "ROL_NOMBRE"});
+            this.cboFiltro2.Location = new System.Drawing.Point(159, 57);
+            this.cboFiltro2.Name = "cboFiltro2";
+            this.cboFiltro2.Size = new System.Drawing.Size(94, 21);
+            this.cboFiltro2.TabIndex = 10;
+            // 
+            // cboFiltro1
+            // 
+            this.cboFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFiltro1.FormattingEnabled = true;
+            this.cboFiltro1.Items.AddRange(new object[] {
+            "ROL_ESTADO",
+            "ROL_NOMBRE"});
+            this.cboFiltro1.Location = new System.Drawing.Point(159, 27);
+            this.cboFiltro1.Name = "cboFiltro1";
+            this.cboFiltro1.Size = new System.Drawing.Size(94, 21);
+            this.cboFiltro1.TabIndex = 9;
+            this.cboFiltro1.SelectedIndexChanged += new System.EventHandler(this.cboFiltro1_SelectedIndexChanged);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(515, 58);
@@ -83,6 +151,13 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Seleccionar";
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // txtFiltro1
+            // 
+            this.txtFiltro1.Location = new System.Drawing.Point(257, 25);
+            this.txtFiltro1.Name = "txtFiltro1";
+            this.txtFiltro1.Size = new System.Drawing.Size(90, 20);
+            this.txtFiltro1.TabIndex = 16;
             // 
             // txtFiltro4
             // 
@@ -121,20 +196,11 @@
             // 
             // txtFiltro2
             // 
-            this.txtFiltro2.Location = new System.Drawing.Point(259, 60);
+            this.txtFiltro2.Location = new System.Drawing.Point(259, 59);
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
             this.txtFiltro2.Visible = false;
-            // 
-            // txtFiltro1
-            // 
-            this.txtFiltro1.Location = new System.Drawing.Point(259, 28);
-            this.txtFiltro1.Name = "txtFiltro1";
-            this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
-            this.txtFiltro1.TabIndex = 2;
-            this.txtFiltro1.Visible = false;
-            this.txtFiltro1.TextChanged += new System.EventHandler(this.txtFiltro1_TextChanged);
             // 
             // label2
             // 
@@ -190,75 +256,6 @@
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
             // 
-            // cboFiltro2
-            // 
-            this.cboFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro2.FormattingEnabled = true;
-            this.cboFiltro2.Items.AddRange(new object[] {
-            "ROL_ESTADO",
-            "ROL_NOMBRE"});
-            this.cboFiltro2.Location = new System.Drawing.Point(159, 59);
-            this.cboFiltro2.Name = "cboFiltro2";
-            this.cboFiltro2.Size = new System.Drawing.Size(94, 21);
-            this.cboFiltro2.TabIndex = 10;
-            this.cboFiltro2.SelectedIndexChanged += new System.EventHandler(this.cboFiltro2_SelectedIndexChanged);
-            // 
-            // cboFiltro1
-            // 
-            this.cboFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro1.FormattingEnabled = true;
-            this.cboFiltro1.Items.AddRange(new object[] {
-            "ROL_ESTADO",
-            "ROL_NOMBRE"});
-            this.cboFiltro1.Location = new System.Drawing.Point(159, 27);
-            this.cboFiltro1.Name = "cboFiltro1";
-            this.cboFiltro1.Size = new System.Drawing.Size(94, 21);
-            this.cboFiltro1.TabIndex = 9;
-            this.cboFiltro1.SelectedIndexChanged += new System.EventHandler(this.cboFiltro1_SelectedIndexChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.optEstadoBaja);
-            this.groupBox2.Controls.Add(this.optEstadoAlta);
-            this.groupBox2.Location = new System.Drawing.Point(9, 86);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 84);
-            this.groupBox2.TabIndex = 14;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Filtrar por estado";
-            // 
-            // optEstadoAlta
-            // 
-            this.optEstadoAlta.AutoSize = true;
-            this.optEstadoAlta.Location = new System.Drawing.Point(6, 29);
-            this.optEstadoAlta.Name = "optEstadoAlta";
-            this.optEstadoAlta.Size = new System.Drawing.Size(88, 17);
-            this.optEstadoAlta.TabIndex = 13;
-            this.optEstadoAlta.TabStop = true;
-            this.optEstadoAlta.Text = "Estado ALTA";
-            this.optEstadoAlta.UseVisualStyleBackColor = true;
-            // 
-            // optEstadoBaja
-            // 
-            this.optEstadoBaja.AutoSize = true;
-            this.optEstadoBaja.Location = new System.Drawing.Point(6, 52);
-            this.optEstadoBaja.Name = "optEstadoBaja";
-            this.optEstadoBaja.Size = new System.Drawing.Size(87, 17);
-            this.optEstadoBaja.TabIndex = 14;
-            this.optEstadoBaja.TabStop = true;
-            this.optEstadoBaja.Text = "Estado BAJA";
-            this.optEstadoBaja.UseVisualStyleBackColor = true;
-            // 
-            // chkEstadoIgnorar
-            // 
-            this.chkEstadoIgnorar.AutoSize = true;
-            this.chkEstadoIgnorar.Location = new System.Drawing.Point(173, 115);
-            this.chkEstadoIgnorar.Name = "chkEstadoIgnorar";
-            this.chkEstadoIgnorar.Size = new System.Drawing.Size(154, 17);
-            this.chkEstadoIgnorar.TabIndex = 15;
-            this.chkEstadoIgnorar.Text = "Ignorar el estado para filtrar";
-            this.chkEstadoIgnorar.UseVisualStyleBackColor = true;
-            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -276,9 +273,9 @@
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

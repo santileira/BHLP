@@ -118,16 +118,6 @@ namespace AerolineaFrba.Abm_Rol
             }*/
         }
 
-        private void cboFiltro2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void iniciar()
         {
             string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
