@@ -77,9 +77,10 @@ namespace AerolineaFrba.Abm_Rol
                 foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
                     cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
-                    this.ejecutarCommand(cadenaComando);
-                    
+
                     MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
+                    this.ejecutarCommand(cadenaComando);
+ 
                 }
             }
         }
@@ -151,7 +152,8 @@ namespace AerolineaFrba.Abm_Rol
 
             try
             {
-                command.ExecuteReader().Close(); 
+                command.ExecuteReader().Close();
+                MessageBox.Show("Se dio de alta correctamente al rol " + txtNombre.Text, "Alta de roles", MessageBoxButtons.OK);
             }
             catch (System.Data.SqlClient.SqlException e)
             {

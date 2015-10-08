@@ -71,8 +71,6 @@ namespace AerolineaFrba.Abm_Rol
 
                 this.ejecutarConsulta(queryselect);
             }
-            else
-                MessageBox.Show("Los datos de entrada son incorrectos", "Error en la consulta", MessageBoxButtons.OK);
 
         }
 
@@ -88,9 +86,30 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-       
-            return !(txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);
+            Boolean huboErrores = false;
+
+            if (!this.esTexto(txtFiltro1))
+            {
+                MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if (!this.esTexto(txtFiltro2))
+            {
+                MessageBox.Show("El filtro por igualdad de palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            return !huboErrores;
         
+        }
+
+        private Boolean esTexto(TextBox txt)
+        {
+            String textPattern = "[A-Za-z]";
+            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
+
+            return regexTexto.IsMatch(txt.Text);
         }
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
