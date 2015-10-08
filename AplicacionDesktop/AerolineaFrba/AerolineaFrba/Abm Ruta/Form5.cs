@@ -53,10 +53,10 @@ namespace AerolineaFrba.Abm_Ruta
                 else
                     this.query += " AND ";
 
-                if (optEstadoAlta.Enabled)
-                    this.query += "ROL_ESTADO = 1"; 
+                if (optEstadoAlta.Checked)
+                    this.query += "RUTA_ESTADO = 1"; 
                 else
-                    this.query = "ROL_ESTADO = 0";
+                    this.query += "RUTA_ESTADO = 0";
             }
 
             this.ejecutarConsulta();
@@ -166,6 +166,7 @@ namespace AerolineaFrba.Abm_Ruta
                 string campo = this.buscarPorCiudad(combo);
 
                 this.query += campo + criterio;
+                MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
             }
         }
 

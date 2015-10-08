@@ -274,11 +274,14 @@
             // 
             // dg
             // 
+            this.dg.AllowUserToAddRows = false;
+            this.dg.AllowUserToDeleteRows = false;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(22, 250);
             this.dg.Name = "dg";
+            this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(802, 235);
             this.dg.TabIndex = 3;
             // 
@@ -294,7 +297,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 448);
+            this.ClientSize = new System.Drawing.Size(867, 507);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
