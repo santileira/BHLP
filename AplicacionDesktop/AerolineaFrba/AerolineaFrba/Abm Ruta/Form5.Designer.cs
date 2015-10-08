@@ -1,4 +1,4 @@
-﻿namespace AerolineaFrba.Abm_Rol
+﻿namespace AerolineaFrba.Abm_Ruta
 {
     partial class Listado
     {
@@ -46,6 +46,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
+            this.cboCamposFiltro1 = new System.Windows.Forms.ComboBox();
+            this.cboCamposFiltro2 = new System.Windows.Forms.ComboBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -53,6 +57,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.cboCamposFiltro2);
+            this.groupBox1.Controls.Add(this.cboCamposFiltro1);
             this.groupBox1.Controls.Add(this.chkEstadoIgnorar);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.button1);
@@ -66,7 +74,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(600, 176);
+            this.groupBox1.Size = new System.Drawing.Size(802, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -74,7 +82,7 @@
             // chkEstadoIgnorar
             // 
             this.chkEstadoIgnorar.AutoSize = true;
-            this.chkEstadoIgnorar.Location = new System.Drawing.Point(173, 115);
+            this.chkEstadoIgnorar.Location = new System.Drawing.Point(200, 115);
             this.chkEstadoIgnorar.Name = "chkEstadoIgnorar";
             this.chkEstadoIgnorar.Size = new System.Drawing.Size(154, 17);
             this.chkEstadoIgnorar.TabIndex = 15;
@@ -86,22 +94,22 @@
             // 
             this.groupBox2.Controls.Add(this.optEstadoBaja);
             this.groupBox2.Controls.Add(this.optEstadoAlta);
-            this.groupBox2.Location = new System.Drawing.Point(9, 86);
+            this.groupBox2.Location = new System.Drawing.Point(15, 104);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 84);
+            this.groupBox2.Size = new System.Drawing.Size(166, 84);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Filtrar por estado";
+            this.groupBox2.Text = "Filtrar por estado de ruta";
             // 
             // optEstadoBaja
             // 
             this.optEstadoBaja.AutoSize = true;
             this.optEstadoBaja.Location = new System.Drawing.Point(6, 52);
             this.optEstadoBaja.Name = "optEstadoBaja";
-            this.optEstadoBaja.Size = new System.Drawing.Size(87, 17);
+            this.optEstadoBaja.Size = new System.Drawing.Size(144, 17);
             this.optEstadoBaja.TabIndex = 14;
             this.optEstadoBaja.TabStop = true;
-            this.optEstadoBaja.Text = "Estado BAJA";
+            this.optEstadoBaja.Text = "Estado NO DISPONIBLE";
             this.optEstadoBaja.UseVisualStyleBackColor = true;
             // 
             // optEstadoAlta
@@ -109,33 +117,33 @@
             this.optEstadoAlta.AutoSize = true;
             this.optEstadoAlta.Location = new System.Drawing.Point(6, 29);
             this.optEstadoAlta.Name = "optEstadoAlta";
-            this.optEstadoAlta.Size = new System.Drawing.Size(88, 17);
+            this.optEstadoAlta.Size = new System.Drawing.Size(125, 17);
             this.optEstadoAlta.TabIndex = 13;
             this.optEstadoAlta.TabStop = true;
-            this.optEstadoAlta.Text = "Estado ALTA";
+            this.optEstadoAlta.Text = "Estado DISPONIBLE";
             this.optEstadoAlta.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(515, 58);
+            this.button1.Location = new System.Drawing.Point(698, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 20);
             this.button1.TabIndex = 8;
             this.button1.Text = "Seleccionar";
             this.button1.UseVisualStyleBackColor = true;
-
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtFiltro1
             // 
-            this.txtFiltro1.Location = new System.Drawing.Point(159, 20);
+            this.txtFiltro1.Location = new System.Drawing.Point(314, 24);
             this.txtFiltro1.Name = "txtFiltro1";
-            this.txtFiltro1.Size = new System.Drawing.Size(90, 20);
+            this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
             // 
             // txtFiltro4
             // 
             this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(414, 59);
+            this.txtFiltro4.Location = new System.Drawing.Point(597, 58);
             this.txtFiltro4.Name = "txtFiltro4";
             this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
             this.txtFiltro4.TabIndex = 7;
@@ -144,7 +152,7 @@
             // 
             this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(414, 25);
+            this.cboFiltro3.Location = new System.Drawing.Point(597, 24);
             this.cboFiltro3.Name = "cboFiltro3";
             this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
             this.cboFiltro3.TabIndex = 6;
@@ -152,7 +160,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(363, 66);
+            this.label4.Location = new System.Drawing.Point(546, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 5;
@@ -161,7 +169,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(363, 28);
+            this.label3.Location = new System.Drawing.Point(546, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 4;
@@ -169,7 +177,7 @@
             // 
             // txtFiltro2
             // 
-            this.txtFiltro2.Location = new System.Drawing.Point(160, 58);
+            this.txtFiltro2.Location = new System.Drawing.Point(314, 60);
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
@@ -177,7 +185,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 66);
+            this.label2.Location = new System.Drawing.Point(12, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 1;
@@ -186,7 +194,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 27);
+            this.label1.Location = new System.Drawing.Point(12, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(147, 13);
             this.label1.TabIndex = 0;
@@ -194,7 +202,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(26, 197);
+            this.button2.Location = new System.Drawing.Point(22, 215);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 21);
             this.button2.TabIndex = 1;
@@ -204,7 +212,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(514, 197);
+            this.button3.Location = new System.Drawing.Point(716, 215);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 21);
             this.button3.TabIndex = 2;
@@ -217,9 +225,9 @@
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(26, 232);
+            this.dg.Location = new System.Drawing.Point(22, 250);
             this.dg.Name = "dg";
-            this.dg.Size = new System.Drawing.Size(596, 235);
+            this.dg.Size = new System.Drawing.Size(802, 235);
             this.dg.TabIndex = 3;
             // 
             // lblErrores
@@ -229,6 +237,57 @@
             this.lblErrores.Name = "lblErrores";
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
+            // 
+            // cboCamposFiltro1
+            // 
+            this.cboCamposFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCamposFiltro1.FormattingEnabled = true;
+            this.cboCamposFiltro1.Items.AddRange(new object[] {
+            "RUTA_COD",
+            "SERV_COD",
+            "ORIGEN",
+            "DESTINO",
+            "RUTA_PRECIO_BASE_KG",
+            "RUTA_PRECIO_BASE_PASAJE"});
+            this.cboCamposFiltro1.Location = new System.Drawing.Point(168, 24);
+            this.cboCamposFiltro1.Name = "cboCamposFiltro1";
+            this.cboCamposFiltro1.Size = new System.Drawing.Size(138, 21);
+            this.cboCamposFiltro1.TabIndex = 17;
+            // 
+            // cboCamposFiltro2
+            // 
+            this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCamposFiltro2.FormattingEnabled = true;
+            this.cboCamposFiltro2.Items.AddRange(new object[] {
+            "RUTA_COD",
+            "SERV_COD",
+            "ORIGEN",
+            "DESTINO",
+            "RUTA_PRECIO_BASE_KG",
+            "RUTA_PRECIO_BASE_PASAJE"});
+            this.cboCamposFiltro2.Location = new System.Drawing.Point(168, 59);
+            this.cboCamposFiltro2.Name = "cboCamposFiltro2";
+            this.cboCamposFiltro2.Size = new System.Drawing.Size(138, 21);
+            this.cboCamposFiltro2.TabIndex = 18;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(408, 23);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(89, 21);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "Agregar criterio";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(408, 59);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(89, 21);
+            this.button4.TabIndex = 21;
+            this.button4.Text = "Agregar criterio";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // Listado
             // 
@@ -275,5 +334,9 @@
         private System.Windows.Forms.RadioButton optEstadoBaja;
         private System.Windows.Forms.RadioButton optEstadoAlta;
         private System.Windows.Forms.CheckBox chkEstadoIgnorar;
+        private System.Windows.Forms.ComboBox cboCamposFiltro2;
+        private System.Windows.Forms.ComboBox cboCamposFiltro1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }

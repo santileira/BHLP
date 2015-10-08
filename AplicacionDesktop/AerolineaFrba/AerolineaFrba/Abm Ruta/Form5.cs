@@ -9,11 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AerolineaFrba.Abm_Rol
+namespace AerolineaFrba.Abm_Ruta
 {
     public partial class Listado : Form
     {
-        
         public Listado()
         {
             InitializeComponent();
@@ -80,13 +79,6 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
-        private Boolean datosCorrectos()
-        {
-       
-            return (txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);
-        
-        }
-
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
         {
            if (huboCondicion)
@@ -116,10 +108,15 @@ namespace AerolineaFrba.Abm_Rol
         }
 
   
+
         private void iniciar()
         {
-            string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
-
+            string queryselect = "SELECT RUTA_COD, SERV_COD, ";
+            queryselect += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_O) ORIGEN, ";
+            queryselect += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_D) DESTINO, ";
+            queryselect += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
+            queryselect += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
+            
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -141,7 +138,8 @@ namespace AerolineaFrba.Abm_Rol
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
 
-            
+            cboCamposFiltro1.SelectedIndex = -1;
+            cboCamposFiltro2.SelectedIndex = -1;
             cboFiltro3.SelectedIndex = -1;
             
         }
@@ -150,8 +148,73 @@ namespace AerolineaFrba.Abm_Rol
         {
            optEstadoAlta.Enabled = !chkEstadoIgnorar.Checked;
            optEstadoBaja.Enabled = !chkEstadoIgnorar.Checked;
-           
-            
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private Boolean datosCorrectos(TextBox txt, ComboBox combo)
+        {
+            Boolean huboErrores = false;
+
+            if (txt.TextLength == 0)
+            {
+                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if(combo.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un campo en el desplegable de opciones", "Error en el campo", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if (combo.Text == "RUTA_COD" || combo.Text == "RUTA_PRECIO_BASE_KG" || combo.Text == "RUTA_PRECIO_BASE_PASAJE")
+            {
+                if (!this.esNumero(txt))
+                {
+                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el nombre", MessageBoxButtons.OK);
+                    huboErrores = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if (!this.esTexto(txt))
+            {
+                MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            return !huboErrores;
+
+        }
+
+        private Boolean esTexto(TextBox txt)
+        {
+            String textPattern = "[A-Za-z]";
+            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
+
+            return regexTexto.IsMatch(txt.Text);
+        }
+
+        private Boolean esNumero(TextBox txt)
+        {
+            String numericPattern = "[0-9]";
+            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
+
+            return regexNumero.IsMatch(txt.Text);
         }
 
     }
