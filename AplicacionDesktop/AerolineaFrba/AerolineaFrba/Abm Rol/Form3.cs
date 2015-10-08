@@ -34,7 +34,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (!this.datosEntradaErroneos())
+            if (this.datosCorrectos())
             {
                 bool huboCondicion = false;
 
@@ -86,10 +86,10 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
-        private Boolean datosEntradaErroneos()
+        private Boolean datosCorrectos()
         {
        
-            return (txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);
+            return !(txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);
         
         }
 
@@ -106,7 +106,6 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarConsulta(string query)
         {
-            SqlCommand command = new SqlCommand();
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -120,8 +119,6 @@ namespace AerolineaFrba.Abm_Rol
 
             conexion.Close();
         }
-
-  
 
         private void iniciar()
         {
@@ -140,7 +137,6 @@ namespace AerolineaFrba.Abm_Rol
 
             conexion.Close();
        
-
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;
@@ -157,8 +153,7 @@ namespace AerolineaFrba.Abm_Rol
         {
            optEstadoAlta.Enabled = !chkEstadoIgnorar.Checked;
            optEstadoBaja.Enabled = !chkEstadoIgnorar.Checked;
-           
-            
+         
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -202,7 +197,7 @@ namespace AerolineaFrba.Abm_Rol
             command.CommandType = System.Data.CommandType.Text;
             command.CommandText = cadenaComando;
             command.CommandTimeout = 0;
-            command.ExecuteReader();
+            command.ExecuteReader().Close();
         }
 
         private Boolean apretoSi(DialogResult resultado){
@@ -221,6 +216,8 @@ namespace AerolineaFrba.Abm_Rol
             
 
     }
+
+
 
      
 }

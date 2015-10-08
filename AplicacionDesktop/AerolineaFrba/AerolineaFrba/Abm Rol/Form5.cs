@@ -26,7 +26,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (!this.datosEntradaErroneos())
+            if (this.datosCorrectos())
             {
                 bool huboCondicion = false;
 
@@ -68,9 +68,6 @@ namespace AerolineaFrba.Abm_Rol
                     MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
                 }
             }
-            else
-                MessageBox.Show("Los datos de entrada son incorrectos", "Error en la consulta", MessageBoxButtons.OK);
-
         }
 
         private Boolean sePusoFiltro()
@@ -83,7 +80,7 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
-        private Boolean datosEntradaErroneos()
+        private Boolean datosCorrectos()
         {
        
             return (txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);

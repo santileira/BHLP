@@ -27,7 +27,7 @@ GO
 CREATE TABLE [ABSTRACCIONX4].[ROLES](
 	[ROL_COD] [int] IDENTITY NOT NULL,
 	[ROL_ESTADO] [numeric] (2,0) NOT NULL, --para su baja lógica
-	[ROL_NOMBRE] [varchar](255) COLLATE Modern_Spanish_CI_AS NOT NULL, 
+	[ROL_NOMBRE] [varchar](60) COLLATE Modern_Spanish_CI_AS unique NOT NULL, 
  CONSTRAINT [PK_ROLES] PRIMARY KEY CLUSTERED 
 (
 	[ROL_COD] ASC
@@ -40,7 +40,7 @@ GO
 --Tabla Funcionalidad: Contiene los códigos, nombres de cada funcionalidad. 
 CREATE TABLE [ABSTRACCIONX4].[FUNCIONALIDADES](
 	[FUNC_COD] [numeric] (18,0) identity NOT NULL, --IDENTITY O NO??? POR ALGO ESTA NO RECORDAMOS
-	[FUNC_DESC] [varchar] (255) COLLATE Modern_Spanish_CI_AS NULL,
+	[FUNC_DESC] [varchar] (60) COLLATE Modern_Spanish_CI_AS unique NULL,
 CONSTRAINT [PK_FUNCIONALIDADES] PRIMARY KEY CLUSTERED 
 (
 	[FUNC_COD] ASC
@@ -530,9 +530,9 @@ GO
 
 --Inserta las funciones del sistema en la Tabla FUNCIONALIDAD
 --No se considera el login ya que se aclara que no es una funcionalidad asignable a un rol.
-INSERT INTO [ABSTRACCIONX4].[FUNCIONALIDADES] (FUNC_COD, FUNC_DESC) VALUES (1,'Aqui ira el nombre de una funcionalidad')
+--INSERT INTO [ABSTRACCIONX4].[FUNCIONALIDADES] (FUNC_DESC) VALUES ('Aqui ira el nombre de una funcionalidad')
 
-GO
+--GO
 
 
 -- Inserta las rutas aereas en la tabla rutas aereas 

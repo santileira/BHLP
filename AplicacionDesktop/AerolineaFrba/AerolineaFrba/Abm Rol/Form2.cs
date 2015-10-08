@@ -40,18 +40,12 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesTotales.DataSource = t;
 
             //dg.DataSource = ds;
-<<<<<<< HEAD
             //dg.DataMember = "Busqueda";*
         }
         */
         private void button1_Click(object sender, EventArgs e)
         {
             this.iniciar();
-=======
-            //dg.DataMember = "Busqueda";
-
-            conexion.Close();
->>>>>>> 7d0dc4e82651cd7275fd5ee9106a3c3a55ec77fd
         }
 
         private void iniciar()
@@ -61,7 +55,7 @@ namespace AerolineaFrba.Abm_Rol
             txtNombre.Focus();
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
-            SqlCommand command = new SqlCommand(queryselect, Program.conexion);
+            command = new SqlCommand(queryselect, Program.conexion());
             SqlDataAdapter a = new SqlDataAdapter(command);
             DataTable t = new DataTable();
             //Llenar el Dataset
@@ -84,6 +78,8 @@ namespace AerolineaFrba.Abm_Rol
                 {
                     cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
                     this.ejecutarCommand(cadenaComando);
+                    
+                    MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
                 }
             }
         }
@@ -122,7 +118,6 @@ namespace AerolineaFrba.Abm_Rol
         {
             this.iniciar();
 
-            command.Connection = Program.conexion;
             command.CommandType = System.Data.CommandType.Text;
             command.CommandTimeout = 0;
         }
@@ -153,7 +148,15 @@ namespace AerolineaFrba.Abm_Rol
         private void ejecutarCommand(string cadenaComando)
         {
             command.CommandText = cadenaComando;
-            command.ExecuteReader().Close(); 
+
+            try
+            {
+                command.ExecuteReader().Close(); 
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                MessageBox.Show("Ocurrio un error al intentar dar de alta. Verifique que el rol ingresado no se encuentre ya cargado", "Error en el Alta del nuevo rol", MessageBoxButtons.OK);
+            }
         }
 
         private Boolean validarTextNombre()
