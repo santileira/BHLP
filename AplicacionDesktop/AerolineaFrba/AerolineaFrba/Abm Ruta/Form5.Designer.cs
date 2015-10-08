@@ -288,6 +288,7 @@
             this.button4.TabIndex = 21;
             this.button4.Text = "Agregar criterio";
             this.button4.UseVisualStyleBackColor = true;
+
             // 
             // Listado
             // 

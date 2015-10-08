@@ -13,6 +13,9 @@ namespace AerolineaFrba.Abm_Ruta
 {
     public partial class Listado : Form
     {
+        string query;
+        Boolean huboCondicion;
+        
         public Listado()
         {
             InitializeComponent();
@@ -21,6 +24,15 @@ namespace AerolineaFrba.Abm_Ruta
         private void Listado_Load(object sender, EventArgs e)
         {
             this.iniciar();
+        }
+
+        private void generarQueryInicial()
+        {
+            this.query = "SELECT RUTA_COD, SERV_COD, ";
+            this.query += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_O) ORIGEN, ";
+            this.query += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_D) DESTINO, ";
+            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
+            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -111,16 +123,12 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void iniciar()
         {
-            string queryselect = "SELECT RUTA_COD, SERV_COD, ";
-            queryselect += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_O) ORIGEN, ";
-            queryselect += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_D) DESTINO, ";
-            queryselect += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
-            queryselect += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
+            this.generarQueryInicial();
             
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(queryselect, conexion);
+            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
@@ -141,6 +149,8 @@ namespace AerolineaFrba.Abm_Ruta
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
             cboFiltro3.SelectedIndex = -1;
+
+            this.huboCondicion = false;
             
         }
 
@@ -158,7 +168,28 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button5_Click(object sender, EventArgs e)
         {
+            this.concatenarCriterio(txtFiltro1, cboCamposFiltro1);
+        }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.concatenarCriterio(txtFiltro2, cboCamposFiltro2);
+        }
+
+        private void concatenarCriterio(TextBox txt, ComboBox combo)
+        {
+            if (this.datosCorrectos(txt, combo))
+            {
+                if (!this.huboCondicion)
+                {
+                    this.huboCondicion = true;
+                    this.query += " WHERE '";
+                }
+                else
+                    this.query += " AND '";
+
+                this.query += combo.Text + "' LIKE %'" + txt.Text + "'%";
+            }
         }
 
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
