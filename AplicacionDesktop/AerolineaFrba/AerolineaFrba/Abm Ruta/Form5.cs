@@ -29,56 +29,40 @@ namespace AerolineaFrba.Abm_Ruta
         private void generarQueryInicial()
         {
             this.query = "SELECT RUTA_COD, SERV_COD, ";
-            this.query += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_O) ORIGEN, ";
-            this.query += "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = R.CIU_COD_D) DESTINO, ";
+            this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
+            this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
         }
 
+        private string buscarCiudad(string cod)
+        {
+            return "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = " + cod + ")";
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            if (this.datosCorrectos())
+   
+            if (chkEstadoIgnorar.Checked == false)
             {
-                bool huboCondicion = false;
-
-                string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
-           
-                if (this.sePusoFiltro())
-                    queryselect = queryselect + " WHERE ";
-
-                if (txtFiltro1.TextLength != 0)
+                if (!this.huboCondicion)
                 {
-                    string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
-                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                    this.huboCondicion = true;
+                    this.query += " WHERE ";
                 }
+                else
+                    this.query += " AND ";
 
-                if (txtFiltro2.TextLength != 0)
-                {
-                    string condicion = "ROL_NOMBRE" + "= '" + txtFiltro2.Text + "'";
-                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
-                }
-
-                if (chkEstadoIgnorar.Checked == false)
-                {
-                    string condicion;
-                    if (optEstadoAlta.Enabled)
-                    {
-                       condicion = "ROL_ESTADO" + " = 1";
-                    }
-                    else
-                    {
-                        condicion = "ROL_ESTADO" + " = 0";
-                    }
-                this.generarQuery(ref huboCondicion, ref queryselect, condicion);
-                }
-
-                this.ejecutarConsulta(queryselect);
-
-                if (dg.Rows.Count == 1)
-                {
-                    MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
-                }
+                if (optEstadoAlta.Enabled)
+                    this.query += "ROL_ESTADO = 1"; 
+                else
+                    this.query = "ROL_ESTADO = 0";
             }
+
+            this.ejecutarConsulta();
+
+            if (dg.Rows.Count == 1)
+                MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
         }
 
         private Boolean sePusoFiltro()
@@ -91,24 +75,12 @@ namespace AerolineaFrba.Abm_Ruta
             this.iniciar();
         }
 
-        private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
+        private void ejecutarConsulta()
         {
-           if (huboCondicion)
-               queryselect += " AND " + condicion;
-           else
-           {
-               queryselect += condicion;
-               huboCondicion = true;
-           }
-        }
-
-        private void ejecutarConsulta(string query)
-        {
-            SqlCommand command = new SqlCommand();
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
+            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
@@ -118,8 +90,6 @@ namespace AerolineaFrba.Abm_Ruta
 
             conexion.Close();
         }
-
-  
 
         private void iniciar()
         {
@@ -168,27 +138,34 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.concatenarCriterio(txtFiltro1, cboCamposFiltro1);
+            this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private string buscarPorCiudad(ComboBox combo)
         {
-            this.concatenarCriterio(txtFiltro2, cboCamposFiltro2);
+            if (combo.Text == "ORIGEN")
+                return this.buscarCiudad("R.CIU_COD_O");
+            else if (combo.Text == "DESTINO")
+                return this.buscarCiudad("R.CIU_COD_D");
+            else
+                return combo.Text;
         }
 
-        private void concatenarCriterio(TextBox txt, ComboBox combo)
+        private void concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
             {
                 if (!this.huboCondicion)
                 {
                     this.huboCondicion = true;
-                    this.query += " WHERE '";
+                    this.query += " WHERE ";
                 }
                 else
-                    this.query += " AND '";
+                    this.query += " AND ";
 
-                this.query += combo.Text + "' LIKE %'" + txt.Text + "'%";
+                string campo = this.buscarPorCiudad(combo);
+
+                this.query += campo + criterio;
             }
         }
 
@@ -198,7 +175,7 @@ namespace AerolineaFrba.Abm_Ruta
 
             if (txt.TextLength == 0)
             {
-                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
+                MessageBox.Show("El criterio no puede estar en blanco", "Error en el criterio", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
@@ -208,28 +185,24 @@ namespace AerolineaFrba.Abm_Ruta
                 huboErrores = true;
             }
 
-            if (combo.Text == "RUTA_COD" || combo.Text == "RUTA_PRECIO_BASE_KG" || combo.Text == "RUTA_PRECIO_BASE_PASAJE")
+            if (combo.Text.Equals("RUTA_COD") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
                 if (!this.esNumero(txt))
                 {
-                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el nombre", MessageBoxButtons.OK);
+                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);
                     huboErrores = true;
                 }
             }
-            else
+            else if(combo.Text.Equals("SERV_COD") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
             {
-                MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-
-            if (!this.esTexto(txt))
-            {
-                MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
+                if (!this.esTexto(txt))
+                {
+                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
+                    huboErrores = true;
+                }
             }
 
             return !huboErrores;
-
         }
 
         private Boolean esTexto(TextBox txt)
@@ -246,6 +219,11 @@ namespace AerolineaFrba.Abm_Ruta
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
         }
 
     }
