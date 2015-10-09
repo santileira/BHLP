@@ -47,6 +47,7 @@
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -204,7 +205,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(483, 206);
+            this.button3.Location = new System.Drawing.Point(363, 206);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 21);
             this.button3.TabIndex = 2;
@@ -214,12 +215,16 @@
             // 
             // dg
             // 
+            this.dg.AllowUserToAddRows = false;
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(28, 241);
+            this.dg.MultiSelect = false;
             this.dg.Name = "dg";
+            this.dg.ReadOnly = true;
+            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(574, 235);
             this.dg.TabIndex = 3;
             // 
@@ -242,11 +247,23 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(494, 206);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(108, 21);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "Seleccionar";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(631, 448);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
@@ -289,5 +306,6 @@
         private System.Windows.Forms.RadioButton optEstadoAlta;
         private System.Windows.Forms.CheckBox chkEstadoIgnorar;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button4;
     }
 }

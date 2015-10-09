@@ -15,14 +15,13 @@ namespace AerolineaFrba.Abm_Rol
     {
 
         SqlCommand command = new SqlCommand();
-        Form formularioSiguiente;  
-
+        Form formularioSiguiente;
         public Modificacion()
         {
             InitializeComponent();
         }
 
-        private void Modificacion_Load(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             this.iniciar();
         }
@@ -33,7 +32,16 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesActuales.Items.Clear();
             txtNombre.Focus();
 
-            this.llenarLista();
+            string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
+            command = new SqlCommand(queryselect, Program.conexion());
+            SqlDataAdapter a = new SqlDataAdapter(command);
+            DataTable t = new DataTable();
+            //Llenar el Dataset
+            a.Fill(t);
+
+            lstFuncionalidadesTotales.DisplayMember = "FUNC_DESC";
+            lstFuncionalidadesTotales.DataSource = t;
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -44,13 +52,13 @@ namespace AerolineaFrba.Abm_Rol
                 string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 this.ejecutarCommand(cadenaComando);
 
-                foreach (String funcion in lstFuncionalidadesActuales.Items)
+                foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
                     cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
 
                     MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
                     this.ejecutarCommand(cadenaComando);
-
+ 
                 }
             }
         }
@@ -83,6 +91,14 @@ namespace AerolineaFrba.Abm_Rol
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
+        }
+
+        private void Alta_Load(object sender, EventArgs e)
+        {
+            this.iniciar();
+
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -148,31 +164,27 @@ namespace AerolineaFrba.Abm_Rol
             return huboErrores;
         }
 
-        private void llenarLista()
+        private void button4_Click(object sender, EventArgs e)
         {
-            SqlConnection conexion = Program.conexion();
-
-            string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
-            command = new SqlCommand(queryselect, conexion);
-            SqlDataAdapter a = new SqlDataAdapter(command);
-            DataTable t = new DataTable();
-            //Llenar el Dataset
-            a.Fill(t);
-
-            lstFuncionalidadesTotales.DisplayMember = "FUNC_DESC";
-            lstFuncionalidadesTotales.DataSource = t;
-
-            conexion.Close();
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-              formularioSiguiente = new Principal();
+            formularioSiguiente = new Principal();
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 
-        
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form listado = new Listado(true);
+            //mantiene el foco hasta que se cierra
+            listado.ShowDialog();
+        }
 
+        public void seSelecciono(string nombreRol,Object[] funcionalidadesRol)
+        {
+            txtRolSeleccionado.Text = nombreRol;
+            txtNombre.Text = nombreRol;
+
+            lstFuncionalidadesActuales.Items.Clear();
+            lstFuncionalidadesActuales.Items.AddRange(funcionalidadesRol);
+        }
     }
 }
