@@ -42,11 +42,11 @@
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -93,6 +93,7 @@
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filtrar por estado";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // optEstadoBaja
             // 
@@ -193,26 +194,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Filtro que contenga la palabra";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(26, 197);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 21);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Limpiar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(514, 197);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(108, 21);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Buscar";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // dg
             // 
             this.dg.AllowUserToAddRows = false;
@@ -225,7 +206,7 @@
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
-            this.dg.Location = new System.Drawing.Point(26, 232);
+            this.dg.Location = new System.Drawing.Point(26, 260);
             this.dg.Name = "dg";
             this.dg.Size = new System.Drawing.Size(596, 235);
             this.dg.TabIndex = 3;
@@ -251,14 +232,36 @@
             this.btfisica.Text = "Baja Física";
             this.btfisica.UseColumnTextForButtonValue = true;
             // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(22, 197);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(140, 52);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "Limpiar";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(482, 197);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(140, 52);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "Buscar";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 448);
-            this.Controls.Add(this.dg);
+            this.ClientSize = new System.Drawing.Size(668, 539);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.dg);
             this.Controls.Add(this.groupBox1);
             this.Name = "Baja";
             this.RightToLeftLayout = true;
@@ -286,8 +289,6 @@
         private System.Windows.Forms.ComboBox cboFiltro3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton optEstadoBaja;
         private System.Windows.Forms.RadioButton optEstadoAlta;
@@ -295,6 +296,8 @@
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
         private System.Windows.Forms.DataGridViewButtonColumn btfisica;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
 
     }
 }

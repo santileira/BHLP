@@ -16,6 +16,7 @@ namespace AerolineaFrba.Abm_Ruta
         string query;
         Boolean huboCondicion;
         int filtro;
+        private bool sePusoAgregarFiltro = false;
         
         public Listado()
         {
@@ -60,9 +61,14 @@ namespace AerolineaFrba.Abm_Ruta
                     this.query += "RUTA_ESTADO = 0";
             }
 
-            this.ejecutarConsulta();
+            if (!sePusoAgregarFiltro && (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0))
+            {
+                MessageBox.Show("No se ha agregado el filtro. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
+            }
 
-            if (dg.Rows.Count == 1)
+            this.ejecutarQuery();
+
+            if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
         }
 
@@ -76,8 +82,10 @@ namespace AerolineaFrba.Abm_Ruta
             this.iniciar();
         }
 
-        private void ejecutarConsulta()
+        private void ejecutarQuery()
         {
+            sePusoAgregarFiltro = false;
+            
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -114,6 +122,8 @@ namespace AerolineaFrba.Abm_Ruta
             optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;
 
+            txtFiltro1.Enabled = false;
+            txtFiltro2.Enabled = false;
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
@@ -141,7 +151,15 @@ namespace AerolineaFrba.Abm_Ruta
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
-            this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
+            if (txtFiltro1.Enabled && txtFiltro1.Text.Length != 0)
+            {
+                this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
+                this.sePusoAgregarFiltro = true;
+            }
+            else
+            {
+                MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+            }
         }
 
         private string buscarNombreCampo(ComboBox combo)
@@ -236,12 +254,36 @@ namespace AerolineaFrba.Abm_Ruta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
-            this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
+            if (txtFiltro2.Enabled && txtFiltro2.Text.Length != 0)
+            {
+                this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
+                this.sePusoAgregarFiltro = true;
+            }
+            else
+            {
+                MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void cboCamposFiltro1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboCamposFiltro1.SelectedIndex != -1)
+            {
+                txtFiltro1.Enabled = true;
+            }
+        }
+
+        private void cboCamposFiltro2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboCamposFiltro2.SelectedIndex != -1)
+            {
+                txtFiltro2.Enabled = true;
+            }
         }
 
     }

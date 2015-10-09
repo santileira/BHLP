@@ -26,7 +26,7 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
             {
@@ -241,6 +241,17 @@ namespace AerolineaFrba.Abm_Rol
             query = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.iniciar();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+           
+        }
+
+    
             
         
     }

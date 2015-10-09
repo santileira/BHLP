@@ -144,8 +144,15 @@ namespace AerolineaFrba.Abm_Ruta
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
-            this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
-            this.sePusoAgregarFiltro = true;
+            if (txtFiltro1.Enabled && txtFiltro1.Text.Length != 0)
+            {
+                this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
+                this.sePusoAgregarFiltro = true;
+            }
+            else
+            {
+                 MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+            }
         }
 
         private string buscarNombreCampo(ComboBox combo)
@@ -179,7 +186,6 @@ namespace AerolineaFrba.Abm_Ruta
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
                     txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
-                    
                 else
                     txtFiltros.Text += "Se ha agregado el filtro por igualdad del valor " + mensaje + System.Environment.NewLine;
             }
@@ -240,8 +246,15 @@ namespace AerolineaFrba.Abm_Ruta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
-            this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
-            this.sePusoAgregarFiltro = true;
+            if (txtFiltro2.Enabled && txtFiltro2.Text.Length != 0)
+                {
+                    this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
+                    this.sePusoAgregarFiltro = true;
+                }
+            else
+                {
+                    MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+                }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -306,9 +319,9 @@ namespace AerolineaFrba.Abm_Ruta
         private void cboCamposFiltro1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboCamposFiltro1.SelectedIndex != -1)
-                {
-                    txtFiltro1.Enabled = true;
-                }
+            {
+               txtFiltro1.Enabled = true;
+            }
         }
 
         private void cboCamposFiltro2_SelectedIndexChanged(object sender, EventArgs e)
@@ -317,6 +330,11 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 txtFiltro2.Enabled = true;
             }
+        }
+
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

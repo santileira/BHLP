@@ -115,6 +115,7 @@
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
             this.cboCamposFiltro2.TabIndex = 18;
+            this.cboCamposFiltro2.SelectedIndexChanged += new System.EventHandler(this.cboCamposFiltro2_SelectedIndexChanged);
             // 
             // cboCamposFiltro1
             // 
@@ -128,6 +129,7 @@
             this.cboCamposFiltro1.Name = "cboCamposFiltro1";
             this.cboCamposFiltro1.Size = new System.Drawing.Size(157, 21);
             this.cboCamposFiltro1.TabIndex = 17;
+            this.cboCamposFiltro1.SelectedIndexChanged += new System.EventHandler(this.cboCamposFiltro1_SelectedIndexChanged);
             // 
             // chkEstadoIgnorar
             // 
