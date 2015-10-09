@@ -31,7 +31,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_COD , SERV_COD TIPO_SERVICIO, ";
+            this.query = "SELECT RUTA_COD CODIGO_DE_RUTA, SERV_COD TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
@@ -159,6 +159,8 @@ namespace AerolineaFrba.Abm_Ruta
                 return this.buscarCiudad("R.CIU_COD_D");
             else if (combo.Text == "TIPO_SERVICIO")
                 return "SERV_COD";
+            else if (combo.Text == "CODIGO_DE_RUTA")
+                return "RUTA_COD";
             else
                 return combo.Text;
         }
