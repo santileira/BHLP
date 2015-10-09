@@ -16,6 +16,7 @@ namespace AerolineaFrba.Abm_Rol
 
         SqlCommand command = new SqlCommand();
         Form formularioSiguiente;
+
         public Modificacion()
         {
             InitializeComponent();
@@ -29,8 +30,19 @@ namespace AerolineaFrba.Abm_Rol
         private void iniciar()
         {
             txtNombre.Text = "";
+            txtRolSeleccionado.Text = "";
             lstFuncionalidadesActuales.Items.Clear();
-            txtNombre.Focus();
+
+            txtNombre.Enabled = false;
+            button6.Enabled = false;
+            button3.Enabled = false;
+            button2.Enabled = false;
+            checkHabilitado.Enabled = false;
+            lstFuncionalidadesTotales.Enabled = false;
+            modif.Visible = false;
+            modifFuncionalidades.Visible = false;
+            modifHabilitacion.Visible = false;
+            modifNombre.Visible = false;
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
             command = new SqlCommand(queryselect, Program.conexion());
@@ -114,14 +126,20 @@ namespace AerolineaFrba.Abm_Rol
         private void eliminarDeLaLista(ListBox lista)
         {
             if (lista.SelectedIndex != -1)
+            {
                 lista.Items.RemoveAt(lista.SelectedIndex);
+                fueModificado("Funcionalidad");
+            }
         }
 
         private void agregarALaLista(ListBox lista1, ListBox lista2)
         {
             string valor = lista1.Text;
             if (!lista2.Items.Contains(valor))
+            {
                 lista2.Items.Add(lista1.Text);
+                fueModificado("Funcionalidad");
+            }
         }
 
         private void ejecutarCommand(string cadenaComando)
@@ -185,6 +203,45 @@ namespace AerolineaFrba.Abm_Rol
 
             lstFuncionalidadesActuales.Items.Clear();
             lstFuncionalidadesActuales.Items.AddRange(funcionalidadesRol);
+
+            txtNombre.Enabled = true;
+            button6.Enabled = true;
+            button3.Enabled = true;
+            button2.Enabled = true;
+            lstFuncionalidadesTotales.Enabled = true;
+
+            checkHabilitado.Enabled = !habilitado;
         }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text != txtRolSeleccionado.Text)
+            {
+                fueModificado("Nombre");
+            }
+        }
+
+        public void fueModificado(string elemento)
+        {
+            switch (elemento)
+            {
+                case "Nombre":
+                    modifNombre.Visible = true;
+                    break;
+                case "Funcionalidades":
+                    modifFuncionalidades.Visible = true;
+                    break;
+                case "Habilitacion":
+                    modifHabilitacion.Visible = true;
+                    break;
+            }
+            modif.Visible = true;
+        }
+
+        private void checkHabilitado_CheckedChanged(object sender, EventArgs e)
+        {
+            fueModificado("Habilitacion");
+        }
+        
     }
 }
