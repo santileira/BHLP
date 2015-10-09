@@ -95,6 +95,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void iniciar()
         {
             this.generarQueryInicial();
+            txtFiltros.Text = "";
             
             SqlConnection conexion = Program.conexion();
 
@@ -171,11 +172,12 @@ namespace AerolineaFrba.Abm_Ruta
 
                 this.query += campo + criterio;
 
-                string mensaje = "'" + txt.Text + "'" + " sobre el campo " + campo;
+                string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
-                    lstFiltros.Items.Add("Se ha agregado el filtro por contenido del valor " + mensaje);
+                    txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
+                    
                 else
-                    lstFiltros.Items.Add("Se ha agregado el filtro por igualdad del valor " + mensaje);
+                    txtFiltros.Text += "Se ha agregado el filtro por igualdad del valor " + mensaje + System.Environment.NewLine;
             }
         }
 

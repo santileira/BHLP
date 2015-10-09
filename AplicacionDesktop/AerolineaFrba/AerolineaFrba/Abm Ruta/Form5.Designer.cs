@@ -50,7 +50,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
-            this.lstFiltros = new System.Windows.Forms.ListBox();
+            this.txtFiltros = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -293,25 +293,23 @@
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
             // 
-            // lstFiltros
+            // txtFiltros
             // 
-            this.lstFiltros.BackColor = System.Drawing.SystemColors.Menu;
-            this.lstFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lstFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstFiltros.FormattingEnabled = true;
-            this.lstFiltros.HorizontalScrollbar = true;
-            this.lstFiltros.ItemHeight = 20;
-            this.lstFiltros.Location = new System.Drawing.Point(957, 23);
-            this.lstFiltros.Name = "lstFiltros";
-            this.lstFiltros.Size = new System.Drawing.Size(364, 240);
-            this.lstFiltros.TabIndex = 5;
+            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFiltros.Location = new System.Drawing.Point(955, 24);
+            this.txtFiltros.Multiline = true;
+            this.txtFiltros.Name = "txtFiltros";
+            this.txtFiltros.Size = new System.Drawing.Size(385, 681);
+            this.txtFiltros.TabIndex = 5;
             // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 741);
-            this.Controls.Add(this.lstFiltros);
+            this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
@@ -357,6 +355,6 @@
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ListBox lstFiltros;
+        private System.Windows.Forms.TextBox txtFiltros;
     }
 }
