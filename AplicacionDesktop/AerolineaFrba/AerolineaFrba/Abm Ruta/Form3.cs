@@ -159,7 +159,7 @@ namespace AerolineaFrba.Abm_Ruta
             else
                 return combo.Text;
         }
-
+        
         private void concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
