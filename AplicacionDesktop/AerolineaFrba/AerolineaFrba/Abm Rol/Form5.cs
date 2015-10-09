@@ -13,13 +13,17 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Listado : Form
     {
+        const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        private Modificacion formModificacion;
+
         //para saber si el listado se llama directamente o desde modificacion
         private bool esSecundario;
 
         Form formularioSiguiente;
-        public Listado(bool secundario)
+        public Listado(bool secundario,Modificacion modificacion)
         {
             esSecundario = secundario;
+            formModificacion = modificacion;
             InitializeComponent();
         }
 
@@ -34,7 +38,7 @@ namespace AerolineaFrba.Abm_Rol
             {
                 bool huboCondicion = false;
 
-                string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
+                string queryselect = QUERY_BASE;
 
                 if (!this.sePusoFiltro())
                 {
@@ -152,7 +156,7 @@ namespace AerolineaFrba.Abm_Rol
   
         private void iniciar()
         {
-            string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
+            string queryselect = QUERY_BASE;
 
             ejecutarConsulta(queryselect);
 
@@ -204,10 +208,40 @@ namespace AerolineaFrba.Abm_Rol
                 return;
             }
 
-            Form formModificacion = this.Owner as Modificacion;
-            
+            string rolSeleccionado = "";
+            List<Object> listaFuncionalidades = new List<object>();
+            int estadoRol = 0;
+            ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
 
+            formModificacion.seSelecciono(rolSeleccionado, estadoRol==1, listaFuncionalidades.ToArray());
+
+            this.Close();
         }
+
+        private void ejecutarSeleccion(ref string rolSeleccionado,ref int estadoRol, List<Object> listaFuncionalidades)
+        {
+            rolSeleccionado = dg.SelectedRows[0].Cells["ROL_NOMBRE"].Value.ToString();
+            estadoRol = Convert.ToInt32(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value.ToString());
+
+
+            string query = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].ROLES r JOIN [ABSTRACCIONX4].FUNCIONES_ROLES fr ON (r.ROL_COD = fr.ROL_COD) JOIN [ABSTRACCIONX4].FUNCIONALIDADES f ON (f.FUNC_COD = fr.FUNC_COD) WHERE r.ROL_NOMBRE = '" + rolSeleccionado + "'";
+            SqlCommand command = new SqlCommand(query, Program.conexion());
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
+            
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    listaFuncionalidades.Add(dataReader.GetValue(0));
+                }
+            }
+
+            dataReader.Close();
+        }
+        
 
     }
 }

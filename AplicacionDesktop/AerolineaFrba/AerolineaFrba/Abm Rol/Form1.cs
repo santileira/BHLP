@@ -39,7 +39,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button4_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Listado(false);
+            formularioSiguiente = new Listado(false,null);
             this.cambiarVisibilidades(formularioSiguiente);
         }
 

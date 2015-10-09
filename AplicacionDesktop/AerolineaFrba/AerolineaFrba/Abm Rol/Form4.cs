@@ -173,12 +173,12 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Form listado = new Listado(true);
+            Form listado = new Listado(true,this);
             //mantiene el foco hasta que se cierra
             listado.ShowDialog();
         }
 
-        public void seSelecciono(string nombreRol,Object[] funcionalidadesRol)
+        public void seSelecciono(string nombreRol,bool habilitado,Object[] funcionalidadesRol)
         {
             txtRolSeleccionado.Text = nombreRol;
             txtNombre.Text = nombreRol;
