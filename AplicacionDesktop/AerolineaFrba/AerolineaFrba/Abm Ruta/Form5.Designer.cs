@@ -50,6 +50,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
+            this.txtFiltros = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -74,7 +75,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(802, 194);
+            this.groupBox1.Size = new System.Drawing.Size(909, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -82,7 +83,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(408, 59);
+            this.button4.Location = new System.Drawing.Point(435, 59);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 21);
             this.button4.TabIndex = 21;
@@ -92,7 +93,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(408, 23);
+            this.button5.Location = new System.Drawing.Point(435, 23);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(89, 21);
             this.button5.TabIndex = 20;
@@ -105,15 +106,14 @@
             this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro2.FormattingEnabled = true;
             this.cboCamposFiltro2.Items.AddRange(new object[] {
-            "RUTA_COD",
-            "SERV_COD",
+            "TIPO_SERVICIO",
             "ORIGEN",
             "DESTINO",
             "RUTA_PRECIO_BASE_KG",
             "RUTA_PRECIO_BASE_PASAJE"});
             this.cboCamposFiltro2.Location = new System.Drawing.Point(168, 59);
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
-            this.cboCamposFiltro2.Size = new System.Drawing.Size(138, 21);
+            this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
             this.cboCamposFiltro2.TabIndex = 18;
             // 
             // cboCamposFiltro1
@@ -121,15 +121,12 @@
             this.cboCamposFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro1.FormattingEnabled = true;
             this.cboCamposFiltro1.Items.AddRange(new object[] {
-            "RUTA_COD",
-            "SERV_COD",
+            "TIPO_SERVICIO",
             "ORIGEN",
-            "DESTINO",
-            "RUTA_PRECIO_BASE_KG",
-            "RUTA_PRECIO_BASE_PASAJE"});
+            "DESTINO"});
             this.cboCamposFiltro1.Location = new System.Drawing.Point(168, 24);
             this.cboCamposFiltro1.Name = "cboCamposFiltro1";
-            this.cboCamposFiltro1.Size = new System.Drawing.Size(138, 21);
+            this.cboCamposFiltro1.Size = new System.Drawing.Size(157, 21);
             this.cboCamposFiltro1.TabIndex = 17;
             // 
             // chkEstadoIgnorar
@@ -188,7 +185,7 @@
             // 
             // txtFiltro1
             // 
-            this.txtFiltro1.Location = new System.Drawing.Point(314, 24);
+            this.txtFiltro1.Location = new System.Drawing.Point(341, 24);
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
@@ -230,7 +227,7 @@
             // 
             // txtFiltro2
             // 
-            this.txtFiltro2.Location = new System.Drawing.Point(314, 60);
+            this.txtFiltro2.Location = new System.Drawing.Point(341, 60);
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
@@ -240,24 +237,25 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 64);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(143, 13);
+            this.label2.Size = new System.Drawing.Size(131, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Filtro por igualdad de palabra";
+            this.label2.Text = "Filtro por igualdad de valor";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 31);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(147, 13);
+            this.label1.Size = new System.Drawing.Size(135, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Filtro que contenga la palabra";
+            this.label1.Text = "Filtro que contenga el valor";
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(22, 215);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 21);
+            this.button2.Size = new System.Drawing.Size(140, 52);
             this.button2.TabIndex = 1;
             this.button2.Text = "Limpiar";
             this.button2.UseVisualStyleBackColor = true;
@@ -265,9 +263,10 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(716, 215);
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(791, 215);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(108, 21);
+            this.button3.Size = new System.Drawing.Size(140, 52);
             this.button3.TabIndex = 2;
             this.button3.Text = "Buscar";
             this.button3.UseVisualStyleBackColor = true;
@@ -277,13 +276,14 @@
             // 
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
+            this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(22, 250);
+            this.dg.Location = new System.Drawing.Point(22, 273);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
-            this.dg.Size = new System.Drawing.Size(802, 235);
+            this.dg.Size = new System.Drawing.Size(909, 432);
             this.dg.TabIndex = 3;
             // 
             // lblErrores
@@ -294,11 +294,23 @@
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
             // 
+            // txtFiltros
+            // 
+            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFiltros.Location = new System.Drawing.Point(955, 24);
+            this.txtFiltros.Multiline = true;
+            this.txtFiltros.Name = "txtFiltros";
+            this.txtFiltros.Size = new System.Drawing.Size(385, 681);
+            this.txtFiltros.TabIndex = 5;
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(867, 507);
+            this.ClientSize = new System.Drawing.Size(1362, 741);
+            this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
@@ -308,6 +320,7 @@
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -343,5 +356,6 @@
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox txtFiltros;
     }
 }

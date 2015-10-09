@@ -224,9 +224,8 @@ namespace AerolineaFrba.Abm_Rol
             return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString() + "'";
         }
             
-
+        
     }
-
 
 
      
