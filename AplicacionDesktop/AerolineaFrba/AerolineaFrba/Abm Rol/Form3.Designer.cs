@@ -236,6 +236,7 @@
             this.btlogica.FillWeight = 50F;
             this.btlogica.HeaderText = "Baja Lógica";
             this.btlogica.Name = "btlogica";
+            this.btlogica.ReadOnly = true;
             this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.btlogica.Text = "Baja Lógica";
             this.btlogica.UseColumnTextForButtonValue = true;
@@ -245,6 +246,7 @@
             this.btfisica.FillWeight = 50F;
             this.btfisica.HeaderText = "Baja Física";
             this.btfisica.Name = "btfisica";
+            this.btfisica.ReadOnly = true;
             this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.btfisica.Text = "Baja Física";
             this.btfisica.UseColumnTextForButtonValue = true;
