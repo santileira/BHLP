@@ -63,11 +63,11 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(219, 167);
+            this.button6.Location = new System.Drawing.Point(191, 120);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(112, 35);
+            this.button6.Size = new System.Drawing.Size(116, 31);
             this.button6.TabIndex = 40;
-            this.button6.Text = "AGREGAR FUNCIONALIDAD";
+            this.button6.Text = "Agregar";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -90,11 +90,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(350, 269);
+            this.button3.Location = new System.Drawing.Point(228, 223);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(156, 35);
+            this.button3.Size = new System.Drawing.Size(116, 31);
             this.button3.TabIndex = 37;
-            this.button3.Text = "QUITAR SELECCIONADO";
+            this.button3.Text = "Quitar";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 

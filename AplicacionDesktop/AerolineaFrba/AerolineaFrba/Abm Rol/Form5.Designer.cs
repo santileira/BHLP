@@ -66,7 +66,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(600, 176);
+            this.groupBox1.Size = new System.Drawing.Size(578, 176);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -117,13 +117,12 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(515, 58);
+            this.button1.Location = new System.Drawing.Point(488, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 20);
             this.button1.TabIndex = 8;
             this.button1.Text = "Seleccionar";
             this.button1.UseVisualStyleBackColor = true;
-
             // 
             // txtFiltro1
             // 
@@ -135,7 +134,7 @@
             // txtFiltro4
             // 
             this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(414, 59);
+            this.txtFiltro4.Location = new System.Drawing.Point(387, 58);
             this.txtFiltro4.Name = "txtFiltro4";
             this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
             this.txtFiltro4.TabIndex = 7;
@@ -144,7 +143,7 @@
             // 
             this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(414, 25);
+            this.cboFiltro3.Location = new System.Drawing.Point(387, 24);
             this.cboFiltro3.Name = "cboFiltro3";
             this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
             this.cboFiltro3.TabIndex = 6;
@@ -152,7 +151,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(363, 66);
+            this.label4.Location = new System.Drawing.Point(336, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 5;
@@ -161,7 +160,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(363, 28);
+            this.label3.Location = new System.Drawing.Point(336, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 4;
@@ -204,7 +203,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(514, 197);
+            this.button3.Location = new System.Drawing.Point(481, 197);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 21);
             this.button3.TabIndex = 2;
@@ -214,12 +213,13 @@
             // 
             // dg
             // 
+            this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(26, 232);
             this.dg.Name = "dg";
-            this.dg.Size = new System.Drawing.Size(596, 235);
+            this.dg.Size = new System.Drawing.Size(574, 235);
             this.dg.TabIndex = 3;
             // 
             // lblErrores
@@ -234,7 +234,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 448);
+            this.ClientSize = new System.Drawing.Size(631, 448);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);

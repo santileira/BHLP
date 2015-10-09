@@ -227,5 +227,10 @@ namespace AerolineaFrba.Abm_Ruta
             this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
