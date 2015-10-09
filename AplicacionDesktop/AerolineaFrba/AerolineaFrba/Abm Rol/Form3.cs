@@ -13,14 +13,8 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Baja : Form
     {
-       /* public Baja()
-        {
-            InitializeComponent();
-        }
-
-        private void Baja_Load(object sender, EventArgs e)
-        { }*/
-
+        private const string QUERY_BASE = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        private string ultimaQuery;
            
         public Baja()
         {
@@ -38,7 +32,7 @@ namespace AerolineaFrba.Abm_Rol
             {
                 bool huboCondicion = false;
 
-                string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
+                string queryselect = QUERY_BASE;
            
                 if (this.sePusoFiltro())
                     queryselect = queryselect + " WHERE ";
@@ -58,15 +52,15 @@ namespace AerolineaFrba.Abm_Rol
                 if (chkEstadoIgnorar.Checked == false)
                 {
                     string condicion;
-                    if (optEstadoAlta.Enabled)
+                    if (optEstadoAlta.Checked)
                     {
-                       condicion = "ROL_ESTADO" + " = 1";
+                       condicion = "ROL_ESTADO = 1";
                     }
                     else
                     {
-                        condicion = "ROL_ESTADO" + " = 0";
+                        condicion = "ROL_ESTADO = 0";
                     }
-                this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
                 this.ejecutarConsulta(queryselect);
@@ -76,7 +70,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);          
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1 || !chkEstadoIgnorar.Checked);          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -106,21 +100,27 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean esTexto(TextBox txt)
         {
+            if (txt.Text.Length == 0)
+            {
+                return true;
+            }
+
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
         }
 
-        private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
+        private void generarQuery(ref Boolean huboCondicion, ref string laQuery, string condicion)
         {
            if (huboCondicion)
-               queryselect += " AND " + condicion;
+               laQuery += " AND " + condicion;
            else
            {
-               queryselect += condicion;
+               laQuery += condicion;
                huboCondicion = true;
            }
+           Console.Write(laQuery);
         }
 
         private void ejecutarConsulta(string query)
@@ -129,32 +129,24 @@ namespace AerolineaFrba.Abm_Rol
 
             DataTable t = new DataTable("Busqueda");
             SqlDataAdapter a = new SqlDataAdapter(query, conexion);
+            
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
+            
             //Ligar el datagrid con la fuente de datos
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
             conexion.Close();
+
+            
         }
 
         private void iniciar()
         {
-            string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
-
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(queryselect, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();
+            ejecutarConsulta(QUERY_BASE);
+            ultimaQuery = QUERY_BASE;
        
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;
@@ -162,7 +154,6 @@ namespace AerolineaFrba.Abm_Rol
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
-
             
             cboFiltro3.SelectedIndex = -1;
             
@@ -192,7 +183,7 @@ namespace AerolineaFrba.Abm_Rol
                     {
                         string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                         ejecutarCommand(cadenaComando);
-                        ejecutarConsulta("SELECT * FROM [ABSTRACCIONX4].[ROLES]");
+                        ejecutarConsulta(ultimaQuery);
                     }
                 }
                 else
@@ -203,7 +194,7 @@ namespace AerolineaFrba.Abm_Rol
                         {
                             string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                             ejecutarCommand(cadenaComando);
-                            ejecutarConsulta("SELECT * FROM [ABSTRACCIONX4].[ROLES]");
+                            ejecutarConsulta(ultimaQuery);
                         }
                     }
             }
@@ -233,9 +224,8 @@ namespace AerolineaFrba.Abm_Rol
             return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString() + "'";
         }
             
-
+        
     }
-
 
 
      

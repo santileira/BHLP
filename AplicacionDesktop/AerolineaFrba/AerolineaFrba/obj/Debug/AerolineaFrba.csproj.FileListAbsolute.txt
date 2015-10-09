@@ -88,3 +88,14 @@ C:\Users\Fran\Desktop\UTN FRBA\GDD\BHLP\AplicacionDesktop\AerolineaFrba\Aeroline
 C:\Users\Fran\Desktop\UTN FRBA\GDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Registro_de_Usuario.Form1.resources
 C:\Users\Fran\Desktop\UTN FRBA\GDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.csproj.GenerateResource.Cache
 C:\Users\Fran\Desktop\UTN FRBA\GDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Listado.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Principal.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ciudad.Principal.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Rol.Principal.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Rol.Alta.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Rol.Baja.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Rol.Modificacion.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Rol.Listado.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.Principal.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.Listado.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Menu.resources
+C:\Users\Fran\Desktop\UTN FRBA\GDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.csprojResolveAssemblyReference.cache
