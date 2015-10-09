@@ -33,9 +33,11 @@ namespace AerolineaFrba.Abm_Rol
                 bool huboCondicion = false;
 
                 string querySelect = query;
-           
+
                 if (this.sePusoFiltro())
                     querySelect = querySelect + " WHERE ";
+                else
+                    MessageBox.Show("No se ha agregado ningún filtro. Agregue para poder realizar la búsqueda", "Informe", MessageBoxButtons.OK);
 
                 if (txtFiltro1.TextLength != 0)
                 {
@@ -65,6 +67,14 @@ namespace AerolineaFrba.Abm_Rol
 
                 this.ejecutarQuery(querySelect);
                 ultimaQuery = querySelect;
+                chkEstadoIgnorar.Checked = true;
+                optEstadoAlta.Checked = true;
+                optEstadoBaja.Checked = false;
+                txtFiltro1.Text = "";
+                txtFiltro2.Text = "";
+                txtFiltro4.Text = "";
+
+                cboFiltro3.SelectedIndex = -1;
             }
             
         }

@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -108,6 +110,7 @@
             this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro2.FormattingEnabled = true;
             this.cboCamposFiltro2.Items.AddRange(new object[] {
+            "RUTA_COD",
             "TIPO_SERVICIO",
             "ORIGEN",
             "DESTINO",
@@ -117,6 +120,7 @@
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
             this.cboCamposFiltro2.TabIndex = 18;
+            this.cboCamposFiltro2.SelectedIndexChanged += new System.EventHandler(this.cboCamposFiltro2_SelectedIndexChanged);
             // 
             // cboCamposFiltro1
             // 
@@ -130,6 +134,7 @@
             this.cboCamposFiltro1.Name = "cboCamposFiltro1";
             this.cboCamposFiltro1.Size = new System.Drawing.Size(157, 21);
             this.cboCamposFiltro1.TabIndex = 17;
+            this.cboCamposFiltro1.SelectedIndexChanged += new System.EventHandler(this.cboCamposFiltro1_SelectedIndexChanged);
             // 
             // chkEstadoIgnorar
             // 
@@ -281,10 +286,26 @@
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg.DefaultCellStyle = dataGridViewCellStyle8;
             this.dg.Location = new System.Drawing.Point(22, 273);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
@@ -317,6 +338,8 @@
             this.btlogica.Name = "btlogica";
             this.btlogica.ReadOnly = true;
             this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btlogica.Text = "Baja Lógica";
+            this.btlogica.UseColumnTextForButtonValue = true;
             this.btlogica.Width = 69;
             // 
             // btfisica
@@ -325,13 +348,15 @@
             this.btfisica.Name = "btfisica";
             this.btfisica.ReadOnly = true;
             this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btfisica.Text = "Baja Física";
+            this.btfisica.UseColumnTextForButtonValue = true;
             this.btfisica.Width = 66;
             // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1167, 602);
+            this.ClientSize = new System.Drawing.Size(1362, 741);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
