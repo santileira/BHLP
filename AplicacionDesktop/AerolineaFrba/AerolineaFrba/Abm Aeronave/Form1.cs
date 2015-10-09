@@ -59,6 +59,13 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Menu();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
 
     }
 }

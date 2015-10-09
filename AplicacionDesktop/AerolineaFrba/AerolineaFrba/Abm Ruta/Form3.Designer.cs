@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -51,10 +51,11 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
-            this.lblErrores = new System.Windows.Forms.Label();
-            this.txtFiltros = new System.Windows.Forms.TextBox();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.lblErrores = new System.Windows.Forms.Label();
+            this.txtFiltros = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -77,7 +78,7 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(22, 15);
+            this.groupBox1.Location = new System.Drawing.Point(22, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(909, 194);
             this.groupBox1.TabIndex = 0;
@@ -261,7 +262,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(22, 215);
+            this.button2.Location = new System.Drawing.Point(22, 227);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(140, 52);
             this.button2.TabIndex = 1;
@@ -287,51 +288,32 @@
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dg.Location = new System.Drawing.Point(22, 273);
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg.DefaultCellStyle = dataGridViewCellStyle12;
+            this.dg.Location = new System.Drawing.Point(22, 285);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(909, 432);
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
-            // 
-            // lblErrores
-            // 
-            this.lblErrores.AutoSize = true;
-            this.lblErrores.Location = new System.Drawing.Point(653, 197);
-            this.lblErrores.Name = "lblErrores";
-            this.lblErrores.Size = new System.Drawing.Size(0, 13);
-            this.lblErrores.TabIndex = 4;
-            // 
-            // txtFiltros
-            // 
-            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
-            this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFiltros.Location = new System.Drawing.Point(955, 24);
-            this.txtFiltros.Multiline = true;
-            this.txtFiltros.Name = "txtFiltros";
-            this.txtFiltros.Size = new System.Drawing.Size(385, 681);
-            this.txtFiltros.TabIndex = 5;
             // 
             // btlogica
             // 
@@ -353,11 +335,42 @@
             this.btfisica.UseColumnTextForButtonValue = true;
             this.btfisica.Width = 66;
             // 
+            // lblErrores
+            // 
+            this.lblErrores.AutoSize = true;
+            this.lblErrores.Location = new System.Drawing.Point(653, 197);
+            this.lblErrores.Name = "lblErrores";
+            this.lblErrores.Size = new System.Drawing.Size(0, 13);
+            this.lblErrores.TabIndex = 4;
+            // 
+            // txtFiltros
+            // 
+            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFiltros.Location = new System.Drawing.Point(955, 24);
+            this.txtFiltros.Multiline = true;
+            this.txtFiltros.Name = "txtFiltros";
+            this.txtFiltros.Size = new System.Drawing.Size(385, 681);
+            this.txtFiltros.TabIndex = 5;
+            // 
+            // button6
+            // 
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button6.Location = new System.Drawing.Point(2, 1);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(46, 22);
+            this.button6.TabIndex = 7;
+            this.button6.Text = "Atrás";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 741);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
@@ -408,5 +421,6 @@
         private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
         private System.Windows.Forms.DataGridViewButtonColumn btfisica;
+        private System.Windows.Forms.Button button6;
     }
 }

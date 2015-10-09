@@ -14,7 +14,7 @@ namespace AerolineaFrba.Abm_Rol
     public partial class Alta : Form
     {
         SqlCommand command = new SqlCommand();
-
+        Form formularioSiguiente;
         public Alta()
         {
             InitializeComponent();
@@ -161,6 +161,13 @@ namespace AerolineaFrba.Abm_Rol
             }
 
             return huboErrores;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
         }
     }
 }

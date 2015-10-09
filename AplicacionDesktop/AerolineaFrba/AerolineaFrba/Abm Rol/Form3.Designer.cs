@@ -47,6 +47,7 @@
             this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -65,7 +66,7 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(22, 15);
+            this.groupBox1.Location = new System.Drawing.Point(22, 26);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(600, 176);
             this.groupBox1.TabIndex = 0;
@@ -206,7 +207,7 @@
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
-            this.dg.Location = new System.Drawing.Point(26, 260);
+            this.dg.Location = new System.Drawing.Point(26, 271);
             this.dg.Name = "dg";
             this.dg.Size = new System.Drawing.Size(596, 235);
             this.dg.TabIndex = 3;
@@ -235,7 +236,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(22, 197);
+            this.button4.Location = new System.Drawing.Point(22, 208);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(140, 52);
             this.button4.TabIndex = 4;
@@ -254,11 +255,23 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
+            // button6
+            // 
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button6.Location = new System.Drawing.Point(2, 1);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(46, 22);
+            this.button6.TabIndex = 8;
+            this.button6.Text = "Atrás";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(668, 539);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.dg);
@@ -298,6 +311,7 @@
         private System.Windows.Forms.DataGridViewButtonColumn btfisica;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button6;
 
     }
 }

@@ -51,6 +51,7 @@
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
             this.txtFiltros = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -73,7 +74,7 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(22, 15);
+            this.groupBox1.Location = new System.Drawing.Point(22, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(909, 194);
             this.groupBox1.TabIndex = 0;
@@ -283,19 +284,21 @@
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(22, 273);
+            this.dg.Location = new System.Drawing.Point(22, 285);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(909, 432);
             this.dg.TabIndex = 3;
+            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // lblErrores
             // 
             this.lblErrores.AutoSize = true;
-            this.lblErrores.Location = new System.Drawing.Point(653, 197);
+            this.lblErrores.Location = new System.Drawing.Point(653, 209);
             this.lblErrores.Name = "lblErrores";
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
+            this.lblErrores.Click += new System.EventHandler(this.lblErrores_Click);
             // 
             // txtFiltros
             // 
@@ -308,11 +311,23 @@
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
             this.txtFiltros.TabIndex = 5;
             // 
+            // button6
+            // 
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button6.Location = new System.Drawing.Point(2, 1);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(46, 22);
+            this.button6.TabIndex = 6;
+            this.button6.Text = "Atrás";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1362, 741);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
@@ -360,5 +375,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtFiltros;
+        private System.Windows.Forms.Button button6;
     }
 }

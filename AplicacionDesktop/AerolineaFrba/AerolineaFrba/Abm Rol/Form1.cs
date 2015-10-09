@@ -49,6 +49,13 @@ namespace AerolineaFrba.Abm_Rol
             this.Visible = false;
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Menu();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
 
     }
 }

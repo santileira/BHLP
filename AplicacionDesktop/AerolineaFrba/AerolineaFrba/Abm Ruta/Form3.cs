@@ -17,6 +17,7 @@ namespace AerolineaFrba.Abm_Ruta
         Boolean huboCondicion;
         int filtro;
         private Boolean sePusoAgregarFiltro = false;
+        Form formularioSiguiente;
         
         public Baja()
         {
@@ -331,6 +332,13 @@ namespace AerolineaFrba.Abm_Ruta
         private void txtFiltro1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
         }
 
     }

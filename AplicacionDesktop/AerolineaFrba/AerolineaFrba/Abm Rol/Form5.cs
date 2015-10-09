@@ -13,7 +13,7 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Listado : Form
     {
-        
+        Form formularioSiguiente;
         public Listado()
         {
             InitializeComponent();
@@ -152,6 +152,13 @@ namespace AerolineaFrba.Abm_Rol
            optEstadoBaja.Enabled = !chkEstadoIgnorar.Checked;
            
             
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
         }
 
     }

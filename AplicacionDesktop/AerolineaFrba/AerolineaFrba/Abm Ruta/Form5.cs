@@ -17,6 +17,7 @@ namespace AerolineaFrba.Abm_Ruta
         Boolean huboCondicion;
         int filtro;
         private bool sePusoAgregarFiltro = false;
+        Form formularioSiguiente;
         
         public Listado()
         {
@@ -272,6 +273,23 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 txtFiltro2.Enabled = true;
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
+        private void lblErrores_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
 
     }

@@ -40,11 +40,14 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lstFuncionalidadesActuales);
@@ -53,7 +56,7 @@
             this.groupBox1.Controls.Add(this.lstFuncionalidadesTotales);
             this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(15, 25);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(534, 252);
             this.groupBox1.TabIndex = 1;
@@ -131,7 +134,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(427, 270);
+            this.button2.Location = new System.Drawing.Point(430, 279);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(119, 31);
             this.button2.TabIndex = 7;
@@ -140,7 +143,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 270);
+            this.button1.Location = new System.Drawing.Point(15, 279);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 31);
             this.button1.TabIndex = 6;
@@ -149,18 +152,40 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(139, 270);
+            this.button4.Location = new System.Drawing.Point(142, 279);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(115, 31);
             this.button4.TabIndex = 41;
             this.button4.Text = "Seleccionar Rol";
             this.button4.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button5.Location = new System.Drawing.Point(-10, -22);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(46, 22);
+            this.button5.TabIndex = 42;
+            this.button5.Text = "Atrás";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button7.Location = new System.Drawing.Point(1, 1);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(46, 22);
+            this.button7.TabIndex = 42;
+            this.button7.Text = "Atrás";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(563, 314);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
@@ -189,6 +214,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button7;
 
 
 

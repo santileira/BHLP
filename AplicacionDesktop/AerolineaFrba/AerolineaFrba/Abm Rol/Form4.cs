@@ -15,6 +15,7 @@ namespace AerolineaFrba.Abm_Rol
     {
 
         SqlCommand command = new SqlCommand();
+        Form formularioSiguiente;  
 
         public Modificacion()
         {
@@ -162,6 +163,13 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesTotales.DataSource = t;
 
             conexion.Close();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+              formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
         }
 
         
