@@ -14,35 +14,12 @@ namespace AerolineaFrba.Abm_Rol
     public partial class Alta : Form
     {
         SqlCommand command = new SqlCommand();
-
+        Form formularioSiguiente;
         public Alta()
         {
             InitializeComponent();
         }
-        /*
-        private void Alta_Load(object sender, EventArgs e)
-        {
-            string queryselect = "SELECT top 10 Ruta_Ciudad_Origen FROM gd_esquema.Maestra";
-            
-            SqlConnection conexion = Program.conexion();
 
-            SqlCommand command = new SqlCommand(queryselect, conexion);
-            
-            SqlDataAdapter a = new SqlDataAdapter(command);
-
-            DataTable t = new DataTable();
-
-            //Llenar el Dataset
-
-            a.Fill(t);
- 
-            lstFuncionalidadesTotales.DisplayMember = "Ruta_Ciudad_Origen";
-            lstFuncionalidadesTotales.DataSource = t;
-
-            //dg.DataSource = ds;
-            //dg.DataMember = "Busqueda";*
-        }
-        */
         private void button1_Click(object sender, EventArgs e)
         {
             this.iniciar();
@@ -184,6 +161,13 @@ namespace AerolineaFrba.Abm_Rol
             }
 
             return huboErrores;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
         }
     }
 }

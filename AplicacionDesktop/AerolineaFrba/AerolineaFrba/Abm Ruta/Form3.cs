@@ -11,15 +11,15 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba.Abm_Ruta
 {
-    public partial class Listado : Form
+    public partial class Baja : Form
     {
         string query;
         Boolean huboCondicion;
         int filtro;
-        private bool sePusoAgregarFiltro = false;
+        private Boolean sePusoAgregarFiltro = false;
         Form formularioSiguiente;
         
-        public Listado()
+        public Baja()
         {
             InitializeComponent();
         }
@@ -62,12 +62,13 @@ namespace AerolineaFrba.Abm_Ruta
                     this.query += "RUTA_ESTADO = 0";
             }
 
-            if (!sePusoAgregarFiltro && (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0))
+            if (!sePusoAgregarFiltro && (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength!=0))
             {
                 MessageBox.Show("No se ha agregado el filtro. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
 
             this.ejecutarQuery();
+            
 
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
@@ -97,7 +98,7 @@ namespace AerolineaFrba.Abm_Ruta
             //Ligar el datagrid con la fuente de datos
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
-
+            
             conexion.Close();
         }
 
@@ -111,12 +112,12 @@ namespace AerolineaFrba.Abm_Ruta
             optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;
 
-            txtFiltro1.Enabled = false;
-            txtFiltro2.Enabled = false;
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
 
+            txtFiltro1.Enabled = false;
+            txtFiltro2.Enabled = false;
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
             cboFiltro3.SelectedIndex = -1;
@@ -147,7 +148,7 @@ namespace AerolineaFrba.Abm_Ruta
             }
             else
             {
-                MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+                 MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
             }
         }
 
@@ -162,7 +163,7 @@ namespace AerolineaFrba.Abm_Ruta
             else
                 return combo.Text;
         }
-
+        
         private void concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
@@ -182,7 +183,6 @@ namespace AerolineaFrba.Abm_Ruta
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
                     txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
-                    
                 else
                     txtFiltros.Text += "Se ha agregado el filtro por igualdad del valor " + mensaje + System.Environment.NewLine;
             }
@@ -244,14 +244,14 @@ namespace AerolineaFrba.Abm_Ruta
         {
             this.filtro = 2;
             if (txtFiltro2.Enabled && txtFiltro2.Text.Length != 0)
-            {
-                this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
-                this.sePusoAgregarFiltro = true;
-            }
+                {
+                    this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
+                    this.sePusoAgregarFiltro = true;
+                }
             else
-            {
-                MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
-            }
+                {
+                    MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+                }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -259,11 +259,65 @@ namespace AerolineaFrba.Abm_Ruta
 
         }
 
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    DialogResult resultado = mostrarMensaje("lógica");
+                    if (apretoSi(resultado))
+                    {
+                        string cadenaComando = "UPDATE [ABSTRACCIONX4].[RUTAS_AEREAS] SET RUTA_EST = 0 WHERE ROL_COD = '" + darValorDadoIndex(e.RowIndex , "RUTA_COD") + "'";
+                        ejecutarCommand(cadenaComando);
+                        ejecutarQuery();
+                    }
+                }
+                else
+                    if (e.ColumnIndex == 1)
+                    {
+                        DialogResult resultado = mostrarMensaje("física");
+                        if (apretoSi(resultado))
+                        {
+                            string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[RUTAS_AEREAS] WHERE RUTA_COD = '" + darValorDadoIndex(e.RowIndex , "RUTA_COD");
+                            ejecutarCommand(cadenaComando);
+                            ejecutarQuery();
+                        }
+                    }
+            }
+        }
+
+        private DialogResult mostrarMensaje(string tipoDeBaja)
+        {
+            return MessageBox.Show("¿Está seguro que quiere dar de baja " + tipoDeBaja + " este registro?", "Advertencia", MessageBoxButtons.YesNo);
+        }
+
+        private void ejecutarCommand(string cadenaComando)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = cadenaComando;
+            command.CommandTimeout = 0;
+            command.ExecuteReader().Close();
+        }
+
+        private Boolean apretoSi(DialogResult resultado)
+        {
+            return resultado == System.Windows.Forms.DialogResult.Yes;
+        }
+
+        private string darValorDadoIndex(int index , string fila)
+        {
+            return  dg.Rows[index].Cells[fila].Value.ToString();
+        }
+
         private void cboCamposFiltro1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboCamposFiltro1.SelectedIndex != -1)
             {
-                txtFiltro1.Enabled = true;
+               txtFiltro1.Enabled = true;
             }
         }
 
@@ -275,21 +329,16 @@ namespace AerolineaFrba.Abm_Ruta
             }
         }
 
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();
             formularioSiguiente.Visible = true;
             this.Visible = false;
-        }
-
-        private void lblErrores_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
     }

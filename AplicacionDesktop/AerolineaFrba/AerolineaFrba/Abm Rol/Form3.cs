@@ -13,9 +13,9 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Baja : Form
     {
-        private const string QUERY_BASE = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        private string query;
         private string ultimaQuery;
-           
+        Form formularioSiguiente;  
         public Baja()
         {
             InitializeComponent();
@@ -26,27 +26,29 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
             {
                 bool huboCondicion = false;
 
-                string queryselect = QUERY_BASE;
-           
+                string querySelect = query;
+
                 if (this.sePusoFiltro())
-                    queryselect = queryselect + " WHERE ";
+                    querySelect = querySelect + " WHERE ";
+                else
+                    MessageBox.Show("No se ha agregado ningún filtro. Agregue para poder realizar la búsqueda", "Informe", MessageBoxButtons.OK);
 
                 if (txtFiltro1.TextLength != 0)
                 {
                     string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
-                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                    this.generarQuery(ref huboCondicion, ref querySelect, condicion);
                 }
 
                 if (txtFiltro2.TextLength != 0)
                 {
                     string condicion = "ROL_NOMBRE" + "= '" + txtFiltro2.Text + "'";
-                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                    this.generarQuery(ref huboCondicion, ref querySelect, condicion);
                 }
 
                 if (chkEstadoIgnorar.Checked == false)
@@ -60,12 +62,21 @@ namespace AerolineaFrba.Abm_Rol
                     {
                         condicion = "ROL_ESTADO = 0";
                     }
-                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                    this.generarQuery(ref huboCondicion, ref querySelect, condicion);
                 }
 
-                this.ejecutarConsulta(queryselect);
-            }
+                this.ejecutarQuery(querySelect);
+                ultimaQuery = querySelect;
+                chkEstadoIgnorar.Checked = true;
+                optEstadoAlta.Checked = true;
+                optEstadoBaja.Checked = false;
+                txtFiltro1.Text = "";
+                txtFiltro2.Text = "";
+                txtFiltro4.Text = "";
 
+                cboFiltro3.SelectedIndex = -1;
+            }
+            
         }
 
         private Boolean sePusoFiltro()
@@ -120,10 +131,10 @@ namespace AerolineaFrba.Abm_Rol
                laQuery += condicion;
                huboCondicion = true;
            }
-           Console.Write(laQuery);
+          
         }
 
-        private void ejecutarConsulta(string query)
+        private void ejecutarQuery(string query)
         {
             SqlConnection conexion = Program.conexion();
 
@@ -145,9 +156,10 @@ namespace AerolineaFrba.Abm_Rol
 
         private void iniciar()
         {
-            ejecutarConsulta(QUERY_BASE);
-            ultimaQuery = QUERY_BASE;
-       
+            this.generarQueryInicial();
+            this.ejecutarQuery(query);
+            ultimaQuery = query;
+           
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;
@@ -183,7 +195,7 @@ namespace AerolineaFrba.Abm_Rol
                     {
                         string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                         ejecutarCommand(cadenaComando);
-                        ejecutarConsulta(ultimaQuery);
+                        ejecutarQuery(ultimaQuery);
                     }
                 }
                 else
@@ -194,7 +206,7 @@ namespace AerolineaFrba.Abm_Rol
                         {
                             string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
                             ejecutarCommand(cadenaComando);
-                            ejecutarConsulta(ultimaQuery);
+                            ejecutarQuery(ultimaQuery);
                         }
                     }
             }
@@ -223,10 +235,33 @@ namespace AerolineaFrba.Abm_Rol
         {
             return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString() + "'";
         }
+
+        private void generarQueryInicial()
+        {
+            query = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.iniciar();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
+    
             
-
+        
     }
-
 
 
      

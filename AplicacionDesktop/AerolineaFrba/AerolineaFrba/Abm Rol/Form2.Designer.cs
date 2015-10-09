@@ -39,6 +39,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,7 +55,7 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(18, 26);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(587, 329);
             this.groupBox1.TabIndex = 0;
@@ -63,11 +64,11 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(219, 167);
+            this.button6.Location = new System.Drawing.Point(191, 120);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(112, 35);
+            this.button6.Size = new System.Drawing.Size(116, 31);
             this.button6.TabIndex = 40;
-            this.button6.Text = "AGREGAR FUNCIONALIDAD";
+            this.button6.Text = "Agregar";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -90,11 +91,11 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(350, 269);
+            this.button3.Location = new System.Drawing.Point(228, 223);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(156, 35);
+            this.button3.Size = new System.Drawing.Size(116, 31);
             this.button3.TabIndex = 37;
-            this.button3.Text = "QUITAR SELECCIONADO";
+            this.button3.Text = "Quitar";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -152,12 +153,24 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Nombre del Rol";
             // 
+            // button4
+            // 
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.button4.Location = new System.Drawing.Point(2, 2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(46, 22);
+            this.button4.TabIndex = 10;
+            this.button4.Text = "Atrás";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.ClientSize = new System.Drawing.Size(625, 362);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox1);
             this.Name = "Alta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -182,6 +195,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox lstFuncionalidadesTotales;
+        private System.Windows.Forms.Button button4;
 
     }
 }

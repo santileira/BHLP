@@ -48,5 +48,24 @@ namespace AerolineaFrba.Abm_Ruta
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Baja();
+            this.cambiarVisibilidades(formularioSiguiente);
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Menu();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
     }
 }

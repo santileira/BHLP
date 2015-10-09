@@ -13,9 +13,17 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Listado : Form
     {
-        
-        public Listado()
+        const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        private Modificacion formModificacion;
+
+        //para saber si el listado se llama directamente o desde modificacion
+        private bool esSecundario;
+
+        Form formularioSiguiente;
+        public Listado(bool secundario,Modificacion modificacion)
         {
+            esSecundario = secundario;
+            formModificacion = modificacion;
             InitializeComponent();
         }
 
@@ -30,10 +38,14 @@ namespace AerolineaFrba.Abm_Rol
             {
                 bool huboCondicion = false;
 
-                string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
-           
-                if (this.sePusoFiltro())
-                    queryselect = queryselect + " WHERE ";
+                string queryselect = QUERY_BASE;
+
+                if (!this.sePusoFiltro())
+                {
+                    return;
+                }
+
+                queryselect = queryselect + " WHERE ";
 
                 if (txtFiltro1.TextLength != 0)
                 {
@@ -43,22 +55,22 @@ namespace AerolineaFrba.Abm_Rol
 
                 if (txtFiltro2.TextLength != 0)
                 {
-                    string condicion = "ROL_NOMBRE" + "= '" + txtFiltro2.Text + "'";
+                    string condicion = "ROL_NOMBRE = '" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
-                if (chkEstadoIgnorar.Checked == false)
+                if (!chkEstadoIgnorar.Checked)
                 {
                     string condicion;
-                    if (optEstadoAlta.Enabled)
+                    if (optEstadoAlta.Checked)
                     {
-                       condicion = "ROL_ESTADO" + " = 1";
+                       condicion = "ROL_ESTADO = 1";
                     }
                     else
                     {
-                        condicion = "ROL_ESTADO" + " = 0";
+                        condicion = "ROL_ESTADO = 0";
                     }
-                this.generarQuery(ref huboCondicion, ref queryselect, condicion);
+                    this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
                 this.ejecutarConsulta(queryselect);
@@ -72,7 +84,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);          
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1 || !chkEstadoIgnorar.Checked);          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -82,9 +94,35 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-       
-            return (txtFiltro1.TextLength == 0 && txtFiltro2.TextLength == 0 && cboFiltro3.SelectedIndex == -1);
-        
+            Boolean huboErrores = false;
+
+            if (!this.esTexto(txtFiltro1))
+            {
+                MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            if (!this.esTexto(txtFiltro2))
+            {
+                MessageBox.Show("El filtro por igualdad de palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            return !huboErrores;
+
+        }
+
+        private Boolean esTexto(TextBox txt)
+        {
+            if (txt.Text.Length == 0)
+            {
+                return true;
+            }
+
+            String textPattern = "[A-Za-z]";
+            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
+
+            return regexTexto.IsMatch(txt.Text);
         }
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
@@ -118,20 +156,9 @@ namespace AerolineaFrba.Abm_Rol
   
         private void iniciar()
         {
-            string queryselect = "SELECT * FROM [ABSTRACCIONX4].[ROLES]";
+            string queryselect = QUERY_BASE;
 
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(queryselect, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();
+            ejecutarConsulta(queryselect);
 
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;
@@ -143,6 +170,11 @@ namespace AerolineaFrba.Abm_Rol
 
             
             cboFiltro3.SelectedIndex = -1;
+
+            if (esSecundario)
+            {
+                button4.Visible = true;
+            }
             
         }
 
@@ -153,6 +185,63 @@ namespace AerolineaFrba.Abm_Rol
            
             
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (esSecundario)
+            {
+                this.Close();
+                return;
+            }
+            
+            formularioSiguiente = new Principal();
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
+        //boton de seleccionar, solo visible cuando se llama desde modificacion
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (dg.RowCount==0)
+            {
+                MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
+                return;
+            }
+
+            string rolSeleccionado = "";
+            List<Object> listaFuncionalidades = new List<object>();
+            int estadoRol = 0;
+            ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
+
+            formModificacion.seSelecciono(rolSeleccionado, estadoRol==1, listaFuncionalidades.ToArray());
+
+            this.Close();
+        }
+
+        private void ejecutarSeleccion(ref string rolSeleccionado,ref int estadoRol, List<Object> listaFuncionalidades)
+        {
+            rolSeleccionado = dg.SelectedRows[0].Cells["ROL_NOMBRE"].Value.ToString();
+            estadoRol = Convert.ToInt32(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value.ToString());
+
+
+            string query = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].ROLES r JOIN [ABSTRACCIONX4].FUNCIONES_ROLES fr ON (r.ROL_COD = fr.ROL_COD) JOIN [ABSTRACCIONX4].FUNCIONALIDADES f ON (f.FUNC_COD = fr.FUNC_COD) WHERE r.ROL_NOMBRE = '" + rolSeleccionado + "'";
+            SqlCommand command = new SqlCommand(query, Program.conexion());
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
+            
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    listaFuncionalidades.Add(dataReader.GetValue(0));
+                }
+            }
+
+            dataReader.Close();
+        }
+        
 
     }
 }
