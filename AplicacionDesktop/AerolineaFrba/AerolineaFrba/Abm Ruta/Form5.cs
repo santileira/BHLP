@@ -15,6 +15,7 @@ namespace AerolineaFrba.Abm_Ruta
     {
         string query;
         Boolean huboCondicion;
+        int filtro;
         
         public Listado()
         {
@@ -28,7 +29,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_COD, SERV_COD, ";
+            this.query = "SELECT SERV_COD TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
@@ -138,15 +139,18 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button5_Click(object sender, EventArgs e)
         {
+            this.filtro = 1;
             this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
         }
 
-        private string buscarPorCiudad(ComboBox combo)
+        private string buscarNombreCampo(ComboBox combo)
         {
             if (combo.Text == "ORIGEN")
                 return this.buscarCiudad("R.CIU_COD_O");
             else if (combo.Text == "DESTINO")
                 return this.buscarCiudad("R.CIU_COD_D");
+            else if (combo.Text == "TIPO_SERVICIO")
+                return "SERV_COD";
             else
                 return combo.Text;
         }
@@ -163,10 +167,15 @@ namespace AerolineaFrba.Abm_Ruta
                 else
                     this.query += " AND ";
 
-                string campo = this.buscarPorCiudad(combo);
+                string campo = this.buscarNombreCampo(combo);
 
                 this.query += campo + criterio;
-                MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
+
+                string mensaje = "'" + txt.Text + "'" + " sobre el campo " + campo;
+                if (this.filtro == 1)
+                    lstFiltros.Items.Add("Se ha agregado el filtro por contenido del valor " + mensaje);
+                else
+                    lstFiltros.Items.Add("Se ha agregado el filtro por igualdad del valor " + mensaje);
             }
         }
 
@@ -194,7 +203,7 @@ namespace AerolineaFrba.Abm_Ruta
                     huboErrores = true;
                 }
             }
-            else if(combo.Text.Equals("SERV_COD") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
+            else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
             {
                 if (!this.esTexto(txt))
                 {
@@ -224,6 +233,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button4_Click_1(object sender, EventArgs e)
         {
+            this.filtro = 2;
             this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
         }
 
