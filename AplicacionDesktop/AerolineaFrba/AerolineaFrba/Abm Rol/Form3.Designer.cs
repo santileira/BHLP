@@ -44,7 +44,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.lblErrores = new System.Windows.Forms.Label();
             this.dg = new System.Windows.Forms.DataGridView();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -214,19 +213,12 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // lblErrores
-            // 
-            this.lblErrores.AutoSize = true;
-            this.lblErrores.Location = new System.Drawing.Point(653, 197);
-            this.lblErrores.Name = "lblErrores";
-            this.lblErrores.Size = new System.Drawing.Size(0, 13);
-            this.lblErrores.TabIndex = 4;
-            // 
             // dg
             // 
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
             this.dg.AllowUserToResizeColumns = false;
+            this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -235,24 +227,25 @@
             this.btfisica});
             this.dg.Location = new System.Drawing.Point(26, 232);
             this.dg.Name = "dg";
-            this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(596, 235);
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // btlogica
             // 
+            this.btlogica.FillWeight = 50F;
             this.btlogica.HeaderText = "Baja Lógica";
             this.btlogica.Name = "btlogica";
-            this.btlogica.ReadOnly = true;
+            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.btlogica.Text = "Baja Lógica";
             this.btlogica.UseColumnTextForButtonValue = true;
             // 
             // btfisica
             // 
+            this.btfisica.FillWeight = 50F;
             this.btfisica.HeaderText = "Baja Física";
             this.btfisica.Name = "btfisica";
-            this.btfisica.ReadOnly = true;
+            this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.btfisica.Text = "Baja Física";
             this.btfisica.UseColumnTextForButtonValue = true;
             // 
@@ -260,8 +253,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 448);
-            this.Controls.Add(this.lblErrores);
+            this.ClientSize = new System.Drawing.Size(642, 448);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -277,7 +269,6 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -295,7 +286,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label lblErrores;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton optEstadoBaja;
         private System.Windows.Forms.RadioButton optEstadoAlta;
