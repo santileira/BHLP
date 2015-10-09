@@ -30,7 +30,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT SERV_COD TIPO_SERVICIO, ";
+            this.query = "SELECT RUTA_COD , SERV_COD TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
@@ -103,21 +103,9 @@ namespace AerolineaFrba.Abm_Ruta
         private void iniciar()
         {
             this.generarQueryInicial();
-            txtFiltros.Text = "";
+            this.ejecutarQuery();
             
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();
-
+            txtFiltros.Text = "";
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;

@@ -106,6 +106,7 @@
             this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro2.FormattingEnabled = true;
             this.cboCamposFiltro2.Items.AddRange(new object[] {
+            "RUTA_COD",
             "TIPO_SERVICIO",
             "ORIGEN",
             "DESTINO",

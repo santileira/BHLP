@@ -16,7 +16,6 @@ namespace AerolineaFrba.Abm_Ruta
         string query;
         Boolean huboCondicion;
         int filtro;
-        private string ultimaQuery;
         private Boolean sePusoAgregarFiltro = false;
         
         public Baja()
@@ -72,8 +71,6 @@ namespace AerolineaFrba.Abm_Ruta
 
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
-            else
-                ultimaQuery = query;
         }
 
         private Boolean sePusoFiltro()
@@ -108,7 +105,6 @@ namespace AerolineaFrba.Abm_Ruta
         {
             this.generarQueryInicial();
             this.ejecutarQuery();
-            ultimaQuery = query;
             
             txtFiltros.Text = "";
             chkEstadoIgnorar.Checked = true;
