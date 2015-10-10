@@ -21,25 +21,40 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Alta();
-            this.cambiarVisibilidades(formularioSiguiente);
+            Alta alta = new Alta();
+            Listado listado = new Listado();
+
+            alta.listado = listado;
+            listado.anterior = alta;
+
+            this.cambiarVisibilidades(alta);
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            formularioSiguiente = new Baja();
-            this.cambiarVisibilidades(formularioSiguiente);
+            Baja baja = new Baja();
+            Listado listado = new Listado();
+
+            baja.listado = listado;
+            listado.anterior = baja;
+
+            this.cambiarVisibilidades(baja);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Modificacion();
-            this.cambiarVisibilidades(formularioSiguiente);
+            Modificacion modif = new Modificacion();
+            Listado listado = new Listado();
+
+            modif.listado = listado;
+            listado.anterior = modif;
+
+            this.cambiarVisibilidades(modif);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Listado(false,null);
+            formularioSiguiente = new Listado();
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
@@ -52,8 +67,7 @@ namespace AerolineaFrba.Abm_Rol
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Menu();
-            formularioSiguiente.Visible = true;
-            this.Visible = false;
+            cambiarVisibilidades(formularioSiguiente);
         }
 
 

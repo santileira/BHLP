@@ -19,6 +19,7 @@ namespace AerolineaFrba.Abm_Ruta
  //       private bool sePusoAgregarFiltro1 = false;
   //      private bool sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
+        public Form anterior;
         Boolean primeraVez = true;
         
         public Listado()
@@ -133,6 +134,8 @@ namespace AerolineaFrba.Abm_Ruta
 
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
+            cboCamposFiltro1.Text = "Seleccione un campo";
+            cboCamposFiltro2.Text = "Seleccione un campo";
             cboFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
@@ -318,7 +321,11 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button6_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Principal();
+            this.cambiarVisibilidades(this.anterior);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }

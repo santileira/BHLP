@@ -19,6 +19,7 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean sePusoAgregarFiltro1 = false;
         private Boolean sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
+        public Listado listado;
         
         public Baja()
         {
@@ -352,6 +353,11 @@ namespace AerolineaFrba.Abm_Ruta
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }

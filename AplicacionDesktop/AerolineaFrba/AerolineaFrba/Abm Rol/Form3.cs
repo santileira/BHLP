@@ -15,7 +15,9 @@ namespace AerolineaFrba.Abm_Rol
     {
         private string query;
         private string ultimaQuery;
-        Form formularioSiguiente;  
+        Form formularioSiguiente;
+        public Listado listado;
+
         public Baja()
         {
             InitializeComponent();
@@ -254,11 +256,14 @@ namespace AerolineaFrba.Abm_Rol
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();
+            cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
-
-    
             
         
     }

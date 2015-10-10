@@ -11,11 +11,14 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba.Abm_Aeronave
 {
+    
     public partial class Listado : Form
     {
         string query;
         Boolean huboCondicion;
 
+        public Form anterior;
+        
         public Listado()
         {
             InitializeComponent();
@@ -43,6 +46,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private void Listado_Load(object sender, EventArgs e)
         {
             this.iniciar();
+            
         }
 
         //Boton Limpiar
@@ -206,6 +210,16 @@ namespace AerolineaFrba.Abm_Aeronave
             return regexNumero.IsMatch(txt.Text);
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            cambiarVisibilidades(this.anterior);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
 
 
     }

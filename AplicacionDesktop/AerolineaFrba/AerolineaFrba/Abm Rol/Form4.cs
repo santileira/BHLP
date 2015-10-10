@@ -16,6 +16,7 @@ namespace AerolineaFrba.Abm_Rol
 
         SqlCommand command = new SqlCommand();
         Form formularioSiguiente;
+        public Listado listado;
 
         public Modificacion()
         {
@@ -171,13 +172,18 @@ namespace AerolineaFrba.Abm_Rol
         private void button4_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();
+            cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Form listado = new Listado(true,this);
+            Form listado = new Listado();
             //mantiene el foco hasta que se cierra
             listado.ShowDialog();
         }

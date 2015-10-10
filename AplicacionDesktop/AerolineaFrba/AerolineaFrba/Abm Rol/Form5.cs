@@ -15,15 +15,14 @@ namespace AerolineaFrba.Abm_Rol
     {
         const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
         private Modificacion formModificacion;
+        public Form anterior;
 
         //para saber si el listado se llama directamente o desde modificacion
         private bool esSecundario;
 
         Form formularioSiguiente;
-        public Listado(bool secundario,Modificacion modificacion)
+        public Listado()
         {
-            esSecundario = secundario;
-            formModificacion = modificacion;
             InitializeComponent();
         }
 
@@ -188,13 +187,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (esSecundario)
-            {
-                this.Close();
-                return;
-            }
-            
-            formularioSiguiente = new Principal();
+            cambiarVisibilidades(this.anterior);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }

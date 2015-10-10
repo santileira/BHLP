@@ -62,8 +62,31 @@ namespace AerolineaFrba.Abm_Aeronave
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Menu();
-            formularioSiguiente.Visible = true;
-            this.Visible = false;
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Alta alta = new Alta();
+            Listado listado = new Listado();
+
+            alta.listado = listado;
+            listado.anterior = alta;
+         
+            this.cambiarVisibilidades(alta);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            /*
+            Baja baja = new Baja();
+            Listado listado = new Listado();
+
+            baja.listado = listado;
+            listado.anterior = baja;
+
+            this.cambiarVisibilidades(baja);
+             * */
         }
 
 
