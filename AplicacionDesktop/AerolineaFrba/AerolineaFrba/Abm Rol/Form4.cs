@@ -58,21 +58,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (this.datosCorrectos())
-            {
-                MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
-                string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
-                this.ejecutarCommand(cadenaComando);
-
-                foreach(String funcion in lstFuncionalidadesActuales.Items)
-                {
-                    cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
-
-                    MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
-                    this.ejecutarCommand(cadenaComando);
- 
-                }
-            }
+            throw new NotImplementedException();
         }
 
         private Boolean datosCorrectos()

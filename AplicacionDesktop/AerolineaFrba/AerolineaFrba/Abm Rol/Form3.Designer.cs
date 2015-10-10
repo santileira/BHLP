@@ -43,11 +43,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dg = new System.Windows.Forms.DataGridView();
-            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -66,9 +66,9 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(22, 26);
+            this.groupBox1.Location = new System.Drawing.Point(26, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(600, 176);
+            this.groupBox1.Size = new System.Drawing.Size(596, 176);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -120,9 +120,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(515, 58);
+            this.button1.Location = new System.Drawing.Point(511, 56);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 20);
+            this.button1.Size = new System.Drawing.Size(79, 22);
             this.button1.TabIndex = 8;
             this.button1.Text = "Seleccionar";
             this.button1.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
             // txtFiltro4
             // 
             this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(414, 59);
+            this.txtFiltro4.Location = new System.Drawing.Point(410, 58);
             this.txtFiltro4.Name = "txtFiltro4";
             this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
             this.txtFiltro4.TabIndex = 7;
@@ -147,7 +147,7 @@
             // 
             this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(414, 25);
+            this.cboFiltro3.Location = new System.Drawing.Point(410, 24);
             this.cboFiltro3.Name = "cboFiltro3";
             this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
             this.cboFiltro3.TabIndex = 6;
@@ -155,7 +155,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(363, 66);
+            this.label4.Location = new System.Drawing.Point(359, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 5;
@@ -164,7 +164,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(363, 28);
+            this.label3.Location = new System.Drawing.Point(359, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 4;
@@ -207,38 +207,19 @@
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
-            this.dg.Location = new System.Drawing.Point(26, 271);
+            this.dg.Location = new System.Drawing.Point(26, 236);
             this.dg.Name = "dg";
+            this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(596, 235);
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
-            // btlogica
-            // 
-            this.btlogica.FillWeight = 50F;
-            this.btlogica.HeaderText = "Baja Lógica";
-            this.btlogica.Name = "btlogica";
-            this.btlogica.ReadOnly = true;
-            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btlogica.Text = "Baja Lógica";
-            this.btlogica.UseColumnTextForButtonValue = true;
-            // 
-            // btfisica
-            // 
-            this.btfisica.FillWeight = 50F;
-            this.btfisica.HeaderText = "Baja Física";
-            this.btfisica.Name = "btfisica";
-            this.btfisica.ReadOnly = true;
-            this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btfisica.Text = "Baja Física";
-            this.btfisica.UseColumnTextForButtonValue = true;
-            // 
             // button4
             // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(22, 208);
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(26, 208);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(140, 52);
+            this.button4.Size = new System.Drawing.Size(79, 22);
             this.button4.TabIndex = 4;
             this.button4.Text = "Limpiar";
             this.button4.UseVisualStyleBackColor = true;
@@ -246,10 +227,10 @@
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(482, 208);
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(543, 208);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(140, 52);
+            this.button3.Size = new System.Drawing.Size(79, 22);
             this.button3.TabIndex = 5;
             this.button3.Text = "Buscar";
             this.button3.UseVisualStyleBackColor = true;
@@ -265,6 +246,26 @@
             this.button6.Text = "Atrás";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // btlogica
+            // 
+            this.btlogica.FillWeight = 50F;
+            this.btlogica.HeaderText = "";
+            this.btlogica.Name = "btlogica";
+            this.btlogica.ReadOnly = true;
+            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btlogica.Text = "Baja Lógica";
+            this.btlogica.UseColumnTextForButtonValue = true;
+            // 
+            // btfisica
+            // 
+            this.btfisica.FillWeight = 50F;
+            this.btfisica.HeaderText = "";
+            this.btfisica.Name = "btfisica";
+            this.btfisica.ReadOnly = true;
+            this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btfisica.Text = "Baja Física";
+            this.btfisica.UseColumnTextForButtonValue = true;
             // 
             // Baja
             // 
@@ -307,11 +308,11 @@
         private System.Windows.Forms.RadioButton optEstadoAlta;
         private System.Windows.Forms.CheckBox chkEstadoIgnorar;
         private System.Windows.Forms.DataGridView dg;
-        private System.Windows.Forms.DataGridViewButtonColumn btlogica;
-        private System.Windows.Forms.DataGridViewButtonColumn btfisica;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridViewButtonColumn btlogica;
+        private System.Windows.Forms.DataGridViewButtonColumn btfisica;
 
     }
 }
