@@ -16,8 +16,8 @@ namespace AerolineaFrba.Abm_Ruta
         string query;
         Boolean huboCondicion;
         int filtro;
-        private bool sePusoAgregarFiltro1 = false;
-        private bool sePusoAgregarFiltro2 = false;
+ //       private bool sePusoAgregarFiltro1 = false;
+  //      private bool sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
         Boolean primeraVez = true;
         
@@ -96,8 +96,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void ejecutarQuery()
         {
-            sePusoAgregarFiltro1 = false;
-            sePusoAgregarFiltro2 = false;
+     //       sePusoAgregarFiltro1 = false;
+      //      sePusoAgregarFiltro2 = false;
             
             SqlConnection conexion = Program.conexion();
 
@@ -161,7 +161,7 @@ namespace AerolineaFrba.Abm_Ruta
                     txtFiltro1.Text = "";
                     cboCamposFiltro1.SelectedIndex = -1;
                   
-                    this.sePusoAgregarFiltro1 = true;
+           //         this.sePusoAgregarFiltro1 = true;
                 }
                 }
             else
@@ -273,7 +273,7 @@ namespace AerolineaFrba.Abm_Ruta
                     txtFiltro2.Text = "";
                     cboCamposFiltro2.SelectedIndex = -1;
                   
-                    this.sePusoAgregarFiltro2 = true;
+     //               this.sePusoAgregarFiltro2 = true;
                 } 
            }
             else
