@@ -63,11 +63,11 @@ namespace AerolineaFrba.Abm_Ruta
                     this.query += "RUTA_ESTADO = 0";
             }
 
-            if (!sePusoAgregarFiltro1 && txtFiltro1.TextLength!= 0  && cboCamposFiltro1.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength!= 0  && cboCamposFiltro1.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if (!sePusoAgregarFiltro2 && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro2 || txtFiltros.TextLength != 0) && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
@@ -154,9 +154,13 @@ namespace AerolineaFrba.Abm_Ruta
             this.filtro = 1;
             if (txtFiltro1.Enabled && txtFiltro1.Text.Length != 0)
             {
-                if(this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
-                this.sePusoAgregarFiltro1 = true;
-            }
+                if (this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
+                {
+                    txtFiltro1.Text = "";
+                  
+                    this.sePusoAgregarFiltro1 = true;
+                }
+                }
             else
             {
                 MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
@@ -259,9 +263,13 @@ namespace AerolineaFrba.Abm_Ruta
             this.filtro = 2;
             if (txtFiltro2.Enabled && txtFiltro2.Text.Length != 0)
             {
-                if(this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
-                this.sePusoAgregarFiltro2 = true;
-            }
+                if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
+                {
+                    txtFiltro2.Text = "";
+                  
+                    this.sePusoAgregarFiltro2 = true;
+                } 
+           }
             else
             {
                 MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);

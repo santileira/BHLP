@@ -107,7 +107,7 @@
             this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro2.FormattingEnabled = true;
             this.cboCamposFiltro2.Items.AddRange(new object[] {
-            "RUTA_COD",
+            "CODIGO_DE_RUTA",
             "TIPO_SERVICIO",
             "ORIGEN",
             "DESTINO",
@@ -257,7 +257,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(22, 215);
+            this.button2.Location = new System.Drawing.Point(22, 227);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(140, 52);
             this.button2.TabIndex = 1;
@@ -268,7 +268,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(791, 215);
+            this.button3.Location = new System.Drawing.Point(791, 227);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(140, 52);
             this.button3.TabIndex = 2;
