@@ -19,6 +19,7 @@ namespace AerolineaFrba.Abm_Ruta
         private bool sePusoAgregarFiltro1 = false;
         private bool sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
+        Boolean primeraVez = true;
         
         public Listado()
         {
@@ -46,8 +47,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button3_Click(object sender, EventArgs e)
         {
-   
-            if (chkEstadoIgnorar.Checked == false)
+            if (this.primeraVez && chkEstadoIgnorar.Checked == false)
             {
                 if (!this.huboCondicion)
                 {
@@ -61,25 +61,27 @@ namespace AerolineaFrba.Abm_Ruta
                     this.query += "RUTA_ESTADO = 1"; 
                 else
                     this.query += "RUTA_ESTADO = 0";
+
+                this.primeraVez = false;
             }
 
-            if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength!= 0  && cboCamposFiltro1.SelectedIndex != -1)
+            if (txtFiltro1.TextLength!= 0  && cboCamposFiltro1.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if ((!sePusoAgregarFiltro2 || txtFiltros.TextLength != 0) && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
+            if (txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if (txtFiltro1.TextLength == 0 && txtFiltro1.Enabled)
+            if (txtFiltro1.TextLength == 0 && cboCamposFiltro1.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
-            if (txtFiltro2.TextLength == 0 && txtFiltro2.Enabled)
+            if (txtFiltro2.TextLength == 0 && cboCamposFiltro2.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
-
-            this.ejecutarQuery();
 
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
+
+            this.ejecutarQuery();
         }
 
         private Boolean sePusoFiltro()
@@ -157,6 +159,7 @@ namespace AerolineaFrba.Abm_Ruta
                 if (this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
                 {
                     txtFiltro1.Text = "";
+                    cboCamposFiltro1.SelectedIndex = -1;
                   
                     this.sePusoAgregarFiltro1 = true;
                 }
@@ -268,6 +271,7 @@ namespace AerolineaFrba.Abm_Ruta
                 if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
                 {
                     txtFiltro2.Text = "";
+                    cboCamposFiltro2.SelectedIndex = -1;
                   
                     this.sePusoAgregarFiltro2 = true;
                 } 
