@@ -13,8 +13,12 @@ namespace AerolineaFrba.Abm_Aeronave
 {
     public partial class Alta : Form
     {
+        public Alta alta;
+
         public Listado listado;
+
         Form formularioSiguiente;
+        
 
         public Alta()
         {
@@ -50,6 +54,16 @@ namespace AerolineaFrba.Abm_Aeronave
             this.inicio();
         }
 
+        public void setFiltroSelector(string valor)
+        {
+            txtCampo.Text = valor;
+        }
+
+        public string getCampoSelector()
+        {
+            return cboCampo.Text;
+        }
+
         private void inicio()
         {
             txtCampo.Text = "";
@@ -67,7 +81,6 @@ namespace AerolineaFrba.Abm_Aeronave
             txtRS.Text = "";
                         
             button1.Enabled = false;
-
 
         }
 

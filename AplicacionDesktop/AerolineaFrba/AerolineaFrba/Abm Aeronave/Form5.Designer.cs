@@ -49,6 +49,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -70,7 +71,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 59);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(802, 194);
+            this.groupBox1.Size = new System.Drawing.Size(802, 115);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -192,7 +193,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 259);
+            this.button2.Location = new System.Drawing.Point(12, 208);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 21);
             this.button2.TabIndex = 1;
@@ -202,7 +203,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(706, 259);
+            this.button3.Location = new System.Drawing.Point(706, 208);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 21);
             this.button3.TabIndex = 2;
@@ -217,16 +218,17 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(12, 294);
+            this.dg.Location = new System.Drawing.Point(12, 243);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(802, 235);
             this.dg.TabIndex = 3;
+            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // lblErrores
             // 
             this.lblErrores.AutoSize = true;
-            this.lblErrores.Location = new System.Drawing.Point(643, 241);
+            this.lblErrores.Location = new System.Drawing.Point(643, 190);
             this.lblErrores.Name = "lblErrores";
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
@@ -241,11 +243,22 @@ namespace AerolineaFrba.Abm_Aeronave
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(360, 208);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(108, 21);
+            this.button7.TabIndex = 6;
+            this.button7.Text = "Agregar valor";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 507);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
@@ -286,6 +299,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
 
     }
 }

@@ -17,7 +17,9 @@ namespace AerolineaFrba.Abm_Aeronave
         string query;
         Boolean huboCondicion;
 
-        public Form anterior;
+        public Boolean altaActiva = false;
+
+        public Alta alta;
         
         public Listado()
         {
@@ -119,6 +121,8 @@ namespace AerolineaFrba.Abm_Aeronave
             cboFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
+
+            button7.Enabled = false;
                                    
 
         }
@@ -212,7 +216,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-            cambiarVisibilidades(this.anterior);
+            if(this.altaActiva)
+                cambiarVisibilidades(this.alta);
+            
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -221,6 +227,20 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Visible = false;
         }
 
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            button7.Enabled = true;      
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (this.altaActiva)
+            {
+                string valor = dg.CurrentCell.Value.ToString();
+                this.alta.setFiltroSelector(valor);
+                MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de alta en el campo " + this.alta.getCampoSelector(), "Error en el nombre", MessageBoxButtons.OK);
+            }
+        }
 
     }
 }

@@ -71,7 +71,8 @@ namespace AerolineaFrba.Abm_Aeronave
             Listado listado = new Listado();
 
             alta.listado = listado;
-            listado.anterior = alta;
+            listado.altaActiva = true;
+            listado.alta = alta;
          
             this.cambiarVisibilidades(alta);
         }
