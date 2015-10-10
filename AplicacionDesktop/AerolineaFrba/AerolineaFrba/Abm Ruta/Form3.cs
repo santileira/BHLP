@@ -16,7 +16,8 @@ namespace AerolineaFrba.Abm_Ruta
         string query;
         Boolean huboCondicion;
         int filtro;
-        private Boolean sePusoAgregarFiltro = false;
+        private Boolean sePusoAgregarFiltro1 = false;
+        private Boolean sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
         
         public Baja()
@@ -61,12 +62,18 @@ namespace AerolineaFrba.Abm_Ruta
                 else
                     this.query += "RUTA_ESTADO = 0";
             }
-
-            if (!sePusoAgregarFiltro && (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength!=0))
+            if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength != 0 && cboCamposFiltro1.SelectedIndex != -1)
             {
-                MessageBox.Show("No se ha agregado el filtro. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
+                MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-
+            if ((!sePusoAgregarFiltro2 || txtFiltros.TextLength != 0) && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
+            {
+                MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
+            }
+            if (txtFiltro1.TextLength == 0 && txtFiltro1.Enabled)
+                MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
+            if (txtFiltro2.TextLength == 0 && txtFiltro2.Enabled)
+                MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
             this.ejecutarQuery();
             
 
@@ -86,8 +93,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void ejecutarQuery()
         {
-            sePusoAgregarFiltro = false;
-            
+            sePusoAgregarFiltro1 = false;
+            sePusoAgregarFiltro2 = false;
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -115,7 +122,8 @@ namespace AerolineaFrba.Abm_Ruta
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
-
+            button4.Enabled = false;
+            button5.Enabled = false;
             txtFiltro1.Enabled = false;
             txtFiltro2.Enabled = false;
             cboCamposFiltro1.SelectedIndex = -1;
@@ -143,8 +151,11 @@ namespace AerolineaFrba.Abm_Ruta
             this.filtro = 1;
             if (txtFiltro1.Enabled && txtFiltro1.Text.Length != 0)
             {
-                this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
-                this.sePusoAgregarFiltro = true;
+                if (this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
+                {
+                    txtFiltro1.Text = "";
+                    this.sePusoAgregarFiltro1 = true;
+                }
             }
             else
             {
@@ -164,10 +175,11 @@ namespace AerolineaFrba.Abm_Ruta
                 return combo.Text;
         }
         
-        private void concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
+        private Boolean concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
             {
+                
                 if (!this.huboCondicion)
                 {
                     this.huboCondicion = true;
@@ -185,7 +197,9 @@ namespace AerolineaFrba.Abm_Ruta
                     txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
                 else
                     txtFiltros.Text += "Se ha agregado el filtro por igualdad del valor " + mensaje + System.Environment.NewLine;
+                return true;
             }
+            return false;
         }
 
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
@@ -245,8 +259,11 @@ namespace AerolineaFrba.Abm_Ruta
             this.filtro = 2;
             if (txtFiltro2.Enabled && txtFiltro2.Text.Length != 0)
                 {
-                    this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'");
-                    this.sePusoAgregarFiltro = true;
+                    if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
+                    {
+                        txtFiltro2.Text = "";
+                        this.sePusoAgregarFiltro2 = true;
+                    }
                 }
             else
                 {
@@ -254,10 +271,6 @@ namespace AerolineaFrba.Abm_Ruta
                 }
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
 
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -318,6 +331,7 @@ namespace AerolineaFrba.Abm_Ruta
             if (cboCamposFiltro1.SelectedIndex != -1)
             {
                txtFiltro1.Enabled = true;
+               button5.Enabled = true;
             }
         }
 
@@ -326,6 +340,7 @@ namespace AerolineaFrba.Abm_Ruta
             if (cboCamposFiltro2.SelectedIndex != -1)
             {
                 txtFiltro2.Enabled = true;
+                button4.Enabled = true;
             }
         }
 
