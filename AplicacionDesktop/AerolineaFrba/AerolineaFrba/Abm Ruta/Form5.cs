@@ -16,8 +16,8 @@ namespace AerolineaFrba.Abm_Ruta
         string query;
         Boolean huboCondicion;
         int filtro;
- //       private bool sePusoAgregarFiltro1 = false;
-  //      private bool sePusoAgregarFiltro2 = false;
+        private bool sePusoAgregarFiltro1 = false;
+        private bool sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
         public Form anterior;
         Boolean primeraVez = true;
@@ -66,11 +66,11 @@ namespace AerolineaFrba.Abm_Ruta
                 this.primeraVez = false;
             }
 
-            if (txtFiltro1.TextLength!= 0  && cboCamposFiltro1.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength != 0 && cboCamposFiltro1.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if (txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro2 || txtFiltros.TextLength != 0) && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
@@ -165,7 +165,7 @@ namespace AerolineaFrba.Abm_Ruta
                     txtFiltro1.Text = "";
                     
                   
-           //         this.sePusoAgregarFiltro1 = true;
+                     this.sePusoAgregarFiltro1 = true;
                 }
                 }
             else
@@ -277,7 +277,7 @@ namespace AerolineaFrba.Abm_Ruta
                     txtFiltro2.Text = "";
                     cboCamposFiltro2.SelectedIndex = -1;
                   
-     //               this.sePusoAgregarFiltro2 = true;
+                    this.sePusoAgregarFiltro2 = true;
                 } 
            }
             else

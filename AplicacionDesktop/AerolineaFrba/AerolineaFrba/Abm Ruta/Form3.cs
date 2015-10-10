@@ -71,9 +71,9 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if (txtFiltro1.TextLength == 0 && txtFiltro1.Enabled)
+            if (txtFiltro1.TextLength == 0 && cboCamposFiltro1.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
-            if (txtFiltro2.TextLength == 0 && txtFiltro2.Enabled)
+            if (txtFiltro2.TextLength == 0 && cboCamposFiltro2.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
             this.ejecutarQuery();
             
@@ -156,6 +156,7 @@ namespace AerolineaFrba.Abm_Ruta
                 {
                     txtFiltro1.Text = "";
                     this.sePusoAgregarFiltro1 = true;
+                    cboCamposFiltro1.SelectedIndex = -1;
                 }
             }
             else
@@ -262,6 +263,7 @@ namespace AerolineaFrba.Abm_Ruta
                 {
                     if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
                     {
+                        cboCamposFiltro2.SelectedIndex = -1;
                         txtFiltro2.Text = "";
                         this.sePusoAgregarFiltro2 = true;
                     }
