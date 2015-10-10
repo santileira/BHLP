@@ -111,6 +111,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.cboCamposFiltro1.Name = "cboCamposFiltro1";
             this.cboCamposFiltro1.Size = new System.Drawing.Size(138, 21);
             this.cboCamposFiltro1.TabIndex = 17;
+    
             // 
             // button1
             // 

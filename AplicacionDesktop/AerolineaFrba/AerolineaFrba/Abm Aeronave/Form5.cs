@@ -206,7 +206,6 @@ namespace AerolineaFrba.Abm_Aeronave
             return regexNumero.IsMatch(txt.Text);
         }
 
-        
 
 
     }

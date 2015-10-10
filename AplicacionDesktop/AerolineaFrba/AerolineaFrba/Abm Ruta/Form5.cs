@@ -158,8 +158,9 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 if (this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
                 {
-                    txtFiltro1.Text = "";
                     cboCamposFiltro1.SelectedIndex = -1;
+                    txtFiltro1.Text = "";
+                    
                   
            //         this.sePusoAgregarFiltro1 = true;
                 }
@@ -294,6 +295,11 @@ namespace AerolineaFrba.Abm_Ruta
                 txtFiltro1.Enabled = true;
                 button5.Enabled = true;
             }
+            else
+            {
+                txtFiltro1.Enabled = false;
+                button5.Enabled = false;
+            }
         }
 
         private void cboCamposFiltro2_SelectedIndexChanged(object sender, EventArgs e)
@@ -302,6 +308,11 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 txtFiltro2.Enabled = true;
                 button4.Enabled = true;
+            }
+            else
+            {
+                txtFiltro2.Enabled = false;
+                button4.Enabled = false;
             }
         }
 
