@@ -196,6 +196,7 @@
             this.txtCampo.Name = "txtCampo";
             this.txtCampo.Size = new System.Drawing.Size(117, 20);
             this.txtCampo.TabIndex = 13;
+ 
             // 
             // cboCampo
             // 

@@ -16,6 +16,7 @@ namespace AerolineaFrba.Abm_Aeronave
     {
         string query;
         Boolean huboCondicion;
+        public string campo;
 
         public Boolean altaActiva = false;
 
@@ -72,7 +73,7 @@ namespace AerolineaFrba.Abm_Aeronave
             return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);
         }        
 
-        private void ejecutarConsulta()
+        public void ejecutarConsulta()
         {
             SqlConnection conexion = Program.conexion();
 
@@ -89,9 +90,9 @@ namespace AerolineaFrba.Abm_Aeronave
         }
 
 
-        private void generarQueryInicial()
+        public void generarQueryInicial()
         {
-            this.query = "SELECT AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS FROM [ABSTRACCIONX4].[AERONAVES]";
+            this.query = "SELECT " + this.campo + " FROM [ABSTRACCIONX4].[AERONAVES]";
         }
 
         private void iniciar()
@@ -121,13 +122,7 @@ namespace AerolineaFrba.Abm_Aeronave
             cboFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
-
-            button7.Enabled = false;
-                                   
-
         }
-
-        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -225,11 +220,6 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
-        }
-
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            button7.Enabled = true;      
         }
 
         private void button7_Click(object sender, EventArgs e)

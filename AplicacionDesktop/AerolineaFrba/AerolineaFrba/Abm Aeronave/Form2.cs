@@ -43,10 +43,16 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            txtCampo.Text = "";
+
             if (cboCampo.SelectedIndex != -1)
+            {
+                this.listado.campo = cboCampo.Text;
                 button1.Enabled = true;
+            }
             else
                 button1.Enabled = false;
+ 
         }
 
         private void Alta_Load(object sender, EventArgs e)
@@ -91,6 +97,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.listado.generarQueryInicial();
+            this.listado.ejecutarConsulta();
             this.cambiarVisibilidades(this.listado);
         }
 
@@ -227,5 +235,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             return regexNumero.IsMatch(txt.Text);
         }
+
+
     }
 }

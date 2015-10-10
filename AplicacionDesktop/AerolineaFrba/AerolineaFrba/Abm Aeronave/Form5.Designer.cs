@@ -221,9 +221,9 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.Location = new System.Drawing.Point(12, 243);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
-            this.dg.Size = new System.Drawing.Size(802, 235);
+            this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
-            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
+   
             // 
             // lblErrores
             // 
