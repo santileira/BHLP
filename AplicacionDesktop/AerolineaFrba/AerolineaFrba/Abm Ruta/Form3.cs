@@ -144,7 +144,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            this.cambiarVisibilidades(this.listado);
         }
 
         private void button5_Click(object sender, EventArgs e)

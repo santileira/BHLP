@@ -182,7 +182,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            this.cambiarVisibilidades(this.listado);
         }
 
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)

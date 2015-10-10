@@ -16,6 +16,7 @@ namespace AerolineaFrba.Abm_Rol
         const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
         private Modificacion formModificacion;
         public Form anterior;
+        public Listado listado;
 
         //para saber si el listado se llama directamente o desde modificacion
         private bool esSecundario;
@@ -237,6 +238,11 @@ namespace AerolineaFrba.Abm_Rol
             }
 
             dataReader.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(this.listado);
         }
         
 

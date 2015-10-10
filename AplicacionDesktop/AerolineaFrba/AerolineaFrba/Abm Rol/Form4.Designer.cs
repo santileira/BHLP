@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.modif = new System.Windows.Forms.Label();
+            this.modifHabilitacion = new System.Windows.Forms.Label();
+            this.modifFuncionalidades = new System.Windows.Forms.Label();
+            this.modifNombre = new System.Windows.Forms.Label();
+            this.checkHabilitado = new System.Windows.Forms.CheckBox();
+            this.txtRolSeleccionado = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.lstFuncionalidadesActuales = new System.Windows.Forms.ListBox();
@@ -40,13 +47,6 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.txtRolSeleccionado = new System.Windows.Forms.TextBox();
-            this.checkHabilitado = new System.Windows.Forms.CheckBox();
-            this.modifNombre = new System.Windows.Forms.Label();
-            this.modifFuncionalidades = new System.Windows.Forms.Label();
-            this.modifHabilitacion = new System.Windows.Forms.Label();
-            this.modif = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +75,81 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos del ROL";
+            // 
+            // modif
+            // 
+            this.modif.AutoSize = true;
+            this.modif.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.modif.Location = new System.Drawing.Point(32, 275);
+            this.modif.Name = "modif";
+            this.modif.Size = new System.Drawing.Size(128, 13);
+            this.modif.TabIndex = 47;
+            this.modif.Text = "(*) Elementos modificados";
+            this.modif.Visible = false;
+            // 
+            // modifHabilitacion
+            // 
+            this.modifHabilitacion.AutoSize = true;
+            this.modifHabilitacion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.modifHabilitacion.Location = new System.Drawing.Point(139, 64);
+            this.modifHabilitacion.Name = "modifHabilitacion";
+            this.modifHabilitacion.Size = new System.Drawing.Size(11, 13);
+            this.modifHabilitacion.TabIndex = 46;
+            this.modifHabilitacion.Text = "*";
+            this.modifHabilitacion.Visible = false;
+            // 
+            // modifFuncionalidades
+            // 
+            this.modifFuncionalidades.AutoSize = true;
+            this.modifFuncionalidades.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.modifFuncionalidades.Location = new System.Drawing.Point(532, 93);
+            this.modifFuncionalidades.Name = "modifFuncionalidades";
+            this.modifFuncionalidades.Size = new System.Drawing.Size(11, 13);
+            this.modifFuncionalidades.TabIndex = 45;
+            this.modifFuncionalidades.Text = "*";
+            this.modifFuncionalidades.Visible = false;
+            // 
+            // modifNombre
+            // 
+            this.modifNombre.AutoSize = true;
+            this.modifNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.modifNombre.Location = new System.Drawing.Point(237, 32);
+            this.modifNombre.Name = "modifNombre";
+            this.modifNombre.Size = new System.Drawing.Size(11, 13);
+            this.modifNombre.TabIndex = 44;
+            this.modifNombre.Text = "*";
+            this.modifNombre.Visible = false;
+            // 
+            // checkHabilitado
+            // 
+            this.checkHabilitado.AutoSize = true;
+            this.checkHabilitado.Enabled = false;
+            this.checkHabilitado.Location = new System.Drawing.Point(29, 63);
+            this.checkHabilitado.Name = "checkHabilitado";
+            this.checkHabilitado.Size = new System.Drawing.Size(104, 17);
+            this.checkHabilitado.TabIndex = 43;
+            this.checkHabilitado.Text = "Volver a habilitar";
+            this.checkHabilitado.UseVisualStyleBackColor = true;
+            this.checkHabilitado.CheckedChanged += new System.EventHandler(this.checkHabilitado_CheckedChanged);
+            // 
+            // txtRolSeleccionado
+            // 
+            this.txtRolSeleccionado.Location = new System.Drawing.Point(275, 29);
+            this.txtRolSeleccionado.MaxLength = 60;
+            this.txtRolSeleccionado.Name = "txtRolSeleccionado";
+            this.txtRolSeleccionado.ReadOnly = true;
+            this.txtRolSeleccionado.Size = new System.Drawing.Size(110, 20);
+            this.txtRolSeleccionado.TabIndex = 42;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(391, 23);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(115, 31);
+            this.button5.TabIndex = 41;
+            this.button5.Text = "Seleccionar";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
@@ -184,81 +259,6 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(391, 23);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(115, 31);
-            this.button5.TabIndex = 41;
-            this.button5.Text = "Seleccionar";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // txtRolSeleccionado
-            // 
-            this.txtRolSeleccionado.Location = new System.Drawing.Point(275, 29);
-            this.txtRolSeleccionado.MaxLength = 60;
-            this.txtRolSeleccionado.Name = "txtRolSeleccionado";
-            this.txtRolSeleccionado.ReadOnly = true;
-            this.txtRolSeleccionado.Size = new System.Drawing.Size(110, 20);
-            this.txtRolSeleccionado.TabIndex = 42;
-            // 
-            // checkHabilitado
-            // 
-            this.checkHabilitado.AutoSize = true;
-            this.checkHabilitado.Enabled = false;
-            this.checkHabilitado.Location = new System.Drawing.Point(29, 63);
-            this.checkHabilitado.Name = "checkHabilitado";
-            this.checkHabilitado.Size = new System.Drawing.Size(104, 17);
-            this.checkHabilitado.TabIndex = 43;
-            this.checkHabilitado.Text = "Volver a habilitar";
-            this.checkHabilitado.UseVisualStyleBackColor = true;
-            this.checkHabilitado.CheckedChanged += new System.EventHandler(this.checkHabilitado_CheckedChanged);
-            // 
-            // modifNombre
-            // 
-            this.modifNombre.AutoSize = true;
-            this.modifNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.modifNombre.Location = new System.Drawing.Point(237, 32);
-            this.modifNombre.Name = "modifNombre";
-            this.modifNombre.Size = new System.Drawing.Size(11, 13);
-            this.modifNombre.TabIndex = 44;
-            this.modifNombre.Text = "*";
-            this.modifNombre.Visible = false;
-            // 
-            // modifFuncionalidades
-            // 
-            this.modifFuncionalidades.AutoSize = true;
-            this.modifFuncionalidades.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.modifFuncionalidades.Location = new System.Drawing.Point(532, 93);
-            this.modifFuncionalidades.Name = "modifFuncionalidades";
-            this.modifFuncionalidades.Size = new System.Drawing.Size(11, 13);
-            this.modifFuncionalidades.TabIndex = 45;
-            this.modifFuncionalidades.Text = "*";
-            this.modifFuncionalidades.Visible = false;
-            // 
-            // modifHabilitacion
-            // 
-            this.modifHabilitacion.AutoSize = true;
-            this.modifHabilitacion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.modifHabilitacion.Location = new System.Drawing.Point(139, 64);
-            this.modifHabilitacion.Name = "modifHabilitacion";
-            this.modifHabilitacion.Size = new System.Drawing.Size(11, 13);
-            this.modifHabilitacion.TabIndex = 46;
-            this.modifHabilitacion.Text = "*";
-            this.modifHabilitacion.Visible = false;
-            // 
-            // modif
-            // 
-            this.modif.AutoSize = true;
-            this.modif.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.modif.Location = new System.Drawing.Point(32, 275);
-            this.modif.Name = "modif";
-            this.modif.Size = new System.Drawing.Size(128, 13);
-            this.modif.TabIndex = 47;
-            this.modif.Text = "(*) Elementos modificados";
-            this.modif.Visible = false;
-            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,7 +269,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ABM Alta";
+            this.Text = "ABM Modificacion";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
