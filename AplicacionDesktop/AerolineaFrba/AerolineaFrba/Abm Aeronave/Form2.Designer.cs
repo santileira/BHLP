@@ -57,11 +57,15 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.txtAlta = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtAlta);
+            this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txtBD);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtRS);
@@ -96,7 +100,7 @@
             // 
             // txtBD
             // 
-            this.txtBD.Location = new System.Drawing.Point(479, 255);
+            this.txtBD.Location = new System.Drawing.Point(479, 314);
             this.txtBD.Name = "txtBD";
             this.txtBD.Size = new System.Drawing.Size(117, 20);
             this.txtBD.TabIndex = 24;
@@ -104,7 +108,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(326, 262);
+            this.label7.Location = new System.Drawing.Point(326, 317);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(105, 13);
             this.label7.TabIndex = 23;
@@ -112,7 +116,7 @@
             // 
             // txtRS
             // 
-            this.txtRS.Location = new System.Drawing.Point(479, 202);
+            this.txtRS.Location = new System.Drawing.Point(479, 259);
             this.txtRS.Name = "txtRS";
             this.txtRS.Size = new System.Drawing.Size(117, 20);
             this.txtRS.TabIndex = 22;
@@ -120,7 +124,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(326, 209);
+            this.label8.Location = new System.Drawing.Point(326, 264);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(127, 13);
             this.label8.TabIndex = 21;
@@ -128,7 +132,7 @@
             // 
             // txtFS
             // 
-            this.txtFS.Location = new System.Drawing.Point(479, 144);
+            this.txtFS.Location = new System.Drawing.Point(479, 206);
             this.txtFS.Name = "txtFS";
             this.txtFS.Size = new System.Drawing.Size(117, 20);
             this.txtFS.TabIndex = 20;
@@ -136,7 +140,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(326, 151);
+            this.label9.Location = new System.Drawing.Point(326, 210);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(118, 13);
             this.label9.TabIndex = 19;
@@ -144,7 +148,7 @@
             // 
             // txtBajaVU
             // 
-            this.txtBajaVU.Location = new System.Drawing.Point(479, 90);
+            this.txtBajaVU.Location = new System.Drawing.Point(479, 148);
             this.txtBajaVU.Name = "txtBajaVU";
             this.txtBajaVU.Size = new System.Drawing.Size(117, 20);
             this.txtBajaVU.TabIndex = 18;
@@ -152,7 +156,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(326, 97);
+            this.label10.Location = new System.Drawing.Point(326, 151);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(117, 13);
             this.label10.TabIndex = 17;
@@ -160,7 +164,7 @@
             // 
             // txtBajaFS
             // 
-            this.txtBajaFS.Location = new System.Drawing.Point(479, 42);
+            this.txtBajaFS.Location = new System.Drawing.Point(479, 94);
             this.txtBajaFS.Name = "txtBajaFS";
             this.txtBajaFS.Size = new System.Drawing.Size(117, 20);
             this.txtBajaFS.TabIndex = 16;
@@ -168,7 +172,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(326, 49);
+            this.label11.Location = new System.Drawing.Point(326, 101);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(141, 13);
             this.label11.TabIndex = 15;
@@ -329,6 +333,22 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // txtAlta
+            // 
+            this.txtAlta.Location = new System.Drawing.Point(479, 46);
+            this.txtAlta.Name = "txtAlta";
+            this.txtAlta.Size = new System.Drawing.Size(117, 20);
+            this.txtAlta.TabIndex = 26;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(326, 53);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(99, 13);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "Fecha a dar de alta";
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,5 +399,7 @@
         private System.Windows.Forms.TextBox txtBajaFS;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox txtAlta;
+        private System.Windows.Forms.Label label12;
     }
 }
