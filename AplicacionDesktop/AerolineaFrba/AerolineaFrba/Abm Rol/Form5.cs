@@ -14,14 +14,9 @@ namespace AerolineaFrba.Abm_Rol
     public partial class Listado : Form
     {
         const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
-        private Modificacion formModificacion;
         public Form anterior;
         public Listado listado;
 
-        //para saber si el listado se llama directamente o desde modificacion
-        private bool esSecundario;
-
-        Form formularioSiguiente;
         public Listado()
         {
             InitializeComponent();
@@ -170,11 +165,6 @@ namespace AerolineaFrba.Abm_Rol
 
             
             cboFiltro3.SelectedIndex = -1;
-
-            if (esSecundario)
-            {
-                button4.Visible = true;
-            }
             
         }
 
@@ -188,12 +178,15 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button6_Click(object sender, EventArgs e)
         {
-            cambiarVisibilidades(this.anterior);
+            cambiarVisibilidades(this.anterior,false);
         }
 
-        private void cambiarVisibilidades(Form formularioSiguiente)
+        private void cambiarVisibilidades(Form formularioSiguiente,bool seSeleccionoAlgo)
         {
-            formularioSiguiente.Visible = true;
+            if (seSeleccionoAlgo)
+                (anterior as Modificacion).ocultarNorificacionModificaciones();
+
+            anterior.Visible = true;
             this.Visible = false;
         }
 
@@ -211,9 +204,10 @@ namespace AerolineaFrba.Abm_Rol
             int estadoRol = 0;
             ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
 
-            formModificacion.seSelecciono(rolSeleccionado, estadoRol==1, listaFuncionalidades.ToArray());
+            (anterior as Modificacion).seSelecciono(rolSeleccionado, estadoRol==1, listaFuncionalidades.ToArray());
 
-            this.Close();
+            //this.Close();
+            cambiarVisibilidades(this.anterior,true);
         }
 
         private void ejecutarSeleccion(ref string rolSeleccionado,ref int estadoRol, List<Object> listaFuncionalidades)
@@ -242,7 +236,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.cambiarVisibilidades(this.listado);
+            //this.cambiarVisibilidades(this.listado);
         }
         
 

@@ -218,7 +218,7 @@ namespace AerolineaFrba.Abm_Rol
                 case "Nombre":
                     modifNombre.Visible = true;
                     break;
-                case "Funcionalidades":
+                case "Funcionalidad":
                     modifFuncionalidades.Visible = true;
                     break;
                 case "Habilitacion":
@@ -231,6 +231,14 @@ namespace AerolineaFrba.Abm_Rol
         private void checkHabilitado_CheckedChanged(object sender, EventArgs e)
         {
             fueModificado("Habilitacion");
+        }
+
+        public void ocultarNorificacionModificaciones()
+        {
+            modif.Visible = false;
+            modifFuncionalidades.Visible = false;
+            modifHabilitacion.Visible = false;
+            modifNombre.Visible = false;
         }
         
     }
