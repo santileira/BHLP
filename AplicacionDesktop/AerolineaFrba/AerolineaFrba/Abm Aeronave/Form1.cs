@@ -79,15 +79,26 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button2_Click(object sender, EventArgs e)
         {
-            /*
             Baja baja = new Baja();
             Listado listado = new Listado();
 
             baja.listado = listado;
-            listado.anterior = baja;
+            listado.bajaActiva = true;
+            listado.baja = baja;
 
             this.cambiarVisibilidades(baja);
-             * */
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            Modificacion modificacion = new Modificacion();
+            Listado listado = new Listado();
+
+            modificacion.listado = listado;
+            listado.modificacionActiva = true;
+            listado.modificacion = modificacion;
+
+            this.cambiarVisibilidades(modificacion);
         }
 
 

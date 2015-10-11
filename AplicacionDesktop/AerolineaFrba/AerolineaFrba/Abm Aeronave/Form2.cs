@@ -13,10 +13,8 @@ namespace AerolineaFrba.Abm_Aeronave
 {
     public partial class Alta : Form
     {
-        public Alta alta;
 
         public Listado listado;
-
         Form formularioSiguiente;
         
 
@@ -122,15 +120,20 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Boolean huboErrores = false;
 
-            huboErrores = this.validarLongitudes() || this.validarTipos();
+            huboErrores = this.validarLongitudes() || huboErrores;
+            huboErrores = this.validarTipos() || huboErrores;
 
-            return true;
+            return !huboErrores;
         }
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo") || !this.seCompleto(txtMatricula, "Matricula") || !this.seCompleto(txtFabricante, "Fabricante");
-            algunoVacio = algunoVacio || !this.seCompleto(txtServicio, "Tipo de servicio") || !this.seCompleto(txtButacas, "Cantidad de butacas") || !this.seCompleto(txtKilos, "Cantidad de kilos");
+            Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
+            algunoVacio =  !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtFabricante, "Fabricante") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtServicio, "Tipo de servicio") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
 
             return algunoVacio;
         }
@@ -192,8 +195,12 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboError = true;
             }
 
-            huboError = huboError || fechasErroneas(txtAlta, "Fecha de alta") || fechasErroneas(txtBajaFS, "Baja por fuera de servicio") || fechasErroneas(txtBajaVU, "Baja por vida util");
-            huboError = huboError || fechasErroneas(txtBD, "Baja definitiva") || fechasErroneas(txtFS, "Fuera de servicio") || fechasErroneas(txtRS, "Reinicio de servicio");
+            huboError = fechasErroneas(txtAlta, "Fecha de alta") || huboError;
+            huboError = fechasErroneas(txtBajaFS, "Baja por fuera de servicio") || huboError;
+            huboError = fechasErroneas(txtBajaVU, "Baja por vida util") || huboError;
+            huboError = fechasErroneas(txtBD, "Baja definitiva") || huboError;
+            huboError = fechasErroneas(txtFS, "Fuera de servicio") || huboError;
+            huboError = fechasErroneas(txtRS, "Reinicio de servicio") || huboError;
 
             return huboError;
 
@@ -201,16 +208,15 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean fechasErroneas(TextBox txt, string campo)
         {
-            Boolean huboError = false;
-
+            
             DateTime fecha;
-            if (txt.TextLength != 0 && DateTime.TryParse(txt.Text, out fecha) && fecha < DateTime.Now.Date)
+            if (txt.TextLength != 0 && (!DateTime.TryParse(txt.Text, out fecha) || fecha < DateTime.Now.Date))
             {
                 MessageBox.Show("El campo " + campo + " debe ser de tipo Date, y una fecha posterior a la fecha actual", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
+                return true;
             }
 
-            return huboError;
+            return false;
         }
 
 

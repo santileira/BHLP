@@ -19,8 +19,12 @@ namespace AerolineaFrba.Abm_Aeronave
         public string campo;
 
         public Boolean altaActiva = false;
+        public Boolean bajaActiva = false;
+        public Boolean modificacionActiva = false;
 
         public Alta alta;
+        public Baja baja;
+        public Modificacion modificacion;
         
         public Listado()
         {
