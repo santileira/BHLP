@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtAlta = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.txtBD = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtRS = new System.Windows.Forms.TextBox();
@@ -57,8 +59,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.txtAlta = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,6 +97,23 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
+
+            // 
+            // txtAlta
+            // 
+            this.txtAlta.Location = new System.Drawing.Point(479, 46);
+            this.txtAlta.Name = "txtAlta";
+            this.txtAlta.Size = new System.Drawing.Size(117, 20);
+            this.txtAlta.TabIndex = 26;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(326, 53);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(99, 13);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "Fecha a dar de alta";
             // 
             // txtBD
             // 
@@ -196,7 +213,6 @@
             this.txtCampo.Name = "txtCampo";
             this.txtCampo.Size = new System.Drawing.Size(117, 20);
             this.txtCampo.TabIndex = 13;
- 
             // 
             // cboCampo
             // 
@@ -333,22 +349,6 @@
             this.button6.Text = "Atras";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // txtAlta
-            // 
-            this.txtAlta.Location = new System.Drawing.Point(479, 46);
-            this.txtAlta.Name = "txtAlta";
-            this.txtAlta.Size = new System.Drawing.Size(117, 20);
-            this.txtAlta.TabIndex = 26;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(326, 53);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(99, 13);
-            this.label12.TabIndex = 25;
-            this.label12.Text = "Fecha a dar de alta";
             // 
             // Alta
             // 

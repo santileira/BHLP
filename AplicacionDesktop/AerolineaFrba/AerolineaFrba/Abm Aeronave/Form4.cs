@@ -26,6 +26,16 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        public void borrarComboSeleccionar()
+        {
+            //PONER EN -1 EL INDEX DEL COMBO SELECCIONAR
+        }
+
+        public void setFiltroSelector(string valor)
+        {
+            //TEXTBOX DEL CAMPO EN EL QUE SE QUIERE GUARDAR EL RESULTADO DEL SELECCIONAR
+        }
+
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();

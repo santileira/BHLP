@@ -18,6 +18,8 @@ namespace AerolineaFrba.Abm_Aeronave
         Boolean huboCondicion;
         public string campo;
 
+        Boolean precionoAgregar = false;
+
         public Boolean altaActiva = false;
         public Boolean bajaActiva = false;
         public Boolean modificacionActiva = false;
@@ -215,9 +217,24 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (!this.precionoAgregar)
+            {
+                if (this.altaActiva)
+                    this.alta.borrarComboSeleccionar();
+                else if (this.bajaActiva)
+                    this.baja.borrarComboSeleccionar();
+                else if (this.modificacionActiva)
+                    this.modificacion.borrarComboSeleccionar();
+            }
+
+            this.precionoAgregar = false;
+         
             if(this.altaActiva)
                 cambiarVisibilidades(this.alta);
-            
+            else if(this.bajaActiva)
+                cambiarVisibilidades(this.baja);
+            else if(this.modificacionActiva)
+                cambiarVisibilidades(this.alta);   
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -228,11 +245,28 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button7_Click(object sender, EventArgs e)
         {
+            this.precionoAgregar = true;
+            this.guardarValorEnABM();
+        }
+
+        private void guardarValorEnABM()
+        {
+            string valor = dg.CurrentCell.Value.ToString();
+
             if (this.altaActiva)
             {
-                string valor = dg.CurrentCell.Value.ToString();
                 this.alta.setFiltroSelector(valor);
-                MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de alta en el campo " + this.alta.getCampoSelector(), "Error en el nombre", MessageBoxButtons.OK);
+                MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de alta en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para alta", MessageBoxButtons.OK);
+            }
+            else if (this.bajaActiva)
+            {
+                this.baja.setFiltroSelector(valor);
+                MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de baja en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para baja", MessageBoxButtons.OK);
+            }
+            else if (this.modificacionActiva)
+            {
+                this.modificacion.setFiltroSelector(valor);
+                MessageBox.Show("Ha seleccionado el valor " + valor + " para modificar el campo " + this.alta.getCampoSelector(), "Seleccion de campo para modificacion", MessageBoxButtons.OK);
             }
         }
 

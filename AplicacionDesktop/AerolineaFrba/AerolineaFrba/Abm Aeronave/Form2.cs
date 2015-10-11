@@ -58,6 +58,11 @@ namespace AerolineaFrba.Abm_Aeronave
             this.inicio();
         }
 
+        public void borrarComboSeleccionar()
+        {
+            cboCampo.SelectedIndex = -1;
+        }
+
         public void setFiltroSelector(string valor)
         {
             txtCampo.Text = valor;
@@ -241,7 +246,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
             return regexNumero.IsMatch(txt.Text);
         }
-
 
     }
 }
