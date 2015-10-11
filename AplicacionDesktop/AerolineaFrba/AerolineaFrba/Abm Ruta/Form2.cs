@@ -20,23 +20,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         public Alta()
         {
-            InitializeComponent();
-
-            //
-            // Carga del contenido de combos
-            //
-
-            SqlDataReader variable;
-            SqlCommand consultaColumnas = new SqlCommand();
-            consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES'";
-            consultaColumnas.Connection = Program.conexion();
-
-            variable = consultaColumnas.ExecuteReader();
-
-            /*while (variable.Read())
-                this.cboCampo.Items.Add(variable.GetValue(0));*/
-            
+            InitializeComponent();          
         }
 
         /*private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
@@ -55,7 +39,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void Alta_Load(object sender, EventArgs e)
         {
-            this.inicio();
+            this.iniciar();
         }
         /*
         public void borrarComboSeleccionar()
@@ -73,8 +57,10 @@ namespace AerolineaFrba.Abm_Ruta
             return cboCampo.Text;
         }*/
 
-        private void inicio()
+        private void iniciar()
         {
+            this.cargarComboServicio();
+
             txtCiudadDestino.Text = "";
             txtCiudadOrigen.Text = "";
             txtCodigo.Text = "";
@@ -86,7 +72,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.inicio();
+            this.iniciar();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -106,8 +92,9 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                //HACER EL ALTA CON UNA STORE PROCEDURE            
+                //HACER EL ALTA CON UNA STORE PROCEDURE, SI ESTA OK:
+                MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva ruta", "Alta de nueva ruta", MessageBoxButtons.OK);
+                       
             }
 
         }
@@ -124,15 +111,14 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean validarLongitudes()
         {
-            /*Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
-            algunoVacio =  !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtFabricante, "Fabricante") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtServicio, "Tipo de servicio") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;*/
+            Boolean algunoVacio = !this.seCompleto(txtCodigo, "Código");
+            algunoVacio =  !this.seCompleto(txtCiudadDestino, "Ciudad de destino") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtCiudadOrigen, "Ciudad de origen") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtPrecioEncomienda, "Precio de encomienda") || algunoVacio;
+            algunoVacio =  !this.seCompleto(txtPrecioPasaje, "Precio de pasaje") || algunoVacio;
+            algunoVacio =  !this.seCompleto(cboServicio, "Tipo de servicio") || algunoVacio;
 
-            //return algunoVacio;
-            return true;
+            return algunoVacio;
         }
 
         private Boolean seCompleto(TextBox txt, string campo)
@@ -142,78 +128,52 @@ namespace AerolineaFrba.Abm_Ruta
                 MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
                 return false;
             }
-            else
-                return true;
+            return true;
+        }
+
+        private Boolean seCompleto(ComboBox cbo, string campo)
+        {
+            if (cbo.SelectedIndex == -1)
+            {
+                MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
         }
 
         private Boolean validarTipos()
         {
-            Boolean huboError = false;
+            Boolean huboError = !this.numeroCorrecto(txtCodigo, "Código",false);
+            huboError = !this.textoCorrecto(txtCiudadDestino, "Ciudad de destino") || huboError;
+            huboError = !this.textoCorrecto(txtCiudadOrigen, "Ciudad de origen") || huboError;
 
-            /*if(txtModelo.TextLength != 0 && !this.esTexto(txtModelo))
-            {
-                MessageBox.Show("El campo modelo debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if(txtMatricula.TextLength != 0 && !this.esTexto(txtMatricula))
-            {
-                MessageBox.Show("El campo matricula debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtFabricante.TextLength != 0 && !this.esTexto(txtFabricante))
-            {
-                MessageBox.Show("El campo fabricante debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtServicio.TextLength != 0 && !this.esTexto(txtServicio))
-            {
-                MessageBox.Show("El campo tipo de servicio debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtButacas.TextLength != 0 && !this.esNumero(txtButacas))
-            {
-                MessageBox.Show("El campo butacas debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtKilos.TextLength != 0 && !this.esNumero(txtKilos))
-            {
-                MessageBox.Show("El campo kilos debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtKilos.TextLength != 0 && !this.esNumero(txtKilos))
-            {
-                MessageBox.Show("El campo kilos debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            huboError = fechasErroneas(txtAlta, "Fecha de alta") || huboError;
-            huboError = fechasErroneas(txtBajaFS, "Baja por fuera de servicio") || huboError;
-            huboError = fechasErroneas(txtBajaVU, "Baja por vida util") || huboError;
-            huboError = fechasErroneas(txtBD, "Baja definitiva") || huboError;
-            huboError = fechasErroneas(txtFS, "Fuera de servicio") || huboError;
-            huboError = fechasErroneas(txtRS, "Reinicio de servicio") || huboError;*/
+            huboError = !this.numeroCorrecto(txtPrecioEncomienda, "Precio de encomienda",true) || huboError;
+            huboError = !this.numeroCorrecto(txtPrecioPasaje, "Precio de pasaje",true) || huboError;
 
             return huboError;
-
         }
 
-        private Boolean fechasErroneas(TextBox txt, string campo)
+        private Boolean textoCorrecto(TextBox txt, string campo)
         {
-            
-            DateTime fecha;
-            if (txt.TextLength != 0 && (!DateTime.TryParse(txt.Text, out fecha) || fecha < DateTime.Now.Date))
+            if (txt.TextLength !=0 && !this.esTexto(txt))
             {
-                MessageBox.Show("El campo " + campo + " debe ser de tipo Date, y una fecha posterior a la fecha actual", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                return true;
+                MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los datos ingresados", MessageBoxButtons.OK);
+                return false;
             }
+            return true;
+        }
 
-            return false;
+        private Boolean numeroCorrecto(TextBox txt, string campo,bool debeSerDecimal)
+        {
+            if (txt.TextLength != 0)
+            {
+                if((debeSerDecimal && !esDecimal(txt)) || (!debeSerDecimal && !esNumero(txt))){
+
+                MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
+                return false;
+                }
+            }
+            return true;
         }
 
 
@@ -233,10 +193,32 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean esNumero(TextBox txt)
         {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
+            int numero;
+            return int.TryParse(txt.Text, out numero);
+        }
 
-            return regexNumero.IsMatch(txt.Text);
+        private Boolean esDecimal(TextBox txt)
+        {
+            decimal unDecimal;
+            return decimal.TryParse(txt.Text, out unDecimal);
+        }
+
+        private void cargarComboServicio()
+        {
+            cboServicio.Items.Clear();
+
+            SqlDataReader reader;
+            SqlCommand consultaServicios = new SqlCommand();
+            consultaServicios.CommandType = CommandType.Text;
+            consultaServicios.CommandText = "SELECT SERV_COD FROM [ABSTRACCIONX4].SERVICIOS";
+            consultaServicios.Connection = Program.conexion();
+
+            reader = consultaServicios.ExecuteReader();
+
+            while (reader.Read())
+                this.cboServicio.Items.Add(reader.GetValue(0));
+
+            reader.Close();
         }
 
     }

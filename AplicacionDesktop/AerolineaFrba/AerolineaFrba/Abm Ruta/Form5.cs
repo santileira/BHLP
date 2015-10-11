@@ -330,15 +330,5 @@ namespace AerolineaFrba.Abm_Ruta
             this.Visible = false;
         }
 
-        private void lblErrores_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
     }
 }

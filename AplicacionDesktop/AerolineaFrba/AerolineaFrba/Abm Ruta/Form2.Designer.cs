@@ -35,6 +35,8 @@
             this.txtPrecioPasaje = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.botonSelDestino = new System.Windows.Forms.Button();
+            this.botonSelOrigen = new System.Windows.Forms.Button();
             this.txtCiudadDestino = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
@@ -47,8 +49,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.botonSelOrigen = new System.Windows.Forms.Button();
-            this.botonSelDestino = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -126,6 +126,24 @@
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ciudades";
+            // 
+            // botonSelDestino
+            // 
+            this.botonSelDestino.Location = new System.Drawing.Point(237, 65);
+            this.botonSelDestino.Name = "botonSelDestino";
+            this.botonSelDestino.Size = new System.Drawing.Size(88, 25);
+            this.botonSelDestino.TabIndex = 8;
+            this.botonSelDestino.Text = "Seleccionar";
+            this.botonSelDestino.UseVisualStyleBackColor = true;
+            // 
+            // botonSelOrigen
+            // 
+            this.botonSelOrigen.Location = new System.Drawing.Point(237, 28);
+            this.botonSelOrigen.Name = "botonSelOrigen";
+            this.botonSelOrigen.Size = new System.Drawing.Size(88, 25);
+            this.botonSelOrigen.TabIndex = 7;
+            this.botonSelOrigen.Text = "Seleccionar";
+            this.botonSelOrigen.UseVisualStyleBackColor = true;
             // 
             // txtCiudadDestino
             // 
@@ -237,24 +255,6 @@
             this.button6.Text = "Atras";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // botonSelOrigen
-            // 
-            this.botonSelOrigen.Location = new System.Drawing.Point(237, 28);
-            this.botonSelOrigen.Name = "botonSelOrigen";
-            this.botonSelOrigen.Size = new System.Drawing.Size(88, 25);
-            this.botonSelOrigen.TabIndex = 7;
-            this.botonSelOrigen.Text = "Seleccionar";
-            this.botonSelOrigen.UseVisualStyleBackColor = true;
-            // 
-            // botonSelDestino
-            // 
-            this.botonSelDestino.Location = new System.Drawing.Point(237, 65);
-            this.botonSelDestino.Name = "botonSelDestino";
-            this.botonSelDestino.Size = new System.Drawing.Size(88, 25);
-            this.botonSelDestino.TabIndex = 8;
-            this.botonSelDestino.Text = "Seleccionar";
-            this.botonSelDestino.UseVisualStyleBackColor = true;
             // 
             // Alta
             // 

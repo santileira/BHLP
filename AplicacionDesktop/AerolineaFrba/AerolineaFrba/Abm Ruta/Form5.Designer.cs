@@ -289,7 +289,6 @@
             this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(909, 432);
             this.dg.TabIndex = 3;
-            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // lblErrores
             // 
@@ -298,7 +297,6 @@
             this.lblErrores.Name = "lblErrores";
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
-            this.lblErrores.Click += new System.EventHandler(this.lblErrores_Click);
             // 
             // txtFiltros
             // 
