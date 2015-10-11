@@ -18,8 +18,8 @@ namespace AerolineaFrba.Abm_Ruta
         int filtro;
         private bool sePusoAgregarFiltro1 = false;
         private bool sePusoAgregarFiltro2 = false;
-        Form formularioSiguiente;
         public Form anterior;
+        public Alta alta;
         Boolean primeraVez = true;
         
         public Listado()
@@ -151,7 +151,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private void button5_Click(object sender, EventArgs e)

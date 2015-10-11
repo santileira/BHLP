@@ -63,7 +63,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*
+            
             Alta alta = new Alta();
             Listado listado = new Listado();
 
@@ -71,7 +71,6 @@ namespace AerolineaFrba.Abm_Ruta
             listado.alta = alta;
 
             this.cambiarVisibilidades(alta);
-             * */
         }
 
         private void button6_Click(object sender, EventArgs e)
