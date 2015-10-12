@@ -77,12 +77,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void inicio()
         {
+            cargarComboServicio();
             txtCampo.Text = "";
             txtFabricante.Text = "";
             txtMatricula.Text = "";
             txtModelo.Text = "";
             txtModelo.Focus();
-            txtServicio.Text = "";
             txtButacas.Text = "";
             txtKilos.Text = "";
             txtBajaFS.Text = "";
@@ -141,9 +141,9 @@ namespace AerolineaFrba.Abm_Aeronave
             Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
             algunoVacio =  !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
             algunoVacio =  !this.seCompleto(txtFabricante, "Fabricante") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtServicio, "Tipo de servicio") || algunoVacio;
             algunoVacio =  !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
+            algunoVacio = !this.seCompleto(cboServicio, "Tipo de Servicio") || algunoVacio;
 
             return algunoVacio;
         }
@@ -153,6 +153,18 @@ namespace AerolineaFrba.Abm_Aeronave
             if (txt.TextLength == 0)
             {
                 MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+            else
+                return true;
+        }
+
+
+        private Boolean seCompleto(ComboBox cbo, string campo)
+        {
+            if (cbo.SelectedText.Length == 0)
+            {
+                MessageBox.Show("El combo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
                 return false;
             }
             else
@@ -181,11 +193,6 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboError = true;
             }
 
-            if (txtServicio.TextLength != 0 && !this.esTexto(txtServicio))
-            {
-                MessageBox.Show("El campo tipo de servicio debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
 
             if (txtButacas.TextLength != 0 && !this.esNumero(txtButacas))
             {
@@ -274,19 +281,29 @@ namespace AerolineaFrba.Abm_Aeronave
             this.cambiarVisibilidades(this.listado);
         }
 
-        private void button8_Click(object sender, EventArgs e)
-        {
-            txtSeleccionar = txtServicio;
-            campoSeleccionar = "SERV_COD";
-            this.listado.campo = campoSeleccionar;
-            this.listado.generarQueryInicial();
-            this.listado.ejecutarConsulta();
-            this.cambiarVisibilidades(this.listado);
-        }
+        
 
         private void txtFabricante_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cargarComboServicio()
+        {
+            cboServicio.Items.Clear();
+
+            SqlDataReader reader;
+            SqlCommand consultaServicios = new SqlCommand();
+            consultaServicios.CommandType = CommandType.Text;
+            consultaServicios.CommandText = "SELECT SERV_COD FROM [ABSTRACCIONX4].SERVICIOS";
+            consultaServicios.Connection = Program.conexion();
+
+            reader = consultaServicios.ExecuteReader();
+
+            while (reader.Read())
+                this.cboServicio.Items.Add(reader.GetValue(0));
+
+            reader.Close();
         }
 
     }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.txtAlta = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -50,7 +49,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtKilos = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtServicio = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtFabricante = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -61,12 +59,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.cboServicio = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button8);
+            this.groupBox1.Controls.Add(this.cboServicio);
             this.groupBox1.Controls.Add(this.button7);
             this.groupBox1.Controls.Add(this.txtAlta);
             this.groupBox1.Controls.Add(this.label12);
@@ -87,7 +86,6 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtKilos);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtServicio);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtFabricante);
             this.groupBox1.Controls.Add(this.label3);
@@ -101,16 +99,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(298, 204);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 30;
-            this.button8.Text = "Seleccionar";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button7
             // 
@@ -280,14 +268,6 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Cantidad de KG que lleva";
             // 
-            // txtServicio
-            // 
-            this.txtServicio.Enabled = false;
-            this.txtServicio.Location = new System.Drawing.Point(175, 206);
-            this.txtServicio.Name = "txtServicio";
-            this.txtServicio.Size = new System.Drawing.Size(117, 20);
-            this.txtServicio.TabIndex = 7;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -378,6 +358,15 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // cboServicio
+            // 
+            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboServicio.FormattingEnabled = true;
+            this.cboServicio.Location = new System.Drawing.Point(175, 205);
+            this.cboServicio.Name = "cboServicio";
+            this.cboServicio.Size = new System.Drawing.Size(117, 21);
+            this.cboServicio.TabIndex = 30;
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,7 +393,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtKilos;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtServicio;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtFabricante;
         private System.Windows.Forms.Label label3;
@@ -430,7 +418,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox txtAlta;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.ComboBox cboServicio;
     }
 }
