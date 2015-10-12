@@ -667,7 +667,7 @@ INSERT INTO [ABSTRACCIONX4].[BUTACAS]
 GO
 
 -- Inserta pasajes en la tabla pasajes--SOLUCIONAR
-
+/*
 INSERT INTO [ABSTRACCIONX4].[PASAJES]
 	(
 		--[CLI_COD] ,
@@ -697,6 +697,4 @@ WHERE Pasaje_Codigo != 0
 GROUP BY Pasaje_Precio,Pasaje_FechaCompra,Butaca_Nro,Aeronave_Matricula,Ruta_Codigo,Ruta_Precio_BaseKG,Ruta_Precio_BasePasaje,FechaSalida,FechaLLegada,Fecha_LLegada_Estimada
 		
 select * from [ABSTRACCIONX4].[VIAJES] order by aero_matri,viaje_fecha_salida,viaje_fecha_llegada,viaje_fecha_llegadae
-
-
-SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' WHERE
+*/
