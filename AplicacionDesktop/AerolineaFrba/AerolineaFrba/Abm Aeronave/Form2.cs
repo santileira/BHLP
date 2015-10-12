@@ -16,6 +16,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public Listado listado;
         Form formularioSiguiente;
+        TextBox txtSeleccionar;
+        string campoSeleccionar;
         
 
         public Alta()
@@ -65,12 +67,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void setFiltroSelector(string valor)
         {
-            txtCampo.Text = valor;
+            txtSeleccionar.Text = valor;
         }
 
         public string getCampoSelector()
         {
-            return cboCampo.Text;
+            return campoSeleccionar;
         }
 
         private void inicio()
@@ -91,6 +93,7 @@ namespace AerolineaFrba.Abm_Aeronave
                         
             button1.Enabled = false;
 
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -100,6 +103,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button1_Click(object sender, EventArgs e)
         {
+            txtSeleccionar = txtCampo;
+            campoSeleccionar = cboCampo.Text;
             this.listado.generarQueryInicial();
             this.listado.ejecutarConsulta();
             this.cambiarVisibilidades(this.listado);
@@ -245,6 +250,43 @@ namespace AerolineaFrba.Abm_Aeronave
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
+        }
+
+        private void txtModelo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCampo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            txtSeleccionar = txtFabricante;
+            campoSeleccionar = "AERO_FAB";
+            this.listado.campo = campoSeleccionar;
+            this.listado.generarQueryInicial();
+            this.listado.ejecutarConsulta();
+            this.cambiarVisibilidades(this.listado);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            txtSeleccionar = txtServicio;
+            campoSeleccionar = "SERV_COD";
+            this.listado.campo = campoSeleccionar;
+            this.listado.generarQueryInicial();
+            this.listado.ejecutarConsulta();
+            this.cambiarVisibilidades(this.listado);
+        }
+
+        private void txtFabricante_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

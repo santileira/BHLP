@@ -218,12 +218,14 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg.EnableHeadersVisualStyles = false;
             this.dg.Location = new System.Drawing.Point(12, 243);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
+            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
-   
+            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // lblErrores
             // 

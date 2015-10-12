@@ -50,6 +50,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 this.cboCamposFiltro2.Items.Add(variable.GetValue(0));
             }
 
+
         }
 
         private void Listado_Load(object sender, EventArgs e)
@@ -93,12 +94,27 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.DataMember = "Busqueda";
 
             conexion.Close();
+
+
+            for (int i = 0; i < dg.ColumnCount; i++  )
+            {
+                if (dg.Columns[i].DataPropertyName == this.campo)
+                {
+                    dg.Columns[i].DefaultCellStyle.BackColor = Color.White;
+                }
+                else
+                {
+                    dg.Columns[i].DefaultCellStyle.BackColor = Color.Gray;
+                }
+
+            }
+
         }
 
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT " + this.campo + " FROM [ABSTRACCIONX4].[AERONAVES]";
+            this.query = "SELECT * FROM [ABSTRACCIONX4].[AERONAVES]";
         }
 
         private void iniciar()
@@ -251,24 +267,43 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void guardarValorEnABM()
         {
-            string valor = dg.CurrentCell.Value.ToString();
 
-            if (this.altaActiva)
+            if (dg.CurrentCell.OwningColumn.DataPropertyName == this.campo)
             {
-                this.alta.setFiltroSelector(valor);
-                MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de alta en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para alta", MessageBoxButtons.OK);
+                string valor = dg.CurrentCell.Value.ToString();
+
+
+                if (this.altaActiva)
+                {
+                    this.alta.setFiltroSelector(valor);
+                    MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de alta en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para alta", MessageBoxButtons.OK);
+                }
+                else if (this.bajaActiva)
+                {
+                    this.baja.setFiltroSelector(valor);
+                    MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de baja en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para baja", MessageBoxButtons.OK);
+                }
+                else if (this.modificacionActiva)
+                {
+                    this.modificacion.setFiltroSelector(valor);
+                    MessageBox.Show("Ha seleccionado el valor " + valor + " para modificar el campo " + this.alta.getCampoSelector(), "Seleccion de campo para modificacion", MessageBoxButtons.OK);
+                }
+
             }
-            else if (this.bajaActiva)
+            else
             {
-                this.baja.setFiltroSelector(valor);
-                MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de baja en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para baja", MessageBoxButtons.OK);
+                MessageBox.Show("No ha seleccionado un valor de " + this.campo + " .","Error", MessageBoxButtons.OK);
             }
-            else if (this.modificacionActiva)
-            {
-                this.modificacion.setFiltroSelector(valor);
-                MessageBox.Show("Ha seleccionado el valor " + valor + " para modificar el campo " + this.alta.getCampoSelector(), "Seleccion de campo para modificacion", MessageBoxButtons.OK);
-            }
+
+           
         }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+        }
+
+
 
     }
 }
