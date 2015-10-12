@@ -16,17 +16,8 @@ namespace AerolineaFrba.Abm_Aeronave
     {
         string query;
         Boolean huboCondicion;
-        public string campo;
+        public Form anterior;
 
-        Boolean precionoAgregar = false;
-
-        public Boolean altaActiva = false;
-        public Boolean bajaActiva = false;
-        public Boolean modificacionActiva = false;
-
-        public Alta alta;
-        public Baja baja;
-        public Modificacion modificacion;
         
         public Listado()
         {
@@ -36,20 +27,35 @@ namespace AerolineaFrba.Abm_Aeronave
             // Carga del contenido de combos
             //
 
-            SqlDataReader variable;
+            SqlDataReader varcampo;
+            SqlDataReader varfecha;
+
             SqlCommand consultaColumnas = new SqlCommand();
+            SqlCommand consultaColumnasFechas = new SqlCommand();
+
             consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES'";
+            consultaColumnasFechas.CommandType = CommandType.Text;
+
+            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%'";
+            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
+
             consultaColumnas.Connection = Program.conexion();
 
-            variable = consultaColumnas.ExecuteReader();
+            varcampo = consultaColumnas.ExecuteReader();
 
-            while (variable.Read())
+            while (varcampo.Read())
             {
-                this.cboCamposFiltro1.Items.Add(variable.GetValue(0));
-                this.cboCamposFiltro2.Items.Add(variable.GetValue(0));
+                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
+                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
             }
+            
+            consultaColumnasFechas.Connection = Program.conexion();
+            varfecha = consultaColumnasFechas.ExecuteReader();
 
+            while (varfecha.Read())
+            {
+                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
+            }
 
         }
 
@@ -77,7 +83,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboCamposFiltro3.SelectedIndex != -1);
         }        
 
         public void ejecutarConsulta()
@@ -96,19 +102,6 @@ namespace AerolineaFrba.Abm_Aeronave
             conexion.Close();
 
 
-            for (int i = 0; i < dg.ColumnCount; i++  )
-            {
-                if (dg.Columns[i].DataPropertyName == this.campo)
-                {
-                    dg.Columns[i].DefaultCellStyle.BackColor = Color.White;
-                }
-                else
-                {
-                    dg.Columns[i].DefaultCellStyle.BackColor = Color.Gray;
-                }
-
-            }
-
         }
 
 
@@ -121,27 +114,14 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             this.generarQueryInicial();
 
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();
-
+            ejecutarConsulta();
 
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
-            txtFiltro4.Text = "";
 
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
-            cboFiltro3.SelectedIndex = -1;
+            cboCamposFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
         }
@@ -233,75 +213,62 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (!this.precionoAgregar)
-            {
-                if (this.altaActiva)
-                    this.alta.borrarComboSeleccionar();
-                else if (this.bajaActiva)
-                    this.baja.borrarComboSeleccionar();
-                else if (this.modificacionActiva)
-                    this.modificacion.borrarComboSeleccionar();
-            }
-
-            this.precionoAgregar = false;
-         
-            if(this.altaActiva)
-                cambiarVisibilidades(this.alta);
-            else if(this.bajaActiva)
-                cambiarVisibilidades(this.baja);
-            else if(this.modificacionActiva)
-                cambiarVisibilidades(this.alta);   
+            cambiarVisibilidades(this.anterior, false);  
         }
 
-        private void cambiarVisibilidades(Form formularioSiguiente)
+        private void cambiarVisibilidades(Form formularioSiguiente, bool seSeleccionoAlgo)
         {
-            formularioSiguiente.Visible = true;
+            anterior.Visible = true;
             this.Visible = false;
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            this.precionoAgregar = true;
-            this.guardarValorEnABM();
+            if (dg.RowCount == 0)
+            {
+                MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
+                return;
+            }
+           
+            //ejecutarSeleccion();
+
+            //(anterior as Modificacion).seSelecciono();
+
+            //this.Close();
+            cambiarVisibilidades(this.anterior, true);
         }
 
-        private void guardarValorEnABM()
+        private void ejecutarSeleccion()
         {
-
-            if (dg.CurrentCell.OwningColumn.DataPropertyName == this.campo)
-            {
-                string valor = dg.CurrentCell.Value.ToString();
-
-
-                if (this.altaActiva)
-                {
-                    this.alta.setFiltroSelector(valor);
-                    MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de alta en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para alta", MessageBoxButtons.OK);
-                }
-                else if (this.bajaActiva)
-                {
-                    this.baja.setFiltroSelector(valor);
-                    MessageBox.Show("Ha seleccionado el valor " + valor + " para dar de baja en el campo " + this.alta.getCampoSelector(), "Seleccion de campo para baja", MessageBoxButtons.OK);
-                }
-                else if (this.modificacionActiva)
-                {
-                    this.modificacion.setFiltroSelector(valor);
-                    MessageBox.Show("Ha seleccionado el valor " + valor + " para modificar el campo " + this.alta.getCampoSelector(), "Seleccion de campo para modificacion", MessageBoxButtons.OK);
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("No ha seleccionado un valor de " + this.campo + " .","Error", MessageBoxButtons.OK);
-            }
-
-           
+            //aca se debe volcar todo en los parametros
         }
 
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
            
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.concatenarCriterio(dateTimePicker1, cboCamposFiltro3, " = '" + dateTimePicker1.Value + "'");
+        }
+
+        private void concatenarCriterio(DateTimePicker dataTime, ComboBox combo, string criterio)
+        {
+            if (!this.huboCondicion)
+            {
+                    this.huboCondicion = true;
+                    this.query += " WHERE ";
+            }
+            else
+                    this.query += " AND ";
+
+            this.query += combo.Text + criterio;
+            MessageBox.Show("query: "+this.query ,"error", MessageBoxButtons.OK);
+            MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
+            
+        }
+        
 
 
 

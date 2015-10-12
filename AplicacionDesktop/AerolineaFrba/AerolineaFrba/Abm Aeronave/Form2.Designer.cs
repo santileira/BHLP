@@ -29,28 +29,13 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button7 = new System.Windows.Forms.Button();
-            this.txtAlta = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtBD = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtRS = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtFS = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtBajaVU = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtBajaFS = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtCampo = new System.Windows.Forms.TextBox();
-            this.cboCampo = new System.Windows.Forms.ComboBox();
+            this.cboFabricante = new System.Windows.Forms.ComboBox();
+            this.cboServicio = new System.Windows.Forms.ComboBox();
             this.txtButacas = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtKilos = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtFabricante = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtMatricula = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -59,35 +44,22 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.cboServicio = new System.Windows.Forms.ComboBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cboServicio);
-            this.groupBox1.Controls.Add(this.button7);
-            this.groupBox1.Controls.Add(this.txtAlta);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.txtBD);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.txtRS);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.txtFS);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.txtBajaVU);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.txtBajaFS);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.txtCampo);
-            this.groupBox1.Controls.Add(this.cboCampo);
+            this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.Controls.Add(this.cboFabricante);
+            this.groupBox1.Controls.Add(this.cboServicio);
             this.groupBox1.Controls.Add(this.txtButacas);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtKilos);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtFabricante);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtMatricula);
             this.groupBox1.Controls.Add(this.label2);
@@ -95,152 +67,35 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(13, 38);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(801, 409);
+            this.groupBox1.Size = new System.Drawing.Size(368, 409);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
             // 
-            // button7
+            // cboFabricante
             // 
-            this.button7.Location = new System.Drawing.Point(298, 146);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 29;
-            this.button7.Text = "Seleccionar";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.cboFabricante.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFabricante.FormattingEnabled = true;
+            this.cboFabricante.Location = new System.Drawing.Point(175, 146);
+            this.cboFabricante.Name = "cboFabricante";
+            this.cboFabricante.Size = new System.Drawing.Size(157, 21);
+            this.cboFabricante.TabIndex = 31;
             // 
-            // txtAlta
+            // cboServicio
             // 
-            this.txtAlta.Location = new System.Drawing.Point(576, 42);
-            this.txtAlta.Name = "txtAlta";
-            this.txtAlta.Size = new System.Drawing.Size(117, 20);
-            this.txtAlta.TabIndex = 26;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(423, 49);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(99, 13);
-            this.label12.TabIndex = 25;
-            this.label12.Text = "Fecha a dar de alta";
-            // 
-            // txtBD
-            // 
-            this.txtBD.Location = new System.Drawing.Point(576, 318);
-            this.txtBD.Name = "txtBD";
-            this.txtBD.Size = new System.Drawing.Size(117, 20);
-            this.txtBD.TabIndex = 24;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(423, 321);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(105, 13);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "Fecha baja definitiva";
-            // 
-            // txtRS
-            // 
-            this.txtRS.Location = new System.Drawing.Point(576, 263);
-            this.txtRS.Name = "txtRS";
-            this.txtRS.Size = new System.Drawing.Size(117, 20);
-            this.txtRS.TabIndex = 22;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(423, 266);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(127, 13);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Fecha reinicio de servicio";
-            // 
-            // txtFS
-            // 
-            this.txtFS.Location = new System.Drawing.Point(576, 210);
-            this.txtFS.Name = "txtFS";
-            this.txtFS.Size = new System.Drawing.Size(117, 20);
-            this.txtFS.TabIndex = 20;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(422, 213);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(118, 13);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "Fecha fuera de servicio";
-            // 
-            // txtBajaVU
-            // 
-            this.txtBajaVU.Location = new System.Drawing.Point(576, 148);
-            this.txtBajaVU.Name = "txtBajaVU";
-            this.txtBajaVU.Size = new System.Drawing.Size(117, 20);
-            this.txtBajaVU.TabIndex = 18;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(423, 155);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(117, 13);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "Fecha baja por vida util";
-            // 
-            // txtBajaFS
-            // 
-            this.txtBajaFS.Location = new System.Drawing.Point(576, 97);
-            this.txtBajaFS.Name = "txtBajaFS";
-            this.txtBajaFS.Size = new System.Drawing.Size(117, 20);
-            this.txtBajaFS.TabIndex = 16;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(423, 101);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(141, 13);
-            this.label11.TabIndex = 15;
-            this.label11.Text = "Fecha baja fuera de servicio";
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(298, 365);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 21);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Seleccionar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // txtCampo
-            // 
-            this.txtCampo.Enabled = false;
-            this.txtCampo.Location = new System.Drawing.Point(175, 365);
-            this.txtCampo.Name = "txtCampo";
-            this.txtCampo.Size = new System.Drawing.Size(117, 20);
-            this.txtCampo.TabIndex = 13;
-            this.txtCampo.TextChanged += new System.EventHandler(this.txtCampo_TextChanged);
-            // 
-            // cboCampo
-            // 
-            this.cboCampo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCampo.FormattingEnabled = true;
-            this.cboCampo.Location = new System.Drawing.Point(25, 365);
-            this.cboCampo.Name = "cboCampo";
-            this.cboCampo.Size = new System.Drawing.Size(136, 21);
-            this.cboCampo.TabIndex = 12;
-            this.cboCampo.SelectedIndexChanged += new System.EventHandler(this.cboCampo_SelectedIndexChanged);
+            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboServicio.FormattingEnabled = true;
+            this.cboServicio.Location = new System.Drawing.Point(175, 205);
+            this.cboServicio.Name = "cboServicio";
+            this.cboServicio.Size = new System.Drawing.Size(157, 21);
+            this.cboServicio.TabIndex = 30;
+            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
             // 
             // txtButacas
             // 
             this.txtButacas.Location = new System.Drawing.Point(175, 259);
             this.txtButacas.Name = "txtButacas";
-            this.txtButacas.Size = new System.Drawing.Size(117, 20);
+            this.txtButacas.Size = new System.Drawing.Size(157, 20);
             this.txtButacas.TabIndex = 11;
             // 
             // label6
@@ -256,7 +111,7 @@
             // 
             this.txtKilos.Location = new System.Drawing.Point(175, 314);
             this.txtKilos.Name = "txtKilos";
-            this.txtKilos.Size = new System.Drawing.Size(117, 20);
+            this.txtKilos.Size = new System.Drawing.Size(157, 20);
             this.txtKilos.TabIndex = 9;
             // 
             // label5
@@ -277,15 +132,6 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Tipo de servicio";
             // 
-            // txtFabricante
-            // 
-            this.txtFabricante.Enabled = false;
-            this.txtFabricante.Location = new System.Drawing.Point(175, 148);
-            this.txtFabricante.Name = "txtFabricante";
-            this.txtFabricante.Size = new System.Drawing.Size(117, 20);
-            this.txtFabricante.TabIndex = 5;
-            this.txtFabricante.TextChanged += new System.EventHandler(this.txtFabricante_TextChanged);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -299,7 +145,7 @@
             // 
             this.txtMatricula.Location = new System.Drawing.Point(175, 94);
             this.txtMatricula.Name = "txtMatricula";
-            this.txtMatricula.Size = new System.Drawing.Size(117, 20);
+            this.txtMatricula.Size = new System.Drawing.Size(157, 20);
             this.txtMatricula.TabIndex = 3;
             // 
             // label2
@@ -315,7 +161,7 @@
             // 
             this.txtModelo.Location = new System.Drawing.Point(175, 46);
             this.txtModelo.Name = "txtModelo";
-            this.txtModelo.Size = new System.Drawing.Size(117, 20);
+            this.txtModelo.Size = new System.Drawing.Size(157, 20);
             this.txtModelo.TabIndex = 1;
             this.txtModelo.TextChanged += new System.EventHandler(this.txtModelo_TextChanged);
             // 
@@ -330,7 +176,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(524, 471);
+            this.button2.Location = new System.Drawing.Point(269, 471);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 1;
@@ -340,7 +186,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(13, 471);
+            this.button3.Location = new System.Drawing.Point(14, 471);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 35);
             this.button3.TabIndex = 2;
@@ -358,20 +204,27 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // cboServicio
+            // dateTimePicker1
             // 
-            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(175, 205);
-            this.cboServicio.Name = "cboServicio";
-            this.cboServicio.Size = new System.Drawing.Size(117, 21);
-            this.cboServicio.TabIndex = 30;
+            this.dateTimePicker1.Location = new System.Drawing.Point(132, 359);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 32;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(22, 366);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 13);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "Fecha de Alta";
             // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(826, 537);
+            this.ClientSize = new System.Drawing.Size(396, 517);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -394,31 +247,17 @@
         private System.Windows.Forms.TextBox txtKilos;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtFabricante;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtMatricula;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtModelo;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtCampo;
-        private System.Windows.Forms.ComboBox cboCampo;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox txtBD;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtRS;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtFS;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtBajaVU;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtBajaFS;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TextBox txtAlta;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ComboBox cboServicio;
+        private System.Windows.Forms.ComboBox cboFabricante;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

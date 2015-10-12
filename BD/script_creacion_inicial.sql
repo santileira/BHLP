@@ -248,9 +248,9 @@ CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
 	[SERV_COD] [varchar] (30) NOT NULL,	
 	[AERO_BAJA_FS] [int] NULL,
 	[AERO_BAJA_VU] [int] NULL,
-	[AERO_FECHA_FS] [int] NULL,
-	[AERO_FECHA_RS] [int] NULL,
-	[AERO_FECHA_BAJA] [int] NULL,
+	[AERO_FECHA_FS] [date] NULL,
+	[AERO_FECHA_RS] [date] NULL,
+	[AERO_FECHA_BAJA] [date] NULL,
 	[AERO_CANT_BUTACAS] [int] NOT NULL,
 	[AERO_CANT_KGS] [int] NOT NULL,
  CONSTRAINT [PK_AERONAVES] PRIMARY KEY CLUSTERED 
@@ -611,7 +611,6 @@ GO
 
 
 -- Inserta los clientes en la tabla clientes
--- FALLA PORQUE HAY 2 FORROS QUE TIENEN EL MISMO DNI. HIJO DE SU MADRE.
 
 INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 
@@ -668,10 +667,10 @@ INSERT INTO [ABSTRACCIONX4].[BUTACAS]
 GO
 
 -- Inserta pasajes en la tabla pasajes--SOLUCIONAR
-/*
+
 INSERT INTO [ABSTRACCIONX4].[PASAJES]
 	(
-		[CLI_COD] ,
+		--[CLI_COD] ,
 		[VIAJE_COD] ,
 		[PASAJE_PRECIO] ,
 		[PASAJE_FECHA_COMPRA] ,
@@ -680,16 +679,24 @@ INSERT INTO [ABSTRACCIONX4].[PASAJES]
 	)
 
 
-SELECT (SELECT CLI_COD FROM [ABSTRACCIONX4].[CLIENTES] WHERE CLI_DNI = Cli_Dni AND CLI_APELLIDO = Cli_Apellido AND CLI_NOMBRE = Cli_Nombre  
-		AND CLI_DIRECCION = Cli_Dir AND CLI_FECHA_NAC = Cli_Fecha_Nac),
+SELECT /*(SELECT CLI_COD FROM [ABSTRACCIONX4].[CLIENTES] WHERE CLI_DNI = Cli_Dni AND CLI_APELLIDO = Cli_Apellido AND CLI_NOMBRE = Cli_Nombre  
+		AND CLI_DIRECCION = Cli_Dir AND CLI_FECHA_NAC = Cli_Fecha_Nac),*/
 		(SELECT VIAJE_COD FROM [ABSTRACCIONX4].[VIAJES] WHERE VIAJE_FECHA_LLEGADA = FechaLLegada AND VIAJE_FECHA_LLEGADAE = Fecha_LLegada_Estimada
-		AND VIAJE_FECHA_SALIDA = FechaSalida AND AERO_MATRI = Aeronave_Matricula),
+		AND VIAJE_FECHA_SALIDA = FechaSalida AND AERO_MATRI = Aeronave_Matricula AND 
+		
+		RUTA_ID = 
+		(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) 
+			AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
+		
+		
+		
+		),
 		Pasaje_Precio , Pasaje_FechaCompra , Butaca_Nro , Aeronave_Matricula 
 FROM gd_esquema.Maestra
 WHERE Pasaje_Codigo != 0
 GROUP BY Pasaje_Precio,Pasaje_FechaCompra,Butaca_Nro,Aeronave_Matricula,Ruta_Codigo,Ruta_Precio_BaseKG,Ruta_Precio_BasePasaje,FechaSalida,FechaLLegada,Fecha_LLegada_Estimada
 		
-select * from [ABSTRACCIONX4].[VIAJES]*/
+select * from [ABSTRACCIONX4].[VIAJES] order by aero_matri,viaje_fecha_salida,viaje_fecha_llegada,viaje_fecha_llegadae
 
 
-
+SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' WHERE

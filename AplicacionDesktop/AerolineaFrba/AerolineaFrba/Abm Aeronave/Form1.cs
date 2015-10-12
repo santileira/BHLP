@@ -19,30 +19,7 @@ namespace AerolineaFrba.Abm_Aeronave
             InitializeComponent();
         }
         
-        private void button1_Click(object sender, EventArgs e)
-        {
-            /*formularioSiguiente = new Alta();
-            this.cambiarVisibilidades(formularioSiguiente);*/
-        }
-        
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            /*formularioSiguiente = new Baja();
-            this.cambiarVisibilidades(formularioSiguiente);*/
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            /*formularioSiguiente = new Modificacion();
-            this.cambiarVisibilidades(formularioSiguiente);*/
-        }
-        
-        private void button4_Click(object sender, EventArgs e)
-        {
-            formularioSiguiente = new Listado();
-            this.cambiarVisibilidades(formularioSiguiente);
-        }
-
+       
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
             formularioSiguiente.Visible = true;
@@ -54,25 +31,19 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
-        private void Principal_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Menu();
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             Alta alta = new Alta();
             Listado listado = new Listado();
 
             alta.listado = listado;
-            listado.altaActiva = true;
-            listado.alta = alta;
+            listado.anterior = alta;
          
             this.cambiarVisibilidades(alta);
         }
@@ -82,23 +53,22 @@ namespace AerolineaFrba.Abm_Aeronave
             Baja baja = new Baja();
             Listado listado = new Listado();
 
-            baja.listado = listado;
-            listado.bajaActiva = true;
-            listado.baja = baja;
-
             this.cambiarVisibilidades(baja);
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
             Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
 
-            modificacion.listado = listado;
-            listado.modificacionActiva = true;
-            listado.modificacion = modificacion;
-
             this.cambiarVisibilidades(modificacion);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Listado listado = new Listado();
+
+            this.cambiarVisibilidades(listado);
         }
 
 
