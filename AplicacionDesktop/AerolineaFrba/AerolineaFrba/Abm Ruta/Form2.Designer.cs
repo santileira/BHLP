@@ -135,6 +135,7 @@
             this.botonSelDestino.TabIndex = 8;
             this.botonSelDestino.Text = "Seleccionar";
             this.botonSelDestino.UseVisualStyleBackColor = true;
+            this.botonSelDestino.Click += new System.EventHandler(this.botonSelDestino_Click);
             // 
             // botonSelOrigen
             // 
@@ -144,6 +145,7 @@
             this.botonSelOrigen.TabIndex = 7;
             this.botonSelOrigen.Text = "Seleccionar";
             this.botonSelOrigen.UseVisualStyleBackColor = true;
+            this.botonSelOrigen.Click += new System.EventHandler(this.botonSelOrigen_Click);
             // 
             // txtCiudadDestino
             // 

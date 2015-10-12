@@ -16,7 +16,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         public Listado listado;
         Form formularioSiguiente;
-        
+        bool seleccionandoOrigen;
 
         public Alta()
         {
@@ -73,13 +73,6 @@ namespace AerolineaFrba.Abm_Ruta
         private void button3_Click(object sender, EventArgs e)
         {
             this.iniciar();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            /*this.listado.generarQueryInicial();
-            this.listado.ejecutarConsulta();
-            this.cambiarVisibilidades(this.listado);*/
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -144,8 +137,6 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean validarTipos()
         {
             Boolean huboError = !this.numeroCorrecto(txtCodigo, "Código",false);
-            huboError = !this.textoCorrecto(txtCiudadDestino, "Ciudad de destino") || huboError;
-            huboError = !this.textoCorrecto(txtCiudadOrigen, "Ciudad de origen") || huboError;
 
             huboError = !this.numeroCorrecto(txtPrecioEncomienda, "Precio de encomienda",true) || huboError;
             huboError = !this.numeroCorrecto(txtPrecioPasaje, "Precio de pasaje",true) || huboError;
@@ -220,6 +211,32 @@ namespace AerolineaFrba.Abm_Ruta
 
             reader.Close();
         }
+
+        private void botonSelOrigen_Click(object sender, EventArgs e)
+        {
+            seleccionandoOrigen = true;
+            cambiarVisibilidades(new ListadoCiudades(this));
+        }
+
+        private void botonSelDestino_Click(object sender, EventArgs e)
+        {
+            seleccionandoOrigen = false;
+            cambiarVisibilidades(new ListadoCiudades(this));
+        }
+
+        public void seSelecciono(string ciudad)
+        {
+            if (seleccionandoOrigen)
+            {
+                txtCiudadOrigen.Text = ciudad;
+            }
+            else
+            {
+                txtCiudadDestino.Text = ciudad;
+            }
+        }
+
+        
 
     }
 }
