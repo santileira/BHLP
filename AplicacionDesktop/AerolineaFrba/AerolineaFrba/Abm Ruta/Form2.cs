@@ -98,6 +98,7 @@ namespace AerolineaFrba.Abm_Ruta
 
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
+            huboErrores = this.validarIgualdadCiudades() || huboErrores;
 
             return !huboErrores;
         }
@@ -167,6 +168,18 @@ namespace AerolineaFrba.Abm_Ruta
             return true;
         }
 
+        private Boolean validarIgualdadCiudades()
+        {
+            if (txtCiudadDestino.TextLength * txtCiudadOrigen.TextLength != 0)
+            {
+                if (txtCiudadOrigen.Text == txtCiudadDestino.Text)
+                {
+                    MessageBox.Show("La ciudad de origen debe ser distinta a la de destino", "Error en los datos ingresados", MessageBoxButtons.OK);
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private void button6_Click(object sender, EventArgs e)
         {
