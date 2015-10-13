@@ -1,6 +1,6 @@
 ﻿namespace AerolineaFrba.Abm_Ruta
 {
-    partial class Alta
+    partial class Modificacion
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.botonLimpiar = new System.Windows.Forms.Button();
+            this.botonGuardar = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtPrecioEncomienda = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -46,26 +49,50 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // button6
             // 
-            this.groupBox1.Controls.Add(this.groupBox4);
-            this.groupBox1.Controls.Add(this.groupBox3);
-            this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Location = new System.Drawing.Point(13, 38);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(584, 303);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Campos de la Ruta";
+            this.button6.Location = new System.Drawing.Point(37, 12);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(78, 21);
+            this.button6.TabIndex = 8;
+            this.button6.Text = "Atras";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // botonLimpiar
+            // 
+            this.botonLimpiar.Location = new System.Drawing.Point(37, 322);
+            this.botonLimpiar.Name = "botonLimpiar";
+            this.botonLimpiar.Size = new System.Drawing.Size(112, 35);
+            this.botonLimpiar.TabIndex = 11;
+            this.botonLimpiar.Text = "Limpiar";
+            this.botonLimpiar.UseVisualStyleBackColor = true;
+            this.botonLimpiar.Click += new System.EventHandler(this.botonLimpiar_Click);
+            // 
+            // botonGuardar
+            // 
+            this.botonGuardar.Location = new System.Drawing.Point(453, 322);
+            this.botonGuardar.Name = "botonGuardar";
+            this.botonGuardar.Size = new System.Drawing.Size(112, 35);
+            this.botonGuardar.TabIndex = 10;
+            this.botonGuardar.Text = "Guardar";
+            this.botonGuardar.UseVisualStyleBackColor = true;
+            this.botonGuardar.Click += new System.EventHandler(this.botonGuardar_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(487, 11);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(78, 22);
+            this.button5.TabIndex = 43;
+            this.button5.Text = "Seleccionar";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // groupBox4
             // 
@@ -73,10 +100,10 @@
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.txtPrecioPasaje);
             this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Location = new System.Drawing.Point(294, 29);
+            this.groupBox4.Location = new System.Drawing.Point(316, 57);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(249, 113);
-            this.groupBox4.TabIndex = 14;
+            this.groupBox4.TabIndex = 46;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
             // 
@@ -120,10 +147,10 @@
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.txtCiudadOrigen);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Location = new System.Drawing.Point(15, 160);
+            this.groupBox3.Location = new System.Drawing.Point(37, 188);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(352, 113);
-            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabIndex = 45;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ciudades";
             // 
@@ -187,10 +214,10 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(15, 29);
+            this.groupBox2.Location = new System.Drawing.Point(37, 57);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(249, 113);
-            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabIndex = 44;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
             // 
@@ -228,50 +255,22 @@
             this.label8.TabIndex = 4;
             this.label8.Text = "Código";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(485, 360);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 35);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Guardar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(13, 360);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 35);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Limpiar";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(14, 11);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
-            this.button6.TabIndex = 6;
-            this.button6.Text = "Atras";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // Alta
+            // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 408);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(602, 379);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.botonLimpiar);
+            this.Controls.Add(this.botonGuardar);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Name = "Alta";
+            this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ABM Alta";
-            this.Load += new System.EventHandler(this.Alta_Load);
-            this.groupBox1.ResumeLayout(false);
+            this.Text = "ABM Modificacion";
+            this.Load += new System.EventHandler(this.Modificacion_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -284,16 +283,18 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button botonLimpiar;
+        private System.Windows.Forms.Button botonGuardar;
+        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox txtPrecioEncomienda;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPrecioPasaje;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button botonSelDestino;
+        private System.Windows.Forms.Button botonSelOrigen;
         private System.Windows.Forms.TextBox txtCiudadDestino;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCiudadOrigen;
@@ -303,7 +304,5 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button botonSelDestino;
-        private System.Windows.Forms.Button botonSelOrigen;
     }
 }

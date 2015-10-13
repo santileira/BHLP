@@ -52,6 +52,7 @@
             this.lblErrores = new System.Windows.Forms.Label();
             this.txtFiltros = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.botonSeleccionar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -285,8 +286,10 @@
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(22, 256);
+            this.dg.MultiSelect = false;
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
+            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(909, 432);
             this.dg.TabIndex = 3;
             // 
@@ -320,11 +323,23 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // botonSeleccionar
+            // 
+            this.botonSeleccionar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.botonSeleccionar.Location = new System.Drawing.Point(852, 227);
+            this.botonSeleccionar.Name = "botonSeleccionar";
+            this.botonSeleccionar.Size = new System.Drawing.Size(79, 23);
+            this.botonSeleccionar.TabIndex = 7;
+            this.botonSeleccionar.Text = "Seleccionar";
+            this.botonSeleccionar.UseVisualStyleBackColor = true;
+            this.botonSeleccionar.Click += new System.EventHandler(this.botonSeleccionar_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1354, 708);
+            this.Controls.Add(this.botonSeleccionar);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
@@ -374,5 +389,6 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button botonSeleccionar;
     }
 }
