@@ -190,7 +190,7 @@ namespace AerolineaFrba.Abm_Rol
         {
             txtRolSeleccionado.Text = nombreRol;
             txtNombre.Text = nombreRol;
-
+          
             lstFuncionalidadesActuales.Items.Clear();
             lstFuncionalidadesActuales.Items.AddRange(funcionalidadesRol);
 

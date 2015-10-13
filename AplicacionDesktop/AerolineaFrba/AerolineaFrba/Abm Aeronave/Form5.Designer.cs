@@ -31,9 +31,11 @@ namespace AerolineaFrba.Abm_Aeronave
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.cboCamposFiltro3 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.cboCamposFiltro2 = new System.Windows.Forms.ComboBox();
             this.cboCamposFiltro1 = new System.Windows.Forms.ComboBox();
@@ -47,8 +49,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -73,6 +73,16 @@ namespace AerolineaFrba.Abm_Aeronave
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(501, 101);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(89, 21);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Agregar filtro";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // dateTimePicker1
             // 
@@ -99,6 +109,16 @@ namespace AerolineaFrba.Abm_Aeronave
             this.label5.Size = new System.Drawing.Size(80, 13);
             this.label5.TabIndex = 22;
             this.label5.Text = "Filtro por Fecha";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(501, 65);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(89, 21);
+            this.button4.TabIndex = 21;
+            this.button4.Text = "Agregar filtro";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // button5
             // 
@@ -189,9 +209,10 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.EnableHeadersVisualStyles = false;
             this.dg.Location = new System.Drawing.Point(12, 243);
+            this.dg.MultiSelect = false;
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
-            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
@@ -222,26 +243,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.button7.TabIndex = 6;
             this.button7.Text = "Seleccionar";
             this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(501, 65);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(89, 21);
-            this.button4.TabIndex = 21;
-            this.button4.Text = "Agregar filtro";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click_1);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(501, 101);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 21);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Agregar filtro";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button7.Click += new System.EventHandler(this.button7_Click_1);
             // 
             // Listado
             // 

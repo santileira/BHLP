@@ -44,10 +44,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.dg = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -214,21 +214,6 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // dg
-            // 
-            this.dg.AllowUserToAddRows = false;
-            this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(28, 241);
-            this.dg.MultiSelect = false;
-            this.dg.Name = "dg";
-            this.dg.ReadOnly = true;
-            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg.Size = new System.Drawing.Size(574, 235);
-            this.dg.TabIndex = 3;
-            // 
             // lblErrores
             // 
             this.lblErrores.AutoSize = true;
@@ -258,15 +243,31 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // dg
+            // 
+            this.dg.AllowUserToAddRows = false;
+            this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg.Location = new System.Drawing.Point(28, 244);
+            this.dg.MultiSelect = false;
+            this.dg.Name = "dg";
+            this.dg.ReadOnly = true;
+            this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg.Size = new System.Drawing.Size(574, 235);
+            this.dg.TabIndex = 10;
+            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick_1);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 448);
+            this.ClientSize = new System.Drawing.Size(627, 490);
+            this.Controls.Add(this.dg);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.lblErrores);
-            this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
@@ -299,7 +300,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Label lblErrores;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton optEstadoBaja;
@@ -307,5 +307,6 @@
         private System.Windows.Forms.CheckBox chkEstadoIgnorar;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.DataGridView dg;
     }
 }

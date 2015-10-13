@@ -30,18 +30,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.inicio();
         }
 
-       
-        /*
-        public void setFiltroSelector(string valor)
-        {
-            txtSeleccionar.Text = valor;
-        }
-
-        public string getCampoSelector()
-        {
-            return campoSeleccionar;
-        }
-        */
         private void inicio()
         {
             cargarComboServicio();
@@ -51,8 +39,6 @@ namespace AerolineaFrba.Abm_Aeronave
             txtModelo.Focus();
             txtButacas.Text = "";
             txtKilos.Text = "";
-
-
         }
 
         private void button3_Click(object sender, EventArgs e)

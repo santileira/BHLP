@@ -40,18 +40,13 @@ namespace AerolineaFrba.Abm_Aeronave
         private void button1_Click(object sender, EventArgs e)
         {
             Alta alta = new Alta();
-            Listado listado = new Listado();
-
-            alta.listado = listado;
-            listado.anterior = alta;
-         
+           
             this.cambiarVisibilidades(alta);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Baja baja = new Baja();
-            Listado listado = new Listado();
 
             this.cambiarVisibilidades(baja);
         }
@@ -60,6 +55,9 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
+
+            modificacion.listado = listado;
+            listado.anterior = modificacion;
 
             this.cambiarVisibilidades(modificacion);
         }

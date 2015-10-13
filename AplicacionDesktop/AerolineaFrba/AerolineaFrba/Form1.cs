@@ -49,10 +49,5 @@ namespace AerolineaFrba
             this.Visible = false;
         }
 
-        private void Menu_Load(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

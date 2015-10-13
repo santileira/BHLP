@@ -124,3 +124,9 @@ C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFr
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Modificacion.resources
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.Alta.resources
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.ListadoCiudades.resources
+C:\Users\ezequiel\Documents\UTN - FRBA - INGENIERIA EN SISTEMAS\3° Año\Gestion de Datos\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.Alta.resources
+C:\Users\ezequiel\Documents\UTN - FRBA - INGENIERIA EN SISTEMAS\3° Año\Gestion de Datos\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.ListadoCiudades.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Baja.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Modificacion.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.Alta.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Ruta.ListadoCiudades.resources

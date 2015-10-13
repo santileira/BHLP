@@ -222,27 +222,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Visible = false;
         }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-            if (dg.RowCount == 0)
-            {
-                MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
-                return;
-            }
-           
-            //ejecutarSeleccion();
-
-            //(anterior as Modificacion).seSelecciono();
-
-            //this.Close();
-            cambiarVisibilidades(this.anterior, true);
-        }
-
-        private void ejecutarSeleccion()
-        {
-            //aca se debe volcar todo en los parametros
-        }
-
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
            
@@ -268,8 +247,30 @@ namespace AerolineaFrba.Abm_Aeronave
             MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
             
         }
-        
 
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            if (dg.RowCount == 0)
+            {
+                MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
+                return;
+            }
+
+            List<Object> listaFuncionalidades = new List<object>(7);
+            (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
+
+            
+
+            
+
+            //this.Close();
+            cambiarVisibilidades(this.anterior, true);
+        }
+
+        private void ejecutarSeleccion()
+        {
+            //aca se debe volcar todo en los parametros
+        }
 
 
     }
