@@ -248,9 +248,9 @@ CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
 	[SERV_COD] [varchar] (30) NOT NULL,	
 	[AERO_BAJA_FS] [int] NULL,
 	[AERO_BAJA_VU] [int] NULL,
-	[AERO_FECHA_FS] [date] NULL,
-	[AERO_FECHA_RS] [date] NULL,
-	[AERO_FECHA_BAJA] [date] NULL,
+	[AERO_FECHA_FS] [datetime] NULL,
+	[AERO_FECHA_RS] [datetime] NULL,
+	[AERO_FECHA_BAJA] [datetime] NULL,
 	[AERO_CANT_BUTACAS] [int] NOT NULL,
 	[AERO_CANT_KGS] [int] NOT NULL,
  CONSTRAINT [PK_AERONAVES] PRIMARY KEY CLUSTERED 
@@ -348,8 +348,8 @@ REFERENCES [ABSTRACCIONX4].[VIAJES] ([VIAJE_COD])
 
 GO
 
-ALTER TABLE [ABSTRACCIONX4].[PASAJES]  WITH CHECK ADD  CONSTRAINT [FK_PASAJES_BUTACAS] FOREIGN KEY([BUT_NRO] , [AERO_MATRI])
-REFERENCES [ABSTRACCIONX4].[BUTACAS] ([BUT_NRO] , [AERO_MATRI])
+ALTER TABLE [ABSTRACCIONX4].[PASAJES]  WITH CHECK ADD  CONSTRAINT [FK_PASAJES_BUTACAS] FOREIGN KEY([BUT_NRO],[AERO_MATRI])
+REFERENCES [ABSTRACCIONX4].[BUTACAS] ([BUT_NRO],[AERO_MATRI])
 
 GO
 
@@ -506,14 +506,18 @@ INSERT INTO [ABSTRACCIONX4].[AERONAVES]
 		AERO_CANT_BUTACAS ,  
 		AERO_CANT_KGS , 
 		AERO_FAB , 
-		SERV_COD
+		SERV_COD,
+		AERO_BAJA_FS,
+		AERO_BAJA_VU
 	)
 SELECT  Aeronave_Modelo , 
 		Aeronave_Matricula matricula, 
 		MAX(Butaca_Nro), 
 		Aeronave_KG_Disponibles , 
 		Aeronave_Fabricante , 		
-		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = Tipo_Servicio)
+		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = Tipo_Servicio),
+		1,
+		1
 FROM gd_esquema.Maestra
 GROUP BY Aeronave_Modelo , Aeronave_Matricula , Aeronave_KG_Disponibles , Aeronave_Fabricante , Tipo_Servicio
 GO
@@ -663,38 +667,50 @@ INSERT INTO [ABSTRACCIONX4].[BUTACAS]
 
 	SELECT DISTINCT Butaca_Nro , Butaca_Piso , Butaca_Tipo , Aeronave_Matricula
 	FROM gd_esquema.Maestra
-	WHERE Butaca_Nro != 0 AND Butaca_Piso != 0 
+	WHERE Pasaje_Codigo!=0
 GO
 
 -- Inserta pasajes en la tabla pasajes--SOLUCIONAR
-/*
+DELETE [ABSTRACCIONX4].PASAJES
+
 INSERT INTO [ABSTRACCIONX4].[PASAJES]
 	(
-		--[CLI_COD] ,
-		[VIAJE_COD] ,
-		[PASAJE_PRECIO] ,
+		[CLI_COD],
+		[VIAJE_COD],
+		[PASAJE_PRECIO],
 		[PASAJE_FECHA_COMPRA] ,
 		[BUT_NRO] ,
 		[AERO_MATRI] 
+		
 	)
 
 
-SELECT /*(SELECT CLI_COD FROM [ABSTRACCIONX4].[CLIENTES] WHERE CLI_DNI = Cli_Dni AND CLI_APELLIDO = Cli_Apellido AND CLI_NOMBRE = Cli_Nombre  
-		AND CLI_DIRECCION = Cli_Dir AND CLI_FECHA_NAC = Cli_Fecha_Nac),*/
-		(SELECT VIAJE_COD FROM [ABSTRACCIONX4].[VIAJES] WHERE VIAJE_FECHA_LLEGADA = FechaLLegada AND VIAJE_FECHA_LLEGADAE = Fecha_LLegada_Estimada
-		AND VIAJE_FECHA_SALIDA = FechaSalida AND AERO_MATRI = Aeronave_Matricula AND 
+SELECT (SELECT CLI_COD FROM [ABSTRACCIONX4].[CLIENTES] WHERE CLI_DNI = m.Cli_Dni AND CLI_APELLIDO = m.Cli_Apellido AND CLI_NOMBRE = m.Cli_Nombre  
+		),1,
+		/*(SELECT VIAJE_COD FROM [ABSTRACCIONX4].[VIAJES] WHERE VIAJE_FECHA_LLEGADA = m.FechaLLegada AND VIAJE_FECHA_LLEGADAE = m.Fecha_LLegada_Estimada
+		AND VIAJE_FECHA_SALIDA = m.FechaSalida AND AERO_MATRI = m.Aeronave_Matricula AND 
 		
 		RUTA_ID = 
-		(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) 
-			AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
+		(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = m.Ruta_Codigo 
 		
-		
-		
-		),
-		Pasaje_Precio , Pasaje_FechaCompra , Butaca_Nro , Aeronave_Matricula 
-FROM gd_esquema.Maestra
-WHERE Pasaje_Codigo != 0
-GROUP BY Pasaje_Precio,Pasaje_FechaCompra,Butaca_Nro,Aeronave_Matricula,Ruta_Codigo,Ruta_Precio_BaseKG,Ruta_Precio_BasePasaje,FechaSalida,FechaLLegada,Fecha_LLegada_Estimada
-		
-select * from [ABSTRACCIONX4].[VIAJES] order by aero_matri,viaje_fecha_salida,viaje_fecha_llegada,viaje_fecha_llegadae
-*/
+			AND R.RUTA_PRECIO_BASE_KG = (SELECT MAX(m2.Ruta_Precio_BaseKG)
+											FROM gd_esquema.Maestra m2
+											WHERE m2.FechaSalida = m.FechaSalida AND m2.Fecha_Llegada_Estimada = m.Fecha_Llegada_Estimada AND 
+											m2.FechaLlegada = m.FechaLlegada AND m2.Ruta_codigo = m.Ruta_Codigo 
+										GROUP BY m2.FechaSalida,m2.Fecha_Llegada_Estimada,m2.FechaLlegada,m2.Ruta_Codigo,m2.Aeronave_Matricula)
+ 
+			AND R.RUTA_PRECIO_BASE_PASAJE = (SELECT MAX(m2.Ruta_Precio_BasePasaje)
+											FROM gd_esquema.Maestra m2
+											WHERE m2.FechaSalida = m.FechaSalida AND m2.Fecha_Llegada_Estimada = m.Fecha_Llegada_Estimada AND 
+											m2.FechaLlegada = m.FechaLlegada AND m2.Ruta_codigo = m.Ruta_Codigo 
+											GROUP BY m2.FechaSalida,m2.Fecha_Llegada_Estimada,m2.FechaLlegada,m2.Ruta_Codigo,m2.Aeronave_Matricula)
+			
+			
+		)),*/
+		m.Pasaje_Precio,
+		m.Pasaje_FechaCompra,
+		m.Butaca_Nro,
+		m.Aeronave_Matricula 
+FROM gd_esquema.Maestra m
+
+SELECT * FROM [ABSTRACCIONX4].PASAJES
