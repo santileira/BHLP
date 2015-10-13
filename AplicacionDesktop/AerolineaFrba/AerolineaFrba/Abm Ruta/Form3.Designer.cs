@@ -51,7 +51,6 @@
             this.txtFiltros = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -145,7 +144,6 @@
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
-            this.txtFiltro1.TextChanged += new System.EventHandler(this.txtFiltro1_TextChanged);
             // 
             // txtFiltro4
             // 
@@ -246,8 +244,7 @@
             this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.btlogica,
-            this.btfisica});
+            this.btlogica});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -296,23 +293,14 @@
             // 
             // btlogica
             // 
-            this.btlogica.HeaderText = "Baja Lógica";
+            this.btlogica.HeaderText = "";
+            this.btlogica.MinimumWidth = 25;
             this.btlogica.Name = "btlogica";
             this.btlogica.ReadOnly = true;
             this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btlogica.Text = "Baja Lógica";
+            this.btlogica.Text = "Baja";
             this.btlogica.UseColumnTextForButtonValue = true;
-            this.btlogica.Width = 69;
-            // 
-            // btfisica
-            // 
-            this.btfisica.HeaderText = "Baja Física";
-            this.btfisica.Name = "btfisica";
-            this.btfisica.ReadOnly = true;
-            this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btfisica.Text = "Baja Física";
-            this.btfisica.UseColumnTextForButtonValue = true;
-            this.btfisica.Width = 66;
+            this.btlogica.Width = 25;
             // 
             // Baja
             // 
@@ -369,6 +357,5 @@
         private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
-        private System.Windows.Forms.DataGridViewButtonColumn btfisica;
     }
 }

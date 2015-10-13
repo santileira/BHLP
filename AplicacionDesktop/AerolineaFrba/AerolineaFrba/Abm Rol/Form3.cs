@@ -157,12 +157,6 @@ namespace AerolineaFrba.Abm_Rol
             
         }
 
-        private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
-        {
-           
-         
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.cambiarVisibilidades(this.listado);
@@ -183,7 +177,8 @@ namespace AerolineaFrba.Abm_Rol
                         ejecutarQuery(ultimaQuery);
                     }
                 }
-                else
+                // BAJA FISICA
+               /* else
                     if (e.ColumnIndex == 1)
                     {
                         DialogResult resultado = mostrarMensaje("física");
@@ -193,7 +188,7 @@ namespace AerolineaFrba.Abm_Rol
                             ejecutarCommand(cadenaComando);
                             ejecutarQuery(ultimaQuery);
                         }
-                    }
+                    }*/
             }
         }
 
@@ -231,11 +226,6 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-           
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();
@@ -246,11 +236,6 @@ namespace AerolineaFrba.Abm_Rol
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
             
         

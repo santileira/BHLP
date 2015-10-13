@@ -120,12 +120,6 @@ namespace AerolineaFrba.Abm_Ruta
             
         }
 
-        private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
-        {
-
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             //this.cambiarVisibilidades(this.listado);
@@ -275,7 +269,8 @@ namespace AerolineaFrba.Abm_Ruta
                         ejecutarQuery();
                     }
                 }
-                else
+                //BAJA FISICA
+                /*else
                     if (e.ColumnIndex == 1)
                     {
                         DialogResult resultado = mostrarMensaje("física");
@@ -285,7 +280,7 @@ namespace AerolineaFrba.Abm_Ruta
                             ejecutarCommand(cadenaComando);
                             ejecutarQuery();
                         }
-                    }
+                    }*/
             }
         }
 
@@ -330,11 +325,6 @@ namespace AerolineaFrba.Abm_Ruta
                 txtFiltro2.Enabled = true;
                 button4.Enabled = true;
             }
-        }
-
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void button6_Click(object sender, EventArgs e)
