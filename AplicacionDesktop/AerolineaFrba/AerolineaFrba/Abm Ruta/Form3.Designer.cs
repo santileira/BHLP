@@ -28,17 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.cboCamposFiltro2 = new System.Windows.Forms.ComboBox();
             this.cboCamposFiltro1 = new System.Windows.Forms.ComboBox();
-            this.chkEstadoIgnorar = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.optEstadoBaja = new System.Windows.Forms.RadioButton();
-            this.optEstadoAlta = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
             this.txtFiltro4 = new System.Windows.Forms.TextBox();
@@ -48,16 +44,15 @@
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
-            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lblErrores = new System.Windows.Forms.Label();
             this.txtFiltros = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,8 +62,6 @@
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.cboCamposFiltro2);
             this.groupBox1.Controls.Add(this.cboCamposFiltro1);
-            this.groupBox1.Controls.Add(this.chkEstadoIgnorar);
-            this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
             this.groupBox1.Controls.Add(this.txtFiltro4);
@@ -78,12 +71,22 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(22, 27);
+            this.groupBox1.Location = new System.Drawing.Point(22, 33);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(909, 194);
+            this.groupBox1.Size = new System.Drawing.Size(909, 110);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(435, 58);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(89, 21);
+            this.button4.TabIndex = 21;
+            this.button4.Text = "Agregar filtro";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // button5
             // 
@@ -126,64 +129,9 @@
             this.cboCamposFiltro1.TabIndex = 17;
             this.cboCamposFiltro1.SelectedIndexChanged += new System.EventHandler(this.cboCamposFiltro1_SelectedIndexChanged);
             // 
-            // chkEstadoIgnorar
-            // 
-            this.chkEstadoIgnorar.AutoSize = true;
-            this.chkEstadoIgnorar.Location = new System.Drawing.Point(200, 115);
-            this.chkEstadoIgnorar.Name = "chkEstadoIgnorar";
-            this.chkEstadoIgnorar.Size = new System.Drawing.Size(154, 17);
-            this.chkEstadoIgnorar.TabIndex = 15;
-            this.chkEstadoIgnorar.Text = "Ignorar el estado para filtrar";
-            this.chkEstadoIgnorar.UseVisualStyleBackColor = true;
-            this.chkEstadoIgnorar.CheckedChanged += new System.EventHandler(this.chkEstadoIgnorar_CheckedChanged);
-            // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(22, 227);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(89, 21);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Limpiar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.optEstadoBaja);
-            this.groupBox2.Controls.Add(this.optEstadoAlta);
-            this.groupBox2.Location = new System.Drawing.Point(15, 104);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(166, 84);
-            this.groupBox2.TabIndex = 14;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Filtrar por estado de ruta";
-            // 
-            // optEstadoBaja
-            // 
-            this.optEstadoBaja.AutoSize = true;
-            this.optEstadoBaja.Location = new System.Drawing.Point(6, 52);
-            this.optEstadoBaja.Name = "optEstadoBaja";
-            this.optEstadoBaja.Size = new System.Drawing.Size(144, 17);
-            this.optEstadoBaja.TabIndex = 14;
-            this.optEstadoBaja.TabStop = true;
-            this.optEstadoBaja.Text = "Estado NO DISPONIBLE";
-            this.optEstadoBaja.UseVisualStyleBackColor = true;
-            // 
-            // optEstadoAlta
-            // 
-            this.optEstadoAlta.AutoSize = true;
-            this.optEstadoAlta.Location = new System.Drawing.Point(6, 29);
-            this.optEstadoAlta.Name = "optEstadoAlta";
-            this.optEstadoAlta.Size = new System.Drawing.Size(125, 17);
-            this.optEstadoAlta.TabIndex = 13;
-            this.optEstadoAlta.TabStop = true;
-            this.optEstadoAlta.Text = "Estado DISPONIBLE";
-            this.optEstadoAlta.UseVisualStyleBackColor = true;
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(698, 57);
+            this.button1.Location = new System.Drawing.Point(824, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 20);
             this.button1.TabIndex = 8;
@@ -202,7 +150,7 @@
             // txtFiltro4
             // 
             this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(597, 58);
+            this.txtFiltro4.Location = new System.Drawing.Point(723, 57);
             this.txtFiltro4.Name = "txtFiltro4";
             this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
             this.txtFiltro4.TabIndex = 7;
@@ -211,7 +159,7 @@
             // 
             this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(597, 24);
+            this.cboFiltro3.Location = new System.Drawing.Point(723, 19);
             this.cboFiltro3.Name = "cboFiltro3";
             this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
             this.cboFiltro3.TabIndex = 6;
@@ -219,7 +167,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(546, 65);
+            this.label4.Location = new System.Drawing.Point(656, 64);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 5;
@@ -228,7 +176,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(546, 27);
+            this.label3.Location = new System.Drawing.Point(656, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 4;
@@ -259,20 +207,21 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Filtro que contenga el valor";
             // 
-            // button4
+            // button2
             // 
-            this.button4.Location = new System.Drawing.Point(435, 58);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(89, 21);
-            this.button4.TabIndex = 21;
-            this.button4.Text = "Agregar filtro";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(22, 149);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(89, 21);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Limpiar";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(710, 227);
+            this.button3.Location = new System.Drawing.Point(842, 149);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(89, 21);
             this.button3.TabIndex = 2;
@@ -287,52 +236,32 @@
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dg.Location = new System.Drawing.Point(22, 254);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dg.Location = new System.Drawing.Point(22, 188);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(909, 432);
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
-            // 
-            // btlogica
-            // 
-            this.btlogica.HeaderText = "";
-            this.btlogica.Name = "btlogica";
-            this.btlogica.ReadOnly = true;
-            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btlogica.Text = "Baja Lógica";
-            this.btlogica.UseColumnTextForButtonValue = true;
-            this.btlogica.Width = 5;
-            // 
-            // btfisica
-            // 
-            this.btfisica.HeaderText = "";
-            this.btfisica.Name = "btfisica";
-            this.btfisica.ReadOnly = true;
-            this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btfisica.Text = "Baja Física";
-            this.btfisica.UseColumnTextForButtonValue = true;
-            this.btfisica.Width = 5;
             // 
             // lblErrores
             // 
@@ -352,11 +281,12 @@
             this.txtFiltros.Name = "txtFiltros";
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
             this.txtFiltros.TabIndex = 5;
+            this.txtFiltros.TextChanged += new System.EventHandler(this.txtFiltros_TextChanged);
             // 
             // button6
             // 
             this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.button6.Location = new System.Drawing.Point(2, 1);
+            this.button6.Location = new System.Drawing.Point(4, 3);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(46, 22);
             this.button6.TabIndex = 7;
@@ -364,11 +294,31 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // btlogica
+            // 
+            this.btlogica.HeaderText = "Baja Lógica";
+            this.btlogica.Name = "btlogica";
+            this.btlogica.ReadOnly = true;
+            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btlogica.Text = "Baja Lógica";
+            this.btlogica.UseColumnTextForButtonValue = true;
+            this.btlogica.Width = 69;
+            // 
+            // btfisica
+            // 
+            this.btfisica.HeaderText = "Baja Física";
+            this.btfisica.Name = "btfisica";
+            this.btfisica.ReadOnly = true;
+            this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btfisica.Text = "Baja Física";
+            this.btfisica.UseColumnTextForButtonValue = true;
+            this.btfisica.Width = 66;
+            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1362, 709);
+            this.ClientSize = new System.Drawing.Size(1354, 668);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
@@ -385,12 +335,15 @@
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void txtFiltros_TextChanged(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion
@@ -409,10 +362,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Label lblErrores;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton optEstadoBaja;
-        private System.Windows.Forms.RadioButton optEstadoAlta;
-        private System.Windows.Forms.CheckBox chkEstadoIgnorar;
         private System.Windows.Forms.ComboBox cboCamposFiltro2;
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button4;

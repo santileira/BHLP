@@ -29,10 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkEstadoIgnorar = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.optEstadoBaja = new System.Windows.Forms.RadioButton();
-            this.optEstadoAlta = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
             this.txtFiltro4 = new System.Windows.Forms.TextBox();
@@ -49,14 +45,11 @@
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btfisica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.chkEstadoIgnorar);
-            this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
             this.groupBox1.Controls.Add(this.txtFiltro4);
@@ -66,57 +59,13 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(26, 26);
+            this.groupBox1.Location = new System.Drawing.Point(12, 47);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(596, 176);
+            this.groupBox1.Size = new System.Drawing.Size(596, 129);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
-            // 
-            // chkEstadoIgnorar
-            // 
-            this.chkEstadoIgnorar.AutoSize = true;
-            this.chkEstadoIgnorar.Location = new System.Drawing.Point(173, 115);
-            this.chkEstadoIgnorar.Name = "chkEstadoIgnorar";
-            this.chkEstadoIgnorar.Size = new System.Drawing.Size(154, 17);
-            this.chkEstadoIgnorar.TabIndex = 15;
-            this.chkEstadoIgnorar.Text = "Ignorar el estado para filtrar";
-            this.chkEstadoIgnorar.UseVisualStyleBackColor = true;
-            this.chkEstadoIgnorar.CheckedChanged += new System.EventHandler(this.chkEstadoIgnorar_CheckedChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.optEstadoBaja);
-            this.groupBox2.Controls.Add(this.optEstadoAlta);
-            this.groupBox2.Location = new System.Drawing.Point(9, 86);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 84);
-            this.groupBox2.TabIndex = 14;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Filtrar por estado";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
-            // 
-            // optEstadoBaja
-            // 
-            this.optEstadoBaja.AutoSize = true;
-            this.optEstadoBaja.Location = new System.Drawing.Point(6, 52);
-            this.optEstadoBaja.Name = "optEstadoBaja";
-            this.optEstadoBaja.Size = new System.Drawing.Size(87, 17);
-            this.optEstadoBaja.TabIndex = 14;
-            this.optEstadoBaja.TabStop = true;
-            this.optEstadoBaja.Text = "Estado BAJA";
-            this.optEstadoBaja.UseVisualStyleBackColor = true;
-            // 
-            // optEstadoAlta
-            // 
-            this.optEstadoAlta.AutoSize = true;
-            this.optEstadoAlta.Location = new System.Drawing.Point(6, 29);
-            this.optEstadoAlta.Name = "optEstadoAlta";
-            this.optEstadoAlta.Size = new System.Drawing.Size(88, 17);
-            this.optEstadoAlta.TabIndex = 13;
-            this.optEstadoAlta.TabStop = true;
-            this.optEstadoAlta.Text = "Estado ALTA";
-            this.optEstadoAlta.UseVisualStyleBackColor = true;
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // button1
             // 
@@ -207,7 +156,7 @@
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica,
             this.btfisica});
-            this.dg.Location = new System.Drawing.Point(26, 236);
+            this.dg.Location = new System.Drawing.Point(12, 210);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.Size = new System.Drawing.Size(596, 235);
@@ -217,7 +166,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(26, 208);
+            this.button4.Location = new System.Drawing.Point(12, 182);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(79, 22);
             this.button4.TabIndex = 4;
@@ -228,7 +177,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(543, 208);
+            this.button3.Location = new System.Drawing.Point(529, 182);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 22);
             this.button3.TabIndex = 5;
@@ -239,9 +188,9 @@
             // button6
             // 
             this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.button6.Location = new System.Drawing.Point(2, 1);
+            this.button6.Location = new System.Drawing.Point(12, 12);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(46, 22);
+            this.button6.Size = new System.Drawing.Size(79, 20);
             this.button6.TabIndex = 8;
             this.button6.Text = "Atrás";
             this.button6.UseVisualStyleBackColor = true;
@@ -250,7 +199,7 @@
             // btlogica
             // 
             this.btlogica.FillWeight = 50F;
-            this.btlogica.HeaderText = "";
+            this.btlogica.HeaderText = "Baja Lógica";
             this.btlogica.Name = "btlogica";
             this.btlogica.ReadOnly = true;
             this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -260,7 +209,7 @@
             // btfisica
             // 
             this.btfisica.FillWeight = 50F;
-            this.btfisica.HeaderText = "";
+            this.btfisica.HeaderText = "Baja Física";
             this.btfisica.Name = "btfisica";
             this.btfisica.ReadOnly = true;
             this.btfisica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -284,8 +233,6 @@
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
             this.ResumeLayout(false);
 
@@ -303,10 +250,6 @@
         private System.Windows.Forms.ComboBox cboFiltro3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton optEstadoBaja;
-        private System.Windows.Forms.RadioButton optEstadoAlta;
-        private System.Windows.Forms.CheckBox chkEstadoIgnorar;
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;

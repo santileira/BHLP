@@ -53,25 +53,11 @@ namespace AerolineaFrba.Abm_Rol
                     this.generarQuery(ref huboCondicion, ref querySelect, condicion);
                 }
 
-                if (chkEstadoIgnorar.Checked == false)
-                {
-                    string condicion;
-                    if (optEstadoAlta.Checked)
-                    {
-                       condicion = "ROL_ESTADO = 1";
-                    }
-                    else
-                    {
-                        condicion = "ROL_ESTADO = 0";
-                    }
-                    this.generarQuery(ref huboCondicion, ref querySelect, condicion);
-                }
+         
 
                 this.ejecutarQuery(querySelect);
                 ultimaQuery = querySelect;
-                chkEstadoIgnorar.Checked = true;
-                optEstadoAlta.Checked = true;
-                optEstadoBaja.Checked = false;
+               
                 txtFiltro1.Text = "";
                 txtFiltro2.Text = "";
                 txtFiltro4.Text = "";
@@ -83,7 +69,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1 || !chkEstadoIgnorar.Checked);          
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -162,9 +148,7 @@ namespace AerolineaFrba.Abm_Rol
             this.ejecutarQuery(query);
             ultimaQuery = query;
            
-            chkEstadoIgnorar.Checked = true;
-            optEstadoAlta.Checked = true;
-            optEstadoBaja.Checked = false;
+           
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
             txtFiltro4.Text = "";
@@ -175,8 +159,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
         {
-           optEstadoAlta.Enabled = !chkEstadoIgnorar.Checked;
-           optEstadoBaja.Enabled = !chkEstadoIgnorar.Checked;
+           
          
         }
 
@@ -240,7 +223,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void generarQueryInicial()
         {
-            query = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+            query = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_ESTADO = '1'";
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -263,6 +246,11 @@ namespace AerolineaFrba.Abm_Rol
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
             
         

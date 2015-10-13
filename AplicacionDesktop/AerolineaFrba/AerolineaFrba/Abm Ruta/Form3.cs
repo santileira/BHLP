@@ -37,7 +37,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
-            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
+            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_ESTADO = '1'";
         }
 
         private string buscarCiudad(string cod)
@@ -48,21 +48,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void button3_Click(object sender, EventArgs e)
         {
    
-            if (chkEstadoIgnorar.Checked == false)
-            {
-                if (!this.huboCondicion)
-                {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-                }
-                else
-                    this.query += " AND ";
-
-                if (optEstadoAlta.Checked)
-                    this.query += "RUTA_ESTADO = 1"; 
-                else
-                    this.query += "RUTA_ESTADO = 0";
-            }
+            
             if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength != 0 && cboCamposFiltro1.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
@@ -116,9 +102,8 @@ namespace AerolineaFrba.Abm_Ruta
             this.ejecutarQuery();
             
             txtFiltros.Text = "";
-            chkEstadoIgnorar.Checked = true;
-            optEstadoAlta.Checked = true;
-            optEstadoBaja.Checked = false;
+         
+        
 
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
@@ -137,8 +122,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
         {
-           optEstadoAlta.Enabled = !chkEstadoIgnorar.Checked;
-           optEstadoBaja.Enabled = !chkEstadoIgnorar.Checked;
+
 
         }
 
