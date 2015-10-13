@@ -46,6 +46,8 @@ namespace AerolineaFrba.Abm_Ruta
 
             botonSelOrigen.Enabled = true;
             botonSelDestino.Enabled = true;
+            botonLimpiar.Enabled = true;
+            botonGuardar.Enabled = true;
         }
 
         public void seSelecciono(string ciudad)
@@ -78,7 +80,8 @@ namespace AerolineaFrba.Abm_Ruta
 
             botonSelOrigen.Enabled = false;
             botonSelDestino.Enabled = false;
-
+            botonLimpiar.Enabled = false;
+            botonGuardar.Enabled = false;
         }
 
         private void cargarComboServicio()
