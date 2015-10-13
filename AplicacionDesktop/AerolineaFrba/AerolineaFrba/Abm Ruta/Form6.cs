@@ -186,6 +186,11 @@ namespace AerolineaFrba.Abm_Ruta
             throw new NotImplementedException();
             //this.cambiarVisibilidades(this.listado);
         }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
         
 
     }

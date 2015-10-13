@@ -239,6 +239,18 @@ namespace AerolineaFrba.Abm_Rol
             throw new NotImplementedException();
             //this.cambiarVisibilidades(this.listado);
         }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dg_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+
         
 
     }
