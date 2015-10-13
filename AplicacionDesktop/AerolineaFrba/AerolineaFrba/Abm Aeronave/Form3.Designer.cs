@@ -285,7 +285,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Name = "Baja";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Listado";
+            this.Text = "ABM Baja";
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

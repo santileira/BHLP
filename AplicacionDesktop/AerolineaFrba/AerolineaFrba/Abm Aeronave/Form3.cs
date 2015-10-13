@@ -137,7 +137,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT * FROM [ABSTRACCIONX4].[AERONAVES]";
+            this.query = "SELECT * FROM [ABSTRACCIONX4].[AERONAVES] WHERE AERO_BAJA_FS = '1' AND AERO_BAJA_VU = '1'";
         }
 
         private void iniciar()
