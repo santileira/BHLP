@@ -44,6 +44,7 @@ namespace AerolineaFrba.Abm_Rol
             modifFuncionalidades.Visible = false;
             modifHabilitacion.Visible = false;
             modifNombre.Visible = false;
+            button1.Enabled = false;
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
             command = new SqlCommand(queryselect, Program.conexion());
@@ -201,6 +202,7 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesTotales.Enabled = true;
 
             checkHabilitado.Enabled = !habilitado;
+            button1.Enabled = true;
         }
 
         private void txtNombre_TextChanged(object sender, EventArgs e)

@@ -23,39 +23,10 @@ namespace AerolineaFrba.Abm_Ruta
             InitializeComponent();          
         }
 
-        /*private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            txtCampo.Text = "";
-
-            if (cboCampo.SelectedIndex != -1)
-            {
-                this.listado.campo = cboCampo.Text;
-                button1.Enabled = true;
-            }
-            else
-                button1.Enabled = false;
- 
-        }*/
-
         private void Alta_Load(object sender, EventArgs e)
         {
             this.iniciar();
         }
-        /*
-        public void borrarComboSeleccionar()
-        {
-            cboCampo.SelectedIndex = -1;
-        }
-
-        public void setFiltroSelector(string valor)
-        {
-            txtCampo.Text = valor;
-        }
-
-        public string getCampoSelector()
-        {
-            return cboCampo.Text;
-        }*/
 
         private void iniciar()
         {
@@ -228,13 +199,17 @@ namespace AerolineaFrba.Abm_Ruta
         private void botonSelOrigen_Click(object sender, EventArgs e)
         {
             seleccionandoOrigen = true;
-            cambiarVisibilidades(new ListadoCiudades(this));
+            ListadoCiudades listado = new ListadoCiudades(this);
+            listado.vieneDeAlta = true;
+            cambiarVisibilidades(listado);
         }
 
         private void botonSelDestino_Click(object sender, EventArgs e)
         {
             seleccionandoOrigen = false;
-            cambiarVisibilidades(new ListadoCiudades(this));
+            ListadoCiudades listado = new ListadoCiudades(this);
+            listado.vieneDeAlta = true;
+            cambiarVisibilidades(listado);
         }
 
         public void seSelecciono(string ciudad)

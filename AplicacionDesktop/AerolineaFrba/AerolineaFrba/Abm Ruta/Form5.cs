@@ -330,5 +330,18 @@ namespace AerolineaFrba.Abm_Ruta
             this.Visible = false;
         }
 
+        private void botonSeleccionar_Click(object sender, EventArgs e)
+        {
+            if (dg.RowCount == 0)
+            {
+                MessageBox.Show("No se ha seleccionado ninguna ruta", "Selección invalida", MessageBoxButtons.OK);
+                return;
+            }
+
+            (anterior as Modificacion).seSelecciono(dg.Rows[0]);
+
+            cambiarVisibilidades(this.anterior);
+        }
+
     }
 }

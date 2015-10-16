@@ -15,6 +15,7 @@ namespace AerolineaFrba.Abm_Ruta
     {
         const string QUERY_BASE = "SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES]";
         public Form anterior;
+        public bool vieneDeAlta;
         //public Listado listado;
 
         public ListadoCiudades(Form formAnterior)
@@ -171,9 +172,20 @@ namespace AerolineaFrba.Abm_Ruta
                 return;
             }
 
-            (anterior as Alta).seSelecciono(this.ciudadSeleccionada());
-
+            cargarSeleccion();
             cambiarVisibilidades(this.anterior);
+        }
+
+        private void cargarSeleccion()
+        {
+            if (vieneDeAlta)
+            {
+                (anterior as Alta).seSelecciono(this.ciudadSeleccionada());
+            }
+            else
+            {
+                (anterior as Modificacion).seSelecciono(this.ciudadSeleccionada());
+            }
         }
 
         private string ciudadSeleccionada()
@@ -185,11 +197,6 @@ namespace AerolineaFrba.Abm_Ruta
         {
             throw new NotImplementedException();
             //this.cambiarVisibilidades(this.listado);
-        }
-
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
         }
         
 
