@@ -25,9 +25,9 @@ GO
 --TIENE INSERT
 --Esta tabla contiene código, nombre y estado del rol (activo/inactivo)
 CREATE TABLE [ABSTRACCIONX4].[ROLES](
-	[ROL_COD] [int] IDENTITY NOT NULL,
-	[ROL_ESTADO] [numeric] (2,0) NOT NULL, --para su baja lógica
-	[ROL_NOMBRE] [varchar](60) COLLATE Modern_Spanish_CI_AS unique NOT NULL, 
+	[ROL_COD] [tinyint] IDENTITY,
+	[ROL_ESTADO] [bit] DEFAULT 1 NOT NULL, --para su baja lógica
+	[ROL_NOMBRE] [varchar](30) UNIQUE NOT NULL, 
  CONSTRAINT [PK_ROLES] PRIMARY KEY CLUSTERED 
 (
 	[ROL_COD] ASC
@@ -39,8 +39,8 @@ GO
 --TIENE INSERT
 --Tabla Funcionalidad: Contiene los códigos, nombres de cada funcionalidad. 
 CREATE TABLE [ABSTRACCIONX4].[FUNCIONALIDADES](
-	[FUNC_COD] [numeric] (18,0) identity NOT NULL, --IDENTITY O NO??? POR ALGO ESTA NO RECORDAMOS
-	[FUNC_DESC] [varchar] (60) COLLATE Modern_Spanish_CI_AS unique NULL,
+	[FUNC_COD] [tinyint] IDENTITY,
+	[FUNC_DESC] [varchar] (60) UNIQUE NOT NULL,
 CONSTRAINT [PK_FUNCIONALIDADES] PRIMARY KEY CLUSTERED 
 (
 	[FUNC_COD] ASC
@@ -52,8 +52,8 @@ GO
 --SIN INSERT
 --Tabla Funciones por rol: Contiene las funcionalidades habilitadas para cada rol del sistema.
 CREATE TABLE [ABSTRACCIONX4].[FUNCIONES_ROLES](
-	[ROL_COD] [int] NOT NULL,
-	[FUNC_COD] [numeric] (18,0) NOT NULL,
+	[ROL_COD] [tinyint] NOT NULL,
+	[FUNC_COD] [tinyint] NOT NULL,
  CONSTRAINT [PK_FUNCIONES_ROLES] PRIMARY KEY CLUSTERED 
 (
 	[ROL_COD] ASC,
@@ -78,10 +78,10 @@ GO
 -- Tabla Usuarios: 
 
 CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
-	[USERNAME] [varchar] (100) NOT NULL,
-	[PASSWORD] [varchar] (100) NOT NULL,
-	[ROL_COD] [int] NULL,
-	[CANT_INTENTOS] [int],
+	[USERNAME] [varchar] (20),
+	[PASSWORD] [varchar] (70) NOT NULL,
+	[ROL_COD] [tinyint] NULL,
+	[CANT_INTENTOS] [tinyint] DEFAULT 0,
  CONSTRAINT [PK_USUARIOS] PRIMARY KEY CLUSTERED 
 (
 	[USERNAME] 
@@ -99,13 +99,13 @@ GO
 -- Tabla Clientes:
 
 CREATE TABLE [ABSTRACCIONX4].[CLIENTES](
-	[CLI_COD] [int] IDENTITY NOT NULL,
-	[CLI_DNI] [numeric] (18,0) NOT NULL,
-	[CLI_NOMBRE] [varchar] (100) NOT NULL,
-	[CLI_APELLIDO] [varchar] (100) NOT NULL,
-	[CLI_DIRECCION] [varchar] (255) NOT NULL,
+	[CLI_COD] [int] IDENTITY ,
+	[CLI_DNI] [numeric] (10,0) NOT NULL,
+	[CLI_NOMBRE] [varchar] (60) NOT NULL,
+	[CLI_APELLIDO] [varchar] (60) NOT NULL,
+	[CLI_DIRECCION] [varchar] (80) NOT NULL,
 	[CLI_TELEFONO] [int] NOT NULL,
-	[CLI_MAIL] [varchar] (100) NULL,
+	[CLI_MAIL] [varchar] (60) NULL,
 	[CLI_FECHA_NAC] [datetime] NOT NULL,
  CONSTRAINT [PK_CLIENTES] PRIMARY KEY CLUSTERED 
 (
@@ -116,10 +116,12 @@ CREATE TABLE [ABSTRACCIONX4].[CLIENTES](
 GO
 
 
--- Tabla de Tipos
+
+-- Tabla de Tipos de Tarjetas de Cerdito
 CREATE TABLE [ABSTRACCIONX4].[TIPOS](
-	[TIPO_COD] [varchar] (20) NOT NULL,
-	[TIPO_CUO] [int] NOT NULL,
+	[TIPO_COD] [tinyint] IDENTITY,
+	[TIPO_DESC] [varchar] (30),
+	[TIPO_CUO] [bit] DEFAULT 0,
 CONSTRAINT [PK_TIPOS] PRIMARY KEY CLUSTERED 
 (
 	[TIPO_COD] 
@@ -129,8 +131,9 @@ GO
 
 -- Tabla Servicios:
 CREATE TABLE [ABSTRACCIONX4].[SERVICIOS](
-	[SERV_COD] [varchar] (30) NOT NULL, 
-	[SERV_PORC] [int] NOT NULL,
+	[SERV_COD] [tinyint] IDENTITY,
+	[SERV_DESC] [varchar] (30) NOT NULL, 
+	[SERV_PORC] [numeric] (5,2) NOT NULL,
 CONSTRAINT [PK_SERVICIOS] PRIMARY KEY CLUSTERED 
 (
 	[SERV_COD] 
@@ -141,10 +144,10 @@ GO
 
 -- Tabla de Tarjetas
 CREATE TABLE [ABSTRACCIONX4].[TARJETAS](
-	[TARJ_NRO] [int] NOT NULL,
+	[TARJ_NRO] [numeric] (16,0),
 	[TARJ_VTO] [datetime] NOT NULL,
-	[TARJ_CODSEG] [int] NOT NULL,
-	[TIPO_COD] [varchar] (20) NOT NULL,
+	[TARJ_CODSEG] [numeric] (4,0) NOT NULL,
+	[TIPO_COD] [tinyint] NOT NULL,
 CONSTRAINT [PK_TARJETAS] PRIMARY KEY CLUSTERED 
 (
 	[TARJ_NRO] 
@@ -160,10 +163,10 @@ GO
 
 -- Tabla Compras:
 CREATE TABLE [ABSTRACCIONX4].[COMPRAS](
-	[COMP_COD] [int] IDENTITY NOT NULL,
-	[TARJ_NRO] [int] NULL,  
+	[COMP_COD] [int] IDENTITY,
+	[TARJ_NRO] [numeric] (16,0) NULL,  
 	[CLI_COD] [int] NOT NULL,
-	[COMP_PNR] [int] NOT NULL,
+	[COMP_PNR] [int] UNIQUE NOT NULL,
 CONSTRAINT [PK_COMPRAS] PRIMARY KEY CLUSTERED 
 (
 	[COMP_COD] 
@@ -193,8 +196,8 @@ order by Tipo_Servicio*/
 -- Tabla Ciudades:
 
 CREATE TABLE [ABSTRACCIONX4].[CIUDADES](
-	[CIU_COD] [int] IDENTITY NOT NULL,
-	[CIU_DESC] [varchar] (255) NOT NULL,
+	[CIU_COD] [smallint] IDENTITY,
+	[CIU_DESC] [varchar] (80) UNIQUE NOT NULL,
  CONSTRAINT [PK_CIUDADES] PRIMARY KEY CLUSTERED 
 (
 	[CIU_COD] 
@@ -207,18 +210,19 @@ GO
 -- Tabla Ruta Aérea:
 
 CREATE TABLE [ABSTRACCIONX4].[RUTAS_AEREAS](
-	[RUTA_ID] [int] IDENTITY NOT NULL,
+	[RUTA_ID] [int] IDENTITY,
 	[RUTA_COD] [int] NOT NULL,
-	[SERV_COD] [varchar] (30) NOT NULL,
-	[CIU_COD_O] [int] NOT NULL,
-	[CIU_COD_D] [int] NOT NULL,
-	[RUTA_PRECIO_BASE_KG] [numeric] (10,2) NOT NULL,
-	[RUTA_PRECIO_BASE_PASAJE] [numeric] (10,2) NOT NULL,
-	[RUTA_ESTADO] [int] NOT NULL, --para su baja lógica
- CONSTRAINT [PK_RUTAS_AEREAS] PRIMARY KEY CLUSTERED 
-(
+	[SERV_COD] [tinyint] NOT NULL,
+	[CIU_COD_O] [smallint] NOT NULL,
+	[CIU_COD_D] [smallint] NOT NULL,
+	[RUTA_PRECIO_BASE_KG] [numeric] (5,2) NOT NULL,
+	[RUTA_PRECIO_BASE_PASAJE] [numeric] (5,2) NOT NULL,
+	[RUTA_ESTADO] [bit] DEFAULT 1, --para su baja lógica
+	CONSTRAINT [UK_CIUDADES] UNIQUE (CIU_COD_O , CIU_COD_D , RUTA_COD , SERV_COD),
+	CONSTRAINT [PK_RUTAS_AEREAS] PRIMARY KEY CLUSTERED 
+	(
 	[RUTA_ID] 
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+	)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
