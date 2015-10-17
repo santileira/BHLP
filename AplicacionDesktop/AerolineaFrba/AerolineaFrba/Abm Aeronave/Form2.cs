@@ -77,10 +77,11 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
             algunoVacio =  !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
+            algunoVacio = !this.seCompleto(cboFabricante, "Fabricante") || algunoVacio;
+            algunoVacio = !this.seCompleto(cboServicio, "Tipo de Servicio") || algunoVacio;
             algunoVacio =  !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
             algunoVacio = !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboServicio, "Tipo de Servicio") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboFabricante, "Fabricante") || algunoVacio;
+            
 
             return algunoVacio;
         }
@@ -99,9 +100,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean seCompleto(ComboBox cbo, string campo)
         {
-            if (cbo.SelectedText.Length == 0)
+            if (cbo.SelectedIndex == -1)
             {
-                MessageBox.Show("El combo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                MessageBox.Show("El combo " + campo + " debe tener algún elemento seleccionado", "Error en los datos de entrada", MessageBoxButtons.OK);
                 return false;
             }
             else
@@ -112,41 +113,54 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Boolean huboError = false;
 
-            if(txtModelo.TextLength != 0 && !this.esTexto(txtModelo))
-            {
-                MessageBox.Show("El campo modelo debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if(txtMatricula.TextLength != 0 && !this.esTexto(txtMatricula))
-            {
-                MessageBox.Show("El campo matricula debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-            
-            if (txtButacas.TextLength != 0 && !this.esNumero(txtButacas))
-            {
-                MessageBox.Show("El campo butacas debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtKilos.TextLength != 0 && !this.esNumero(txtKilos))
-            {
-                MessageBox.Show("El campo kilos debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtKilos.TextLength != 0 && !this.esNumero(txtKilos))
-            {
-                MessageBox.Show("El campo kilos debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
+            huboError = !esTexto(txtModelo,"modelo") || huboError;
+            huboError = !esTexto(txtMatricula, "matrícula") || huboError;
+            huboError = !esNumero(txtButacas, "cantidad de butacas",true) || huboError;
+            huboError = !esNumero(txtKilos, "cantidad de Kg",false) || huboError;
 
             return huboError;
+        }
+        
 
-        }        
+        private Boolean esTexto(TextBox txt,string campo)
+        {
+            String textPattern = "[A-Za-z]";
+            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
+            if (txt.TextLength != 0 && !regexTexto.IsMatch(txt.Text))
+            {
+                MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
+                return true;            
+            }
+            return false;
+        }
+
+        private Boolean esNumero(TextBox txt, string campo,bool debeSerEntero)
+        {
+            int n;
+            decimal d;
+            if (txt.TextLength != 0)
+            {
+                if (debeSerEntero)
+                {
+                    if (!int.TryParse(txt.Text, out n))
+                    {
+                        MessageBox.Show("El campo " + campo + " debe ser un número entero", "Error en los tipos de entrada", MessageBoxButtons.OK);
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (!decimal.TryParse(txt.Text, out d))
+                    {
+                        MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los tipos de entrada", MessageBoxButtons.OK);
+                        return false;
+                    }
+                }
+                
+            }
+            return true;
+        }
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -154,37 +168,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
-        private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }
-
-        private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-        }
-
-        private void txtModelo_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtCampo_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-                
-
-        private void txtFabricante_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void cargarComboServicio()
         {
@@ -193,7 +176,7 @@ namespace AerolineaFrba.Abm_Aeronave
             SqlDataReader reader;
             SqlCommand consultaServicios = new SqlCommand();
             consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_COD FROM [ABSTRACCIONX4].SERVICIOS";
+            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
             consultaServicios.Connection = Program.conexion();
 
             reader = consultaServicios.ExecuteReader();
