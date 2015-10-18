@@ -33,10 +33,10 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_COD , SERV_COD TIPO_SERVICIO, ";
+            this.query = "SELECT RUTA_COD , (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD) TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
-            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
+            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE";
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_ESTADO = '1'";
         }
 

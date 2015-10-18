@@ -22,7 +22,8 @@ namespace AerolineaFrba.Abm_Ruta
         public Form siguiente;
         public Alta alta;
         Boolean primeraVez = true;
-        
+        public Boolean llamadoDeModificacion = false;
+        private DataGridViewRow ultimoRegistroSeleccionado;
         public Listado()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_COD CODIGO_DE_RUTA, SERV_COD TIPO_SERVICIO, ";
+            this.query = "SELECT RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
@@ -322,7 +323,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button6_Click(object sender, EventArgs e)
         {
-            this.cambiarVisibilidades(this.anterior);
+            if (this.llamadoDeModificacion)
+            {
+                
+                this.cambiarVisibilidades(this.siguiente);
+                (siguiente as Modificacion).seSelecciono(ultimoRegistroSeleccionado);
+            }
+            else this.cambiarVisibilidades(this.anterior);
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -343,9 +350,10 @@ namespace AerolineaFrba.Abm_Ruta
             if (siguiente == null) cambiarVisibilidades(this.anterior);
             else
             {
-                (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+                
                 cambiarVisibilidades(this.siguiente);
-
+                ultimoRegistroSeleccionado = dg.SelectedRows[0];
+                (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
             }   
          }
 

@@ -17,6 +17,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         public Listado listado;
         bool seleccionandoOrigen;
+        
 
         public Modificacion()
         {
@@ -25,7 +26,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void Modificacion_Load(object sender, EventArgs e)
         {
-           //this.iniciar();
+            this.iniciar();
         }
 
         public void seSelecciono(DataGridViewRow registro)
@@ -120,6 +121,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void button5_Click(object sender, EventArgs e)
         {
             this.iniciar();
+            this.listado.llamadoDeModificacion = true;
             this.cambiarVisibilidades(this.listado);
         }
 
