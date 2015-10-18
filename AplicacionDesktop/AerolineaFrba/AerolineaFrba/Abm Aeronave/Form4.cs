@@ -35,7 +35,7 @@ namespace AerolineaFrba.Abm_Aeronave
             txtModelo.Text = registro.Cells["AERO_MOD"].Value.ToString();
             txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
             cboFabricante.Text = registro.Cells["AERO_FAB"].Value.ToString();
-            cboServicio.Text = registro.Cells["SERV_COD"].Value.ToString();
+            cboServicio.Text = registro.Cells["SERV_DESC"].Value.ToString();
             txtButacas.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
             txtKilos.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
 
@@ -231,7 +231,7 @@ namespace AerolineaFrba.Abm_Aeronave
             SqlDataReader reader;
             SqlCommand consultaServicios = new SqlCommand();
             consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_COD FROM [ABSTRACCIONX4].SERVICIOS";
+            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
             consultaServicios.Connection = Program.conexion();
 
             reader = consultaServicios.ExecuteReader();

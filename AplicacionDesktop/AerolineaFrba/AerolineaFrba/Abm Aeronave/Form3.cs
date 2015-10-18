@@ -14,6 +14,7 @@ namespace AerolineaFrba.Abm_Aeronave
     
     public partial class Baja : Form
     {
+        const string QUERY_BASE = "SELECT AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) WHERE AERO_BAJA_VU = 0 AND AERO_BAJA_FS = 0";
         string query;
         Boolean huboCondicion;
         public Form anterior;
@@ -22,7 +23,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private Boolean sePusoAgregarFiltro2 = false;
         private Boolean sePusoAgregarFiltro3 = false;
         private int filtro;
-
+        
         
         public Baja()
         {
@@ -129,6 +130,7 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
+
             conexion.Close();
 
 
@@ -137,12 +139,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT * FROM [ABSTRACCIONX4].[AERONAVES] WHERE AERO_BAJA_FS = '1' AND AERO_BAJA_VU = '1'";
+            this.query = QUERY_BASE;
         }
 
         private void iniciar()
         {
-            this.generarQueryInicial();
+            generarQueryInicial();
 
             ejecutarQuery();
 
@@ -157,11 +159,6 @@ namespace AerolineaFrba.Abm_Aeronave
             txtFiltros.Text = "";
 
             this.huboCondicion = false;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void button4_Click_1(object sender, EventArgs e)
@@ -206,12 +203,12 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             if (this.datosCorrectos(txt, combo))
             {
-                if (!this.huboCondicion)
+                /*if (!this.huboCondicion)
                 {
                     this.huboCondicion = true;
                     this.query += " WHERE ";
                 }
-                else
+                else*/
                     this.query += " AND ";
                 
                 this.query += combo.Text + criterio;
@@ -272,10 +269,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean esNumero(TextBox txt)
         {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
+            int n;
+            return int.TryParse(txt.Text,out n);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -358,12 +353,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean concatenarCriterio(DateTimePicker dataTime, ComboBox combo, string criterio)
         {
-            if (!this.huboCondicion)
+            /*if (!this.huboCondicion)
             {
                     this.huboCondicion = true;
                     this.query += " WHERE ";
             }
-            else
+            else*/
                     this.query += " AND ";
 
             this.query += combo.Text + criterio;
