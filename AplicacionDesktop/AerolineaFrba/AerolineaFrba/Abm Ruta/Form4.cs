@@ -34,16 +34,20 @@ namespace AerolineaFrba.Abm_Ruta
             cargarComboServicio();
             
             txtCodigo.Text = registro.Cells["CODIGO_DE_RUTA"].Value.ToString();
-            cboServicio.Text = registro.Cells["TIPO_SERVICIO"].Value.ToString();
+            txtTipoDeServicio.Text = registro.Cells["TIPO_SERVICIO"].Value.ToString();
             txtCiudadOrigen.Text = registro.Cells["ORIGEN"].Value.ToString();
             txtCiudadDestino.Text = registro.Cells["DESTINO"].Value.ToString();
             txtPrecioEncomienda.Text = registro.Cells["RUTA_PRECIO_BASE_KG"].Value.ToString();
             txtPrecioPasaje.Text = registro.Cells["RUTA_PRECIO_BASE_PASAJE"].Value.ToString();
 
             txtCodigo.Enabled = true;
-            cboServicio.Enabled = true;
+            txtTipoDeServicio.Enabled = true;
             txtPrecioEncomienda.Enabled = true;
             txtPrecioPasaje.Enabled = true;
+            txtCiudadDestino.Enabled = true;
+            txtCiudadOrigen.Enabled = true;
+
+
 
             botonSelOrigen.Enabled = true;
             botonSelDestino.Enabled = true;
@@ -57,11 +61,11 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (seleccionandoOrigen)
             {
-                txtCiudadOrigen.Text = ciudad;
+                txtCiudadOrigen1.Text = ciudad;
             }
             else
             {
-                txtCiudadDestino.Text = ciudad;
+                txtCiudadDestino1.Text = ciudad;
             }
         }
 
@@ -69,15 +73,15 @@ namespace AerolineaFrba.Abm_Ruta
         {
           this.cargarComboServicio();
 
-          txtCiudadDestino.Text = "";
-          txtCiudadOrigen.Text = "";
+          txtCiudadDestino1.Text = "";
+          txtCiudadOrigen1.Text = "";
           txtCodigo.Text = "";
           txtPrecioEncomienda.Text = "";
           txtPrecioPasaje.Text = "";
-          cboServicio.SelectedItem = -1;
+          txtTipoDeServicio.Text = ""; ;
 
           txtCodigo.Enabled = false;
-          cboServicio.Enabled = false;
+          txtTipoDeServicio.Enabled = false;
           txtPrecioEncomienda.Enabled = false;
           txtPrecioPasaje.Enabled = false;
 
@@ -145,7 +149,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
-            huboErrores = this.validarLongitudes() || huboErrores;
+            //huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
             huboErrores = this.validarIgualdadCiudades() || huboErrores;
 
@@ -155,10 +159,10 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean validarLongitudes()
         {
             Boolean algunoVacio = !this.seCompleto(txtCodigo, "Código");
-            algunoVacio = !this.seCompleto(txtCiudadDestino, "Ciudad de destino") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtCiudadOrigen, "Ciudad de origen") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtPrecioEncomienda, "Precio de encomienda") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtPrecioPasaje, "Precio de pasaje") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtCiudadDestino1, "Ciudad de destino") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtCiudadOrigen1, "Ciudad de origen") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtPrecioEncomienda1, "Precio de encomienda") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtPrecioPasaje1, "Precio de pasaje") || algunoVacio;
             algunoVacio = !this.seCompleto(cboServicio, "Tipo de servicio") || algunoVacio;
 
             return algunoVacio;
@@ -188,8 +192,8 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboError = !this.numeroCorrecto(txtCodigo, "Código", false);
 
-            huboError = !this.numeroCorrecto(txtPrecioEncomienda, "Precio de encomienda", true) || huboError;
-            huboError = !this.numeroCorrecto(txtPrecioPasaje, "Precio de pasaje", true) || huboError;
+            huboError = !this.numeroCorrecto(txtPrecioEncomienda1, "Precio de encomienda", true) || huboError;
+            huboError = !this.numeroCorrecto(txtPrecioPasaje1, "Precio de pasaje", true) || huboError;
 
             return huboError;
         }
@@ -220,9 +224,9 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean validarIgualdadCiudades()
         {
-            if (txtCiudadDestino.TextLength * txtCiudadOrigen.TextLength != 0)
+            if (txtCiudadDestino1.TextLength * txtCiudadOrigen1.TextLength != 0)
             {
-                if (txtCiudadOrigen.Text == txtCiudadDestino.Text)
+                if (txtCiudadOrigen1.Text == txtCiudadDestino1.Text)
                 {
                     MessageBox.Show("La ciudad de origen debe ser distinta a la de destino", "Error en los datos ingresados", MessageBoxButtons.OK);
                     return true;
@@ -265,6 +269,11 @@ namespace AerolineaFrba.Abm_Ruta
             ListadoCiudades listado = new ListadoCiudades(this);
             listado.vieneDeAlta = false;
             cambiarVisibilidades(listado);
+        }
+
+        private void cboServicio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

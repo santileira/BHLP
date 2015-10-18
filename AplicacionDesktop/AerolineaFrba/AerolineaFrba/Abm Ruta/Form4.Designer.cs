@@ -40,15 +40,20 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.botonSelDestino = new System.Windows.Forms.Button();
             this.botonSelOrigen = new System.Windows.Forms.Button();
-            this.txtCiudadDestino = new System.Windows.Forms.TextBox();
+            this.txtCiudadDestino1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
+            this.txtCiudadOrigen1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cboServicio = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.txtPrecioPasaje1 = new System.Windows.Forms.TextBox();
+            this.txtPrecioEncomienda1 = new System.Windows.Forms.TextBox();
+            this.cboServicio = new System.Windows.Forms.ComboBox();
+            this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
+            this.txtCiudadDestino = new System.Windows.Forms.TextBox();
+            this.txtTipoDeServicio = new System.Windows.Forms.TextBox();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -76,7 +81,7 @@
             // 
             // botonGuardar
             // 
-            this.botonGuardar.Location = new System.Drawing.Point(453, 322);
+            this.botonGuardar.Location = new System.Drawing.Point(747, 322);
             this.botonGuardar.Name = "botonGuardar";
             this.botonGuardar.Size = new System.Drawing.Size(112, 35);
             this.botonGuardar.TabIndex = 10;
@@ -86,7 +91,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(487, 11);
+            this.button5.Location = new System.Drawing.Point(781, 12);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 22);
             this.button5.TabIndex = 43;
@@ -96,13 +101,15 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.txtPrecioEncomienda1);
+            this.groupBox4.Controls.Add(this.txtPrecioPasaje1);
             this.groupBox4.Controls.Add(this.txtPrecioEncomienda);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.txtPrecioPasaje);
             this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Location = new System.Drawing.Point(316, 57);
+            this.groupBox4.Location = new System.Drawing.Point(503, 57);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(249, 113);
+            this.groupBox4.Size = new System.Drawing.Size(356, 125);
             this.groupBox4.TabIndex = 46;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
@@ -111,6 +118,7 @@
             // 
             this.txtPrecioEncomienda.Location = new System.Drawing.Point(95, 68);
             this.txtPrecioEncomienda.Name = "txtPrecioEncomienda";
+            this.txtPrecioEncomienda.ReadOnly = true;
             this.txtPrecioEncomienda.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioEncomienda.TabIndex = 7;
             // 
@@ -127,6 +135,7 @@
             // 
             this.txtPrecioPasaje.Location = new System.Drawing.Point(95, 31);
             this.txtPrecioPasaje.Name = "txtPrecioPasaje";
+            this.txtPrecioPasaje.ReadOnly = true;
             this.txtPrecioPasaje.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioPasaje.TabIndex = 5;
             // 
@@ -141,22 +150,24 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.txtCiudadDestino);
+            this.groupBox3.Controls.Add(this.txtCiudadOrigen);
             this.groupBox3.Controls.Add(this.botonSelDestino);
             this.groupBox3.Controls.Add(this.botonSelOrigen);
-            this.groupBox3.Controls.Add(this.txtCiudadDestino);
+            this.groupBox3.Controls.Add(this.txtCiudadDestino1);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.txtCiudadOrigen);
+            this.groupBox3.Controls.Add(this.txtCiudadOrigen1);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Location = new System.Drawing.Point(37, 188);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(352, 113);
+            this.groupBox3.Size = new System.Drawing.Size(477, 128);
             this.groupBox3.TabIndex = 45;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ciudades";
             // 
             // botonSelDestino
             // 
-            this.botonSelDestino.Location = new System.Drawing.Point(237, 65);
+            this.botonSelDestino.Location = new System.Drawing.Point(383, 62);
             this.botonSelDestino.Name = "botonSelDestino";
             this.botonSelDestino.Size = new System.Drawing.Size(88, 25);
             this.botonSelDestino.TabIndex = 8;
@@ -166,7 +177,7 @@
             // 
             // botonSelOrigen
             // 
-            this.botonSelOrigen.Location = new System.Drawing.Point(237, 28);
+            this.botonSelOrigen.Location = new System.Drawing.Point(383, 25);
             this.botonSelOrigen.Name = "botonSelOrigen";
             this.botonSelOrigen.Size = new System.Drawing.Size(88, 25);
             this.botonSelOrigen.TabIndex = 7;
@@ -174,35 +185,35 @@
             this.botonSelOrigen.UseVisualStyleBackColor = true;
             this.botonSelOrigen.Click += new System.EventHandler(this.botonSelOrigen_Click);
             // 
-            // txtCiudadDestino
+            // txtCiudadDestino1
             // 
-            this.txtCiudadDestino.Location = new System.Drawing.Point(95, 68);
-            this.txtCiudadDestino.Name = "txtCiudadDestino";
-            this.txtCiudadDestino.ReadOnly = true;
-            this.txtCiudadDestino.Size = new System.Drawing.Size(117, 20);
-            this.txtCiudadDestino.TabIndex = 7;
+            this.txtCiudadDestino1.Location = new System.Drawing.Point(237, 64);
+            this.txtCiudadDestino1.Name = "txtCiudadDestino1";
+            this.txtCiudadDestino1.ReadOnly = true;
+            this.txtCiudadDestino1.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadDestino1.TabIndex = 7;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 71);
+            this.label1.Location = new System.Drawing.Point(12, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Destino";
             // 
-            // txtCiudadOrigen
+            // txtCiudadOrigen1
             // 
-            this.txtCiudadOrigen.Location = new System.Drawing.Point(95, 31);
-            this.txtCiudadOrigen.Name = "txtCiudadOrigen";
-            this.txtCiudadOrigen.ReadOnly = true;
-            this.txtCiudadOrigen.Size = new System.Drawing.Size(117, 20);
-            this.txtCiudadOrigen.TabIndex = 5;
+            this.txtCiudadOrigen1.Location = new System.Drawing.Point(237, 27);
+            this.txtCiudadOrigen1.Name = "txtCiudadOrigen1";
+            this.txtCiudadOrigen1.ReadOnly = true;
+            this.txtCiudadOrigen1.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadOrigen1.TabIndex = 5;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 34);
+            this.label2.Location = new System.Drawing.Point(12, 30);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 4;
@@ -210,25 +221,17 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtTipoDeServicio);
             this.groupBox2.Controls.Add(this.cboServicio);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Location = new System.Drawing.Point(37, 57);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(249, 113);
+            this.groupBox2.Size = new System.Drawing.Size(398, 125);
             this.groupBox2.TabIndex = 44;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
-            // 
-            // cboServicio
-            // 
-            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(95, 68);
-            this.cboServicio.Name = "cboServicio";
-            this.cboServicio.Size = new System.Drawing.Size(117, 21);
-            this.cboServicio.TabIndex = 15;
             // 
             // label7
             // 
@@ -256,11 +259,59 @@
             this.label8.TabIndex = 4;
             this.label8.Text = "Código";
             // 
+            // txtPrecioPasaje1
+            // 
+            this.txtPrecioPasaje1.Location = new System.Drawing.Point(233, 31);
+            this.txtPrecioPasaje1.Name = "txtPrecioPasaje1";
+            this.txtPrecioPasaje1.Size = new System.Drawing.Size(117, 20);
+            this.txtPrecioPasaje1.TabIndex = 8;
+            // 
+            // txtPrecioEncomienda1
+            // 
+            this.txtPrecioEncomienda1.Location = new System.Drawing.Point(233, 68);
+            this.txtPrecioEncomienda1.Name = "txtPrecioEncomienda1";
+            this.txtPrecioEncomienda1.Size = new System.Drawing.Size(117, 20);
+            this.txtPrecioEncomienda1.TabIndex = 9;
+            // 
+            // cboServicio
+            // 
+            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboServicio.FormattingEnabled = true;
+            this.cboServicio.Location = new System.Drawing.Point(237, 68);
+            this.cboServicio.Name = "cboServicio";
+            this.cboServicio.Size = new System.Drawing.Size(117, 21);
+            this.cboServicio.TabIndex = 16;
+            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
+            // 
+            // txtCiudadOrigen
+            // 
+            this.txtCiudadOrigen.Location = new System.Drawing.Point(95, 27);
+            this.txtCiudadOrigen.Name = "txtCiudadOrigen";
+            this.txtCiudadOrigen.ReadOnly = true;
+            this.txtCiudadOrigen.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadOrigen.TabIndex = 9;
+            // 
+            // txtCiudadDestino
+            // 
+            this.txtCiudadDestino.Location = new System.Drawing.Point(95, 64);
+            this.txtCiudadDestino.Name = "txtCiudadDestino";
+            this.txtCiudadDestino.ReadOnly = true;
+            this.txtCiudadDestino.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadDestino.TabIndex = 10;
+            // 
+            // txtTipoDeServicio
+            // 
+            this.txtTipoDeServicio.Location = new System.Drawing.Point(95, 69);
+            this.txtTipoDeServicio.Name = "txtTipoDeServicio";
+            this.txtTipoDeServicio.ReadOnly = true;
+            this.txtTipoDeServicio.Size = new System.Drawing.Size(117, 20);
+            this.txtTipoDeServicio.TabIndex = 17;
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(602, 379);
+            this.ClientSize = new System.Drawing.Size(891, 379);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -296,14 +347,19 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button botonSelDestino;
         private System.Windows.Forms.Button botonSelOrigen;
-        private System.Windows.Forms.TextBox txtCiudadDestino;
+        private System.Windows.Forms.TextBox txtCiudadDestino1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtCiudadOrigen;
+        private System.Windows.Forms.TextBox txtCiudadOrigen1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cboServicio;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtPrecioEncomienda1;
+        private System.Windows.Forms.TextBox txtPrecioPasaje1;
+        private System.Windows.Forms.ComboBox cboServicio;
+        private System.Windows.Forms.TextBox txtCiudadDestino;
+        private System.Windows.Forms.TextBox txtCiudadOrigen;
+        private System.Windows.Forms.TextBox txtTipoDeServicio;
     }
 }
