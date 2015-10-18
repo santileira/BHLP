@@ -35,6 +35,11 @@ namespace AerolineaFrba.Abm_Ruta
         private void Listado_Load(object sender, EventArgs e)
         {
             this.iniciar();
+
+            foreach (DataGridViewColumn c in dg.Columns)
+            {
+                c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void generarQueryInicial()
@@ -393,11 +398,6 @@ namespace AerolineaFrba.Abm_Ruta
                 (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
             }   
          }
-
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
     }
 }

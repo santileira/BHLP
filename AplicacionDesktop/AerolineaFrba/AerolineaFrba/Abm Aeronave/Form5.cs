@@ -63,7 +63,11 @@ namespace AerolineaFrba.Abm_Aeronave
         private void Listado_Load(object sender, EventArgs e)
         {
             this.iniciar();
-            
+
+            foreach (DataGridViewColumn c in dg.Columns)
+            {
+                c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         //Boton Limpiar
@@ -152,11 +156,6 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.Columns["AERO_BAJA_VU"].Visible = false;
         }
 
-        public void dg_ColumnHeaderMouseClick()
-        {
-            actualizarColumnasDeEstado(dg);
-        }
-
         public void generarQueryInicial()
         {
             this.query = QUERY_BASE;
@@ -177,10 +176,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             this.huboCondicion = false;
 
-            foreach(DataGridViewColumn c in dg.Columns)
-            {
-                c.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
+            
         }
 
 
