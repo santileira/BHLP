@@ -46,7 +46,10 @@ namespace AerolineaFrba.Abm_Ruta
             txtPrecioPasaje.Enabled = true;
             txtCiudadDestino.Enabled = true;
             txtCiudadOrigen.Enabled = true;
-
+            txtPrecioEncomienda1.Enabled = true;
+            txtPrecioPasaje1.Enabled = true;
+            txtCiudadOrigen1.Enabled = false;
+            txtCiudadDestino1.Enabled = false;
 
 
             botonSelOrigen.Enabled = true;
@@ -73,17 +76,28 @@ namespace AerolineaFrba.Abm_Ruta
         {
           this.cargarComboServicio();
 
-          txtCiudadDestino1.Text = "";
-          txtCiudadOrigen1.Text = "";
+          txtCiudadDestino.Text = "";
+          txtCiudadOrigen.Text = "";
           txtCodigo.Text = "";
           txtPrecioEncomienda.Text = "";
           txtPrecioPasaje.Text = "";
-          txtTipoDeServicio.Text = ""; ;
-
+          txtTipoDeServicio.Text = "";
+          txtCiudadDestino1.Text = "";
+          txtCiudadOrigen1.Text = "";
+          txtPrecioEncomienda1.Text = "";
+          txtPrecioPasaje1.Text = "";
+          cboServicio.SelectedIndex = -1;
+             
           txtCodigo.Enabled = false;
           txtTipoDeServicio.Enabled = false;
           txtPrecioEncomienda.Enabled = false;
           txtPrecioPasaje.Enabled = false;
+          txtPrecioEncomienda1.Enabled = false;
+          txtPrecioPasaje1.Enabled = false;
+          txtCiudadOrigen.Enabled = false;
+          txtCiudadOrigen1.Enabled = false;
+          txtCiudadDestino.Enabled = false;
+          txtCiudadDestino1.Enabled = false;
 
           botonSelOrigen.Enabled = false;
           botonSelDestino.Enabled = false;
@@ -131,6 +145,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void botonLimpiar_Click(object sender, EventArgs e)
         {
+            
             this.iniciar();
         }
 
