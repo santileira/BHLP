@@ -14,10 +14,11 @@ namespace AerolineaFrba.Abm_Aeronave
     
     public partial class Listado : Form
     {
+        const string QUERY_BASE = "select AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
         string query;
         Boolean huboCondicion;
         public Form anterior;
-
+        public bool primeraConsulta = true;
         
         public Listado()
         {
@@ -99,15 +100,66 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
+            //modificar check que se pone automáticamente en los campos de tipo bit
+            actualizarColumnasDeEstado(dg);
+
             conexion.Close();
 
-
+            primeraConsulta = false;
         }
 
+        private void actualizarColumnasDeEstado(DataGridView dg)
+        {
+            if (primeraConsulta)
+            {
+                DataGridViewColumn columnaHabilitada = new DataGridViewTextBoxColumn();
+                columnaHabilitada.Name = "HABILITADA";
+                columnaHabilitada.HeaderText = "HABILITADA";
+                columnaHabilitada.ReadOnly = true;
+
+                DataGridViewColumn columnaFueraServicio = new DataGridViewTextBoxColumn();
+                columnaFueraServicio.Name = "FUERA_SERVICIO";
+                columnaFueraServicio.HeaderText = "FUERA_SERVICIO";
+                columnaFueraServicio.ReadOnly = true;
+
+                dg.Columns.Insert(dg.Columns["AERO_BAJA_VU"].Index, columnaHabilitada);
+                dg.Columns.Insert(dg.Columns["AERO_BAJA_FS"].Index, columnaFueraServicio);
+            }
+
+            foreach (DataGridViewRow fila in dg.Rows)
+            {
+                Boolean valor = (Boolean)(fila.Cells["AERO_BAJA_VU"].Value);
+                if (valor)
+                {
+                    fila.Cells["HABILITADA"].Value = "NO";
+                }
+                else
+                {
+                    fila.Cells["HABILITADA"].Value = "SI";
+                }
+                valor = (Boolean)(fila.Cells["AERO_BAJA_FS"].Value);
+                if (valor)
+                {
+                    fila.Cells["FUERA_SERVICIO"].Value = "SI";
+                }
+                else
+                {
+                    fila.Cells["FUERA_SERVICIO"].Value = "NO";
+                }
+            }
+
+            dg.Columns["AERO_BAJA_FS"].Visible = false;
+            dg.Columns["AERO_BAJA_VU"].Visible = false;
+        }
+
+        public void dg_ColumnHeaderMouseClick()
+        {
+            actualizarColumnasDeEstado(dg);
+        }
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT * FROM [ABSTRACCIONX4].[AERONAVES]";
+            this.query = QUERY_BASE;
         }
 
         private void iniciar()
@@ -124,12 +176,13 @@ namespace AerolineaFrba.Abm_Aeronave
             cboCamposFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
+
+            foreach(DataGridViewColumn c in dg.Columns)
+            {
+                c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button4_Click_1(object sender, EventArgs e)
         {

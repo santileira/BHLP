@@ -32,6 +32,10 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkReinicio = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dtTime = new System.Windows.Forms.DateTimePicker();
             this.cboFabricante = new System.Windows.Forms.ComboBox();
             this.cboServicio = new System.Windows.Forms.ComboBox();
             this.txtButacas = new System.Windows.Forms.TextBox();
@@ -45,10 +49,6 @@
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chkReinicio = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.dtTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -105,8 +105,48 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.chkReinicio);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.dtTime);
+            this.groupBox2.Location = new System.Drawing.Point(25, 363);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(376, 102);
+            this.groupBox2.TabIndex = 35;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Reinicio del servicio de la aeronave";
+            // 
+            // chkReinicio
+            // 
+            this.chkReinicio.AutoSize = true;
+            this.chkReinicio.Location = new System.Drawing.Point(14, 25);
+            this.chkReinicio.Name = "chkReinicio";
+            this.chkReinicio.Size = new System.Drawing.Size(217, 17);
+            this.chkReinicio.TabIndex = 37;
+            this.chkReinicio.Text = "Modificar la fecha de reinicio del servicio";
+            this.chkReinicio.UseVisualStyleBackColor = true;
+            this.chkReinicio.CheckedChanged += new System.EventHandler(this.chkReinicio_CheckedChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 65);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(142, 13);
+            this.label7.TabIndex = 36;
+            this.label7.Text = "Fecha de reinicio de servicio";
+            // 
+            // dtTime
+            // 
+            this.dtTime.Location = new System.Drawing.Point(165, 58);
+            this.dtTime.Name = "dtTime";
+            this.dtTime.Size = new System.Drawing.Size(200, 20);
+            this.dtTime.TabIndex = 35;
+            // 
             // cboFabricante
             // 
+            this.cboFabricante.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFabricante.Enabled = false;
             this.cboFabricante.FormattingEnabled = true;
             this.cboFabricante.Location = new System.Drawing.Point(175, 146);
@@ -116,6 +156,7 @@
             // 
             // cboServicio
             // 
+            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboServicio.Enabled = false;
             this.cboServicio.FormattingEnabled = true;
             this.cboServicio.Location = new System.Drawing.Point(175, 205);
@@ -218,45 +259,6 @@
             this.button5.Text = "Seleccionar";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.chkReinicio);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.dtTime);
-            this.groupBox2.Location = new System.Drawing.Point(25, 363);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(376, 102);
-            this.groupBox2.TabIndex = 35;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Reinicio del servicio de la aeronave";
-            // 
-            // chkReinicio
-            // 
-            this.chkReinicio.AutoSize = true;
-            this.chkReinicio.Location = new System.Drawing.Point(14, 25);
-            this.chkReinicio.Name = "chkReinicio";
-            this.chkReinicio.Size = new System.Drawing.Size(217, 17);
-            this.chkReinicio.TabIndex = 37;
-            this.chkReinicio.Text = "Modificar la fecha de reinicio del servicio";
-            this.chkReinicio.UseVisualStyleBackColor = true;
-            this.chkReinicio.CheckedChanged += new System.EventHandler(this.chkReinicio_CheckedChanged);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 65);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(142, 13);
-            this.label7.TabIndex = 36;
-            this.label7.Text = "Fecha de reinicio de servicio";
-            // 
-            // dtTime
-            // 
-            this.dtTime.Location = new System.Drawing.Point(165, 58);
-            this.dtTime.Name = "dtTime";
-            this.dtTime.Size = new System.Drawing.Size(200, 20);
-            this.dtTime.TabIndex = 35;
             // 
             // Modificacion
             // 

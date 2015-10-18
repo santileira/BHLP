@@ -48,9 +48,9 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.txtFiltros = new System.Windows.Forms.TextBox();
             this.btfueradeservicio = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.txtFiltros = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -242,23 +242,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // btfueradeservicio
-            // 
-            this.btfueradeservicio.HeaderText = "Fuera de Servicio";
-            this.btfueradeservicio.Name = "btfueradeservicio";
-            this.btfueradeservicio.ReadOnly = true;
-            this.btfueradeservicio.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btfueradeservicio.Text = "Fuera de Servicio";
-            this.btfueradeservicio.UseColumnTextForButtonValue = true;
-            // 
-            // btlogica
-            // 
-            this.btlogica.HeaderText = "Baja Lógica";
-            this.btlogica.Name = "btlogica";
-            this.btlogica.ReadOnly = true;
-            this.btlogica.Text = "Baja Lógica";
-            this.btlogica.UseColumnTextForButtonValue = true;
-            // 
             // txtFiltros
             // 
             this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
@@ -269,6 +252,24 @@ namespace AerolineaFrba.Abm_Aeronave
             this.txtFiltros.Name = "txtFiltros";
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
             this.txtFiltros.TabIndex = 6;
+            // 
+            // btfueradeservicio
+            // 
+            this.btfueradeservicio.HeaderText = "";
+            this.btfueradeservicio.Name = "btfueradeservicio";
+            this.btfueradeservicio.ReadOnly = true;
+            this.btfueradeservicio.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btfueradeservicio.Text = "Fuera de Servicio";
+            this.btfueradeservicio.UseColumnTextForButtonValue = true;
+            // 
+            // btlogica
+            // 
+            this.btlogica.HeaderText = "";
+            this.btlogica.Name = "btlogica";
+            this.btlogica.ReadOnly = true;
+            this.btlogica.Text = "Baja";
+            this.btlogica.UseColumnTextForButtonValue = true;
+            this.btlogica.Width = 50;
             // 
             // Baja
             // 
@@ -315,9 +316,9 @@ namespace AerolineaFrba.Abm_Aeronave
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.DataGridViewButtonColumn btfueradeservicio;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
-        private System.Windows.Forms.TextBox txtFiltros;
 
     }
 }
