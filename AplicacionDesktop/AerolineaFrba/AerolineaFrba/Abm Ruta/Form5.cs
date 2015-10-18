@@ -24,6 +24,7 @@ namespace AerolineaFrba.Abm_Ruta
         Boolean primeraVez = true;
         public Boolean llamadoDeModificacion = false;
         private DataGridViewRow ultimoRegistroSeleccionado;
+        public Boolean primeraConsulta = true;
         
 
         public Listado()
@@ -114,8 +115,42 @@ namespace AerolineaFrba.Abm_Ruta
             //Ligar el datagrid con la fuente de datos
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
+            
+            actualizarColumnasDeEstado(dg);
 
             conexion.Close();
+
+            primeraConsulta = false;
+        }
+
+        private void actualizarColumnasDeEstado(DataGridView dg)
+        {
+            if (primeraConsulta)
+            {
+                DataGridViewColumn columnaHabilitada = new DataGridViewTextBoxColumn();
+                columnaHabilitada.Name = "HABILITADA";
+                columnaHabilitada.HeaderText = "HABILITADA";
+                columnaHabilitada.ReadOnly = true;
+
+                dg.Columns.Insert(dg.Columns["RUTA_ESTADO"].Index, columnaHabilitada);
+
+            }
+
+            foreach (DataGridViewRow fila in dg.Rows)
+            {
+                Boolean valor = (Boolean)(fila.Cells["RUTA_ESTADO"].Value);
+                if (valor)
+                {
+                    fila.Cells["HABILITADA"].Value = "SI";
+                }
+                else
+                {
+                    fila.Cells["HABILITADA"].Value = "NO";
+                }
+            }
+
+            dg.Columns["RUTA_ESTADO"].Visible = false;
+    
         }
 
         private void iniciar()
@@ -358,6 +393,11 @@ namespace AerolineaFrba.Abm_Ruta
                 (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
             }   
          }
+
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }

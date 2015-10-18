@@ -325,6 +325,11 @@ namespace AerolineaFrba.Abm_Aeronave
             //aca se debe volcar todo en los parametros
         }
 
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

@@ -47,10 +47,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
+            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lblErrores = new System.Windows.Forms.Label();
             this.txtFiltros = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
-            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -144,6 +144,7 @@
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
+            this.txtFiltro1.TextChanged += new System.EventHandler(this.txtFiltro1_TextChanged);
             // 
             // txtFiltro4
             // 
@@ -260,6 +261,17 @@
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
+            // btlogica
+            // 
+            this.btlogica.HeaderText = "";
+            this.btlogica.MinimumWidth = 25;
+            this.btlogica.Name = "btlogica";
+            this.btlogica.ReadOnly = true;
+            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btlogica.Text = "Baja";
+            this.btlogica.UseColumnTextForButtonValue = true;
+            this.btlogica.Width = 25;
+            // 
             // lblErrores
             // 
             this.lblErrores.AutoSize = true;
@@ -291,17 +303,6 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // btlogica
-            // 
-            this.btlogica.HeaderText = "";
-            this.btlogica.MinimumWidth = 25;
-            this.btlogica.Name = "btlogica";
-            this.btlogica.ReadOnly = true;
-            this.btlogica.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btlogica.Text = "Baja";
-            this.btlogica.UseColumnTextForButtonValue = true;
-            this.btlogica.Width = 25;
-            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,8 +332,9 @@
 
         private void txtFiltros_TextChanged(object sender, System.EventArgs e)
         {
-            throw new System.NotImplementedException();
+            
         }
+
 
         #endregion
 

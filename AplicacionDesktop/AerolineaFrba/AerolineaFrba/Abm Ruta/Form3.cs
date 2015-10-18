@@ -84,6 +84,7 @@ namespace AerolineaFrba.Abm_Ruta
             sePusoAgregarFiltro2 = false;
             SqlConnection conexion = Program.conexion();
 
+            
             DataTable t = new DataTable("Busqueda");
             SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
             //Llenar el Dataset
@@ -337,6 +338,11 @@ namespace AerolineaFrba.Abm_Ruta
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
+        }
+
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }
