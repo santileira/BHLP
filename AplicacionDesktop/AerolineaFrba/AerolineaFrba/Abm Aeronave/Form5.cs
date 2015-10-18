@@ -152,6 +152,10 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.Columns["AERO_BAJA_VU"].Visible = false;
         }
 
+        public void dg_ColumnHeaderMouseClick()
+        {
+            actualizarColumnasDeEstado(dg);
+        }
 
         public void generarQueryInicial()
         {
@@ -172,6 +176,11 @@ namespace AerolineaFrba.Abm_Aeronave
             cboCamposFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
+
+            foreach(DataGridViewColumn c in dg.Columns)
+            {
+                c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
 

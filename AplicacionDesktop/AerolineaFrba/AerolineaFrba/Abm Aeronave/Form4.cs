@@ -53,7 +53,8 @@ namespace AerolineaFrba.Abm_Aeronave
             button2.Enabled = true;
             button3.Enabled = true;
 
-            chkReinicio.Enabled = true;
+            chkReinicio.Enabled = registro.Cells["FUERA_SERVICIO"].Value.Equals("SI");
+            
         }
 
         private void inicio()
@@ -140,10 +141,10 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
             algunoVacio = !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
             algunoVacio = !this.seCompleto(cboServicio, "Tipo de Servicio") || algunoVacio;
             algunoVacio = !this.seCompleto(cboFabricante, "Fabricante") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
+            algunoVacio = !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
 
             return algunoVacio;
         }
@@ -175,53 +176,53 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Boolean huboError = false;
 
-            if (txtModelo.TextLength != 0 && !this.esTexto(txtModelo))
-            {
-                MessageBox.Show("El campo modelo debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtMatricula.TextLength != 0 && !this.esTexto(txtMatricula))
-            {
-                MessageBox.Show("El campo matricula debe ser de tipo texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtButacas.TextLength != 0 && !this.esNumero(txtButacas))
-            {
-                MessageBox.Show("El campo butacas debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtKilos.TextLength != 0 && !this.esNumero(txtKilos))
-            {
-                MessageBox.Show("El campo kilos debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
-            if (txtKilos.TextLength != 0 && !this.esNumero(txtKilos))
-            {
-                MessageBox.Show("El campo kilos debe ser de tipo numerico", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                huboError = true;
-            }
+            huboError = !esTexto(txtModelo, "modelo") || huboError;
+            huboError = !esTexto(txtMatricula, "matrícula") || huboError;
+            huboError = !esNumero(txtButacas, "cantidad de butacas", true) || huboError;
+            huboError = !esNumero(txtKilos, "cantidad de Kg", false) || huboError;
 
             return huboError;
         }
 
-        private Boolean esTexto(TextBox txt)
+
+        private Boolean esTexto(TextBox txt, string campo)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
-            return regexTexto.IsMatch(txt.Text);
+            if (txt.TextLength != 0 && !regexTexto.IsMatch(txt.Text))
+            {
+                MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
+                return true;
+            }
+            return false;
         }
 
-        private Boolean esNumero(TextBox txt)
+        private Boolean esNumero(TextBox txt, string campo, bool debeSerEntero)
         {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
+            int n;
+            decimal d;
+            if (txt.TextLength != 0)
+            {
+                if (debeSerEntero)
+                {
+                    if (!int.TryParse(txt.Text, out n))
+                    {
+                        MessageBox.Show("El campo " + campo + " debe ser un número entero", "Error en los tipos de entrada", MessageBoxButtons.OK);
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (!decimal.TryParse(txt.Text, out d))
+                    {
+                        MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los tipos de entrada", MessageBoxButtons.OK);
+                        return false;
+                    }
+                }
 
-            return regexNumero.IsMatch(txt.Text);
+            }
+            return true;
         }
 
         private void cargarComboServicio()
