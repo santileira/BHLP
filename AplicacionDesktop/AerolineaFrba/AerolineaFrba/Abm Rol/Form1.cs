@@ -43,13 +43,16 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Modificacion modif = new Modificacion();
+            Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
+            Principal principal = new Principal();
 
-            modif.listado = listado;
-            listado.anterior = modif;
+            modificacion.listado = listado;
+            listado.anterior = principal;
+            listado.siguiente = modificacion;
 
-            this.cambiarVisibilidades(modif);
+
+            this.cambiarVisibilidades(listado);
         }
 
         private void button4_Click(object sender, EventArgs e)

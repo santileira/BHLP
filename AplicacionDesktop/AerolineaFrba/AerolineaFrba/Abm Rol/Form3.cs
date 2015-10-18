@@ -218,7 +218,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void generarQueryInicial()
         {
-            query = "SELECT ROL_NOMBRE,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_ESTADO = '1'";
+            query = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_ESTADO = '1'";
         }
 
         private void button4_Click(object sender, EventArgs e)

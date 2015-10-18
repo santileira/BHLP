@@ -133,6 +133,7 @@
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(90, 20);
             this.txtFiltro1.TabIndex = 16;
+            this.txtFiltro1.TextChanged += new System.EventHandler(this.txtFiltro1_TextChanged);
             // 
             // txtFiltro4
             // 

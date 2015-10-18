@@ -24,6 +24,8 @@ namespace AerolineaFrba.Abm_Ruta
         Boolean primeraVez = true;
         public Boolean llamadoDeModificacion = false;
         private DataGridViewRow ultimoRegistroSeleccionado;
+        
+
         public Listado()
         {
             InitializeComponent();

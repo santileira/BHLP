@@ -33,11 +33,15 @@
             this.botonGuardar = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtPrecioEncomienda1 = new System.Windows.Forms.TextBox();
+            this.txtPrecioPasaje1 = new System.Windows.Forms.TextBox();
             this.txtPrecioEncomienda = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPrecioPasaje = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtCiudadDestino = new System.Windows.Forms.TextBox();
+            this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
             this.botonSelDestino = new System.Windows.Forms.Button();
             this.botonSelOrigen = new System.Windows.Forms.Button();
             this.txtCiudadDestino1 = new System.Windows.Forms.TextBox();
@@ -45,15 +49,11 @@
             this.txtCiudadOrigen1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtTipoDeServicio = new System.Windows.Forms.TextBox();
+            this.cboServicio = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtPrecioPasaje1 = new System.Windows.Forms.TextBox();
-            this.txtPrecioEncomienda1 = new System.Windows.Forms.TextBox();
-            this.cboServicio = new System.Windows.Forms.ComboBox();
-            this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
-            this.txtCiudadDestino = new System.Windows.Forms.TextBox();
-            this.txtTipoDeServicio = new System.Windows.Forms.TextBox();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -114,6 +114,20 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
             // 
+            // txtPrecioEncomienda1
+            // 
+            this.txtPrecioEncomienda1.Location = new System.Drawing.Point(233, 68);
+            this.txtPrecioEncomienda1.Name = "txtPrecioEncomienda1";
+            this.txtPrecioEncomienda1.Size = new System.Drawing.Size(117, 20);
+            this.txtPrecioEncomienda1.TabIndex = 9;
+            // 
+            // txtPrecioPasaje1
+            // 
+            this.txtPrecioPasaje1.Location = new System.Drawing.Point(233, 31);
+            this.txtPrecioPasaje1.Name = "txtPrecioPasaje1";
+            this.txtPrecioPasaje1.Size = new System.Drawing.Size(117, 20);
+            this.txtPrecioPasaje1.TabIndex = 8;
+            // 
             // txtPrecioEncomienda
             // 
             this.txtPrecioEncomienda.Location = new System.Drawing.Point(95, 68);
@@ -164,6 +178,22 @@
             this.groupBox3.TabIndex = 45;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ciudades";
+            // 
+            // txtCiudadDestino
+            // 
+            this.txtCiudadDestino.Location = new System.Drawing.Point(95, 64);
+            this.txtCiudadDestino.Name = "txtCiudadDestino";
+            this.txtCiudadDestino.ReadOnly = true;
+            this.txtCiudadDestino.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadDestino.TabIndex = 10;
+            // 
+            // txtCiudadOrigen
+            // 
+            this.txtCiudadOrigen.Location = new System.Drawing.Point(95, 27);
+            this.txtCiudadOrigen.Name = "txtCiudadOrigen";
+            this.txtCiudadOrigen.ReadOnly = true;
+            this.txtCiudadOrigen.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadOrigen.TabIndex = 9;
             // 
             // botonSelDestino
             // 
@@ -233,6 +263,24 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
             // 
+            // txtTipoDeServicio
+            // 
+            this.txtTipoDeServicio.Location = new System.Drawing.Point(95, 69);
+            this.txtTipoDeServicio.Name = "txtTipoDeServicio";
+            this.txtTipoDeServicio.ReadOnly = true;
+            this.txtTipoDeServicio.Size = new System.Drawing.Size(117, 20);
+            this.txtTipoDeServicio.TabIndex = 17;
+            // 
+            // cboServicio
+            // 
+            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboServicio.FormattingEnabled = true;
+            this.cboServicio.Location = new System.Drawing.Point(237, 68);
+            this.cboServicio.Name = "cboServicio";
+            this.cboServicio.Size = new System.Drawing.Size(117, 21);
+            this.cboServicio.TabIndex = 16;
+            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -249,6 +297,7 @@
             this.txtCodigo.ReadOnly = true;
             this.txtCodigo.Size = new System.Drawing.Size(117, 20);
             this.txtCodigo.TabIndex = 5;
+            this.txtCodigo.TextChanged += new System.EventHandler(this.txtCodigo_TextChanged);
             // 
             // label8
             // 
@@ -258,54 +307,6 @@
             this.label8.Size = new System.Drawing.Size(40, 13);
             this.label8.TabIndex = 4;
             this.label8.Text = "Código";
-            // 
-            // txtPrecioPasaje1
-            // 
-            this.txtPrecioPasaje1.Location = new System.Drawing.Point(233, 31);
-            this.txtPrecioPasaje1.Name = "txtPrecioPasaje1";
-            this.txtPrecioPasaje1.Size = new System.Drawing.Size(117, 20);
-            this.txtPrecioPasaje1.TabIndex = 8;
-            // 
-            // txtPrecioEncomienda1
-            // 
-            this.txtPrecioEncomienda1.Location = new System.Drawing.Point(233, 68);
-            this.txtPrecioEncomienda1.Name = "txtPrecioEncomienda1";
-            this.txtPrecioEncomienda1.Size = new System.Drawing.Size(117, 20);
-            this.txtPrecioEncomienda1.TabIndex = 9;
-            // 
-            // cboServicio
-            // 
-            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(237, 68);
-            this.cboServicio.Name = "cboServicio";
-            this.cboServicio.Size = new System.Drawing.Size(117, 21);
-            this.cboServicio.TabIndex = 16;
-            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
-            // 
-            // txtCiudadOrigen
-            // 
-            this.txtCiudadOrigen.Location = new System.Drawing.Point(95, 27);
-            this.txtCiudadOrigen.Name = "txtCiudadOrigen";
-            this.txtCiudadOrigen.ReadOnly = true;
-            this.txtCiudadOrigen.Size = new System.Drawing.Size(117, 20);
-            this.txtCiudadOrigen.TabIndex = 9;
-            // 
-            // txtCiudadDestino
-            // 
-            this.txtCiudadDestino.Location = new System.Drawing.Point(95, 64);
-            this.txtCiudadDestino.Name = "txtCiudadDestino";
-            this.txtCiudadDestino.ReadOnly = true;
-            this.txtCiudadDestino.Size = new System.Drawing.Size(117, 20);
-            this.txtCiudadDestino.TabIndex = 10;
-            // 
-            // txtTipoDeServicio
-            // 
-            this.txtTipoDeServicio.Location = new System.Drawing.Point(95, 69);
-            this.txtTipoDeServicio.Name = "txtTipoDeServicio";
-            this.txtTipoDeServicio.ReadOnly = true;
-            this.txtTipoDeServicio.Size = new System.Drawing.Size(117, 20);
-            this.txtTipoDeServicio.TabIndex = 17;
             // 
             // Modificacion
             // 

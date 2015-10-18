@@ -291,5 +291,10 @@ namespace AerolineaFrba.Abm_Ruta
 
         }
 
+        private void txtCodigo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

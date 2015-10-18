@@ -16,7 +16,14 @@ namespace AerolineaFrba.Abm_Rol
         const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
         public Form anterior;
         public Listado listado;
-
+        public Form siguiente;
+        string rolSeleccionado;
+        List<Object> listaFuncionalidades;
+        int estadoRol;
+        public Boolean llamadoDeModificacion;
+        
+        
+        
         public Listado()
         {
             InitializeComponent();
@@ -70,7 +77,7 @@ namespace AerolineaFrba.Abm_Rol
 
                 this.ejecutarConsulta(queryselect);
 
-                if (dg.Rows.Count == 1)
+                if (dg.Rows.Count == 0)
                 {
                     MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
                 }
@@ -178,15 +185,19 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button6_Click(object sender, EventArgs e)
         {
-            cambiarVisibilidades(this.anterior,false);
+            if (this.llamadoDeModificacion)
+            {
+
+                this.cambiarVisibilidades(this.siguiente);
+                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol == 1, listaFuncionalidades.ToArray());
+                
+            }
+            else this.cambiarVisibilidades(this.anterior);
         }
 
-        private void cambiarVisibilidades(Form formularioSiguiente,bool seSeleccionoAlgo)
+        private void cambiarVisibilidades(Form formularioSiguiente)
         {
-            if (seSeleccionoAlgo)
-                (anterior as Modificacion).ocultarNorificacionModificaciones();
-
-            anterior.Visible = true;
+            formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 
@@ -199,21 +210,21 @@ namespace AerolineaFrba.Abm_Rol
                 return;
             }
 
-            string rolSeleccionado = "";
-            List<Object> listaFuncionalidades = new List<object>();
-            int estadoRol = 0;
+            rolSeleccionado = "";
+            listaFuncionalidades = new List<object>();
+            estadoRol = 0;
             ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
-
-            (anterior as Modificacion).seSelecciono(rolSeleccionado, estadoRol==1, listaFuncionalidades.ToArray());
-
-            //this.Close();
-            cambiarVisibilidades(this.anterior,true);
-        }
+            if (siguiente != null)
+            {
+                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol == 1, listaFuncionalidades.ToArray());
+                cambiarVisibilidades(this.siguiente);
+            } 
+       }
 
         private void ejecutarSeleccion(ref string rolSeleccionado,ref int estadoRol, List<Object> listaFuncionalidades)
         {
             rolSeleccionado = dg.SelectedRows[0].Cells["ROL_NOMBRE"].Value.ToString();
-            estadoRol = Convert.ToInt32(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value.ToString());
+            //estadoRol = Convert.ToInt32(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value.ToString());
 
 
             string query = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].ROLES r JOIN [ABSTRACCIONX4].FUNCIONES_ROLES fr ON (r.ROL_COD = fr.ROL_COD) JOIN [ABSTRACCIONX4].FUNCIONALIDADES f ON (f.FUNC_COD = fr.FUNC_COD) WHERE r.ROL_NOMBRE = '" + rolSeleccionado + "'";
@@ -246,6 +257,11 @@ namespace AerolineaFrba.Abm_Rol
         }
 
         private void dg_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
         {
 
         }

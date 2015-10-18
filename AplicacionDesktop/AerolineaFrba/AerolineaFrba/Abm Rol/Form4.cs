@@ -17,6 +17,7 @@ namespace AerolineaFrba.Abm_Rol
         SqlCommand command = new SqlCommand();
         Form formularioSiguiente;
         public Listado listado;
+       
 
         public Modificacion()
         {
@@ -40,10 +41,7 @@ namespace AerolineaFrba.Abm_Rol
             button2.Enabled = false;
             checkHabilitado.Enabled = false;
             lstFuncionalidadesTotales.Enabled = false;
-            modif.Visible = false;
-            modifFuncionalidades.Visible = false;
-            modifHabilitacion.Visible = false;
-            modifNombre.Visible = false;
+        
             button1.Enabled = false;
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
@@ -116,7 +114,7 @@ namespace AerolineaFrba.Abm_Rol
             if (lista.SelectedIndex != -1)
             {
                 lista.Items.RemoveAt(lista.SelectedIndex);
-                fueModificado("Funcionalidad");
+               
             }
         }
 
@@ -126,7 +124,7 @@ namespace AerolineaFrba.Abm_Rol
             if (!lista2.Items.Contains(valor))
             {
                 lista2.Items.Add(lista1.Text);
-                fueModificado("Funcionalidad");
+             
             }
         }
 
@@ -184,6 +182,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button5_Click(object sender, EventArgs e)
         {
+            this.listado.llamadoDeModificacion = true;
             this.cambiarVisibilidades(this.listado);
         }
 
@@ -205,43 +204,11 @@ namespace AerolineaFrba.Abm_Rol
             button1.Enabled = true;
         }
 
-        private void txtNombre_TextChanged(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text != txtRolSeleccionado.Text)
-            {
-                fueModificado("Nombre");
-            }
+
         }
 
-        public void fueModificado(string elemento)
-        {
-            switch (elemento)
-            {
-                case "Nombre":
-                    modifNombre.Visible = true;
-                    break;
-                case "Funcionalidad":
-                    modifFuncionalidades.Visible = true;
-                    break;
-                case "Habilitacion":
-                    modifHabilitacion.Visible = true;
-                    break;
-            }
-            modif.Visible = true;
-        }
-
-        private void checkHabilitado_CheckedChanged(object sender, EventArgs e)
-        {
-            fueModificado("Habilitacion");
-        }
-
-        public void ocultarNorificacionModificaciones()
-        {
-            modif.Visible = false;
-            modifFuncionalidades.Visible = false;
-            modifHabilitacion.Visible = false;
-            modifNombre.Visible = false;
-        }
-        
+      
     }
 }
