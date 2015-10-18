@@ -25,13 +25,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void Modificacion_Load(object sender, EventArgs e)
         {
-            this.iniciar();
+           //this.iniciar();
         }
 
         public void seSelecciono(DataGridViewRow registro)
         {
             cargarComboServicio();
-
+            
             txtCodigo.Text = registro.Cells["CODIGO_DE_RUTA"].Value.ToString();
             cboServicio.Text = registro.Cells["TIPO_SERVICIO"].Value.ToString();
             txtCiudadOrigen.Text = registro.Cells["ORIGEN"].Value.ToString();
@@ -48,6 +48,8 @@ namespace AerolineaFrba.Abm_Ruta
             botonSelDestino.Enabled = true;
             botonLimpiar.Enabled = true;
             botonGuardar.Enabled = true;
+            
+            
         }
 
         public void seSelecciono(string ciudad)
@@ -64,24 +66,24 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void iniciar()
         {
-            this.cargarComboServicio();
+          this.cargarComboServicio();
 
-            txtCiudadDestino.Text = "";
-            txtCiudadOrigen.Text = "";
-            txtCodigo.Text = "";
-            txtPrecioEncomienda.Text = "";
-            txtPrecioPasaje.Text = "";
-            cboServicio.SelectedItem = -1;
+          txtCiudadDestino.Text = "";
+          txtCiudadOrigen.Text = "";
+          txtCodigo.Text = "";
+          txtPrecioEncomienda.Text = "";
+          txtPrecioPasaje.Text = "";
+          cboServicio.SelectedItem = -1;
 
-            txtCodigo.Enabled = false;
-            cboServicio.Enabled = false;
-            txtPrecioEncomienda.Enabled = false;
-            txtPrecioPasaje.Enabled = false;
+          txtCodigo.Enabled = false;
+          cboServicio.Enabled = false;
+          txtPrecioEncomienda.Enabled = false;
+          txtPrecioPasaje.Enabled = false;
 
-            botonSelOrigen.Enabled = false;
-            botonSelDestino.Enabled = false;
-            botonLimpiar.Enabled = false;
-            botonGuardar.Enabled = false;
+          botonSelOrigen.Enabled = false;
+          botonSelDestino.Enabled = false;
+          botonLimpiar.Enabled = false;
+          botonGuardar.Enabled = false;
         }
 
         private void cargarComboServicio()
@@ -91,7 +93,7 @@ namespace AerolineaFrba.Abm_Ruta
             SqlDataReader reader;
             SqlCommand consultaServicios = new SqlCommand();
             consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_COD FROM [ABSTRACCIONX4].SERVICIOS";
+            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
             consultaServicios.Connection = Program.conexion();
 
             reader = consultaServicios.ExecuteReader();
@@ -105,6 +107,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void button6_Click(object sender, EventArgs e)
         {
             formularioSiguiente = new Principal();
+            this.iniciar();
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
@@ -116,6 +119,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button5_Click(object sender, EventArgs e)
         {
+            this.iniciar();
             this.cambiarVisibilidades(this.listado);
         }
 

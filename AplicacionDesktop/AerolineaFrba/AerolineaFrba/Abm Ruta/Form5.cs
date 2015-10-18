@@ -19,6 +19,7 @@ namespace AerolineaFrba.Abm_Ruta
         private bool sePusoAgregarFiltro1 = false;
         private bool sePusoAgregarFiltro2 = false;
         public Form anterior;
+        public Form siguiente;
         public Alta alta;
         Boolean primeraVez = true;
         
@@ -338,10 +339,15 @@ namespace AerolineaFrba.Abm_Ruta
                 return;
             }
 
-            (anterior as Modificacion).seSelecciono(dg.Rows[0]);
 
-            cambiarVisibilidades(this.anterior);
-        }
+            if (siguiente == null) cambiarVisibilidades(this.anterior);
+            else
+            {
+                (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+                cambiarVisibilidades(this.siguiente);
+
+            }   
+         }
 
     }
 }

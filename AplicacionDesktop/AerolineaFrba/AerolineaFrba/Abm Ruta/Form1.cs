@@ -83,11 +83,13 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
+            Principal principal = new Principal();
 
             modificacion.listado = listado;
-            listado.anterior = modificacion;
+            listado.siguiente = modificacion;
+            listado.anterior = principal;
 
-            this.cambiarVisibilidades(modificacion);
+            this.cambiarVisibilidades(listado);
         }
     }
 }

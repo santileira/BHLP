@@ -58,7 +58,7 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 //HACER EL ALTA CON UNA STORE PROCEDURE, SI ESTA OK:
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva ruta", "Alta de nueva ruta", MessageBoxButtons.OK);
-                       
+                   
             }
 
         }
@@ -175,7 +175,7 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean esDecimal(TextBox txt)
         {
             decimal unDecimal;
-            return decimal.TryParse(txt.Text, out unDecimal);
+            return decimal.TryParse(txt.Text, out unDecimal); 
         }
 
         private void cargarComboServicio()
@@ -185,7 +185,7 @@ namespace AerolineaFrba.Abm_Ruta
             SqlDataReader reader;
             SqlCommand consultaServicios = new SqlCommand();
             consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_COD FROM [ABSTRACCIONX4].SERVICIOS";
+            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
             consultaServicios.Connection = Program.conexion();
 
             reader = consultaServicios.ExecuteReader();
@@ -222,6 +222,26 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 txtCiudadDestino.Text = ciudad;
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPrecioPasaje_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboServicio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         

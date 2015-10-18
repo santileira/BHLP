@@ -49,6 +49,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -57,6 +58,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
@@ -66,6 +68,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Ruta";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // groupBox4
             // 
@@ -92,9 +95,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(7, 71);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Encomienda";
+            this.label3.Text = "Encomienda *";
             // 
             // txtPrecioPasaje
             // 
@@ -102,15 +105,16 @@
             this.txtPrecioPasaje.Name = "txtPrecioPasaje";
             this.txtPrecioPasaje.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioPasaje.TabIndex = 5;
+            this.txtPrecioPasaje.TextChanged += new System.EventHandler(this.txtPrecioPasaje_TextChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(7, 34);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.Size = new System.Drawing.Size(46, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Pasaje";
+            this.label4.Text = "Pasaje *";
             // 
             // groupBox3
             // 
@@ -160,9 +164,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(7, 71);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Destino";
+            this.label1.Text = "Destino *";
             // 
             // txtCiudadOrigen
             // 
@@ -177,9 +181,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(7, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Origen";
+            this.label2.Text = "Origen *";
             // 
             // groupBox2
             // 
@@ -202,15 +206,16 @@
             this.cboServicio.Name = "cboServicio";
             this.cboServicio.Size = new System.Drawing.Size(117, 21);
             this.cboServicio.TabIndex = 15;
+            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 71);
+            this.label7.Location = new System.Drawing.Point(5, 71);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(82, 13);
+            this.label7.Size = new System.Drawing.Size(89, 13);
             this.label7.TabIndex = 6;
-            this.label7.Text = "Tipo de servicio";
+            this.label7.Text = "Tipo de servicio *";
             // 
             // txtCodigo
             // 
@@ -224,9 +229,10 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(7, 34);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(40, 13);
+            this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 4;
-            this.label8.Text = "Código";
+            this.label8.Text = "Código *";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // button2
             // 
@@ -254,9 +260,18 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(78, 21);
             this.button6.TabIndex = 6;
-            this.button6.Text = "Atras";
+            this.button6.Text = "Atrás";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(19, 283);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "(*) Obligatorios";
             // 
             // Alta
             // 
@@ -272,6 +287,7 @@
             this.Text = "ABM Alta";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -305,5 +321,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button botonSelDestino;
         private System.Windows.Forms.Button botonSelOrigen;
+        private System.Windows.Forms.Label label5;
     }
 }
