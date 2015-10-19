@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.checkHabilitado = new System.Windows.Forms.CheckBox();
             this.txtRolSeleccionado = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -49,7 +48,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.checkHabilitado);
             this.groupBox1.Controls.Add(this.txtRolSeleccionado);
             this.groupBox1.Controls.Add(this.button5);
@@ -70,16 +68,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos del ROL";
             // 
-            // textBox1
-            // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(258, 29);
-            this.textBox1.MaxLength = 60;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(110, 20);
-            this.textBox1.TabIndex = 44;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
             // checkHabilitado
             // 
             this.checkHabilitado.AutoSize = true;
@@ -90,7 +78,6 @@
             this.checkHabilitado.TabIndex = 43;
             this.checkHabilitado.Text = "Volver a habilitar";
             this.checkHabilitado.UseVisualStyleBackColor = true;
-            this.checkHabilitado.CheckedChanged += new System.EventHandler(this.checkHabilitado_CheckedChanged);
             // 
             // txtRolSeleccionado
             // 
@@ -197,7 +184,6 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(110, 20);
             this.txtNombre.TabIndex = 3;
-            this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
             // 
             // label2
             // 
@@ -229,22 +215,12 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ABM Modificacion";
+            this.Text = "Modificación de rol";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
-        }
-
-        private void txtNombre_TextChanged(object sender, System.EventArgs e)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private void checkHabilitado_CheckedChanged(object sender, System.EventArgs e)
-        {
-            throw new System.NotImplementedException();
         }
 
         #endregion
@@ -264,7 +240,6 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtRolSeleccionado;
         private System.Windows.Forms.CheckBox checkHabilitado;
-        private System.Windows.Forms.TextBox textBox1;
 
     }
 }

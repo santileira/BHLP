@@ -21,7 +21,7 @@ namespace AerolineaFrba.Abm_Rol
         List<Object> listaFuncionalidades;
         int estadoRol;
         public Boolean llamadoDeModificacion;
-        
+        public Boolean primeraConsulta = true;
         
         
         public Listado()
@@ -152,7 +152,11 @@ namespace AerolineaFrba.Abm_Rol
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
+            actualizarColumnasDeEstado(dg);
+
             conexion.Close();
+
+            primeraConsulta = false;
         }
 
   
@@ -251,18 +255,33 @@ namespace AerolineaFrba.Abm_Rol
             //this.cambiarVisibilidades(this.listado);
         }
 
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void actualizarColumnasDeEstado(DataGridView dg)
         {
+            if (primeraConsulta)
+            {
+                DataGridViewColumn columnaHabilitada = new DataGridViewTextBoxColumn();
+                columnaHabilitada.Name = "HABILITADO";
+                columnaHabilitada.HeaderText = "HABILITADO";
+                columnaHabilitada.ReadOnly = true;
 
-        }
+                dg.Columns.Insert(dg.Columns["ROL_ESTADO"].Index, columnaHabilitada);
 
-        private void dg_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
+            }
 
-        }
+            foreach (DataGridViewRow fila in dg.Rows)
+            {
+                Boolean valor = (Boolean)(fila.Cells["ROL_ESTADO"].Value);
+                if (valor)
+                {
+                    fila.Cells["HABILITADO"].Value = "SI";
+                }
+                else
+                {
+                    fila.Cells["HABILITADO"].Value = "NO";
+                }
+            }
 
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
+            dg.Columns["ROL_ESTADO"].Visible = false;
 
         }
 

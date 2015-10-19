@@ -46,11 +46,11 @@ namespace AerolineaFrba.Abm_Aeronave
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
+            this.btfueradeservicio = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.txtFiltros = new System.Windows.Forms.TextBox();
-            this.btfueradeservicio = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -224,6 +224,24 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
+            // btfueradeservicio
+            // 
+            this.btfueradeservicio.HeaderText = "";
+            this.btfueradeservicio.Name = "btfueradeservicio";
+            this.btfueradeservicio.ReadOnly = true;
+            this.btfueradeservicio.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.btfueradeservicio.Text = "Fuera de Servicio";
+            this.btfueradeservicio.UseColumnTextForButtonValue = true;
+            // 
+            // btlogica
+            // 
+            this.btlogica.HeaderText = "";
+            this.btlogica.Name = "btlogica";
+            this.btlogica.ReadOnly = true;
+            this.btlogica.Text = "Baja";
+            this.btlogica.UseColumnTextForButtonValue = true;
+            this.btlogica.Width = 50;
+            // 
             // lblErrores
             // 
             this.lblErrores.AutoSize = true;
@@ -253,24 +271,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
             this.txtFiltros.TabIndex = 6;
             // 
-            // btfueradeservicio
-            // 
-            this.btfueradeservicio.HeaderText = "";
-            this.btfueradeservicio.Name = "btfueradeservicio";
-            this.btfueradeservicio.ReadOnly = true;
-            this.btfueradeservicio.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.btfueradeservicio.Text = "Fuera de Servicio";
-            this.btfueradeservicio.UseColumnTextForButtonValue = true;
-            // 
-            // btlogica
-            // 
-            this.btlogica.HeaderText = "";
-            this.btlogica.Name = "btlogica";
-            this.btlogica.ReadOnly = true;
-            this.btlogica.Text = "Baja";
-            this.btlogica.UseColumnTextForButtonValue = true;
-            this.btlogica.Width = 50;
-            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -286,7 +286,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Name = "Baja";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ABM Baja";
+            this.Text = "Baja de aeronave";
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

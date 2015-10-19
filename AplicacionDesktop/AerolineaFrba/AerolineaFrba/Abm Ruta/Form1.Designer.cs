@@ -98,7 +98,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Principal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Principal";
+            this.Text = "ABM Ruta";
             this.ResumeLayout(false);
 
         }

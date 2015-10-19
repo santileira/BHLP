@@ -154,7 +154,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(183, 20);
             this.txtFiltro1.TabIndex = 16;
-            this.txtFiltro1.TextChanged += new System.EventHandler(this.txtFiltro1_TextChanged);
             // 
             // txtFiltro2
             // 
@@ -216,7 +215,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
-            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // lblErrores
             // 
@@ -261,7 +259,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Name = "Listado";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Listado";
+            this.Text = "Selección de aeronave a modificar";
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
