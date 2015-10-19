@@ -51,5 +51,11 @@ namespace AerolineaFrba.Generacion_Viaje
             this.Visible = false;
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Menu();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
     }
 }
