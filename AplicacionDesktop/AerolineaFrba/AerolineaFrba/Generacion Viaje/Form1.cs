@@ -15,6 +15,8 @@ namespace AerolineaFrba.Generacion_Viaje
         public Abm_Aeronave.Listado listadoAeronaves;
         public Abm_Ruta.Listado listadoRutas;
 
+        Form formularioSiguiente;
+
         public Form1()
         {
             InitializeComponent();
