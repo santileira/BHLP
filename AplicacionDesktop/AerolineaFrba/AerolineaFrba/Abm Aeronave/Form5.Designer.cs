@@ -259,7 +259,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Name = "Listado";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Selección de aeronave a modificar";
+            this.Text = "Selección de aeronave ";
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

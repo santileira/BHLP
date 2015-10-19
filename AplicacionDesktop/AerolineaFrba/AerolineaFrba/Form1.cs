@@ -49,5 +49,11 @@ namespace AerolineaFrba
             this.Visible = false;
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Registro_Llegada_Destino.Form1();
+            this.cambiarVisibilidades(formularioSiguiente);
+        }
+
     }
 }

@@ -273,7 +273,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             seleccionandoOrigen = true;
             ListadoCiudades listado = new ListadoCiudades(this);
-            listado.vieneDeAlta = false;
+            listado.vieneDeModificacion = true;
             cambiarVisibilidades(listado);
         }
 
@@ -281,7 +281,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             seleccionandoOrigen = false;
             ListadoCiudades listado = new ListadoCiudades(this);
-            listado.vieneDeAlta = false;
+            listado.vieneDeModificacion = true;
             cambiarVisibilidades(listado);
         }
 

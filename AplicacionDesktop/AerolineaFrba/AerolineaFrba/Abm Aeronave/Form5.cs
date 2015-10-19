@@ -14,50 +14,17 @@ namespace AerolineaFrba.Abm_Aeronave
     
     public partial class Listado : Form
     {
-        const string QUERY_BASE = "select AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
         string query;
         Boolean huboCondicion;
         public Form anterior;
         public Form siguiente;
         public bool primeraConsulta = true;
-        
+        public bool seSeteaQuery = false;
+
         public Listado()
         {
-            InitializeComponent();
-
-            //
-            // Carga del contenido de combos
-            //
-
-            SqlDataReader varcampo;
-            SqlDataReader varfecha;
-
-            SqlCommand consultaColumnas = new SqlCommand();
-            SqlCommand consultaColumnasFechas = new SqlCommand();
-
-            consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnasFechas.CommandType = CommandType.Text;
-
-            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%'";
-            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
-
-            consultaColumnas.Connection = Program.conexion();
-
-            varcampo = consultaColumnas.ExecuteReader();
-
-            while (varcampo.Read())
-            {
-                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
-                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
-            }
             
-            consultaColumnasFechas.Connection = Program.conexion();
-            varfecha = consultaColumnasFechas.ExecuteReader();
-
-            while (varfecha.Read())
-            {
-                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
-            }
+            InitializeComponent();         
 
         }
 
@@ -106,8 +73,10 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.DataMember = "Busqueda";
 
             //modificar check que se pone automáticamente en los campos de tipo bit
-            actualizarColumnasDeEstado(dg);
-
+            if (!seSeteaQuery)
+            {
+                actualizarColumnasDeEstado(dg);
+            }
             conexion.Close();
 
             primeraConsulta = false;
@@ -157,14 +126,69 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.Columns["AERO_BAJA_VU"].Visible = false;
         }
 
-        public void generarQueryInicial()
-        {
-            this.query = QUERY_BASE;
-        }
-
         private void iniciar()
         {
-            this.generarQueryInicial();
+
+            //
+            // Carga del contenido de combos
+            //
+
+            SqlDataReader varcampo;
+            SqlDataReader varfecha;
+
+            SqlCommand consultaColumnas = new SqlCommand();
+            SqlCommand consultaColumnasFechas = new SqlCommand();
+
+            consultaColumnas.CommandType = CommandType.Text;
+            consultaColumnasFechas.CommandType = CommandType.Text;
+
+            if (seSeteaQuery)
+            {
+                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT LIKE 'AERO_BAJA%'";
+            }
+            else
+            {
+                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%'";
+            }
+
+            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
+
+            consultaColumnas.Connection = Program.conexion();
+
+            varcampo = consultaColumnas.ExecuteReader();
+
+            while (varcampo.Read())
+            {
+                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
+                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
+            }
+
+            consultaColumnasFechas.Connection = Program.conexion();
+            varfecha = consultaColumnasFechas.ExecuteReader();
+
+            while (varfecha.Read())
+            {
+                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
+            }
+
+            /////////////////////////Fin carga contenido de combos//////////////////////////
+
+
+            if (seSeteaQuery)
+            {
+                query = (anterior as Registro_Llegada_Destino.Form1).consultaSeteada();
+
+                    label5.Visible = false;
+                    cboCamposFiltro3.Visible = false;
+                    dateTimePicker1.Visible = false;
+                    button1.Visible = false;
+                
+            }
+            else
+            {
+                query = "select AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+            }
+
 
             ejecutarConsulta();
 

@@ -15,7 +15,9 @@ namespace AerolineaFrba.Abm_Ruta
     {
         const string QUERY_BASE = "SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES]";
         public Form anterior;
-        public bool vieneDeAlta;
+        public bool vieneDeAlta = false;
+        public bool vieneDeArribo = false;
+        public bool vieneDeModificacion = false;
         //public Listado listado;
 
         public ListadoCiudades(Form formAnterior)
@@ -182,11 +184,19 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 (anterior as Alta).seSelecciono(this.ciudadSeleccionada());
             }
-            else
+            
+            if(vieneDeModificacion)
             {
                 (anterior as Modificacion).seSelecciono(this.ciudadSeleccionada());
             }
+
+            if (vieneDeArribo)
+            {
+                (anterior as Registro_Llegada_Destino.Form1).seSelecciono(this.ciudadSeleccionada());
+            }
+
         }
+
 
         private string ciudadSeleccionada()
         {
