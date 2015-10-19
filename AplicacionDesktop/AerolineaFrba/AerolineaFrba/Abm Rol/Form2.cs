@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AerolineaFrba.Abm_Rol
@@ -52,6 +46,10 @@ namespace AerolineaFrba.Abm_Rol
                 MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
                 //string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 //this.ejecutarCommand(cadenaComando);
+                darDeAltaRol(txtNombre.Text);
+               
+
+
 
                 foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
@@ -62,6 +60,21 @@ namespace AerolineaFrba.Abm_Rol
  
                 }
             }
+        }
+
+        private Object darDeAltaRol(string nombre)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRol]";
+            command.CommandTimeout = 0;
+            
+
+            command.Parameters.AddWithValue("@Nombre", nombre);
+           
+
+            return command.ExecuteScalar();
         }
 
         private Boolean datosCorrectos()
