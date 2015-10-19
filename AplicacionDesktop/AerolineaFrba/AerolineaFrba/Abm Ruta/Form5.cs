@@ -25,7 +25,7 @@ namespace AerolineaFrba.Abm_Ruta
         public Boolean llamadoDeModificacion = false;
         private DataGridViewRow ultimoRegistroSeleccionado;
         public Boolean primeraConsulta = true;
-        
+        public Boolean loActivoGenerarViajes = false;
 
         public Listado()
         {
@@ -388,15 +388,20 @@ namespace AerolineaFrba.Abm_Ruta
                 return;
             }
 
-
-            if (siguiente == null) cambiarVisibilidades(this.anterior);
+            if (this.loActivoGenerarViajes)
+            {
+                (anterior as Generacion_Viaje.Form1).seSeleccionoRuta(dg.SelectedRows[0]);
+            }
             else
             {
-                
-                cambiarVisibilidades(this.siguiente);
-                ultimoRegistroSeleccionado = dg.SelectedRows[0];
-                (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
-            }   
+                if (siguiente == null) cambiarVisibilidades(this.anterior);
+                else
+                {
+                    cambiarVisibilidades(this.siguiente);
+                    ultimoRegistroSeleccionado = dg.SelectedRows[0];
+                    (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+                }
+            }
          }
 
     }

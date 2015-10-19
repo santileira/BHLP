@@ -148,6 +148,7 @@
             this.Controls.Add(this.txtCiudadOrigen);
             this.Controls.Add(this.textBox1);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registro Llegada";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);

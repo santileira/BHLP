@@ -20,6 +20,7 @@ namespace AerolineaFrba.Abm_Aeronave
         public Form siguiente;
         public bool primeraConsulta = true;
         public bool seSeteaQuery = false;
+        public bool loActivoGenerarViajes = false;
 
         public Listado()
         {
@@ -327,9 +328,16 @@ namespace AerolineaFrba.Abm_Aeronave
                 return;
             }
 
-            List<Object> listaFuncionalidades = new List<object>(7);
-            (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
-
+            if (this.loActivoGenerarViajes)
+            {
+                (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
+            }
+            else
+            {
+                List<Object> listaFuncionalidades = new List<object>(7);
+                (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
+            }
+            
             //this.Close();
             cambiarVisibilidades(this.anterior, true);
         }
