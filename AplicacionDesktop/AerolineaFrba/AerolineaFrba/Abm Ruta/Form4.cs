@@ -164,7 +164,6 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
-            //huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
             huboErrores = this.validarIgualdadCiudades() || huboErrores;
 

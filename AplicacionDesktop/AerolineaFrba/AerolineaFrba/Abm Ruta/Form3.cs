@@ -36,7 +36,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.query = "SELECT RUTA_COD , (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD) TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
-            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE";
+            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE ";
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_ESTADO = '1'";
         }
 
@@ -83,7 +83,6 @@ namespace AerolineaFrba.Abm_Ruta
             sePusoAgregarFiltro1 = false;
             sePusoAgregarFiltro2 = false;
             SqlConnection conexion = Program.conexion();
-
             
             DataTable t = new DataTable("Busqueda");
             SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
@@ -265,9 +264,9 @@ namespace AerolineaFrba.Abm_Ruta
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
-                        string cadenaComando = "UPDATE [ABSTRACCIONX4].[RUTAS_AEREAS] SET RUTA_EST = 0 WHERE ROL_COD = '" + darValorDadoIndex(e.RowIndex , "RUTA_COD") + "'";
-                        ejecutarCommand(cadenaComando);
-                        ejecutarQuery();
+                        //string cadenaComando = "UPDATE [ABSTRACCIONX4].[RUTAS_AEREAS] SET RUTA_EST = 0 WHERE ROL_COD = '" + darValorDadoIndex(e.RowIndex , "RUTA_COD") + "'";
+                        //ejecutarCommand(cadenaComando);
+                        //ejecutarQuery();
                     }
                 }
                 //BAJA FISICA
@@ -338,11 +337,6 @@ namespace AerolineaFrba.Abm_Ruta
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
-        }
-
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
     }

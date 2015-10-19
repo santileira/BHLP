@@ -222,7 +222,7 @@
             this.Name = "ListadoCiudades";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Listado Ciudades";
+            this.Text = "Selección de ciudades";
             this.Load += new System.EventHandler(this.ListadoCiudades_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

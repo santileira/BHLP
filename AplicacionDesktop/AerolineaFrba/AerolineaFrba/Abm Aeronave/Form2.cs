@@ -130,9 +130,9 @@ namespace AerolineaFrba.Abm_Aeronave
             if (txt.TextLength != 0 && !regexTexto.IsMatch(txt.Text))
             {
                 MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                return true;            
+                return false;            
             }
-            return false;
+            return true;
         }
 
         private Boolean esNumero(TextBox txt, string campo,bool debeSerEntero)

@@ -504,6 +504,7 @@ SELECT DISTINCT Tipo_Servicio , AVG((Ruta_Precio_BasePasaje * 100)/Pasaje_Precio
 FROM gd_esquema.Maestra WHERE Pasaje_Precio != 0
 GROUP BY Tipo_Servicio
 
+--SELECT * FROM [ABSTRACCIONX4].[SERVICIOS]
  
 --Inserta las aeronaves en la tabla de aeronaves
 INSERT INTO [ABSTRACCIONX4].[AERONAVES] 
@@ -515,7 +516,7 @@ INSERT INTO [ABSTRACCIONX4].[AERONAVES]
 		SERV_COD
 	)
 SELECT  Aeronave_Modelo , 
-		Aeronave_Matricula matricula, 
+		Aeronave_Matricula, 
 		MAX(Butaca_Nro), 
 		Aeronave_KG_Disponibles , 
 		Aeronave_Fabricante , 		
@@ -565,7 +566,7 @@ SELECT	Ruta_Codigo,
 	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino,Tipo_Servicio
 GO
 
---SELECT * FROM [ABSTRACCIONX4].RUTAS_AEREAS
+--SELECT * FROM [ABSTRACCIONX4].[RUTAS_AEREAS] 
 
 -- Inserta los viajes en la tabla viajes 
 
@@ -586,11 +587,9 @@ INSERT INTO[ABSTRACCIONX4].[VIAJES]
 			(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = Ruta_Codigo AND R.RUTA_PRECIO_BASE_KG = MAX(Ruta_Precio_BaseKG) 
 			AND R.RUTA_PRECIO_BASE_PASAJE = MAX(Ruta_Precio_BasePasaje) )
 			FROM gd_esquema.Maestra 
-	GROUP BY FechaSalida,Fecha_LLegada_Estimada,FechaLLegada,Ruta_Codigo,Aeronave_Matricula
-
+	GROUP BY FechaSalida,Fecha_LLegada_Estimada,FechaLLegada,Ruta_Codigo,Aeronave_Matricula,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino
 GO
-
-
+--SELECT * FROM [ABSTRACCIONX4].[VIAJES] 
 
 -- Inserta los clientes en la tabla clientes
 
@@ -610,28 +609,53 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 
 GO
 
--- Inserta encomiendas en la tabla encomiendas (FALTA!!)
-/*
+--SELECT * FROM [ABSTRACCIONX4].[CLIENTES]
+
+-- Inserta encomiendas en la tabla encomiendas 
+
 INSERT INTO [ABSTRACCIONX4].[ENCOMIENDAS]
 	(
 		[CLI_COD],
 		[VIAJE_COD],
+		[AERO_MATRI],
 		[ENCOMIENDA_PRECIO],	
 		[ENCOMIENDA_FECHA_COMPRA],
-		[ENCOMIENDA_PESO_KG],
-		[ENCOMIENDA_CANCELADO]
+		[ENCOMIENDA_PESO_KG]
 	)
 
-	SELECT
-		(SELECT CLI_COD FROM [ABSTRACCIONX4].[CLIENTES] WHERE Cli_Dni = CLI_DNI AND Cli_Apellido = CLI_APELLIDO AND Cli_Nombre = CLI_NOMBRE), 
-		--(SELECT VIAJE_COD FROM [ABSTRACCIONX4].[VIAJES] WHERE )
-		Paquete_Precio,
-		Paquete_FechaCompra,
-		Paquete_KG,
-		0 
-	FROM gd_esquema.Maestra
-	WHERE Paquete_Codigo != 0
-GO*/
+SELECT T.CLIENTE,
+	(SELECT v.VIAJE_COD 
+	FROM [ABSTRACCIONX4].VIAJES v
+	WHERE v.RUTA_ID = T.ID_RUTA
+		AND v.AERO_MATRI = T.MAT_AERONAVE
+		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
+	) COD_VIAJE,
+	T.MAT_AERONAVE,T.PRECIO,T.FECHA_COMPRA,T.CANT_KG
+FROM
+(SELECT (SELECT c.CLI_COD 
+			FROM [ABSTRACCIONX4].[CLIENTES] c 
+			WHERE c.CLI_DNI = m.Cli_Dni 
+				AND c.CLI_APELLIDO = m.Cli_Apellido 
+				AND c.CLI_NOMBRE = m.Cli_Nombre  
+		) CLIENTE,
+		m.Paquete_Precio PRECIO,
+		m.Paquete_KG CANT_KG,
+		m.Paquete_FechaCompra FECHA_COMPRA,
+		m.FechaSalida FECHA_SALIDA,
+		m.Aeronave_Matricula MAT_AERONAVE,
+		(SELECT r.RUTA_ID 
+			FROM [ABSTRACCIONX4].RUTAS_AEREAS r
+				JOIN [ABSTRACCIONX4].CIUDADES c1 ON (c1.CIU_COD = r.CIU_COD_O)
+				JOIN [ABSTRACCIONX4].CIUDADES c2 ON (c2.CIU_COD = r.CIU_COD_D)
+			WHERE r.RUTA_COD = m.Ruta_Codigo 
+					AND c1.CIU_DESC = m.Ruta_Ciudad_Origen 
+					AND c2.CIU_DESC = m.Ruta_Ciudad_Destino
+		) ID_RUTA
+FROM gd_esquema.Maestra m
+WHERE Paquete_Precio > 0) T
+GO
+
+--SELECT * FROM [ABSTRACCIONX4].[ENCOMIENDAS]
 
 -- Inserta butacas en la tabla butacas
 
@@ -648,47 +672,48 @@ INSERT INTO [ABSTRACCIONX4].[BUTACAS]
 	WHERE Pasaje_Codigo!=0
 GO
 
--- Inserta pasajes en la tabla pasajes--SOLUCIONAR
-DELETE [ABSTRACCIONX4].PASAJES
+-- Inserta pasajes en la tabla pasajes
 
 INSERT INTO [ABSTRACCIONX4].[PASAJES]
 	(
 		[CLI_COD],
 		[VIAJE_COD],
 		[PASAJE_PRECIO],
-		[PASAJE_FECHA_COMPRA] ,
-		[BUT_NRO] ,
+		[PASAJE_FECHA_COMPRA],
+		[BUT_NRO],
 		[AERO_MATRI] 
 		
 	)
-
-
-SELECT (SELECT CLI_COD FROM [ABSTRACCIONX4].[CLIENTES] WHERE CLI_DNI = m.Cli_Dni AND CLI_APELLIDO = m.Cli_Apellido AND CLI_NOMBRE = m.Cli_Nombre  
-		),1,
-		/*(SELECT VIAJE_COD FROM [ABSTRACCIONX4].[VIAJES] WHERE VIAJE_FECHA_LLEGADA = m.FechaLLegada AND VIAJE_FECHA_LLEGADAE = m.Fecha_LLegada_Estimada
-		AND VIAJE_FECHA_SALIDA = m.FechaSalida AND AERO_MATRI = m.Aeronave_Matricula AND 
 		
-		RUTA_ID = 
-		(SELECT R.RUTA_ID FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_COD = m.Ruta_Codigo 
-		
-			AND R.RUTA_PRECIO_BASE_KG = (SELECT MAX(m2.Ruta_Precio_BaseKG)
-											FROM gd_esquema.Maestra m2
-											WHERE m2.FechaSalida = m.FechaSalida AND m2.Fecha_Llegada_Estimada = m.Fecha_Llegada_Estimada AND 
-											m2.FechaLlegada = m.FechaLlegada AND m2.Ruta_codigo = m.Ruta_Codigo 
-										GROUP BY m2.FechaSalida,m2.Fecha_Llegada_Estimada,m2.FechaLlegada,m2.Ruta_Codigo,m2.Aeronave_Matricula)
- 
-			AND R.RUTA_PRECIO_BASE_PASAJE = (SELECT MAX(m2.Ruta_Precio_BasePasaje)
-											FROM gd_esquema.Maestra m2
-											WHERE m2.FechaSalida = m.FechaSalida AND m2.Fecha_Llegada_Estimada = m.Fecha_Llegada_Estimada AND 
-											m2.FechaLlegada = m.FechaLlegada AND m2.Ruta_codigo = m.Ruta_Codigo 
-											GROUP BY m2.FechaSalida,m2.Fecha_Llegada_Estimada,m2.FechaLlegada,m2.Ruta_Codigo,m2.Aeronave_Matricula)
-			
-			
-		)),*/
-		m.Pasaje_Precio,
-		m.Pasaje_FechaCompra,
-		m.Butaca_Nro,
-		m.Aeronave_Matricula 
-FROM gd_esquema.Maestra m
+SELECT T.CLIENTE,
+	(SELECT v.VIAJE_COD 
+	FROM [ABSTRACCIONX4].VIAJES v
+	WHERE v.RUTA_ID = T.ID_RUTA
+		AND v.AERO_MATRI = T.MAT_AERONAVE
+		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
+	) COD_VIAJE,
+	T.PRECIO,T.FECHA_COMPRA,T.NRO_BUTACA,T.MAT_AERONAVE
+FROM
+(SELECT (SELECT c.CLI_COD 
+			FROM [ABSTRACCIONX4].[CLIENTES] c 
+			WHERE c.CLI_DNI = m.Cli_Dni 
+				AND c.CLI_APELLIDO = m.Cli_Apellido 
+				AND c.CLI_NOMBRE = m.Cli_Nombre  
+		) CLIENTE,
+		m.Pasaje_Precio PRECIO,
+		m.Pasaje_FechaCompra FECHA_COMPRA,
+		m.Butaca_Nro NRO_BUTACA,
+		m.FechaSalida FECHA_SALIDA,
+		m.Aeronave_Matricula MAT_AERONAVE,
+		(SELECT r.RUTA_ID 
+			FROM [ABSTRACCIONX4].RUTAS_AEREAS r
+				JOIN [ABSTRACCIONX4].CIUDADES c1 ON (c1.CIU_COD = r.CIU_COD_O)
+				JOIN [ABSTRACCIONX4].CIUDADES c2 ON (c2.CIU_COD = r.CIU_COD_D)
+			WHERE r.RUTA_COD = m.Ruta_Codigo 
+					AND c1.CIU_DESC = m.Ruta_Ciudad_Origen 
+					AND c2.CIU_DESC = m.Ruta_Ciudad_Destino
+		) ID_RUTA
+FROM gd_esquema.Maestra m 
+WHERE Pasaje_Precio > 0) T 
 
-SELECT * FROM [ABSTRACCIONX4].PASAJES
+-- SELECT * FROM [ABSTRACCIONX4].[PASAJES]
