@@ -318,7 +318,7 @@
             this.Name = "Baja";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ABM Baja";
+            this.Text = "Baja de ruta";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Listado_Load);
             this.groupBox1.ResumeLayout(false);

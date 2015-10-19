@@ -54,6 +54,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -71,7 +72,7 @@
             // 
             // botonLimpiar
             // 
-            this.botonLimpiar.Location = new System.Drawing.Point(37, 322);
+            this.botonLimpiar.Location = new System.Drawing.Point(37, 328);
             this.botonLimpiar.Name = "botonLimpiar";
             this.botonLimpiar.Size = new System.Drawing.Size(112, 35);
             this.botonLimpiar.TabIndex = 11;
@@ -81,7 +82,7 @@
             // 
             // botonGuardar
             // 
-            this.botonGuardar.Location = new System.Drawing.Point(747, 322);
+            this.botonGuardar.Location = new System.Drawing.Point(747, 328);
             this.botonGuardar.Name = "botonGuardar";
             this.botonGuardar.Size = new System.Drawing.Size(112, 35);
             this.botonGuardar.TabIndex = 10;
@@ -109,7 +110,7 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Location = new System.Drawing.Point(503, 57);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(356, 125);
+            this.groupBox4.Size = new System.Drawing.Size(356, 112);
             this.groupBox4.TabIndex = 46;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
@@ -174,7 +175,7 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Location = new System.Drawing.Point(37, 188);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(477, 128);
+            this.groupBox3.Size = new System.Drawing.Size(477, 107);
             this.groupBox3.TabIndex = 45;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ciudades";
@@ -258,7 +259,7 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Location = new System.Drawing.Point(37, 57);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(398, 125);
+            this.groupBox2.Size = new System.Drawing.Size(398, 112);
             this.groupBox2.TabIndex = 44;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
@@ -308,11 +309,21 @@
             this.label8.TabIndex = 4;
             this.label8.Text = "Código";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(34, 305);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(233, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Los campos en blanco no se tendrán en cuenta";
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 379);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -322,7 +333,7 @@
             this.Controls.Add(this.button6);
             this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ABM Modificacion";
+            this.Text = "Modificación de ruta";
             this.Load += new System.EventHandler(this.Modificacion_Load);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -331,6 +342,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -362,5 +374,6 @@
         private System.Windows.Forms.TextBox txtCiudadDestino;
         private System.Windows.Forms.TextBox txtCiudadOrigen;
         private System.Windows.Forms.TextBox txtTipoDeServicio;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -32,12 +32,13 @@ namespace AerolineaFrba.Abm_Aeronave
             cargarComboServicio();
             cargarComboFabricante();
 
-            txtModelo.Text = registro.Cells["AERO_MOD"].Value.ToString();
-            txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
-            cboFabricante.Text = registro.Cells["AERO_FAB"].Value.ToString();
-            cboServicio.Text = registro.Cells["SERV_DESC"].Value.ToString();
-            txtButacas.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
-            txtKilos.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
+            txtModeloActual.Text = registro.Cells["AERO_MOD"].Value.ToString();
+            txtMatriculaActual.Text = registro.Cells["AERO_MATRI"].Value.ToString();
+            txtFabricanteActual.Text = registro.Cells["AERO_FAB"].Value.ToString();
+            txtServicioActual.Text = registro.Cells["SERV_DESC"].Value.ToString();
+            txtButacasActual.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
+            txtKilosActual.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
+            txtFechaReinicioActual.Text = registro.Cells["AERO_FECHA_RS"].Value.ToString();
 
             if (registro.Cells["AERO_FECHA_RS"].Value.ToString().GetType() == Type.GetType("DateTime"))
                 dtTime.Value = Convert.ToDateTime(registro.Cells["AERO_FECHA_RS"].Value.ToString());
@@ -86,6 +87,13 @@ namespace AerolineaFrba.Abm_Aeronave
 
             button2.Enabled = false;
             button3.Enabled = false;
+
+            txtButacasActual.Text = "";
+            txtKilosActual.Text = "";
+            txtMatriculaActual.Text = "";
+            txtModeloActual.Text = "";
+            txtFabricanteActual.Text = "";
+            txtServicioActual.Text = "";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -129,12 +137,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private bool datosCorrectos()
         {
-            Boolean huboErrores = false;
-
-            huboErrores = this.validarLongitudes() || huboErrores;
-            huboErrores = this.validarTipos() || huboErrores;
-
-            return !huboErrores;
+            return !this.validarTipos() ;
         }
 
         private Boolean validarLongitudes()
@@ -193,9 +196,9 @@ namespace AerolineaFrba.Abm_Aeronave
             if (txt.TextLength != 0 && !regexTexto.IsMatch(txt.Text))
             {
                 MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         private Boolean esNumero(TextBox txt, string campo, bool debeSerEntero)

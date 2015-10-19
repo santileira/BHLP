@@ -18,6 +18,7 @@ namespace AerolineaFrba.Abm_Aeronave
         string query;
         Boolean huboCondicion;
         public Form anterior;
+        public Form siguiente;
         public bool primeraConsulta = true;
         
         public Listado()
@@ -262,7 +263,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-            cambiarVisibilidades(this.anterior, false);  
+
+            cambiarVisibilidades(this.anterior, false);              
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente, bool seSeleccionoAlgo)
@@ -271,10 +273,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Visible = false;
         }
 
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-           
-        }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -308,24 +306,9 @@ namespace AerolineaFrba.Abm_Aeronave
             List<Object> listaFuncionalidades = new List<object>(7);
             (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
 
-            
-
-            
-
             //this.Close();
             cambiarVisibilidades(this.anterior, true);
         }
-
-        private void ejecutarSeleccion()
-        {
-            //aca se debe volcar todo en los parametros
-        }
-
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
 
     }
 }
