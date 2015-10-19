@@ -16,14 +16,14 @@ namespace AerolineaFrba.Abm_Aeronave
     {
         const string QUERY_BASE = "SELECT AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) WHERE AERO_BAJA_VU = 0 AND AERO_BAJA_FS = 0";
         string query;
-        Boolean huboCondicion;
         public Form anterior;
         private Form formularioSiguiente;
         private Boolean sePusoAgregarFiltro1 = false;
         private Boolean sePusoAgregarFiltro2 = false;
         private Boolean sePusoAgregarFiltro3 = false;
         private int filtro;
-        
+        private int indiceAeronaveElegida;
+        public Boolean huboCondicion;
         
         public Baja()
         {
@@ -301,41 +301,61 @@ namespace AerolineaFrba.Abm_Aeronave
             //cambiarVisibilidades(this.anterior, true);
         }
 
-        private void ejecutarSeleccion()
-        {
-            //aca se debe volcar todo en los parametros
-        }
-
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
+                
+                indiceAeronaveElegida = e.RowIndex;
                 if (e.ColumnIndex == 0)
                 {
-                    DialogResult resultado = mostrarMensaje("dejar fuera de servicio");
-                    if (apretoSi(resultado))
-                    {
-
-                        this.dejarFueraDeServicio();
-                    }
+                    
+                    new Form6(this, false).ShowDialog();
+                    ejecutarQuery();
                 }
                 else
                     if (e.ColumnIndex == 1)
                     {
-                        DialogResult resultado = mostrarMensaje("dar de baja lógica");
-                        if (apretoSi(resultado))
-                        {
-                        
-                            //ejecutarQuery(ultimaQuery);
-                        }
+                     
+                        new Form6(this , true).ShowDialog();
+                        ejecutarQuery();
                     }
             }
         }
 
-        private void dejarFueraDeServicio()
+        public Object darDeBajaLogica(DateTime fechaBaja)
         {
-            throw new NotImplementedException();
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DarDeBajaLogica]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
+            command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
+
+            return command.ExecuteScalar();
+        }
+
+        public Object dejarFueraDeServicio(DateTime fechaReinicio , DateTime fechaBaja)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DejarAeronaveFueraDeServicio]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
+            command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
+            command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
+            
+            return command.ExecuteScalar();
+        }
+
+        private Boolean apretoSi(DialogResult resultado)
+        {
+            return resultado == System.Windows.Forms.DialogResult.Yes;
         }
         
         private void button1_Click_1(object sender, EventArgs e)
@@ -374,10 +394,7 @@ namespace AerolineaFrba.Abm_Aeronave
             return true;
         }
 
-        private Boolean apretoSi(DialogResult resultado)
-        {
-            return resultado == System.Windows.Forms.DialogResult.Yes;
-        }
+        
 
         private DialogResult mostrarMensaje(string tipoDeBaja)
         {
