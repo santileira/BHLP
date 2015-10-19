@@ -20,7 +20,9 @@ namespace AerolineaFrba.Abm_Aeronave
         public Form siguiente;
         public bool primeraConsulta = true;
         public bool seSeteaQuery = false;
+
         public bool loActivoGenerarViajes = false;
+        public string serv_cod = null;
 
         public Listado()
         {
@@ -81,6 +83,8 @@ namespace AerolineaFrba.Abm_Aeronave
             conexion.Close();
 
             primeraConsulta = false;
+
+            dg.Columns["SERV_COD"].Visible = false;
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
@@ -187,7 +191,10 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             else
             {
-                query = "select AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+                query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+
+                if (this.loActivoGenerarViajes && this.serv_cod != null)
+                    query += " WHERE a.SERV_COD = " + this.serv_cod;
             }
 
 

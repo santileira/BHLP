@@ -25,7 +25,9 @@ namespace AerolineaFrba.Abm_Ruta
         public Boolean llamadoDeModificacion = false;
         private DataGridViewRow ultimoRegistroSeleccionado;
         public Boolean primeraConsulta = true;
+
         public Boolean loActivoGenerarViajes = false;
+        public string serv_cod = null;
 
         public Listado()
         {
@@ -44,11 +46,14 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_ID, RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
+            this.query = "SELECT SERV_COD, RUTA_ID, RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
+
+            if (this.loActivoGenerarViajes && this.serv_cod != null)
+                query += " WHERE R.SERV_COD = " + this.serv_cod;
         }
 
         private string buscarCiudad(string cod)
@@ -126,6 +131,9 @@ namespace AerolineaFrba.Abm_Ruta
             conexion.Close();
 
             primeraConsulta = false;
+
+            dg.Columns["RUTA_ID"].Visible = false;
+            dg.Columns["SERV_COD"].Visible = false;
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
@@ -328,11 +336,6 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
             }
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void cboCamposFiltro1_SelectedIndexChanged(object sender, EventArgs e)
