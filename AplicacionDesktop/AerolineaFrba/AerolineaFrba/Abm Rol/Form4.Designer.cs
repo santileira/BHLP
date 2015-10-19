@@ -40,14 +40,15 @@
             this.lstFuncionalidadesTotales = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.txtNombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
+            this.txtNombre = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.checkHabilitado);
             this.groupBox1.Controls.Add(this.txtRolSeleccionado);
             this.groupBox1.Controls.Add(this.button5);
@@ -59,11 +60,10 @@
             this.groupBox1.Controls.Add(this.lstFuncionalidadesTotales);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(18, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(673, 354);
+            this.groupBox1.Size = new System.Drawing.Size(636, 354);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos del ROL";
@@ -81,7 +81,7 @@
             // 
             // txtRolSeleccionado
             // 
-            this.txtRolSeleccionado.Location = new System.Drawing.Point(411, 29);
+            this.txtRolSeleccionado.Location = new System.Drawing.Point(318, 29);
             this.txtRolSeleccionado.MaxLength = 60;
             this.txtRolSeleccionado.Name = "txtRolSeleccionado";
             this.txtRolSeleccionado.ReadOnly = true;
@@ -90,7 +90,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(536, 23);
+            this.button5.Location = new System.Drawing.Point(474, 23);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(115, 31);
             this.button5.TabIndex = 41;
@@ -112,7 +112,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(472, 93);
+            this.label4.Location = new System.Drawing.Point(430, 93);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(179, 13);
             this.label4.TabIndex = 39;
@@ -121,7 +121,7 @@
             // lstFuncionalidadesActuales
             // 
             this.lstFuncionalidadesActuales.FormattingEnabled = true;
-            this.lstFuncionalidadesActuales.Location = new System.Drawing.Point(495, 135);
+            this.lstFuncionalidadesActuales.Location = new System.Drawing.Point(433, 135);
             this.lstFuncionalidadesActuales.Name = "lstFuncionalidadesActuales";
             this.lstFuncionalidadesActuales.Size = new System.Drawing.Size(156, 134);
             this.lstFuncionalidadesActuales.TabIndex = 38;
@@ -129,7 +129,7 @@
             // button3
             // 
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(357, 238);
+            this.button3.Location = new System.Drawing.Point(293, 238);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(116, 31);
             this.button3.TabIndex = 37;
@@ -158,7 +158,7 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(536, 307);
+            this.button2.Location = new System.Drawing.Point(474, 307);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(115, 31);
             this.button2.TabIndex = 7;
@@ -175,15 +175,6 @@
             this.button1.Text = "Limpiar";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // txtNombre
-            // 
-            this.txtNombre.Enabled = false;
-            this.txtNombre.Location = new System.Drawing.Point(127, 29);
-            this.txtNombre.MaxLength = 60;
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(110, 20);
-            this.txtNombre.TabIndex = 3;
             // 
             // label2
             // 
@@ -205,12 +196,20 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // txtNombre
+            // 
+            this.txtNombre.Location = new System.Drawing.Point(146, 29);
+            this.txtNombre.MaxLength = 60;
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(110, 20);
+            this.txtNombre.TabIndex = 44;
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
-            this.ClientSize = new System.Drawing.Size(755, 392);
+            this.ClientSize = new System.Drawing.Size(692, 392);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificacion";
@@ -228,7 +227,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label4;
@@ -240,6 +238,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtRolSeleccionado;
         private System.Windows.Forms.CheckBox checkHabilitado;
+        private System.Windows.Forms.TextBox txtNombre;
 
     }
 }

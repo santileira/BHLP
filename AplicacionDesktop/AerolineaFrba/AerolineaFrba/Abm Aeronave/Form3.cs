@@ -316,8 +316,8 @@ namespace AerolineaFrba.Abm_Aeronave
                     DialogResult resultado = mostrarMensaje("dejar fuera de servicio");
                     if (apretoSi(resultado))
                     {
-                        MessageBox.Show("Por ahora no se puede poner fuera de servicio faltan stores procedures");
-                        //ejecutarQuery(ultimaQuery);
+
+                        this.dejarFueraDeServicio();
                     }
                 }
                 else
@@ -326,11 +326,16 @@ namespace AerolineaFrba.Abm_Aeronave
                         DialogResult resultado = mostrarMensaje("dar de baja lógica");
                         if (apretoSi(resultado))
                         {
-                            MessageBox.Show("Por ahora no se puede dar de baja lógica faltan stores procedures");
+                        
                             //ejecutarQuery(ultimaQuery);
                         }
                     }
             }
+        }
+
+        private void dejarFueraDeServicio()
+        {
+            throw new NotImplementedException();
         }
         
         private void button1_Click_1(object sender, EventArgs e)

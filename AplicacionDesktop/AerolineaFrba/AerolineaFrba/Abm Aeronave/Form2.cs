@@ -58,9 +58,33 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                //HACER EL ALTA CON UNA STORE PROCEDURE            
+                darDeAltaAeronave();         
             }
 
+        }
+
+        private Object darDeAltaAeronave()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaAeronave]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Modelo", txtModelo.Text);
+            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
+            command.Parameters.AddWithValue("@Fabricante", cboFabricante.Text);
+            command.Parameters.AddWithValue("@TipoDeServicio", cboServicio.Text);
+            command.Parameters.AddWithValue("@CantidadButacas", Convert.ToInt16(txtButacas.Text));
+            command.Parameters.AddWithValue("@CantidadKG", cantidadKilogramos());
+            command.Parameters.AddWithValue("@FechaAlta", Convert.ToDateTime(dateTimePicker1.Text));
+
+            return command.ExecuteScalar();
+        }
+
+        private Decimal cantidadKilogramos()
+        {
+            return Decimal.Round(Convert.ToDecimal(txtKilos.Text.Replace(".",",")), 2);
         }
 
         private bool datosCorrectos()
@@ -69,8 +93,19 @@ namespace AerolineaFrba.Abm_Aeronave
 
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
+            huboErrores = this.validarFecha() || huboErrores;
 
             return !huboErrores;
+        }
+
+        private bool validarFecha()
+        {
+            if (dateTimePicker1.Value.CompareTo(System.DateTime.Today) < 0)
+            {
+                MessageBox.Show("La fecha ingresada debe ser posterior a la fecha de hoy", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return true;
+            }
+            return false;
         }
 
         private Boolean validarLongitudes()

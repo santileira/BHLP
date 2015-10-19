@@ -19,7 +19,7 @@ namespace AerolineaFrba.Abm_Rol
         public Form siguiente;
         string rolSeleccionado;
         List<Object> listaFuncionalidades;
-        int estadoRol;
+        Boolean estadoRol;
         public Boolean llamadoDeModificacion;
         public Boolean primeraConsulta = true;
         
@@ -193,7 +193,7 @@ namespace AerolineaFrba.Abm_Rol
             {
 
                 this.cambiarVisibilidades(this.siguiente);
-                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol == 1, listaFuncionalidades.ToArray());
+                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
                 
             }
             else this.cambiarVisibilidades(this.anterior);
@@ -216,19 +216,20 @@ namespace AerolineaFrba.Abm_Rol
 
             rolSeleccionado = "";
             listaFuncionalidades = new List<object>();
-            estadoRol = 0;
+            estadoRol = false;
             ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
             if (siguiente != null)
             {
-                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol == 1, listaFuncionalidades.ToArray());
+               
                 cambiarVisibilidades(this.siguiente);
+                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
             } 
        }
 
-        private void ejecutarSeleccion(ref string rolSeleccionado,ref int estadoRol, List<Object> listaFuncionalidades)
+        private void ejecutarSeleccion(ref string rolSeleccionado,ref Boolean estadoRol, List<Object> listaFuncionalidades)
         {
             rolSeleccionado = dg.SelectedRows[0].Cells["ROL_NOMBRE"].Value.ToString();
-            //estadoRol = Convert.ToInt32(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value.ToString());
+            estadoRol = (Boolean)(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value);
 
 
             string query = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].ROLES r JOIN [ABSTRACCIONX4].FUNCIONES_ROLES fr ON (r.ROL_COD = fr.ROL_COD) JOIN [ABSTRACCIONX4].FUNCIONALIDADES f ON (f.FUNC_COD = fr.FUNC_COD) WHERE r.ROL_NOMBRE = '" + rolSeleccionado + "'";
@@ -283,6 +284,11 @@ namespace AerolineaFrba.Abm_Rol
 
             dg.Columns["ROL_ESTADO"].Visible = false;
 
+        }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
 
 

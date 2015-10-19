@@ -31,11 +31,10 @@ namespace AerolineaFrba.Abm_Rol
 
         private void iniciar()
         {
-            txtNombre.Text = "";
             txtRolSeleccionado.Text = "";
             lstFuncionalidadesActuales.Items.Clear();
-
             txtNombre.Enabled = false;
+            txtNombre.Text = "";
             button6.Enabled = false;
             button3.Enabled = false;
             button2.Enabled = false;
@@ -188,13 +187,16 @@ namespace AerolineaFrba.Abm_Rol
 
         public void seSelecciono(string nombreRol,bool habilitado,Object[] funcionalidadesRol)
         {
+        
             txtRolSeleccionado.Text = nombreRol;
-            txtNombre.Text = nombreRol;
-          
+            txtRolSeleccionado.Enabled = true;
+            txtNombre.Enabled = true;
+           
+
             lstFuncionalidadesActuales.Items.Clear();
             lstFuncionalidadesActuales.Items.AddRange(funcionalidadesRol);
 
-            txtNombre.Enabled = true;
+           
             button6.Enabled = true;
             button3.Enabled = true;
             button2.Enabled = true;

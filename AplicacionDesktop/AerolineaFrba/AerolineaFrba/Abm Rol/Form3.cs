@@ -237,6 +237,11 @@ namespace AerolineaFrba.Abm_Rol
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
+
+        private void txtFiltro1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
             
         
     }
