@@ -57,21 +57,45 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (datosCorrectos())
+            {
+                DialogResult resultado = MessageBox.Show("Se procede a modificar el rol seleccionado" , "Informe" , MessageBoxButtons.YesNo);
+                if (apretoSi(resultado))
+                {
+                    string nombreNuevo = txtNombre.Text;
+                    string nombreOriginal = txtRolSeleccionado.Text;
+                    modificarRol(nombreNuevo , nombreOriginal);
+                    
+                    
+                }
+
+            }
+        }
+
+        private Object modificarRol(string nombreNuevo , string nombreOriginal)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRol]";
+            command.CommandTimeout = 0;
+            MessageBox.Show(nombreOriginal + nombreNuevo, "" , MessageBoxButtons.OKCancel);
+            command.Parameters.AddWithValue("@NombreNuevo", nombreNuevo);
+            command.Parameters.AddWithValue("@NombreOriginal", nombreOriginal);
+
+            return command.ExecuteScalar();
+        }
+
+        private bool apretoSi(DialogResult resultado)
+        {
+            return resultado == System.Windows.Forms.DialogResult.Yes;
         }
 
         private Boolean datosCorrectos()
         {
             Boolean huboErroresEnText = this.validarTextNombre();
-            Boolean huboErroresEnList = false;
-
-            if (lstFuncionalidadesActuales.Items.Count > 0 && huboErroresEnText)
-            {
-                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
-                huboErroresEnList = true;
-            }
-
-            return !(huboErroresEnText || huboErroresEnList);
+      
+            return !(huboErroresEnText);
         }
 
         private Boolean esTexto(TextBox txt)
@@ -145,25 +169,28 @@ namespace AerolineaFrba.Abm_Rol
         private Boolean validarTextNombre()
         {
             Boolean huboErrores = false;
-
+            
             if (txtNombre.TextLength == 0)
             {
                 MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
+             
             }
+            else
+            {           
+                if (txtNombre.TextLength > 60)
+                {
+                    MessageBox.Show("El nombre debe tener a lo sumo 60 caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                    huboErrores = true;
+                }
 
-            if (txtNombre.TextLength > 60)
-            {
-                MessageBox.Show("El nombre debe tener a lo sumo 60 caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
+                if (!this.esTexto(txtNombre))
+                {
+                    MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
+                    huboErrores = true;
+                }
             }
-
-            if (!this.esTexto(txtNombre))
-            {
-                MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-
+            
             return huboErrores;
         }
 
@@ -191,7 +218,7 @@ namespace AerolineaFrba.Abm_Rol
             txtRolSeleccionado.Text = nombreRol;
             txtRolSeleccionado.Enabled = true;
             txtNombre.Enabled = true;
-           
+            txtNombre.Text = nombreRol;
 
             lstFuncionalidadesActuales.Items.Clear();
             lstFuncionalidadesActuales.Items.AddRange(funcionalidadesRol);
