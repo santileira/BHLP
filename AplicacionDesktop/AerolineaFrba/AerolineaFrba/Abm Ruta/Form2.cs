@@ -56,11 +56,34 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                //HACER EL ALTA CON UNA STORE PROCEDURE, SI ESTA OK:
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva ruta", "Alta de nueva ruta", MessageBoxButtons.OK);
-                   
+                darDeAltaRuta();
             }
 
+        }
+
+        private Object darDeAltaRuta()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRuta]";
+            command.CommandTimeout = 0;
+
+
+            command.Parameters.AddWithValue("@Codigo", Convert.ToInt32(txtCodigo.Text));
+            command.Parameters.AddWithValue("@Servicio", cboServicio.Text);
+            command.Parameters.AddWithValue("@CiudadOrigen", txtCiudadOrigen.Text);
+            command.Parameters.AddWithValue("@CiudadDestino", txtCiudadDestino.Text);
+            command.Parameters.AddWithValue("@PrecioPasaje", enDecimal(txtPrecioPasaje.Text));
+            command.Parameters.AddWithValue("@PrecioeEncomienda", enDecimal(txtPrecioEncomienda.Text));
+
+            return command.ExecuteScalar();
+        }
+
+        private Decimal enDecimal(string numero)
+        {
+            return Decimal.Round(Convert.ToDecimal(numero.Replace(".", ",")), 2);
         }
 
         private bool datosCorrectos()

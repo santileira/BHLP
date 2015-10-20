@@ -352,6 +352,15 @@ namespace AerolineaFrba.Abm_Aeronave
                 return;
             }
 
+
+            List<Object> listaFuncionalidades = new List<object>(7);
+
+            if (llamadoDesdeModificacion)
+            {
+
+                cambiarVisibilidades(this.siguiente);
+                (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+            }
             if (seSeteaQuery)
             {
                 (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
@@ -361,15 +370,8 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
             }
-            
-            if(this.loActivoModificar)
-            {
-                (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
-            }
-            
-            //this.Close();
-            this.cambiarVisibilidades(this.anterior);
 
+ 
         }
     }
 }
