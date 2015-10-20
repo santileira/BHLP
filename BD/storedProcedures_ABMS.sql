@@ -2,7 +2,7 @@
 -------------------------------Alta Rol-------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRol
-	@Nombre varchar(30),
+	@Nombre VARCHAR(30),
 	@Funcionalidades 
 AS
 	BEGIN TRY
@@ -11,6 +11,27 @@ AS
 	BEGIN CATCH
 		DECLARE @Error varchar(80)
 		SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+GO
+
+-------------------------------Baja Rol-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
+	@Nombre VARCHAR(30)	
+AS
+	BEGIN TRY
+		DECLARE @Codigo TINYINT
+		SELECT @Codigo=R.ROL_COD FROM ABSTRACCIONX4.ROLES R WHERE R.ROL_NOMBRE = @Nombre
+		
+		UPDATE ABSTRACCIONX4.ROLES 
+		SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = @Nombre
+		------Podría ir en trigger! 
+		UPDATE ABSTRACCIONX4.USUARIOS 
+		SET ROL_COD = NULL WHERE ROL_COD = @Codigo
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(80)
+		--SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO
