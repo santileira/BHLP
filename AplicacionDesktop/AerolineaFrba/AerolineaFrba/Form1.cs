@@ -55,5 +55,24 @@ namespace AerolineaFrba
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Generacion_Viaje.Form1 generadorViajes = new Generacion_Viaje.Form1();
+            Abm_Aeronave.Listado listadoAeronaves = new Abm_Aeronave.Listado();
+            Abm_Ruta.Listado listadoRutas = new Abm_Ruta.Listado();
+
+            generadorViajes.listadoAeronaves = listadoAeronaves;
+            generadorViajes.listadoRutas = listadoRutas;
+
+            listadoAeronaves.anterior = generadorViajes;
+            listadoAeronaves.loActivoGenerarViajes = true;
+
+            listadoRutas.anterior = generadorViajes;
+            listadoRutas.loActivoGenerarViajes = true;
+
+            this.cambiarVisibilidades(generadorViajes);
+
+        }
+
     }
 }

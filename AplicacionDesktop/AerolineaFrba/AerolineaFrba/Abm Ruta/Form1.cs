@@ -91,5 +91,10 @@ namespace AerolineaFrba.Abm_Ruta
 
             this.cambiarVisibilidades(listado);
         }
+
+        private void Principal_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
