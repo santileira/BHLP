@@ -52,13 +52,12 @@ namespace AerolineaFrba.Abm_Rol
 
                 foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
-                    MessageBox.Show(funcion + nombreRol, "asda", MessageBoxButtons.OK);
-                    darDeAltaFuncionalidad(funcion , nombreRol);
+                  darDeAltaFuncionalidad(funcion , nombreRol);
                 }
             }
         }
 
-        private Object darDeAltaFuncionalidad(string funcion , string rol)
+        private void darDeAltaFuncionalidad(string funcion , string rol)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -70,7 +69,8 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            return command.ExecuteScalar();
+            command.ExecuteScalar();
+            
         }
 
         private Object darDeAltaRol(string nombre)
