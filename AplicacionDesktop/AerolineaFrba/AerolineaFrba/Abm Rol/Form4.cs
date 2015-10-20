@@ -14,7 +14,6 @@ namespace AerolineaFrba.Abm_Rol
     public partial class Modificacion : Form
     {
 
-        SqlCommand command = new SqlCommand();
         Form formularioSiguiente;
         public Listado listado;
        
@@ -44,7 +43,9 @@ namespace AerolineaFrba.Abm_Rol
             button1.Enabled = false;
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
-            command = new SqlCommand(queryselect, Program.conexion());
+            SqlCommand command = new SqlCommand(queryselect, Program.conexion());
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
             SqlDataAdapter a = new SqlDataAdapter(command);
             DataTable t = new DataTable();
             //Llenar el Dataset
@@ -65,15 +66,15 @@ namespace AerolineaFrba.Abm_Rol
                     string nombreNuevo = txtNombre.Text;
                     string nombreOriginal = txtRolSeleccionado.Text;
                     modificarRol(nombreNuevo , nombreOriginal);
-                    
-                    //darDeBajaFuncionalidades(nombreOriginal);
+
+                    darDeBajaFuncionalidades(nombreNuevo);
                     
                     foreach (String funcion in lstFuncionalidadesActuales.Items)
                     {
                         darDeAltaFuncionalidad(funcion, nombreNuevo);
                     }
 
-
+                    (listado as Listado).iniciar();
                     this.cambiarVisibilidades(this.listado);
                     
                 }
@@ -83,21 +84,21 @@ namespace AerolineaFrba.Abm_Rol
 
         private Object darDeBajaFuncionalidades(string nombreNuevo)
         {
+            SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaFuncionalidades]";
             command.CommandTimeout = 0;
 
-
             command.Parameters.AddWithValue("@NombreRol", nombreNuevo);
       
-
             return command.ExecuteScalar();
 
         }
 
-        private void darDeAltaFuncionalidad(string funcion, string rol)
+        private Object darDeAltaFuncionalidad(string funcion, string rol)
         {
+            SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -107,7 +108,7 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            command.ExecuteScalar();
+            return command.ExecuteScalar();
 
         }
 
@@ -119,7 +120,7 @@ namespace AerolineaFrba.Abm_Rol
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRol]";
             command.CommandTimeout = 0;
-            MessageBox.Show(nombreOriginal + nombreNuevo, "" , MessageBoxButtons.OKCancel);
+
             command.Parameters.AddWithValue("@NombreNuevo", nombreNuevo);
             command.Parameters.AddWithValue("@NombreOriginal", nombreOriginal);
 
@@ -157,9 +158,6 @@ namespace AerolineaFrba.Abm_Rol
         private void Alta_Load(object sender, EventArgs e)
         {
             this.iniciar();
-
-            command.CommandType = System.Data.CommandType.Text;
-            command.CommandTimeout = 0;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -193,8 +191,10 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarCommand(string cadenaComando)
         {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = cadenaComando;
-
             try
             {
                 command.ExecuteReader().Close();
