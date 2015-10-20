@@ -12,8 +12,9 @@ BEGIN
 						when @matricula not in (select distinct AERO_MATRI
 												from ABSTRACCIONX4.VIAJES v
 												where
-												(@fecha_salida between v.VIAJE_FECHA_SALIDA and v.VIAJE_FECHA_LLEGADAE) or
-												(@fecha_llegada_estimada between v.VIAJE_FECHA_SALIDA and v.VIAJE_FECHA_LLEGADAE))
+												(v.VIAJE_FECHA_SALIDA <= @fecha_salida and v.VIAJE_FECHA_LLEGADAE >= @fecha_salida) or
+												(v.VIAJE_FECHA_SALIDA >= @fecha_salida and v.VIAJE_FECHA_LLEGADAE <= @fecha_llegada_estimada) or
+												(v.VIAJE_FECHA_SALIDA >= @fecha_salida and v.VIAJE_FECHA_SALIDA <= @fecha_llegada_estimada and v.VIAJE_FECHA_LLEGADAE >= @fecha_llegada_estimada))
 						then 1
 						else 0
 					end)
