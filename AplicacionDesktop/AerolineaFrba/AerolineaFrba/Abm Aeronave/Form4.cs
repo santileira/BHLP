@@ -56,7 +56,7 @@ namespace AerolineaFrba.Abm_Aeronave
             if (registro.Cells["AERO_FECHA_RS"].Value.ToString().GetType() == Type.GetType("DateTime"))
                 dtTime.Value = Convert.ToDateTime(registro.Cells["AERO_FECHA_RS"].Value.ToString());
 
-            if (tieneUnViajeAsignado(txtMatriculaActual.Text) == 1)
+            /*if (tieneUnViajeAsignado(txtMatricula.Text) == 1)
             {
                 txtButacas.Visible = false;
                 txtButacasActual.Visible = false;
@@ -76,11 +76,8 @@ namespace AerolineaFrba.Abm_Aeronave
                 label1.Visible = false;
                 label3.Visible = false;
                 groupBox2.Visible = false;
-            }
-            else
-            {
-
-            }
+            }*/
+            
             txtButacas.Enabled = true;
             txtKilos.Enabled = true;
             txtMatricula.Enabled = true;
