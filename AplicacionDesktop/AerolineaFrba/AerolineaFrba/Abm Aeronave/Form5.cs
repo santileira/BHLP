@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba.Abm_Aeronave
 {
-    
+
     public partial class Listado : Form
     {
         string query;
@@ -20,6 +20,7 @@ namespace AerolineaFrba.Abm_Aeronave
         public Form siguiente;
         public bool primeraConsulta = true;
         public bool seSeteaQuery = false;
+        public bool llamadoDesdeModificacion = false;
 
         public bool loActivoGenerarViajes = false;
         public bool loActivoModificar = false;
@@ -29,8 +30,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public Listado()
         {
-            
-            InitializeComponent();         
+
+            InitializeComponent();
 
         }
 
@@ -49,7 +50,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             this.inicio();
         }
-     
+
 
         //Boton Buscar
         private void button3_Click(object sender, EventArgs e)
@@ -63,7 +64,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private Boolean sePusoFiltro()
         {
             return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboCamposFiltro3.SelectedIndex != -1);
-        }        
+        }
 
         public void ejecutarConsulta()
         {
@@ -190,11 +191,11 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 query = (anterior as Registro_Llegada_Destino.Form1).consultaSeteada();
 
-                    label5.Visible = false;
-                    cboCamposFiltro3.Visible = false;
-                    dateTimePicker1.Visible = false;
-                    button1.Visible = false;
-                
+                label5.Visible = false;
+                cboCamposFiltro3.Visible = false;
+                dateTimePicker1.Visible = false;
+                button1.Visible = false;
+
             }
             else
             {
@@ -212,7 +213,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             this.huboCondicion = false;
 
-            
+
         }
 
         public void extenderQuery()
@@ -235,7 +236,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'");
         }
 
-       
+
         private void concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
@@ -247,7 +248,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 }
                 else
                     this.query += " AND ";
-                
+
                 this.query += combo.Text + criterio;
                 MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
             }
@@ -269,7 +270,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("AERO_CANT_BUTACAS") || combo.Text.Equals("AERO_CANT_KGS")) 
+            if (combo.Text.Equals("AERO_CANT_BUTACAS") || combo.Text.Equals("AERO_CANT_KGS"))
             {
                 if (!this.esNumero(txt))
                 {
@@ -307,12 +308,17 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-            cambiarVisibilidades(this.anterior, false);              
+
+            if (llamadoDesdeModificacion)
+                cambiarVisibilidades(this.siguiente);
+            else
+                cambiarVisibilidades(this.anterior);
+
         }
 
-        private void cambiarVisibilidades(Form formularioSiguiente, bool seSeleccionoAlgo)
+        private void cambiarVisibilidades(Form formularioSiguiente)
         {
-            anterior.Visible = true;
+            formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 
@@ -326,16 +332,16 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             if (!this.huboCondicion)
             {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
+                this.huboCondicion = true;
+                this.query += " WHERE ";
             }
             else
-                    this.query += " AND ";
+                this.query += " AND ";
 
             this.query += combo.Text + criterio;
-            MessageBox.Show("query: "+this.query ,"error", MessageBoxButtons.OK);
+            MessageBox.Show("query: " + this.query, "error", MessageBoxButtons.OK);
             MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
-            
+
         }
 
         private void button7_Click_1(object sender, EventArgs e)
@@ -358,13 +364,13 @@ namespace AerolineaFrba.Abm_Aeronave
             
             if(this.loActivoModificar)
             {
-                List<Object> listaFuncionalidades = new List<object>(7);
                 (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
             }
             
             //this.Close();
-            cambiarVisibilidades(this.anterior, true);
-        }
+            this.cambiarVisibilidades(this.anterior);
 
+        }
     }
 }
+

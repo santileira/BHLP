@@ -7,7 +7,6 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Alta : Form
     {
-        SqlCommand command = new SqlCommand();
         Form formularioSiguiente;
         public Listado listado;
 
@@ -28,7 +27,7 @@ namespace AerolineaFrba.Abm_Rol
             txtNombre.Focus();
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
-            command = new SqlCommand(queryselect, Program.conexion());
+            SqlCommand command = new SqlCommand(queryselect, Program.conexion());
             SqlDataAdapter a = new SqlDataAdapter(command);
             DataTable t = new DataTable();
             //Llenar el Dataset
@@ -47,19 +46,31 @@ namespace AerolineaFrba.Abm_Rol
                 //string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 //this.ejecutarCommand(cadenaComando);
                 darDeAltaRol(txtNombre.Text);
-               
+                string nombreRol = txtNombre.Text;
 
 
 
                 foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
-                    //cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
-
-                    MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
-                    //this.ejecutarCommand(cadenaComando);
- 
+                  darDeAltaFuncionalidad(funcion , nombreRol);
                 }
             }
+        }
+
+        private void darDeAltaFuncionalidad(string funcion , string rol)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
+            command.CommandTimeout = 0;
+
+
+            command.Parameters.AddWithValue("@Funcion", funcion);
+            command.Parameters.AddWithValue("@Rol", rol);
+
+            command.ExecuteScalar();
+            
         }
 
         private Object darDeAltaRol(string nombre)
@@ -73,7 +84,6 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@Nombre", nombre);
            
-
             return command.ExecuteScalar();
         }
 
@@ -101,9 +111,6 @@ namespace AerolineaFrba.Abm_Rol
         private void Alta_Load(object sender, EventArgs e)
         {
             this.iniciar();
-
-            command.CommandType = System.Data.CommandType.Text;
-            command.CommandTimeout = 0;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -131,6 +138,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarCommand(string cadenaComando)
         {
+            SqlCommand command = new SqlCommand();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
             command.CommandText = cadenaComando;
 
             try

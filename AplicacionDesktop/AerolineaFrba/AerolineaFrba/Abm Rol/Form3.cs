@@ -172,9 +172,8 @@ namespace AerolineaFrba.Abm_Rol
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
-                        string cadenaComando = "UPDATE [ABSTRACCIONX4].[ROLES] SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
-                        ejecutarCommand(cadenaComando);
-                        ejecutarQuery(ultimaQuery);
+                        darDeBajaRuta(darValorDadoIndex(e.RowIndex));
+                        ejecutarQuery(query);
                     }
                 }
                 // BAJA FISICA
@@ -190,6 +189,19 @@ namespace AerolineaFrba.Abm_Rol
                         }
                     }*/
             }
+        }
+
+        private Object darDeBajaRuta(string nombre)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRol]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Nombre", nombre);
+           
+            return command.ExecuteScalar();
         }
 
        private void ejecutarCommand(string cadenaComando)
@@ -213,7 +225,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private string darValorDadoIndex(int index)
         {
-            return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString() + "'";
+            return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString();
         }
 
         private void generarQueryInicial()

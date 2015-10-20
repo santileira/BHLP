@@ -13,7 +13,7 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Listado : Form
     {
-        const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        public const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
         public Form anterior;
         public Listado listado;
         public Form siguiente;
@@ -138,9 +138,8 @@ namespace AerolineaFrba.Abm_Rol
            }
         }
 
-        private void ejecutarConsulta(string query)
+        public void ejecutarConsulta(string query)
         {
-            SqlCommand command = new SqlCommand();
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -160,7 +159,7 @@ namespace AerolineaFrba.Abm_Rol
         }
 
   
-        private void iniciar()
+        public void iniciar()
         {
             string queryselect = QUERY_BASE;
 
@@ -285,14 +284,5 @@ namespace AerolineaFrba.Abm_Rol
             dg.Columns["ROL_ESTADO"].Visible = false;
 
         }
-
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-
-
-        
-
     }
 }
