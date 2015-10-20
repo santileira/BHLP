@@ -138,7 +138,7 @@ namespace AerolineaFrba.Generacion_Viaje
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = false;
-
+             
             if (txtMatricula.Text == "")
             {
                 huboError = true;
