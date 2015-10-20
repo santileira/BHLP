@@ -2,8 +2,7 @@
 -------------------------------Alta Rol-------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRol
-	@Nombre varchar(30),
-	@Funcionalidades 
+	@Nombre varchar(30)
 AS
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE) VALUES (@Nombre)
@@ -43,7 +42,7 @@ GO
 
 
 -------------------------------Baja Aeronave-------------------------------
-DROP PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
+--DROP PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@Matricula VARCHAR(8),
 	@FechaBaja DATETIME,

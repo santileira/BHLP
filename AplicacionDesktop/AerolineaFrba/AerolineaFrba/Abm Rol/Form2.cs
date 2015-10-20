@@ -7,7 +7,6 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Alta : Form
     {
-        SqlCommand command = new SqlCommand();
         Form formularioSiguiente;
         public Listado listado;
 
@@ -28,7 +27,7 @@ namespace AerolineaFrba.Abm_Rol
             txtNombre.Focus();
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
-            command = new SqlCommand(queryselect, Program.conexion());
+            SqlCommand command = new SqlCommand(queryselect, Program.conexion());
             SqlDataAdapter a = new SqlDataAdapter(command);
             DataTable t = new DataTable();
             //Llenar el Dataset
@@ -61,6 +60,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Object darDeAltaFuncionalidad(string funcion , string rol)
         {
+            SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -84,7 +84,6 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@Nombre", nombre);
            
-
             return command.ExecuteScalar();
         }
 
@@ -112,9 +111,6 @@ namespace AerolineaFrba.Abm_Rol
         private void Alta_Load(object sender, EventArgs e)
         {
             this.iniciar();
-
-            command.CommandType = System.Data.CommandType.Text;
-            command.CommandTimeout = 0;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -142,6 +138,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarCommand(string cadenaComando)
         {
+            SqlCommand command = new SqlCommand();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandTimeout = 0;
             command.CommandText = cadenaComando;
 
             try
