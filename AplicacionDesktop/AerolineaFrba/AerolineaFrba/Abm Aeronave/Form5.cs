@@ -20,6 +20,7 @@ namespace AerolineaFrba.Abm_Aeronave
         public Form siguiente;
         public bool primeraConsulta = true;
         public bool seSeteaQuery = false;
+        public bool llamadoDesdeModificacion = false;
 
         public Listado()
         {
@@ -287,13 +288,15 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-
-            cambiarVisibilidades(this.anterior, false);              
+            if (llamadoDesdeModificacion)
+                cambiarVisibilidades(this.siguiente);
+            else
+                cambiarVisibilidades(this.anterior);
         }
 
-        private void cambiarVisibilidades(Form formularioSiguiente, bool seSeleccionoAlgo)
+        private void cambiarVisibilidades(Form formularioSiguiente)
         {
-            anterior.Visible = true;
+            formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 
@@ -328,10 +331,16 @@ namespace AerolineaFrba.Abm_Aeronave
             }
 
             List<Object> listaFuncionalidades = new List<object>(7);
-            (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
+
+            if (llamadoDesdeModificacion)
+            {
+               
+                cambiarVisibilidades(this.siguiente);
+                (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+            }
 
             //this.Close();
-            cambiarVisibilidades(this.anterior, true);
+            
         }
 
     }

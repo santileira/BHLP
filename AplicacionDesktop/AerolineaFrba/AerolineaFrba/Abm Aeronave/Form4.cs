@@ -20,6 +20,8 @@ namespace AerolineaFrba.Abm_Aeronave
         public Modificacion()
         {
             InitializeComponent();
+            dtTime.Format = DateTimePickerFormat.Custom;
+            dtTime.CustomFormat = "dd/mm/yyyy hh:mm:ss";
         }
 
         private void Modificacion_Load(object sender, EventArgs e)
@@ -40,9 +42,11 @@ namespace AerolineaFrba.Abm_Aeronave
             txtKilosActual.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
             txtFechaReinicioActual.Text = registro.Cells["AERO_FECHA_RS"].Value.ToString();
 
+            
+            
+
             if (registro.Cells["AERO_FECHA_RS"].Value.ToString().GetType() == Type.GetType("DateTime"))
                 dtTime.Value = Convert.ToDateTime(registro.Cells["AERO_FECHA_RS"].Value.ToString());
-          
             txtButacas.Enabled = true;
             txtKilos.Enabled = true;
             txtMatricula.Enabled = true;
@@ -131,8 +135,32 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                //HACER EL ALTA CON UNA STORE PROCEDURE            
+                this.modificar();       
             }
+        }
+
+        private Object modificar()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarAeronave]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Modelo", txtModelo.Text);
+            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
+            command.Parameters.AddWithValue("@Fabricante", cboFabricante.Text);
+            command.Parameters.AddWithValue("@TipoDeServicio", cboServicio.Text);
+            command.Parameters.AddWithValue("@CantidadButacas", Convert.ToInt16(txtButacas.Text));
+            command.Parameters.AddWithValue("@CantidadKG", cantidadKilogramos());
+            command.Parameters.AddWithValue("@FechaReinicio", Convert.ToDateTime(dtTime.Text));
+
+            return command.ExecuteScalar();
+        }
+
+        private Decimal cantidadKilogramos()
+        {
+            return Decimal.Round(Convert.ToDecimal(txtKilos.Text.Replace(".", ",")), 2);
         }
 
         private bool datosCorrectos()

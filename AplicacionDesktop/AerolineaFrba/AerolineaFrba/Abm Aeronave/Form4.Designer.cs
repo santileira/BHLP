@@ -32,9 +32,17 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtServicioActual = new System.Windows.Forms.TextBox();
+            this.txtFabricanteActual = new System.Windows.Forms.TextBox();
+            this.txtButacasActual = new System.Windows.Forms.TextBox();
+            this.txtKilosActual = new System.Windows.Forms.TextBox();
+            this.txtMatriculaActual = new System.Windows.Forms.TextBox();
+            this.txtModeloActual = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtFechaReinicioActual = new System.Windows.Forms.TextBox();
             this.chkReinicio = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.dtTime = new System.Windows.Forms.DateTimePicker();
             this.cboFabricante = new System.Windows.Forms.ComboBox();
             this.cboServicio = new System.Windows.Forms.ComboBox();
             this.txtButacas = new System.Windows.Forms.TextBox();
@@ -48,14 +56,6 @@
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
-            this.txtButacasActual = new System.Windows.Forms.TextBox();
-            this.txtKilosActual = new System.Windows.Forms.TextBox();
-            this.txtMatriculaActual = new System.Windows.Forms.TextBox();
-            this.txtModeloActual = new System.Windows.Forms.TextBox();
-            this.txtFabricanteActual = new System.Windows.Forms.TextBox();
-            this.txtServicioActual = new System.Windows.Forms.TextBox();
-            this.txtFechaReinicioActual = new System.Windows.Forms.TextBox();
-            this.dtTime = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -83,7 +83,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(348, 572);
+            this.button2.Location = new System.Drawing.Point(538, 572);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 10;
@@ -94,19 +94,19 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.txtServicioActual);
-            this.groupBox1.Controls.Add(this.txtFabricanteActual);
-            this.groupBox1.Controls.Add(this.txtButacasActual);
-            this.groupBox1.Controls.Add(this.txtKilosActual);
-            this.groupBox1.Controls.Add(this.txtMatriculaActual);
-            this.groupBox1.Controls.Add(this.txtModeloActual);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.cboFabricante);
+            this.groupBox1.Controls.Add(this.txtFabricanteActual);
             this.groupBox1.Controls.Add(this.cboServicio);
             this.groupBox1.Controls.Add(this.txtButacas);
+            this.groupBox1.Controls.Add(this.txtButacasActual);
             this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtKilosActual);
             this.groupBox1.Controls.Add(this.txtKilos);
+            this.groupBox1.Controls.Add(this.txtMatriculaActual);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.txtModeloActual);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtMatricula);
             this.groupBox1.Controls.Add(this.label2);
@@ -118,6 +118,54 @@
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
+            // 
+            // txtServicioActual
+            // 
+            this.txtServicioActual.Location = new System.Drawing.Point(165, 209);
+            this.txtServicioActual.Name = "txtServicioActual";
+            this.txtServicioActual.ReadOnly = true;
+            this.txtServicioActual.Size = new System.Drawing.Size(157, 20);
+            this.txtServicioActual.TabIndex = 41;
+            // 
+            // txtFabricanteActual
+            // 
+            this.txtFabricanteActual.Location = new System.Drawing.Point(165, 150);
+            this.txtFabricanteActual.Name = "txtFabricanteActual";
+            this.txtFabricanteActual.ReadOnly = true;
+            this.txtFabricanteActual.Size = new System.Drawing.Size(157, 20);
+            this.txtFabricanteActual.TabIndex = 40;
+            // 
+            // txtButacasActual
+            // 
+            this.txtButacasActual.Location = new System.Drawing.Point(165, 263);
+            this.txtButacasActual.Name = "txtButacasActual";
+            this.txtButacasActual.ReadOnly = true;
+            this.txtButacasActual.Size = new System.Drawing.Size(157, 20);
+            this.txtButacasActual.TabIndex = 39;
+            // 
+            // txtKilosActual
+            // 
+            this.txtKilosActual.Location = new System.Drawing.Point(165, 318);
+            this.txtKilosActual.Name = "txtKilosActual";
+            this.txtKilosActual.ReadOnly = true;
+            this.txtKilosActual.Size = new System.Drawing.Size(157, 20);
+            this.txtKilosActual.TabIndex = 38;
+            // 
+            // txtMatriculaActual
+            // 
+            this.txtMatriculaActual.Location = new System.Drawing.Point(165, 98);
+            this.txtMatriculaActual.Name = "txtMatriculaActual";
+            this.txtMatriculaActual.ReadOnly = true;
+            this.txtMatriculaActual.Size = new System.Drawing.Size(157, 20);
+            this.txtMatriculaActual.TabIndex = 37;
+            // 
+            // txtModeloActual
+            // 
+            this.txtModeloActual.Location = new System.Drawing.Point(165, 50);
+            this.txtModeloActual.Name = "txtModeloActual";
+            this.txtModeloActual.ReadOnly = true;
+            this.txtModeloActual.Size = new System.Drawing.Size(157, 20);
+            this.txtModeloActual.TabIndex = 36;
             // 
             // groupBox2
             // 
@@ -131,6 +179,14 @@
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Reinicio del servicio de la aeronave";
+            // 
+            // txtFechaReinicioActual
+            // 
+            this.txtFechaReinicioActual.Location = new System.Drawing.Point(175, 62);
+            this.txtFechaReinicioActual.Name = "txtFechaReinicioActual";
+            this.txtFechaReinicioActual.ReadOnly = true;
+            this.txtFechaReinicioActual.Size = new System.Drawing.Size(157, 20);
+            this.txtFechaReinicioActual.TabIndex = 42;
             // 
             // chkReinicio
             // 
@@ -152,12 +208,19 @@
             this.label7.TabIndex = 36;
             this.label7.Text = "Fecha de reinicio de servicio";
             // 
+            // dtTime
+            // 
+            this.dtTime.Location = new System.Drawing.Point(349, 62);
+            this.dtTime.Name = "dtTime";
+            this.dtTime.Size = new System.Drawing.Size(200, 20);
+            this.dtTime.TabIndex = 35;
+            // 
             // cboFabricante
             // 
             this.cboFabricante.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFabricante.Enabled = false;
             this.cboFabricante.FormattingEnabled = true;
-            this.cboFabricante.Location = new System.Drawing.Point(175, 146);
+            this.cboFabricante.Location = new System.Drawing.Point(348, 150);
             this.cboFabricante.Name = "cboFabricante";
             this.cboFabricante.Size = new System.Drawing.Size(157, 21);
             this.cboFabricante.TabIndex = 31;
@@ -167,7 +230,7 @@
             this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboServicio.Enabled = false;
             this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(175, 205);
+            this.cboServicio.Location = new System.Drawing.Point(348, 209);
             this.cboServicio.Name = "cboServicio";
             this.cboServicio.Size = new System.Drawing.Size(157, 21);
             this.cboServicio.TabIndex = 30;
@@ -175,7 +238,7 @@
             // txtButacas
             // 
             this.txtButacas.Enabled = false;
-            this.txtButacas.Location = new System.Drawing.Point(175, 259);
+            this.txtButacas.Location = new System.Drawing.Point(348, 263);
             this.txtButacas.Name = "txtButacas";
             this.txtButacas.Size = new System.Drawing.Size(157, 20);
             this.txtButacas.TabIndex = 11;
@@ -192,7 +255,7 @@
             // txtKilos
             // 
             this.txtKilos.Enabled = false;
-            this.txtKilos.Location = new System.Drawing.Point(175, 314);
+            this.txtKilos.Location = new System.Drawing.Point(348, 318);
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(157, 20);
             this.txtKilos.TabIndex = 9;
@@ -227,7 +290,7 @@
             // txtMatricula
             // 
             this.txtMatricula.Enabled = false;
-            this.txtMatricula.Location = new System.Drawing.Point(175, 94);
+            this.txtMatricula.Location = new System.Drawing.Point(348, 98);
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.Size = new System.Drawing.Size(157, 20);
             this.txtMatricula.TabIndex = 3;
@@ -244,7 +307,7 @@
             // txtModelo
             // 
             this.txtModelo.Enabled = false;
-            this.txtModelo.Location = new System.Drawing.Point(175, 46);
+            this.txtModelo.Location = new System.Drawing.Point(348, 50);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(157, 20);
             this.txtModelo.TabIndex = 1;
@@ -268,69 +331,6 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // txtButacasActual
-            // 
-            this.txtButacasActual.Location = new System.Drawing.Point(354, 259);
-            this.txtButacasActual.Name = "txtButacasActual";
-            this.txtButacasActual.ReadOnly = true;
-            this.txtButacasActual.Size = new System.Drawing.Size(157, 20);
-            this.txtButacasActual.TabIndex = 39;
-            // 
-            // txtKilosActual
-            // 
-            this.txtKilosActual.Location = new System.Drawing.Point(354, 314);
-            this.txtKilosActual.Name = "txtKilosActual";
-            this.txtKilosActual.ReadOnly = true;
-            this.txtKilosActual.Size = new System.Drawing.Size(157, 20);
-            this.txtKilosActual.TabIndex = 38;
-            // 
-            // txtMatriculaActual
-            // 
-            this.txtMatriculaActual.Location = new System.Drawing.Point(354, 94);
-            this.txtMatriculaActual.Name = "txtMatriculaActual";
-            this.txtMatriculaActual.ReadOnly = true;
-            this.txtMatriculaActual.Size = new System.Drawing.Size(157, 20);
-            this.txtMatriculaActual.TabIndex = 37;
-            // 
-            // txtModeloActual
-            // 
-            this.txtModeloActual.Location = new System.Drawing.Point(354, 46);
-            this.txtModeloActual.Name = "txtModeloActual";
-            this.txtModeloActual.ReadOnly = true;
-            this.txtModeloActual.Size = new System.Drawing.Size(157, 20);
-            this.txtModeloActual.TabIndex = 36;
-            // 
-            // txtFabricanteActual
-            // 
-            this.txtFabricanteActual.Location = new System.Drawing.Point(354, 146);
-            this.txtFabricanteActual.Name = "txtFabricanteActual";
-            this.txtFabricanteActual.ReadOnly = true;
-            this.txtFabricanteActual.Size = new System.Drawing.Size(157, 20);
-            this.txtFabricanteActual.TabIndex = 40;
-            // 
-            // txtServicioActual
-            // 
-            this.txtServicioActual.Location = new System.Drawing.Point(354, 205);
-            this.txtServicioActual.Name = "txtServicioActual";
-            this.txtServicioActual.ReadOnly = true;
-            this.txtServicioActual.Size = new System.Drawing.Size(157, 20);
-            this.txtServicioActual.TabIndex = 41;
-            // 
-            // txtFechaReinicioActual
-            // 
-            this.txtFechaReinicioActual.Location = new System.Drawing.Point(394, 58);
-            this.txtFechaReinicioActual.Name = "txtFechaReinicioActual";
-            this.txtFechaReinicioActual.ReadOnly = true;
-            this.txtFechaReinicioActual.Size = new System.Drawing.Size(157, 20);
-            this.txtFechaReinicioActual.TabIndex = 42;
-            // 
-            // dtTime
-            // 
-            this.dtTime.Location = new System.Drawing.Point(165, 58);
-            this.dtTime.Name = "dtTime";
-            this.dtTime.Size = new System.Drawing.Size(200, 20);
-            this.dtTime.TabIndex = 35;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -344,7 +344,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(662, 630);
+            this.ClientSize = new System.Drawing.Size(674, 630);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button3);

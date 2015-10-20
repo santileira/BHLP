@@ -55,11 +55,14 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
+            Principal principal = new Principal();
 
             modificacion.listado = listado;
-            listado.anterior = modificacion;
+            listado.anterior = principal;
+            listado.siguiente = modificacion;
+            listado.llamadoDesdeModificacion = true;
 
-            this.cambiarVisibilidades(modificacion);
+            this.cambiarVisibilidades(listado);
         }
 
         private void button4_Click(object sender, EventArgs e)
