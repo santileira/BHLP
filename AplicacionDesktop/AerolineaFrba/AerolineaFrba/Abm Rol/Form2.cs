@@ -47,19 +47,30 @@ namespace AerolineaFrba.Abm_Rol
                 //string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 //this.ejecutarCommand(cadenaComando);
                 darDeAltaRol(txtNombre.Text);
-               
+                string nombreRol = txtNombre.Text;
 
 
 
                 foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
-                    //cadenaComando = "insert into [ABSTRACCIONX4].[FUNCIONES_ROLES] (ROL_COD, FUNC_COD) values ((SELECT ROL_COD FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + txtNombre.Text + "'), (SELECT FUNC_COD FROM [ABSTRACCIONX4].[FUNCIONALIDADES] WHERE FUNC_DESC = '" + funcion + "'))";
-
-                    MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
-                    //this.ejecutarCommand(cadenaComando);
- 
+                    MessageBox.Show(funcion + nombreRol, "asda", MessageBoxButtons.OK);
+                    darDeAltaFuncionalidad(funcion , nombreRol);
                 }
             }
+        }
+
+        private Object darDeAltaFuncionalidad(string funcion , string rol)
+        {
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
+            command.CommandTimeout = 0;
+
+
+            command.Parameters.AddWithValue("@Funcion", funcion);
+            command.Parameters.AddWithValue("@Rol", rol);
+
+            return command.ExecuteScalar();
         }
 
         private Object darDeAltaRol(string nombre)

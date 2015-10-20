@@ -2,8 +2,8 @@
 -------------------------------Alta Rol-------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRol
-	@Nombre VARCHAR(30),
-	@Funcionalidades 
+	@Nombre VARCHAR(30)
+	
 AS
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE) VALUES (@Nombre)
@@ -15,13 +15,62 @@ AS
 	END CATCH
 GO
 
+-------------------------------Alta Funcionalidad-------------------------------
+DROP PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
+CREATE PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
+	@Funcion VARCHAR(60),
+	@Rol VARCHAR(30)
+AS
+	BEGIN TRY
+		DECLARE @CodRol TINYINT
+		DECLARE @CodFunc TINYINT
+		SET @CodRol = [ABSTRACCIONX4].DarCodigoDeRol(@Rol)
+		SET @CodFunc = [ABSTRACCIONX4].DarCodigoDeFuncionalidad(@Funcion)
+		
+		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD , FUNC_COD) VALUES (@CodRol , @CodFunc)
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(80)
+		--SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeRol (@Rol VARCHAR(30))
+RETURNS TINYINT
+AS
+BEGIN
+	DECLARE @Rol_Cod TINYINT
+	SELECT @Rol_Cod = R.ROL_COD 
+	FROM ABSTRACCIONX4.ROLES R
+	WHERE R.ROL_NOMBRE = @Rol
+	IF(@Rol_Cod is NULL)
+	SET @Rol_Cod = 0
+	RETURN @Rol_Cod
+END
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeFuncionalidad (@Funcion VARCHAR(60))
+RETURNS TINYINT
+AS
+BEGIN
+	DECLARE @Func_Cod TINYINT
+	SELECT @Func_Cod = FUNC_COD 
+	FROM ABSTRACCIONX4.FUNCIONALIDADES
+	WHERE FUNC_DESC = @Funcion
+	IF(@Func_Cod is NULL)
+	SET @Func_Cod = 0
+	RETURN @Func_Cod
+END
+GO
 -------------------------------Baja Rol-------------------------------
+DROP PROCEDURE ABSTRACCIONX4.BajaRol
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
 	@Nombre VARCHAR(30)	
 AS
 	BEGIN TRY
 		DECLARE @Codigo TINYINT
-		SELECT @Codigo=R.ROL_COD FROM ABSTRACCIONX4.ROLES R WHERE R.ROL_NOMBRE = @Nombre
+		SET @Codigo = [ABSTRACCIONX4].DarCodigoDeRol(@Nombre)
 		
 		UPDATE ABSTRACCIONX4.ROLES 
 		SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = @Nombre
@@ -85,3 +134,4 @@ AS
 GO
 
 
+SELECT * FROM ABSTRACCIONX4.ROLES
