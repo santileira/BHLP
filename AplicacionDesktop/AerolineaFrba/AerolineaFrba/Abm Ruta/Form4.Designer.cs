@@ -33,8 +33,8 @@
             this.botonGuardar = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.txtPrecioEncomienda1 = new System.Windows.Forms.TextBox();
-            this.txtPrecioPasaje1 = new System.Windows.Forms.TextBox();
+            this.txtPrecioEncomiendaNueva = new System.Windows.Forms.TextBox();
+            this.txtPrecioPasajeNuevo = new System.Windows.Forms.TextBox();
             this.txtPrecioEncomienda = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPrecioPasaje = new System.Windows.Forms.TextBox();
@@ -44,9 +44,9 @@
             this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
             this.botonSelDestino = new System.Windows.Forms.Button();
             this.botonSelOrigen = new System.Windows.Forms.Button();
-            this.txtCiudadDestino1 = new System.Windows.Forms.TextBox();
+            this.txtCiudadDestinoNueva = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtCiudadOrigen1 = new System.Windows.Forms.TextBox();
+            this.txtCiudadOrigenNueva = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtTipoDeServicio = new System.Windows.Forms.TextBox();
@@ -102,8 +102,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.txtPrecioEncomienda1);
-            this.groupBox4.Controls.Add(this.txtPrecioPasaje1);
+            this.groupBox4.Controls.Add(this.txtPrecioEncomiendaNueva);
+            this.groupBox4.Controls.Add(this.txtPrecioPasajeNuevo);
             this.groupBox4.Controls.Add(this.txtPrecioEncomienda);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.txtPrecioPasaje);
@@ -115,19 +115,19 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
             // 
-            // txtPrecioEncomienda1
+            // txtPrecioEncomiendaNueva
             // 
-            this.txtPrecioEncomienda1.Location = new System.Drawing.Point(233, 68);
-            this.txtPrecioEncomienda1.Name = "txtPrecioEncomienda1";
-            this.txtPrecioEncomienda1.Size = new System.Drawing.Size(117, 20);
-            this.txtPrecioEncomienda1.TabIndex = 9;
+            this.txtPrecioEncomiendaNueva.Location = new System.Drawing.Point(233, 68);
+            this.txtPrecioEncomiendaNueva.Name = "txtPrecioEncomiendaNueva";
+            this.txtPrecioEncomiendaNueva.Size = new System.Drawing.Size(117, 20);
+            this.txtPrecioEncomiendaNueva.TabIndex = 9;
             // 
-            // txtPrecioPasaje1
+            // txtPrecioPasajeNuevo
             // 
-            this.txtPrecioPasaje1.Location = new System.Drawing.Point(233, 31);
-            this.txtPrecioPasaje1.Name = "txtPrecioPasaje1";
-            this.txtPrecioPasaje1.Size = new System.Drawing.Size(117, 20);
-            this.txtPrecioPasaje1.TabIndex = 8;
+            this.txtPrecioPasajeNuevo.Location = new System.Drawing.Point(233, 31);
+            this.txtPrecioPasajeNuevo.Name = "txtPrecioPasajeNuevo";
+            this.txtPrecioPasajeNuevo.Size = new System.Drawing.Size(117, 20);
+            this.txtPrecioPasajeNuevo.TabIndex = 8;
             // 
             // txtPrecioEncomienda
             // 
@@ -169,9 +169,9 @@
             this.groupBox3.Controls.Add(this.txtCiudadOrigen);
             this.groupBox3.Controls.Add(this.botonSelDestino);
             this.groupBox3.Controls.Add(this.botonSelOrigen);
-            this.groupBox3.Controls.Add(this.txtCiudadDestino1);
+            this.groupBox3.Controls.Add(this.txtCiudadDestinoNueva);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.txtCiudadOrigen1);
+            this.groupBox3.Controls.Add(this.txtCiudadOrigenNueva);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Location = new System.Drawing.Point(37, 188);
             this.groupBox3.Name = "groupBox3";
@@ -216,13 +216,13 @@
             this.botonSelOrigen.UseVisualStyleBackColor = true;
             this.botonSelOrigen.Click += new System.EventHandler(this.botonSelOrigen_Click);
             // 
-            // txtCiudadDestino1
+            // txtCiudadDestinoNueva
             // 
-            this.txtCiudadDestino1.Location = new System.Drawing.Point(237, 64);
-            this.txtCiudadDestino1.Name = "txtCiudadDestino1";
-            this.txtCiudadDestino1.ReadOnly = true;
-            this.txtCiudadDestino1.Size = new System.Drawing.Size(117, 20);
-            this.txtCiudadDestino1.TabIndex = 7;
+            this.txtCiudadDestinoNueva.Location = new System.Drawing.Point(237, 64);
+            this.txtCiudadDestinoNueva.Name = "txtCiudadDestinoNueva";
+            this.txtCiudadDestinoNueva.ReadOnly = true;
+            this.txtCiudadDestinoNueva.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadDestinoNueva.TabIndex = 7;
             // 
             // label1
             // 
@@ -233,13 +233,13 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Destino";
             // 
-            // txtCiudadOrigen1
+            // txtCiudadOrigenNueva
             // 
-            this.txtCiudadOrigen1.Location = new System.Drawing.Point(237, 27);
-            this.txtCiudadOrigen1.Name = "txtCiudadOrigen1";
-            this.txtCiudadOrigen1.ReadOnly = true;
-            this.txtCiudadOrigen1.Size = new System.Drawing.Size(117, 20);
-            this.txtCiudadOrigen1.TabIndex = 5;
+            this.txtCiudadOrigenNueva.Location = new System.Drawing.Point(237, 27);
+            this.txtCiudadOrigenNueva.Name = "txtCiudadOrigenNueva";
+            this.txtCiudadOrigenNueva.ReadOnly = true;
+            this.txtCiudadOrigenNueva.Size = new System.Drawing.Size(117, 20);
+            this.txtCiudadOrigenNueva.TabIndex = 5;
             // 
             // label2
             // 
@@ -280,7 +280,6 @@
             this.cboServicio.Name = "cboServicio";
             this.cboServicio.Size = new System.Drawing.Size(117, 21);
             this.cboServicio.TabIndex = 16;
-            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -298,7 +297,6 @@
             this.txtCodigo.ReadOnly = true;
             this.txtCodigo.Size = new System.Drawing.Size(117, 20);
             this.txtCodigo.TabIndex = 5;
-            this.txtCodigo.TextChanged += new System.EventHandler(this.txtCodigo_TextChanged);
             // 
             // label8
             // 
@@ -360,16 +358,16 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button botonSelDestino;
         private System.Windows.Forms.Button botonSelOrigen;
-        private System.Windows.Forms.TextBox txtCiudadDestino1;
+        private System.Windows.Forms.TextBox txtCiudadDestinoNueva;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtCiudadOrigen1;
+        private System.Windows.Forms.TextBox txtCiudadOrigenNueva;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtPrecioEncomienda1;
-        private System.Windows.Forms.TextBox txtPrecioPasaje1;
+        private System.Windows.Forms.TextBox txtPrecioEncomiendaNueva;
+        private System.Windows.Forms.TextBox txtPrecioPasajeNuevo;
         private System.Windows.Forms.ComboBox cboServicio;
         private System.Windows.Forms.TextBox txtCiudadDestino;
         private System.Windows.Forms.TextBox txtCiudadOrigen;

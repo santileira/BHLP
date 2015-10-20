@@ -33,7 +33,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_COD , (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD) TIPO_SERVICIO, ";
+            this.query = "SELECT RUTA_ID,RUTA_COD , (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD) TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE ";
@@ -117,7 +117,8 @@ namespace AerolineaFrba.Abm_Ruta
             cboFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
-            
+
+            dg.Columns["RUTA_ID"].Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -264,9 +265,8 @@ namespace AerolineaFrba.Abm_Ruta
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
-                        //string cadenaComando = "UPDATE [ABSTRACCIONX4].[RUTAS_AEREAS] SET RUTA_EST = 0 WHERE ROL_COD = '" + darValorDadoIndex(e.RowIndex , "RUTA_COD") + "'";
-                        //ejecutarCommand(cadenaComando);
-                        //ejecutarQuery();
+                        darDeBajaRuta(Convert.ToInt32(darValorDadoIndex(e.RowIndex,"RUTA_ID")));
+                        ejecutarQuery();
                     }
                 }
                 //BAJA FISICA
@@ -287,6 +287,19 @@ namespace AerolineaFrba.Abm_Ruta
         private DialogResult mostrarMensaje(string tipoDeBaja)
         {
             return MessageBox.Show("¿Está seguro que quiere dar de baja " + tipoDeBaja + " este registro?", "Advertencia", MessageBoxButtons.YesNo);
+        }
+
+        private Object darDeBajaRuta(int idRuta)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRuta]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@IdRuta", idRuta);
+
+            return command.ExecuteScalar();
         }
 
         private void ejecutarCommand(string cadenaComando)

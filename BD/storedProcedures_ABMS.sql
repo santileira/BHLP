@@ -16,7 +16,7 @@ AS
 GO
 
 -------------------------------Alta Funcionalidad-------------------------------
-DROP PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
+--DROP PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
 CREATE PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
 	@Funcion VARCHAR(60),
 	@Rol VARCHAR(30)
@@ -35,9 +35,7 @@ AS
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO
-SELECT * FROM [ABSTRACCIONX4].ROLES
-SELECT * FROM [ABSTRACCIONX4].FUNCIONALIDADES
-SELECT * FROM [ABSTRACCIONX4].FUNCIONES_ROLES
+
 
 -------------------------------Dar Codigo De Rol-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeRol (@Rol VARCHAR(30))
@@ -71,7 +69,7 @@ END
 GO
 -------------------------------Baja Rol-------------------------------
 
-DROP PROCEDURE ABSTRACCIONX4.BajaRol
+--DROP PROCEDURE ABSTRACCIONX4.BajaRol
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
 	@Nombre VARCHAR(30)	
 AS
@@ -110,7 +108,7 @@ AS
 GO
 
 -------------------------------Baja Funcionalidades-------------------------------
-DROP PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
+--DROP PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
 CREATE PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
 	@NombreRol VARCHAR(30)	
 AS
@@ -155,7 +153,7 @@ GO
 
 
 -------------------------------Baja Aeronave-------------------------------
-DROP PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
+--DROP PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@Matricula VARCHAR(8),
 	@FechaBaja DATETIME,
@@ -175,5 +173,77 @@ AS
 		WHERE AERO_MATRI = @Matricula
 GO
 
+-------------------------------Alta Ruta-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].AltaRuta
+	@Codigo INT,
+	@Servicio VARCHAR(30),
+	@CiudadOrigen VARCHAR(80),
+	@CiudadDestino VARCHAR(80),
+	@PrecioPasaje NUMERIC(5,2),
+	@PrecioeEncomienda NUMERIC(5,2)
+AS
+	BEGIN TRY
+		INSERT INTO ABSTRACCIONX4.RUTAS_AEREAS
+			(RUTA_COD,SERV_COD,CIU_COD_O,CIU_COD_D,RUTA_PRECIO_BASE_PASAJE,RUTA_PRECIO_BASE_KG)
+			VALUES (@Codigo,ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
+			ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
+			ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
+			@PrecioPasaje,@PrecioeEncomienda)
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(255)
+		SET @Error = 'Ya existe una ruta de ' + @CiudadOrigen + ' a ' + @CiudadDestino +
+			' con el código ' + CONVERT(VARCHAR,@Codigo) + ' y servicio ' + @Servicio
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+GO
 
-SELECT * FROM ABSTRACCIONX4.ROLES
+CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigoCiudad (@Ciudad VARCHAR(80))
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @Codigo SMALLINT
+	SELECT @Codigo = CIU_COD FROM CIUDADES WHERE CIU_DESC = @Ciudad
+	RETURN @Codigo
+END
+
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigoServicio (@Servicio VARCHAR(30))
+RETURNS TINYINT
+AS
+BEGIN
+	DECLARE @Codigo TINYINT
+	SELECT @Codigo = SERV_COD FROM SERVICIOS WHERE SERV_DESC = @Servicio
+	RETURN @Codigo
+END
+
+GO
+
+-------------------------------Baja Ruta-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].BajaRuta
+	@IdRuta INT
+AS
+	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
+		SET RUTA_ESTADO = 0
+		WHERE RUTA_ID=@IdRuta
+GO
+
+-------------------------------Alta Ruta-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
+	@IdRuta INT,
+	@Codigo INT,
+	@Servicio VARCHAR(30),
+	@CiudadOrigen VARCHAR(80),
+	@CiudadDestino VARCHAR(80),
+	@PrecioPasaje NUMERIC(5,2),
+	@PrecioeEncomienda NUMERIC(5,2)
+AS
+	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
+		SET RUTA_COD = @Codigo, SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
+			CIU_COD_O = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
+			CIU_COD_D = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
+			RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje,
+			RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
+		WHERE RUTA_ID = @IdRuta
+GO
