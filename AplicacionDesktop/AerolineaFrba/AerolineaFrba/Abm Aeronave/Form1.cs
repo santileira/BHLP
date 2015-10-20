@@ -55,7 +55,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
-
+            listado.loActivoModificar = true;
             modificacion.listado = listado;
             listado.anterior = modificacion;
 
