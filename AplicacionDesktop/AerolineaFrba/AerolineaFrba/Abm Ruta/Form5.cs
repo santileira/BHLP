@@ -36,7 +36,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void Listado_Load(object sender, EventArgs e)
         {
-            this.iniciar();
+            this.inicio();
 
             foreach (DataGridViewColumn c in dg.Columns)
             {
@@ -44,7 +44,7 @@ namespace AerolineaFrba.Abm_Ruta
             }
         }
 
-        private void generarQueryInicial()
+        public void generarQueryInicial()
         {
             this.query = "SELECT SERV_COD, RUTA_ID, RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
@@ -107,10 +107,10 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.iniciar();
+            this.inicio();
         }
 
-        private void ejecutarQuery()
+        public void ejecutarQuery()
         {
      //       sePusoAgregarFiltro1 = false;
       //      sePusoAgregarFiltro2 = false;
@@ -166,7 +166,7 @@ namespace AerolineaFrba.Abm_Ruta
     
         }
 
-        private void iniciar()
+        public void inicio()
         {
             this.generarQueryInicial();
             this.ejecutarQuery();
@@ -394,6 +394,7 @@ namespace AerolineaFrba.Abm_Ruta
             if (this.loActivoGenerarViajes)
             {
                 (anterior as Generacion_Viaje.Form1).seSeleccionoRuta(dg.SelectedRows[0]);
+                cambiarVisibilidades(this.anterior);
             }
             else
             {

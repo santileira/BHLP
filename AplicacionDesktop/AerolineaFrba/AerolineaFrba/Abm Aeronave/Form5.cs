@@ -23,6 +23,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public bool loActivoGenerarViajes = false;
         public string serv_cod = null;
+        public DateTime fechaSalida;
+        public DateTime fechaLlegada;
 
         public Listado()
         {
@@ -33,7 +35,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void Listado_Load(object sender, EventArgs e)
         {
-            this.iniciar();
+            this.inicio();
 
             foreach (DataGridViewColumn c in dg.Columns)
             {
@@ -44,7 +46,7 @@ namespace AerolineaFrba.Abm_Aeronave
         //Boton Limpiar
         private void button2_Click(object sender, EventArgs e)
         {
-            this.iniciar();
+            this.inicio();
         }
      
 
@@ -64,6 +66,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void ejecutarConsulta()
         {
+
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -131,7 +134,7 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.Columns["AERO_BAJA_VU"].Visible = false;
         }
 
-        private void iniciar()
+        public void inicio()
         {
 
             //
@@ -191,12 +194,8 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             else
             {
-                query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
-
-                if (this.loActivoGenerarViajes && this.serv_cod != null)
-                    query += " WHERE a.SERV_COD = " + this.serv_cod;
+                this.extenderQuery();
             }
-
 
             ejecutarConsulta();
 
@@ -210,6 +209,15 @@ namespace AerolineaFrba.Abm_Aeronave
             this.huboCondicion = false;
 
             
+        }
+
+        public void extenderQuery()
+        {
+            query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+
+            if (this.loActivoGenerarViajes && this.serv_cod != null)
+                this.query += " WHERE a.SERV_COD = " + this.serv_cod + " AND ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
+                + this.fechaSalida + "', '" + this.fechaLlegada + "') = 1";
         }
 
 
@@ -295,7 +303,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-
             cambiarVisibilidades(this.anterior, false);              
         }
 

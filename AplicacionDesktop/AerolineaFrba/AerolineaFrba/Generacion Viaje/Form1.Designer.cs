@@ -63,6 +63,7 @@
             this.button3.TabIndex = 42;
             this.button3.Text = "Limpiar";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -95,7 +96,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 182);
+            this.label3.Location = new System.Drawing.Point(22, 127);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(134, 13);
             this.label3.TabIndex = 47;
@@ -103,10 +104,11 @@
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(175, 176);
+            this.dateTimePicker2.Location = new System.Drawing.Point(175, 121);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(213, 20);
             this.dateTimePicker2.TabIndex = 46;
+            this.dateTimePicker2.ValueChanged += new System.EventHandler(this.dateTimePicker2_ValueChanged);
             // 
             // button1
             // 
@@ -120,7 +122,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(359, 92);
+            this.button5.Location = new System.Drawing.Point(359, 159);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 22);
             this.button5.TabIndex = 44;
@@ -131,7 +133,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(22, 144);
+            this.label7.Location = new System.Drawing.Point(22, 89);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(84, 13);
             this.label7.TabIndex = 33;
@@ -140,16 +142,17 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Checked = false;
-            this.dateTimePicker1.Location = new System.Drawing.Point(175, 138);
+            this.dateTimePicker1.Location = new System.Drawing.Point(175, 83);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(213, 20);
             this.dateTimePicker1.TabIndex = 32;
             this.dateTimePicker1.Value = new System.DateTime(2015, 10, 19, 17, 50, 0, 0);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // txtMatricula
             // 
             this.txtMatricula.Enabled = false;
-            this.txtMatricula.Location = new System.Drawing.Point(175, 94);
+            this.txtMatricula.Location = new System.Drawing.Point(175, 161);
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.Size = new System.Drawing.Size(157, 20);
             this.txtMatricula.TabIndex = 3;
@@ -157,7 +160,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 101);
+            this.label2.Location = new System.Drawing.Point(22, 168);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(124, 13);
             this.label2.TabIndex = 2;
@@ -191,7 +194,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Generar Viaje";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
