@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace AerolineaFrba.Generacion_Viaje
         public Abm_Ruta.Listado listadoRutas;
 
         Boolean sePuedeGuardar = false;
+        Boolean primeraVez = true;
 
         Form formularioSiguiente;
 
@@ -67,6 +69,10 @@ namespace AerolineaFrba.Generacion_Viaje
         {
             if (this.fechasErroneas())
                 MessageBox.Show("Verifique que las fechas de salida y llegada ingresadas sean correctas", "Error en los datos de entrada", MessageBoxButtons.OK);
+            else if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+                MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
+            else if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
+                MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
             else
             {
                 this.listadoAeronaves.extenderQuery();
@@ -96,16 +102,31 @@ namespace AerolineaFrba.Generacion_Viaje
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            this.listadoAeronaves.fechaSalida = dateTimePicker1.Value;
-            dateTimePicker2.Enabled = true;
+            if (!primeraVez)
+            {
+                if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+                    MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
+                else
+                {
+                    this.listadoAeronaves.fechaSalida = dateTimePicker1.Value;
+                    dateTimePicker2.Enabled = true;
+                }
+            }
         }
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
             button5.Enabled = true;
 
-            if (!fechasErroneas())
-                this.listadoAeronaves.fechaLlegada = dateTimePicker2.Value;      
+            if (!primeraVez)
+            {
+                if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
+                    MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
+                else
+                    this.listadoAeronaves.fechaLlegada = dateTimePicker2.Value;
+            }
+            else
+                primeraVez = false;
         }
 
         private Boolean fechasErroneas()
@@ -157,7 +178,27 @@ namespace AerolineaFrba.Generacion_Viaje
             
             if(!huboError)
             {
+                this.insertarNuevoViaje();
+                MessageBox.Show("Se inserto correctamente el nuevo viaje, el cual ya se encuentra disponible para la venta de pasajes", "Nuevo viaje", MessageBoxButtons.OK);
             }
+        }
+
+        private Object insertarNuevoViaje()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[GenerarNuevoViaje]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@salida", dateTimePicker1.Value);
+            command.Parameters.AddWithValue("@llegadaEstimada", dateTimePicker2.Value);
+            int ruta;
+            int.TryParse(txtRuta.Text, out ruta);
+            command.Parameters.AddWithValue("@ruta", ruta);
+            command.Parameters.AddWithValue("@matricula", txtMatricula.Text);
+
+            return command.ExecuteScalar();
         }
 
     }
