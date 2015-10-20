@@ -364,6 +364,7 @@ namespace AerolineaFrba.Abm_Aeronave
             if (seSeteaQuery)
             {
                 (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
+                cambiarVisibilidades(this.anterior);
             }
 
             if (this.loActivoGenerarViajes)
