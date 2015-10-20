@@ -360,27 +360,20 @@ namespace AerolineaFrba.Abm_Aeronave
 
                 cambiarVisibilidades(this.siguiente);
                 (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+            }
+            if (seSeteaQuery)
+            {
+                (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
+            }
 
-                if (seSeteaQuery)
-                {
-                    (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
+            if (this.loActivoGenerarViajes)
+            {
+            (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
+            }
 
-                }
-
-                if (this.loActivoGenerarViajes)
-                {
-                    (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
-                }
-
-                if (this.loActivoModificar)
-                {
-
-                    (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
-                }
-
+                
                 //this.Close();
 
-            }
         }
     }
 }

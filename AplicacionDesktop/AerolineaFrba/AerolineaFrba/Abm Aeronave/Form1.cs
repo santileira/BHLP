@@ -55,10 +55,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Modificacion modificacion = new Modificacion();
             Listado listado = new Listado();
-
             Principal principal = new Principal();
-
-            listado.loActivoModificar = true;
 
             modificacion.listado = listado;
             listado.anterior = principal;

@@ -40,13 +40,47 @@ namespace AerolineaFrba.Abm_Aeronave
             txtServicioActual.Text = registro.Cells["SERV_DESC"].Value.ToString();
             txtButacasActual.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
             txtKilosActual.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
-            txtFechaReinicioActual.Text = registro.Cells["AERO_FECHA_RS"].Value.ToString();
+            txtFechaAltaActual.Text = registro.Cells["AERO_FECHA_ALTA"].Value.ToString();
+            
+            txtModelo.Text = registro.Cells["AERO_MOD"].Value.ToString();
+            txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
+            cboFabricante.Text = registro.Cells["AERO_FAB"].Value.ToString();
+            cboServicio.Text = registro.Cells["SERV_DESC"].Value.ToString();
+            txtButacas.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
+            txtKilos.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
+            dtTime.Text = registro.Cells["AERO_FECHA_ALTA"].Value.ToString(); 
 
             
             
 
             if (registro.Cells["AERO_FECHA_RS"].Value.ToString().GetType() == Type.GetType("DateTime"))
                 dtTime.Value = Convert.ToDateTime(registro.Cells["AERO_FECHA_RS"].Value.ToString());
+
+            if (tieneUnViajeAsignado(txtMatriculaActual.Text) == 1)
+            {
+                txtButacas.Visible = false;
+                txtButacasActual.Visible = false;
+                txtKilos.Visible = false;
+                txtKilosActual.Visible = false;
+                txtModelo.Visible = true;
+                txtModeloActual.Visible = false;
+                txtServicioActual.Visible = false;
+                cboServicio.Visible = false;
+                txtFabricanteActual.Visible = false;
+                cboFabricante.Visible = false;
+                dtTime.Visible = false;
+                txtFechaAltaActual.Visible = false;
+                label5.Visible = false;
+                label6.Visible = false;
+                label4.Visible = false;
+                label1.Visible = false;
+                label3.Visible = false;
+                groupBox2.Visible = false;
+            }
+            else
+            {
+
+            }
             txtButacas.Enabled = true;
             txtKilos.Enabled = true;
             txtMatricula.Enabled = true;
@@ -60,6 +94,19 @@ namespace AerolineaFrba.Abm_Aeronave
 
             chkReinicio.Enabled = registro.Cells["FUERA_SERVICIO"].Value.Equals("SI");
             
+        }
+
+        private int tieneUnViajeAsignado(string matricula)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[TieneViajeAsignado]";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@AeronaveMatricula", matricula);
+
+            return (int)command.ExecuteScalar();
         }
 
         private void inicio()
