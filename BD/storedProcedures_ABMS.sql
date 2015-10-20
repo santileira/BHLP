@@ -39,6 +39,7 @@ SELECT * FROM [ABSTRACCIONX4].ROLES
 SELECT * FROM [ABSTRACCIONX4].FUNCIONALIDADES
 SELECT * FROM [ABSTRACCIONX4].FUNCIONES_ROLES
 
+-------------------------------Dar Codigo De Rol-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeRol (@Rol VARCHAR(30))
 RETURNS TINYINT
 AS
@@ -52,6 +53,8 @@ BEGIN
 	RETURN @Rol_Cod
 END
 GO
+
+-------------------------------Dar Codigo De Funcionalidad-------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeFuncionalidad (@Funcion VARCHAR(60))
 RETURNS TINYINT
@@ -67,6 +70,7 @@ BEGIN
 END
 GO
 -------------------------------Baja Rol-------------------------------
+
 DROP PROCEDURE ABSTRACCIONX4.BajaRol
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
 	@Nombre VARCHAR(30)	
@@ -101,6 +105,25 @@ AS
 	BEGIN CATCH
 		DECLARE @Error varchar(80)
 		SET @Error = 'El nombre ' + @NombreNuevo + ' ya esta en uso para otro rol'
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+GO
+
+-------------------------------Baja Funcionalidades-------------------------------
+DROP PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
+CREATE PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
+	@NombreRol VARCHAR(30)	
+AS
+	BEGIN TRY
+		DECLARE @Codigo TINYINT
+		SET @Codigo = [ABSTRACCIONX4].DarCodigoDeRol(@NombreRol)
+		
+		DELETE FROM [ABSTRACCIONX4].FUNCIONES_ROLES
+		WHERE ROL_COD = @Codigo
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(80)
+		--SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO

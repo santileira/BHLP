@@ -66,11 +66,51 @@ namespace AerolineaFrba.Abm_Rol
                     string nombreOriginal = txtRolSeleccionado.Text;
                     modificarRol(nombreNuevo , nombreOriginal);
                     
+                    //darDeBajaFuncionalidades(nombreOriginal);
+                    
+                    foreach (String funcion in lstFuncionalidadesActuales.Items)
+                    {
+                        darDeAltaFuncionalidad(funcion, nombreNuevo);
+                    }
+
+
+                    this.cambiarVisibilidades(this.listado);
                     
                 }
 
             }
         }
+
+        private Object darDeBajaFuncionalidades(string nombreNuevo)
+        {
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaFuncionalidades]";
+            command.CommandTimeout = 0;
+
+
+            command.Parameters.AddWithValue("@NombreRol", nombreNuevo);
+      
+
+            return command.ExecuteScalar();
+
+        }
+
+        private void darDeAltaFuncionalidad(string funcion, string rol)
+        {
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
+            command.CommandTimeout = 0;
+
+
+            command.Parameters.AddWithValue("@Funcion", funcion);
+            command.Parameters.AddWithValue("@Rol", rol);
+
+            command.ExecuteScalar();
+
+        }
+
 
         private Object modificarRol(string nombreNuevo , string nombreOriginal)
         {
