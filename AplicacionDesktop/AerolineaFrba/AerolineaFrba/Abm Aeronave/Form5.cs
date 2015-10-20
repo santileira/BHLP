@@ -22,6 +22,7 @@ namespace AerolineaFrba.Abm_Aeronave
         public bool seSeteaQuery = false;
 
         public bool loActivoGenerarViajes = false;
+        public bool loActivoModificar = false;
         public string serv_cod = null;
         public DateTime fechaSalida;
         public DateTime fechaLlegada;
@@ -87,7 +88,10 @@ namespace AerolineaFrba.Abm_Aeronave
 
             primeraConsulta = false;
 
-            dg.Columns["SERV_COD"].Visible = false;
+            if (loActivoModificar)
+            {
+                dg.Columns["SERV_COD"].Visible = false;
+            }
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
@@ -342,11 +346,17 @@ namespace AerolineaFrba.Abm_Aeronave
                 return;
             }
 
+            if (seSeteaQuery)
+            {
+                (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
+            }
+
             if (this.loActivoGenerarViajes)
             {
                 (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
             }
-            else
+            
+            if(this.loActivoModificar)
             {
                 List<Object> listaFuncionalidades = new List<object>(7);
                 (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);

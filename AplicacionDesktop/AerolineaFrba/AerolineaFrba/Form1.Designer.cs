@@ -91,9 +91,9 @@
             // 
             this.button5.Location = new System.Drawing.Point(111, 345);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(154, 23);
+            this.button5.Size = new System.Drawing.Size(154, 45);
             this.button5.TabIndex = 5;
-            this.button5.Text = "Registro Llegada";
+            this.button5.Text = "REGISTRO LLEGADA";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
