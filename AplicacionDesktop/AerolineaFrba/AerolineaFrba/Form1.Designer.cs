@@ -90,9 +90,9 @@
             // 
             this.button5.Location = new System.Drawing.Point(111, 316);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(154, 23);
+            this.button5.Size = new System.Drawing.Size(154, 45);
             this.button5.TabIndex = 5;
-            this.button5.Text = "Registro Llegada";
+            this.button5.Text = "REGISTRO LLEGADA";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -109,7 +109,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 349);
+            this.ClientSize = new System.Drawing.Size(409, 373);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);

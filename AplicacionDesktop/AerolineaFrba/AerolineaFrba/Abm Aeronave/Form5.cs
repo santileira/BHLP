@@ -328,7 +328,15 @@ namespace AerolineaFrba.Abm_Aeronave
             }
 
             List<Object> listaFuncionalidades = new List<object>(7);
-            (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
+
+            if (seSeteaQuery)
+            {
+                (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
+            }
+            else
+            {
+                (anterior as Modificacion).seSelecciono(dg.SelectedRows[0]);
+            }
 
             //this.Close();
             cambiarVisibilidades(this.anterior, true);
