@@ -357,9 +357,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
             if (llamadoDesdeModificacion)
             {
-
                 cambiarVisibilidades(this.siguiente);
                 (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+                return;
             }
             if (seSeteaQuery)
             {
@@ -371,7 +371,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
             }
 
- 
+            this.cambiarVisibilidades(this.anterior);
         }
     }
 }
