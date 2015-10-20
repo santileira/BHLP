@@ -46,7 +46,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT SERV_COD, RUTA_ID, RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
+            this.query = "SELECT RUTA_ID, SERV_COD, RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
@@ -191,7 +191,8 @@ namespace AerolineaFrba.Abm_Ruta
             cboFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
-            
+
+            dg.Columns["RUTA_ID"].Visible = false;
         }
 
         private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)

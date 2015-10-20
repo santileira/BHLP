@@ -172,7 +172,7 @@ namespace AerolineaFrba.Abm_Rol
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
-                        darDeBajaRuta(darValorDadoIndex(e.RowIndex));
+                        darDeBajaRol(darValorDadoIndex(e.RowIndex));
                         ejecutarQuery(query);
                     }
                 }
@@ -191,7 +191,7 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        private Object darDeBajaRuta(string nombre)
+        private Object darDeBajaRol(string nombre)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
