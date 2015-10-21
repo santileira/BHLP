@@ -22,13 +22,13 @@ namespace AerolineaFrba
             return this;
         }
 
-        public SQLManager agregarIntSP(string nombreVariable , TextBox txt)
+        public SQLManager agregarIntSP(string nombreVariable, TextBox txt)
         {
             command.Parameters.AddWithValue(nombreVariable ,Convert.ToInt32(txt.Text));
             return this;
         }
 
-        public SQLManager agregarIntSP(string nombreVariable, Int16 numero)
+        public SQLManager agregarIntSP(string nombreVariable, Int32 numero)
         {
             command.Parameters.AddWithValue(nombreVariable, numero);
             return this;
@@ -57,6 +57,12 @@ namespace AerolineaFrba
         public Object ejecutarSP()
         {
             return command.ExecuteScalar();
+        }
+
+        public SQLManager agregarDecimalSP(string nombreVariable, decimal numero)
+        {
+            command.Parameters.AddWithValue(nombreVariable, numero);
+            return this;
         }
     }
 }

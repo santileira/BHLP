@@ -163,7 +163,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Object modificarRuta()
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("ModificarRuta").agregarIntSP("@IdRuta", idRuta).agregarIntSP("@Codigo", txtCodigo).
+            agregarStringSP("@Servicio", cboServicio). agregarStringSP("@CiudadOrigen", txtCiudadOrigenNueva).
+            agregarStringSP("@CiudadDestino", txtCiudadDestinoNueva).agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text)).
+            agregarDecimalSP("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text)).ejecutarSP();
+            
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRuta]";
@@ -177,7 +183,7 @@ namespace AerolineaFrba.Abm_Ruta
             command.Parameters.AddWithValue("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text));
             command.Parameters.AddWithValue("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text));
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private Decimal enDecimal(string numero)

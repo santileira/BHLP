@@ -68,7 +68,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Ruta";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            
             // 
             // label5
             // 
@@ -114,7 +114,6 @@
             this.txtPrecioPasaje.Name = "txtPrecioPasaje";
             this.txtPrecioPasaje.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioPasaje.TabIndex = 5;
-            this.txtPrecioPasaje.TextChanged += new System.EventHandler(this.txtPrecioPasaje_TextChanged);
             // 
             // label4
             // 
@@ -215,7 +214,6 @@
             this.cboServicio.Name = "cboServicio";
             this.cboServicio.Size = new System.Drawing.Size(117, 21);
             this.cboServicio.TabIndex = 15;
-            this.cboServicio.SelectedIndexChanged += new System.EventHandler(this.cboServicio_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -241,7 +239,6 @@
             this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 4;
             this.label8.Text = "Código *";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // button2
             // 

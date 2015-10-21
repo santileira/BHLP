@@ -64,7 +64,12 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Object darDeAltaRuta()
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("AltaRuta").agregarIntSP("@Codigo", txtCodigo).agregarStringSP("@Servicio", cboServicio).
+            agregarStringSP("@CiudadOrigen", txtCiudadOrigen).agregarStringSP("@CiudadDestino", txtCiudadDestino).
+            agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasaje.Text)).agregarDecimalSP("@PrecioeEncomienda", enDecimal(txtPrecioEncomienda.Text)).ejecutarSP();
+            
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRuta]";
@@ -78,7 +83,7 @@ namespace AerolineaFrba.Abm_Ruta
             command.Parameters.AddWithValue("@PrecioPasaje", enDecimal(txtPrecioPasaje.Text));
             command.Parameters.AddWithValue("@PrecioeEncomienda", enDecimal(txtPrecioEncomienda.Text));
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private Decimal enDecimal(string numero)
@@ -245,26 +250,6 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 txtCiudadDestino.Text = ciudad;
             }
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtPrecioPasaje_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cboServicio_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         

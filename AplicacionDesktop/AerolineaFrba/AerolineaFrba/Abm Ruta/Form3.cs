@@ -293,7 +293,10 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Object darDeBajaRuta(int idRuta)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("BajaRuta").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
+           
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRuta]";
@@ -301,7 +304,7 @@ namespace AerolineaFrba.Abm_Ruta
 
             command.Parameters.AddWithValue("@IdRuta", idRuta);
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private void ejecutarCommand(string cadenaComando)

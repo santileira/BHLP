@@ -71,9 +71,7 @@ namespace AerolineaFrba.Abm_Rol
                    
                     foreach (String funcion in lstFuncionalidadesActuales.Items)
                     {
-                        
                         darDeAltaFuncionalidad(funcion, nombreNuevo);
-                        MessageBox.Show(nombreNuevo + nombreOriginal, "asda", MessageBoxButtons.OK);
                     }
 
                     (listado as Listado).iniciar();
