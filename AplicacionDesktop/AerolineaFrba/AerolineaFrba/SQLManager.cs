@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -63,6 +64,23 @@ namespace AerolineaFrba
         {
             command.Parameters.AddWithValue(nombreVariable, numero);
             return this;
+        }
+
+        public SQLManager agregarListaSP(string nombreVariable, List<Object> funcionalidades)
+        {
+            command.Parameters.AddWithValue(nombreVariable, crearDataTable(funcionalidades));
+            return this;
+        }
+
+        private static DataTable crearDataTable(IEnumerable<Object> lista)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("elemento", typeof(string));
+            foreach (string elemento in lista)
+            {
+                table.Rows.Add(elemento.ToString());
+            }
+            return table;
         }
     }
 }

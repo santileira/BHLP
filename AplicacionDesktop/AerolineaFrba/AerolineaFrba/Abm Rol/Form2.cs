@@ -46,18 +46,10 @@ namespace AerolineaFrba.Abm_Rol
                 MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
                 //string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 //this.ejecutarCommand(cadenaComando);
-                List<string> funcionalidades = new List<string>();
-                foreach(Object item in lstFuncionalidadesActuales.Items)
-                {
-                    funcionalidades.Add(item.ToString());
-                }
 
-
-                darDeAltaRol(txtNombre.Text, funcionalidades);
-                string nombreRol = txtNombre.Text;
-
-
-
+                darDeAltaRol();
+                
+                //string nombreRol = txtNombre.Text;
                 /*foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
                   darDeAltaFuncionalidad(funcion , nombreRol);
@@ -65,13 +57,13 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        private void darDeAltaFuncionalidad(string funcion , string rol)
+        /*private void darDeAltaFuncionalidad(string funcion , string rol)
         {
             SQLManager sqlManager = new SQLManager();
             sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion" , funcion).
             agregarStringSP("@Rol", rol).ejecutarSP();
 
-            /*SqlCommand command = new SqlCommand();
+            SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -81,14 +73,17 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            command.ExecuteScalar();*/
+            command.ExecuteScalar();
             
-        }
+        }*/
 
-        private Object darDeAltaRol(string nombre,List<string> funcionalidades)
+        private Object darDeAltaRol()
         {
             SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("AltaRol").agregarStringSP("@Nombre", nombre).ejecutarSP();
+            return sqlManager.generarSP("AltaRolV2").
+                   agregarStringSP("@Nombre", txtNombre.Text).
+                   agregarListaSP("@Funcionalidades", funcionalidadesActuales()).
+                   ejecutarSP();
             /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -104,15 +99,14 @@ namespace AerolineaFrba.Abm_Rol
             return command.ExecuteScalar();*/
         }
 
-        private static DataTable CreateDataTable(IEnumerable<string> ids)
+        private List<Object> funcionalidadesActuales()
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("elemento", typeof(string));
-            foreach (string id in ids)
+            List<Object> funcionalidades = new List<Object>();
+            foreach (Object func in lstFuncionalidadesActuales.Items)
             {
-                table.Rows.Add(id);
+                funcionalidades.Add(func);
             }
-            return table;
+            return funcionalidades;
         }
 
 

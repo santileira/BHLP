@@ -270,6 +270,30 @@ AS
 		WHERE RUTA_ID=@IdRuta
 GO
 
+
+-------------------------------Borrar Pasajes-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].BorrarPasajes
+@IdRuta INT
+AS
+UPDATE ABSTRACCIONX4.PASAJES 
+SET PASAJE_CANCELADO = 1
+WHERE PASAJE_COD IN (SELECT P.PASAJE_COD FROM [ABSTRACCIONX4].PASAJES P , [ABSTRACCIONX4].VIAJES V
+WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta)
+
+GO
+
+
+-------------------------------Borrar Encomiendas-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].BorrarEncomiendas
+@IdRuta INT
+AS
+UPDATE ABSTRACCIONX4.ENCOMIENDAS
+SET ENCOMIENDA_CANCELADO = 1
+WHERE ENCOMIENDA_COD IN (SELECT E.ENCOMIENDA_COD FROM [ABSTRACCIONX4].ENCOMIENDAS E , [ABSTRACCIONX4].VIAJES V
+WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta)
+
+GO
+
 -------------------------------Alta Ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@IdRuta INT,
@@ -301,12 +325,14 @@ END
 GO
 
 
-
-CREATE TYPE Lista AS TABLE 
+-------------------------------Tipo Lista-------------------------------
+CREATE TYPE [ABSTRACCIONX4].Lista AS TABLE 
 ( elemento VARCHAR(30) )
 
 GO
 
+
+-- ###########
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRolV2
 	@Nombre VARCHAR(30),
 	@Funcionalidades Lista Readonly
@@ -316,11 +342,3 @@ AS
 			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
 			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
 GO
-
-SELECT * FROM ABSTRACCIONX4.ROLES
-
-DECLARE @Funcionalidades Lista
-
-INSERT (ROL_COD) INTO ABSTRACCIONX4.ROLES VALUES ('X') 
-
-EXEC ABSTRACCIONX4.AltaRolV2 'ZARLOMPA',((SELECT FUNC_DESC FROM ABSTRACCIONX4.FUNCIONALIDADES) tabla) as Lista
