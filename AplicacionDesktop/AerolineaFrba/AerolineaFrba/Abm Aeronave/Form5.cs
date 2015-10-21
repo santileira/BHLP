@@ -249,7 +249,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 else
                     this.query += " AND ";
 
-                this.query += combo.Text + criterio;
+                this.query += "a." + combo.Text + criterio;
                 MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
             }
         }
@@ -364,15 +364,15 @@ namespace AerolineaFrba.Abm_Aeronave
             if (seSeteaQuery)
             {
                 (anterior as Registro_Llegada_Destino.Form1).seSeleccionoMatricula(dg.SelectedRows[0]);
-                cambiarVisibilidades(this.anterior);
             }
 
             if (this.loActivoGenerarViajes)
             {
-                (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
+                (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);   
             }
 
             this.cambiarVisibilidades(this.anterior);
+    
         }
     }
 }
