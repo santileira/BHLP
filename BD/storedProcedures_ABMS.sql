@@ -73,7 +73,7 @@ GO
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
 	@Nombre VARCHAR(30)	
 AS
-	BEGIN TRY
+	-- VER SI VA TRANSACCION
 		DECLARE @Codigo TINYINT
 		SET @Codigo = [ABSTRACCIONX4].DarCodigoDeRol(@Nombre)
 		
@@ -82,22 +82,17 @@ AS
 		------Podría ir en trigger! 
 		UPDATE ABSTRACCIONX4.USUARIOS 
 		SET ROL_COD = NULL WHERE ROL_COD = @Codigo
-	END TRY
-	BEGIN CATCH
-		DECLARE @Error varchar(80)
-		--SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
-		RAISERROR(@Error, 16, 1)
-	END CATCH
 GO
 
 -------------------------------Modificar Rol-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRol
 	@NombreNuevo VARCHAR(30),
-	@NombreOriginal VARCHAR(30)
+	@NombreOriginal VARCHAR(30),
+	@Estado BIT
 AS
 	BEGIN TRY
 		UPDATE ABSTRACCIONX4.ROLES 
-		SET ROL_NOMBRE = @NombreNuevo WHERE ROL_NOMBRE = @NombreOriginal
+		SET ROL_NOMBRE = @NombreNuevo, ROL_ESTADO = @Estado WHERE ROL_NOMBRE = @NombreOriginal
 		
 	END TRY
 	BEGIN CATCH
@@ -173,6 +168,52 @@ AS
 		WHERE AERO_MATRI = @Matricula
 GO
 
+
+
+-------------------------------Modificar Aeronave-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].ModificarAeronave
+	@MatriculaActual VARCHAR(8),
+	@Modelo VARCHAR(30),
+	@Matricula VARCHAR(8),
+	@Fabricante VARCHAR(30),
+	@TipoDeServicio VARCHAR(30),
+	@CantidadButacas SMALLINT,
+	@CantidadKG NUMERIC(6,2)
+AS
+BEGIN
+	BEGIN TRY
+		UPDATE ABSTRACCIONX4.AERONAVES
+			SET AERO_MOD = @Modelo, AERO_MATRI = @Matricula, AERO_FAB = @Fabricante,
+				SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@TipoDeServicio),
+				AERO_CANT_BUTACAS = @CantidadButacas, AERO_CANT_KGS = @CantidadKG
+			WHERE AERO_MATRI = @MatriculaActual
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(80)
+		SET @Error = 'Ya existe una aeronave con matrícula ' + @Matricula
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+END
+
+GO
+
+
+
+-------------------------------Viajes asignados a aeronave-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].TieneViajeAsignado
+	(@Matricula VARCHAR(8))
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Resultado INT 
+	SELECT @Resultado = COUNT(*) FROM ABSTRACCIONX4.VIAJES WHERE AERO_MATRI=@Matricula
+	IF @Resultado > 0
+		RETURN 1
+	RETURN 0
+END
+
+GO
+
 -------------------------------Alta Ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRuta
 	@Codigo INT,
@@ -239,11 +280,47 @@ CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@PrecioPasaje NUMERIC(5,2),
 	@PrecioeEncomienda NUMERIC(5,2)
 AS
-	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
-		SET RUTA_COD = @Codigo, SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
-			CIU_COD_O = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
-			CIU_COD_D = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
-			RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje,
-			RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
-		WHERE RUTA_ID = @IdRuta
+BEGIN
+	BEGIN TRY
+		UPDATE ABSTRACCIONX4.RUTAS_AEREAS
+			SET RUTA_COD = @Codigo, SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
+				CIU_COD_O = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
+				CIU_COD_D = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
+				RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje,
+				RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
+			WHERE RUTA_ID = @IdRuta
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(255)
+		SET @Error = 'Ya existe una ruta de ' + @CiudadOrigen + ' a ' + @CiudadDestino +
+			' con el código ' + CONVERT(VARCHAR,@Codigo) + ' y servicio ' + @Servicio
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+END
+
 GO
+
+
+
+CREATE TYPE Lista AS TABLE 
+( elemento VARCHAR(30) )
+
+GO
+
+CREATE PROCEDURE [ABSTRACCIONX4].AltaRolV2
+	@Nombre VARCHAR(30),
+	@Funcionalidades Lista Readonly
+AS
+		INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE) VALUES (@Nombre)
+		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD,FUNC_COD)
+			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
+			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
+GO
+
+SELECT * FROM ABSTRACCIONX4.ROLES
+
+DECLARE @Funcionalidades Lista
+
+INSERT (ROL_COD) INTO ABSTRACCIONX4.ROLES VALUES ('X') 
+
+EXEC ABSTRACCIONX4.AltaRolV2 'ZARLOMPA',((SELECT FUNC_DESC FROM ABSTRACCIONX4.FUNCIONALIDADES) tabla) as Lista

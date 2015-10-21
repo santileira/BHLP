@@ -20,8 +20,6 @@ namespace AerolineaFrba.Abm_Aeronave
         public Modificacion()
         {
             InitializeComponent();
-            dtTime.Format = DateTimePickerFormat.Custom;
-            dtTime.CustomFormat = "dd/mm/yyyy hh:mm:ss";
         }
 
         private void Modificacion_Load(object sender, EventArgs e)
@@ -40,7 +38,6 @@ namespace AerolineaFrba.Abm_Aeronave
             txtServicioActual.Text = registro.Cells["SERV_DESC"].Value.ToString();
             txtButacasActual.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
             txtKilosActual.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
-            txtFechaAltaActual.Text = registro.Cells["AERO_FECHA_ALTA"].Value.ToString();
             
             txtModelo.Text = registro.Cells["AERO_MOD"].Value.ToString();
             txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
@@ -48,62 +45,41 @@ namespace AerolineaFrba.Abm_Aeronave
             cboServicio.Text = registro.Cells["SERV_DESC"].Value.ToString();
             txtButacas.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
             txtKilos.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
-            dtTime.Text = registro.Cells["AERO_FECHA_ALTA"].Value.ToString(); 
 
-            
-            
 
-            if (registro.Cells["AERO_FECHA_RS"].Value.ToString().GetType() == Type.GetType("DateTime"))
-                dtTime.Value = Convert.ToDateTime(registro.Cells["AERO_FECHA_RS"].Value.ToString());
+            Boolean viajeAsignado = !tieneUnViajeAsignado(txtMatricula.Text);
 
-            /*if (tieneUnViajeAsignado(txtMatricula.Text) == 1)
-            {
-                txtButacas.Visible = false;
-                txtButacasActual.Visible = false;
-                txtKilos.Visible = false;
-                txtKilosActual.Visible = false;
-                txtModelo.Visible = true;
-                txtModeloActual.Visible = false;
-                txtServicioActual.Visible = false;
-                cboServicio.Visible = false;
-                txtFabricanteActual.Visible = false;
-                cboFabricante.Visible = false;
-                dtTime.Visible = false;
-                txtFechaAltaActual.Visible = false;
-                label5.Visible = false;
-                label6.Visible = false;
-                label4.Visible = false;
-                label1.Visible = false;
-                label3.Visible = false;
-                groupBox2.Visible = false;
-            }*/
-            
-            txtButacas.Enabled = true;
-            txtKilos.Enabled = true;
+            txtButacas.Enabled =
+            txtButacasActual.Enabled =
+            txtKilos.Enabled =
+            txtKilosActual.Enabled =
+            txtModelo.Enabled =
+            txtModeloActual.Enabled =
+            txtServicioActual.Enabled =
+            cboServicio.Enabled =
+            cboFabricante.Enabled = 
+            txtFabricanteActual.Enabled =
+            cboFabricante.Enabled = viajeAsignado;
+
             txtMatricula.Enabled = true;
-            txtModelo.Enabled = true;
-
-            cboServicio.Enabled = true;
-            cboFabricante.Enabled = true;
+            txtMatriculaActual.Enabled = true;
 
             button2.Enabled = true;
             button3.Enabled = true;
-
-            chkReinicio.Enabled = registro.Cells["FUERA_SERVICIO"].Value.Equals("SI");
             
         }
 
-        private int tieneUnViajeAsignado(string matricula)
+        private Boolean tieneUnViajeAsignado(string matricula)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[TieneViajeAsignado]";
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeAsignado(@Matricula)";
             command.CommandTimeout = 0;
 
-            command.Parameters.AddWithValue("@AeronaveMatricula", matricula);
+            command.Parameters.AddWithValue("@Matricula", matricula);
 
-            return (int)command.ExecuteScalar();
+            return (Boolean)command.ExecuteScalar();
         }
 
         private void inicio()
@@ -126,12 +102,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
             cboFabricante.Text = "";
             cboServicio.Text = "";
-
-            chkReinicio.Checked = false;
-            chkReinicio.Enabled = false;
-
-            dtTime.Enabled = false;
-            dtTime.Value = DateTime.Now.Date;
 
             button2.Enabled = false;
             button3.Enabled = false;
@@ -158,15 +128,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button5_Click(object sender, EventArgs e)
         {
+            listado.inicio();
             this.cambiarVisibilidades(this.listado);
-        }
-
-        private void chkReinicio_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkReinicio.Checked)
-                dtTime.Enabled = true;
-            else
-                dtTime.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -191,13 +154,13 @@ namespace AerolineaFrba.Abm_Aeronave
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarAeronave]";
             command.CommandTimeout = 0;
 
+            command.Parameters.AddWithValue("@MatriculaActual", txtMatriculaActual.Text);
             command.Parameters.AddWithValue("@Modelo", txtModelo.Text);
             command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
             command.Parameters.AddWithValue("@Fabricante", cboFabricante.Text);
             command.Parameters.AddWithValue("@TipoDeServicio", cboServicio.Text);
             command.Parameters.AddWithValue("@CantidadButacas", Convert.ToInt16(txtButacas.Text));
             command.Parameters.AddWithValue("@CantidadKG", cantidadKilogramos());
-            command.Parameters.AddWithValue("@FechaReinicio", Convert.ToDateTime(dtTime.Text));
 
             return command.ExecuteScalar();
         }

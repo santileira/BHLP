@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,6 +39,7 @@ namespace AerolineaFrba.Abm_Rol
             button3.Enabled = false;
             button2.Enabled = false;
             checkHabilitado.Enabled = false;
+            checkHabilitado.Checked = false;
             lstFuncionalidadesTotales.Enabled = false;
 
             button1.Enabled = false;
@@ -118,8 +120,7 @@ namespace AerolineaFrba.Abm_Rol
 
         }
 
-
-        private Object modificarRol(string nombreNuevo, string nombreOriginal)
+        private Object modificarRol(string nombreNuevo , string nombreOriginal)
         {
             /*SQLManager sqlManager = new SQLManager();
             return sqlManager.generarSP("ModificarRol").agregarStringSP("@NombreNuevo", nombreNuevo).
@@ -132,6 +133,7 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@NombreNuevo", nombreNuevo);
             command.Parameters.AddWithValue("@NombreOriginal", nombreOriginal);
+            command.Parameters.AddWithValue("@Estado", checkHabilitado.Enabled?checkHabilitado.Checked:true);
 
             return command.ExecuteScalar();
         }
@@ -281,6 +283,7 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesTotales.Enabled = true;
 
             checkHabilitado.Enabled = !habilitado;
+            checkHabilitado.Checked = false;
             button1.Enabled = true;
         }
     }
