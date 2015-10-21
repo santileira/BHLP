@@ -173,6 +173,45 @@ AS
 		WHERE AERO_MATRI = @Matricula
 GO
 
+
+
+-------------------------------Modificar Aeronave-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].ModificarAeronave
+	@MatriculaActual VARCHAR(8),
+	@Modelo VARCHAR(30),
+	@Matricula VARCHAR(8),
+	@Fabricante VARCHAR(30),
+	@TipoDeServicio VARCHAR(30),
+	@CantidadButacas SMALLINT,
+	@CantidadKG NUMERIC(6,2)
+AS
+BEGIN
+	UPDATE ABSTRACCIONX4.AERONAVES
+		SET AERO_MOD = @Modelo, AERO_MATRI = @Matricula, AERO_FAB = @Fabricante,
+			SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@TipoDeServicio),
+			AERO_CANT_BUTACAS = @CantidadButacas, AERO_CANT_KGS = @CantidadKG
+		WHERE AERO_MATRI = @MatriculaActual
+END
+
+GO
+
+
+
+-------------------------------Viajes asignados a aeronave-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].TieneViajeAsignado
+	(@Matricula VARCHAR(8))
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Resultado INT 
+	SELECT @Resultado = COUNT(*) FROM ABSTRACCIONX4.VIAJES WHERE AERO_MATRI=@Matricula
+	IF @Resultado > 0
+		RETURN 1
+	RETURN 0
+END
+
+GO
+
 -------------------------------Alta Ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRuta
 	@Codigo INT,
@@ -247,3 +286,4 @@ AS
 			RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
 		WHERE RUTA_ID = @IdRuta
 GO
+
