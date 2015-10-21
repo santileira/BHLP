@@ -310,14 +310,12 @@ namespace AerolineaFrba.Abm_Aeronave
                 indiceAeronaveElegida = e.RowIndex;
                 if (e.ColumnIndex == 0)
                 {
-                    
                     new Form6(this, false).ShowDialog();
                     ejecutarQuery();
                 }
                 else
                     if (e.ColumnIndex == 1)
                     {
-                     
                         new Form6(this , true).ShowDialog();
                         ejecutarQuery();
                     }
@@ -338,7 +336,7 @@ namespace AerolineaFrba.Abm_Aeronave
             return command.ExecuteScalar();
         }
 
-        public Object dejarFueraDeServicio(DateTime fechaReinicio , DateTime fechaBaja)
+        public void dejarFueraDeServicio(DateTime fechaReinicio , DateTime fechaBaja)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -349,8 +347,15 @@ namespace AerolineaFrba.Abm_Aeronave
             command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
             command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
-            
-            return command.ExecuteScalar();
+
+            try
+            {
+                command.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                new Form7(e.Message).ShowDialog();
+            }
         }
 
         private Boolean apretoSi(DialogResult resultado)

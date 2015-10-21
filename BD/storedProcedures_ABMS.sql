@@ -148,15 +148,26 @@ GO
 
 
 -------------------------------Baja Aeronave-------------------------------
---DROP PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@Matricula VARCHAR(8),
 	@FechaBaja DATETIME,
 	@FechaReinicio DATETIME
 AS
+BEGIN
+	DECLARE @TieneViajeComprado BIT
+	SET @TieneViajeComprado = [ABSTRACCIONX4].TieneViajeComprado(@Matricula)
+
+	IF @TieneViajeComprado = 1
+	BEGIN
+		DECLARE @Error varchar(80)
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
+		RAISERROR(@Error, 16, 1)
+	END
+	
 	UPDATE ABSTRACCIONX4.AERONAVES 
-		SET AERO_BAJA_FS = 1, AERO_FECHA_RS = @FechaReinicio , AERO_FECHA_FS = @FechaBaja
-		WHERE AERO_MATRI = @Matricula
+			SET AERO_BAJA_FS = 1, AERO_FECHA_RS = @FechaReinicio , AERO_FECHA_FS = @FechaBaja
+			WHERE AERO_MATRI = @Matricula
+END
 GO
 
 CREATE PROCEDURE [ABSTRACCIONX4].DarDeBajaLogica
@@ -168,6 +179,64 @@ AS
 		WHERE AERO_MATRI = @Matricula
 GO
 
+
+-------------------------------Tiene viaje comprado-------------------------------
+
+CREATE FUNCTION [ABSTRACCIONX4].TieneViajeComprado
+	(@Matricula VARCHAR(8))
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @ResultadoPasajes INT
+	DECLARE @ResultadoEncomiendas INT 
+	
+	SELECT @ResultadoPasajes = COUNT(*) 
+		FROM ABSTRACCIONX4.PASAJES
+		   WHERE AERO_MATRI = @Matricula
+
+	SELECT @ResultadoEncomiendas = COUNT(*) 
+		FROM ABSTRACCIONX4.ENCOMIENDAS
+		   WHERE AERO_MATRI = @Matricula
+
+	IF @ResultadoPasajes > 0 OR @ResultadoEncomiendas > 0
+		RETURN 1
+	RETURN 0
+END
+
+GO
+
+
+-------------------------------Cancelar Aeronave Baja-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].CancelarAeronaveBaja
+	@Matricula VARCHAR(8),
+	@FechaBaja DATETIME
+AS
+BEGIN
+		UPDATE ABSTRACCIONX4.AERONAVES 
+			SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
+			WHERE AERO_MATRI = @Matricula
+		
+		UPDATE ABSTRACCIONX4.PASAJES SET PASAJE_CANCELADO = 1 WHERE AERO_MATRI = @Matricula
+		UPDATE ABSTRACCIONX4.ENCOMIENDAS SET ENCOMIENDA_CANCELADO = 1 WHERE AERO_MATRI = @Matricula
+END
+
+GO
+
+-------------------------------Cancelar Aeronave Baja-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].CancelarAeronaveBaja
+	@Matricula VARCHAR(8),
+	@FechaBaja DATETIME
+AS
+BEGIN
+		UPDATE ABSTRACCIONX4.AERONAVES 
+			SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
+			WHERE AERO_MATRI = @Matricula
+		
+		UPDATE ABSTRACCIONX4.PASAJES SET PASAJE_CANCELADO = 1 WHERE AERO_MATRI = @Matricula
+		UPDATE ABSTRACCIONX4.ENCOMIENDAS SET ENCOMIENDA_CANCELADO = 1 WHERE AERO_MATRI = @Matricula
+END
+
+GO
 
 
 -------------------------------Modificar Aeronave-------------------------------
@@ -333,6 +402,7 @@ GO
 
 
 -- ###########
+
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRolV2
 	@Nombre VARCHAR(30),
 	@Funcionalidades Lista Readonly

@@ -56,7 +56,7 @@ namespace AerolineaFrba
 
 
         public Object ejecutarSP()
-        {
+        {   
             return command.ExecuteScalar();
         }
 
