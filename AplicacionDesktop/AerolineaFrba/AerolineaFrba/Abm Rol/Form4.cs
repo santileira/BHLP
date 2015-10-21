@@ -68,10 +68,12 @@ namespace AerolineaFrba.Abm_Rol
                     modificarRol(nombreNuevo, nombreOriginal);
 
                     darDeBajaFuncionalidades(nombreNuevo);
-
+                   
                     foreach (String funcion in lstFuncionalidadesActuales.Items)
                     {
+                        
                         darDeAltaFuncionalidad(funcion, nombreNuevo);
+                        MessageBox.Show(nombreNuevo + nombreOriginal, "asda", MessageBoxButtons.OK);
                     }
 
                     (listado as Listado).iniciar();
@@ -84,7 +86,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private Object darDeBajaFuncionalidades(string nombreNuevo)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("BajaFuncionalidades").agregarStringSP("@NombreRol", nombreNuevo).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaFuncionalidades]";
@@ -92,13 +96,17 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@NombreRol", nombreNuevo);
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
 
         }
 
         private Object darDeAltaFuncionalidad(string funcion, string rol)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion", funcion).
+            agregarStringSP("@Rol", rol).ejecutarSP();
+            
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -108,13 +116,16 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
 
         }
 
 
         private Object modificarRol(string nombreNuevo, string nombreOriginal)
         {
+            /*SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("ModificarRol").agregarStringSP("@NombreNuevo", nombreNuevo).
+            agregarStringSP("@NombreOriginal" , nombreOriginal).ejecutarSP();*/
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -191,7 +202,7 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        private void ejecutarCommand(string cadenaComando)
+        /*private void ejecutarCommand(string cadenaComando)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -206,7 +217,7 @@ namespace AerolineaFrba.Abm_Rol
             {
                 MessageBox.Show("Ocurrio un error al intentar dar de alta. Verifique que el rol ingresado no se encuentre ya cargado", "Error en el Alta del nuevo rol", MessageBoxButtons.OK);
             }
-        }
+        }*/
 
         /*private Boolean validarTextNombre()
         {

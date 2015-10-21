@@ -158,6 +158,7 @@
     <Compile Include="Canje Millas\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="SQLManager.cs" />
     <Compile Include="Validacion.cs" />
     <Compile Include="Compra\Form1.cs">
       <SubType>Form</SubType>

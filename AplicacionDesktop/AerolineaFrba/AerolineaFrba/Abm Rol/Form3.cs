@@ -193,7 +193,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private Object darDeBajaRol(string nombre)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("BajaRol").agregarStringSP("@Nombre", nombre).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRol]";
@@ -201,7 +203,7 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@Nombre", nombre);
            
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
        private void ejecutarCommand(string cadenaComando)

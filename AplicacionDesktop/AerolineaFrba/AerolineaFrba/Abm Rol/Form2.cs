@@ -59,7 +59,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private void darDeAltaFuncionalidad(string funcion , string rol)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion" , funcion).
+            agregarStringSP("@Rol", rol).ejecutarSP();
+
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -69,13 +73,15 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            command.ExecuteScalar();
+            command.ExecuteScalar();*/
             
         }
 
         private Object darDeAltaRol(string nombre)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("AltaRol").agregarStringSP("@Nombre", nombre).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRol]";
@@ -84,7 +90,7 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@Nombre", nombre);
            
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private Boolean datosCorrectos()
