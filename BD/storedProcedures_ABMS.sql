@@ -93,11 +93,12 @@ GO
 -------------------------------Modificar Rol-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRol
 	@NombreNuevo VARCHAR(30),
-	@NombreOriginal VARCHAR(30)
+	@NombreOriginal VARCHAR(30),
+	@Estado BIT
 AS
 	BEGIN TRY
 		UPDATE ABSTRACCIONX4.ROLES 
-		SET ROL_NOMBRE = @NombreNuevo WHERE ROL_NOMBRE = @NombreOriginal
+		SET ROL_NOMBRE = @NombreNuevo, ROL_ESTADO = @Estado WHERE ROL_NOMBRE = @NombreOriginal
 		
 	END TRY
 	BEGIN CATCH
