@@ -73,7 +73,7 @@ GO
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
 	@Nombre VARCHAR(30)	
 AS
-	BEGIN TRY
+	-- VER SI VA TRANSACCION
 		DECLARE @Codigo TINYINT
 		SET @Codigo = [ABSTRACCIONX4].DarCodigoDeRol(@Nombre)
 		
@@ -82,12 +82,6 @@ AS
 		------Podría ir en trigger! 
 		UPDATE ABSTRACCIONX4.USUARIOS 
 		SET ROL_COD = NULL WHERE ROL_COD = @Codigo
-	END TRY
-	BEGIN CATCH
-		DECLARE @Error varchar(80)
-		--SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
-		RAISERROR(@Error, 16, 1)
-	END CATCH
 GO
 
 -------------------------------Modificar Rol-------------------------------
@@ -187,11 +181,18 @@ CREATE PROCEDURE [ABSTRACCIONX4].ModificarAeronave
 	@CantidadKG NUMERIC(6,2)
 AS
 BEGIN
-	UPDATE ABSTRACCIONX4.AERONAVES
-		SET AERO_MOD = @Modelo, AERO_MATRI = @Matricula, AERO_FAB = @Fabricante,
-			SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@TipoDeServicio),
-			AERO_CANT_BUTACAS = @CantidadButacas, AERO_CANT_KGS = @CantidadKG
-		WHERE AERO_MATRI = @MatriculaActual
+	BEGIN TRY
+		UPDATE ABSTRACCIONX4.AERONAVES
+			SET AERO_MOD = @Modelo, AERO_MATRI = @Matricula, AERO_FAB = @Fabricante,
+				SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@TipoDeServicio),
+				AERO_CANT_BUTACAS = @CantidadButacas, AERO_CANT_KGS = @CantidadKG
+			WHERE AERO_MATRI = @MatriculaActual
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(80)
+		SET @Error = 'Ya existe una aeronave con matrícula ' + @Matricula
+		RAISERROR(@Error, 16, 1)
+	END CATCH
 END
 
 GO
@@ -279,12 +280,47 @@ CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@PrecioPasaje NUMERIC(5,2),
 	@PrecioeEncomienda NUMERIC(5,2)
 AS
-	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
-		SET RUTA_COD = @Codigo, SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
-			CIU_COD_O = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
-			CIU_COD_D = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
-			RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje,
-			RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
-		WHERE RUTA_ID = @IdRuta
+BEGIN
+	BEGIN TRY
+		UPDATE ABSTRACCIONX4.RUTAS_AEREAS
+			SET RUTA_COD = @Codigo, SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
+				CIU_COD_O = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
+				CIU_COD_D = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
+				RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje,
+				RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
+			WHERE RUTA_ID = @IdRuta
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(255)
+		SET @Error = 'Ya existe una ruta de ' + @CiudadOrigen + ' a ' + @CiudadDestino +
+			' con el código ' + CONVERT(VARCHAR,@Codigo) + ' y servicio ' + @Servicio
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+END
+
 GO
 
+
+
+CREATE TYPE Lista AS TABLE 
+( elemento VARCHAR(30) )
+
+GO
+
+CREATE PROCEDURE [ABSTRACCIONX4].AltaRolV2
+	@Nombre VARCHAR(30),
+	@Funcionalidades Lista Readonly
+AS
+		INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE) VALUES (@Nombre)
+		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD,FUNC_COD)
+			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
+			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
+GO
+
+SELECT * FROM ABSTRACCIONX4.ROLES
+
+DECLARE @Funcionalidades Lista
+
+INSERT (ROL_COD) INTO ABSTRACCIONX4.ROLES VALUES ('X') 
+
+EXEC ABSTRACCIONX4.AltaRolV2 'ZARLOMPA',((SELECT FUNC_DESC FROM ABSTRACCIONX4.FUNCIONALIDADES) tabla) as Lista

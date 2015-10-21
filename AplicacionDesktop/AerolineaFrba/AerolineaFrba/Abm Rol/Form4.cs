@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -112,7 +113,6 @@ namespace AerolineaFrba.Abm_Rol
             return command.ExecuteScalar();
 
         }
-
 
         private Object modificarRol(string nombreNuevo , string nombreOriginal)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -45,15 +46,22 @@ namespace AerolineaFrba.Abm_Rol
                 MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
                 //string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
                 //this.ejecutarCommand(cadenaComando);
-                darDeAltaRol(txtNombre.Text);
+                List<string> funcionalidades = new List<string>();
+                foreach(Object item in lstFuncionalidadesActuales.Items)
+                {
+                    funcionalidades.Add(item.ToString());
+                }
+
+
+                darDeAltaRol(txtNombre.Text, funcionalidades);
                 string nombreRol = txtNombre.Text;
 
 
 
-                foreach(String funcion in lstFuncionalidadesActuales.Items)
+                /*foreach(String funcion in lstFuncionalidadesActuales.Items)
                 {
                   darDeAltaFuncionalidad(funcion , nombreRol);
-                }
+                }*/
             }
         }
 
@@ -73,19 +81,34 @@ namespace AerolineaFrba.Abm_Rol
             
         }
 
-        private Object darDeAltaRol(string nombre)
+        private Object darDeAltaRol(string nombre,List<string> funcionalidades)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRol]";
+            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRolV2]";
             command.CommandTimeout = 0;
             
 
             command.Parameters.AddWithValue("@Nombre", nombre);
+            SqlParameter parametroFuncionalidades = new SqlParameter("@Funcionalidades", CreateDataTable(funcionalidades));
+            parametroFuncionalidades.SqlDbType = SqlDbType.Structured;
+            command.Parameters.Add(parametroFuncionalidades);
            
             return command.ExecuteScalar();
         }
+
+        private static DataTable CreateDataTable(IEnumerable<string> ids)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("elemento", typeof(string));
+            foreach (string id in ids)
+            {
+                table.Rows.Add(id);
+            }
+            return table;
+        }
+
 
         private Boolean datosCorrectos()
         {
