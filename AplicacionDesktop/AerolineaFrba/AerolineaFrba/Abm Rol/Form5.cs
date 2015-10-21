@@ -49,13 +49,13 @@ namespace AerolineaFrba.Abm_Rol
 
                 queryselect = queryselect + " WHERE ";
 
-                if (/*txtFiltro1.TextLength != 0*/!Validacion.esVacio(txtFiltro1.Text))
+                if (/*txtFiltro1.TextLength != 0*/!Validacion.esVacio(txtFiltro1 , "No importa" , false))
                 {
                     string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
-                if (/*txtFiltro2.TextLength != 0*/!Validacion.esVacio(txtFiltro2.Text))
+                if (/*txtFiltro2.TextLength != 0*/!Validacion.esVacio(txtFiltro2 , "No importa" , false))
                 {
                     string condicion = "ROL_NOMBRE = '" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
@@ -86,7 +86,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (!Validacion.esVacio(txtFiltro1.Text) || !Validacion.esVacio(txtFiltro2.Text) || Validacion.estaSeleccionado(cboFiltro3) || !Validacion.estaCheckeadoCheck(chkEstadoIgnorar));          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || Validacion.estaSeleccionado(cboFiltro3) || !Validacion.estaCheckeadoCheck(chkEstadoIgnorar));          
         }
 
         private void button2_Click(object sender, EventArgs e)

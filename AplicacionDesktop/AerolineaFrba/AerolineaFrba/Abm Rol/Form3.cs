@@ -41,7 +41,7 @@ namespace AerolineaFrba.Abm_Rol
                 else
                     MessageBox.Show("No se ha agregado ningún filtro. Agregue para poder realizar la búsqueda", "Informe", MessageBoxButtons.OK);
 
-                if (/*txtFiltro1.TextLength != 0*/!Validacion.esVacio(txtFiltro1.Text))
+                if (/*txtFiltro1.TextLength != 0*/!Validacion.esVacio(txtFiltro1 , "No importa" , false))
                 {
                   
                     string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
@@ -49,7 +49,7 @@ namespace AerolineaFrba.Abm_Rol
                     
                 }
 
-                if (/*txtFiltro2.TextLength != 0*/!Validacion.esVacio(txtFiltro2.Text))
+                if (/*txtFiltro2.TextLength != 0*/!Validacion.esVacio(txtFiltro2 , "No importa" , false))
                 {
                     string condicion = "ROL_NOMBRE" + "= '" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref querySelect, condicion);
@@ -69,7 +69,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (!Validacion.esVacio(txtFiltro1.Text) || !Validacion.esVacio(txtFiltro2.Text) || !Validacion.estaSeleccionado(cboFiltro3));          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || !Validacion.estaSeleccionado(cboFiltro3));          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -80,7 +80,7 @@ namespace AerolineaFrba.Abm_Rol
         private Boolean datosCorrectos()
         {
             //Boolean huboErrores = false;
-            return Validacion.filtrosContengaEIgualdad(txtFiltro1.Text, txtFiltro2.Text);
+            return Validacion.filtrosContengaEIgualdad(txtFiltro1, txtFiltro2);
             /*if (!this.esTexto(txtFiltro1))
             {
                 MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);

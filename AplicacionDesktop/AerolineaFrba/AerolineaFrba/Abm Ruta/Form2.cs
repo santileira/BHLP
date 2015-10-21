@@ -92,24 +92,24 @@ namespace AerolineaFrba.Abm_Ruta
 
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
-            huboErrores = this.validarIgualdadCiudades() || huboErrores;
+            huboErrores = Validacion.igualdadCiudades(txtCiudadDestino , txtCiudadOrigen) || huboErrores;
 
             return !huboErrores;
         }
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = !this.seCompleto(txtCodigo, "Código");
-            algunoVacio =  !this.seCompleto(txtCiudadDestino, "Ciudad de destino") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtCiudadOrigen, "Ciudad de origen") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtPrecioEncomienda, "Precio de encomienda") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtPrecioPasaje, "Precio de pasaje") || algunoVacio;
-            algunoVacio =  !this.seCompleto(cboServicio, "Tipo de servicio") || algunoVacio;
+            Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código" , true);
+            algunoVacio =  Validacion.esVacio(txtCiudadDestino, "ciudad de destino" , true) || algunoVacio;
+            algunoVacio =  Validacion.esVacio(txtCiudadOrigen, "ciudad de origen" , true) || algunoVacio;
+            algunoVacio =  Validacion.esVacio(txtPrecioEncomienda, "precio de encomienda" , true ) || algunoVacio;
+            algunoVacio =  Validacion.esVacio(txtPrecioPasaje, "precio de pasaje" , true) || algunoVacio;
+            algunoVacio =  Validacion.esVacio(cboServicio, "tipo de servicio" , true) || algunoVacio;
 
             return algunoVacio;
         }
 
-        private Boolean seCompleto(TextBox txt, string campo)
+        /*private Boolean seCompleto(TextBox txt, string campo)
         {
             if (txt.TextLength == 0)
             {
@@ -117,9 +117,9 @@ namespace AerolineaFrba.Abm_Ruta
                 return false;
             }
             return true;
-        }
+        }*/
 
-        private Boolean seCompleto(ComboBox cbo, string campo)
+        /*private Boolean seCompleto(ComboBox cbo, string campo)
         {
             if (cbo.SelectedIndex == -1)
             {
@@ -127,19 +127,19 @@ namespace AerolineaFrba.Abm_Ruta
                 return false;
             }
             return true;
-        }
+        }*/
 
         private Boolean validarTipos()
         {
-            Boolean huboError = !this.numeroCorrecto(txtCodigo, "Código",false);
+            Boolean huboError = !Validacion.numeroCorrecto(txtCodigo, "código",false);
 
-            huboError = !this.numeroCorrecto(txtPrecioEncomienda, "Precio de encomienda",true) || huboError;
-            huboError = !this.numeroCorrecto(txtPrecioPasaje, "Precio de pasaje",true) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtPrecioEncomienda, "precio de encomienda",true) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtPrecioPasaje, "Pprecio de pasaje",true) || huboError;
 
             return huboError;
         }
 
-        private Boolean textoCorrecto(TextBox txt, string campo)
+        /*private Boolean textoCorrecto(TextBox txt, string campo)
         {
             if (txt.TextLength !=0 && !this.esTexto(txt))
             {
@@ -147,11 +147,11 @@ namespace AerolineaFrba.Abm_Ruta
                 return false;
             }
             return true;
-        }
+        }*/
 
-        private Boolean numeroCorrecto(TextBox txt, string campo,bool debeSerDecimal)
+        /*private Boolean numeroCorrecto(TextBox txt, string campo = "Opcional" ,bool debeSerDecimal = false)
         {
-            if (txt.TextLength != 0)
+            if (!Validacion.esVacio(txt))
             {
                 if((debeSerDecimal && !esDecimal(txt)) || (!debeSerDecimal && !esNumero(txt))){
 
@@ -160,9 +160,9 @@ namespace AerolineaFrba.Abm_Ruta
                 }
             }
             return true;
-        }
+        }*/
 
-        private Boolean validarIgualdadCiudades()
+       /*private Boolean validarIgualdadCiudades()
         {
             if (txtCiudadDestino.TextLength * txtCiudadOrigen.TextLength != 0)
             {
@@ -173,7 +173,7 @@ namespace AerolineaFrba.Abm_Ruta
                 }
             }
             return false;
-        }
+        }*/
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -181,15 +181,15 @@ namespace AerolineaFrba.Abm_Ruta
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
-        }
+        }*/
 
-        private Boolean esNumero(TextBox txt)
+        /*private Boolean esNumero(TextBox txt)
         {
             int numero;
             return int.TryParse(txt.Text, out numero);
@@ -199,7 +199,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             decimal unDecimal;
             return decimal.TryParse(txt.Text, out unDecimal); 
-        }
+        }*/
 
         private void cargarComboServicio()
         {

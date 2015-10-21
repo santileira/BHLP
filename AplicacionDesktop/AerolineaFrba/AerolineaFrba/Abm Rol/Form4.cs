@@ -137,7 +137,7 @@ namespace AerolineaFrba.Abm_Rol
             /*Boolean huboErroresEnText = this.validarTextNombre();
       
             return !(huboErroresEnText);*/
-            return Validacion.textNombre(txtNombre.Text);
+            return Validacion.textNombre(txtNombre , "nombre de Rol");
         }
 
         /*private Boolean esTexto(TextBox txt)

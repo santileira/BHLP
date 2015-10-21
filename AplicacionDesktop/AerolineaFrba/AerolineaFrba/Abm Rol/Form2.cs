@@ -90,7 +90,7 @@ namespace AerolineaFrba.Abm_Rol
         private Boolean datosCorrectos()
         {
             //return !this.validarTextNombre();
-            return Validacion.textNombre(txtNombre.Text);
+            return Validacion.textNombre(txtNombre , "nombre de Rol");
         }
 
         /*private Boolean esTexto(TextBox txt)
@@ -155,24 +155,24 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        private Boolean validarTextNombre()
+        /*private Boolean validarTextNombre()
         {
             Boolean huboErrores = false;
 
-            if (Validacion.esVacio(txtNombre.Text))
+            if (Validacion.esVacio(txtNombre , "nombre de Rol" , true))
             {
                 MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if (!Validacion.esTexto(txtNombre.Text))
+            if (!Validacion.esTexto(txtNombre))
             {
                 MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
             return huboErrores;
-        }
+        }*/
 
         private void button4_Click(object sender, EventArgs e)
         {
