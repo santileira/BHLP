@@ -49,22 +49,22 @@ namespace AerolineaFrba.Abm_Rol
 
                 queryselect = queryselect + " WHERE ";
 
-                if (txtFiltro1.TextLength != 0)
+                if (/*txtFiltro1.TextLength != 0*/!Validacion.esVacio(txtFiltro1.Text))
                 {
                     string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
-                if (txtFiltro2.TextLength != 0)
+                if (/*txtFiltro2.TextLength != 0*/!Validacion.esVacio(txtFiltro2.Text))
                 {
                     string condicion = "ROL_NOMBRE = '" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
-                if (!chkEstadoIgnorar.Checked)
+                if (/*!chkEstadoIgnorar.Checked*/!Validacion.estaCheckeadoCheck(chkEstadoIgnorar))
                 {
                     string condicion;
-                    if (optEstadoAlta.Checked)
+                    if (/*optEstadoAlta.Checked*/Validacion.estaCheckeadoOpt(optEstadoAlta))
                     {
                        condicion = "ROL_ESTADO = 1";
                     }
@@ -86,7 +86,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1 || !chkEstadoIgnorar.Checked);          
+            return (!Validacion.esVacio(txtFiltro1.Text) || !Validacion.esVacio(txtFiltro2.Text) || Validacion.estaSeleccionado(cboFiltro3) || !Validacion.estaCheckeadoCheck(chkEstadoIgnorar));          
         }
 
         private void button2_Click(object sender, EventArgs e)

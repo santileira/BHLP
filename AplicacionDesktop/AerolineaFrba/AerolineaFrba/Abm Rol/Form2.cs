@@ -89,10 +89,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            return !this.validarTextNombre();
+            //return !this.validarTextNombre();
+            return Validacion.textNombre(txtNombre.Text);
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
@@ -106,7 +107,7 @@ namespace AerolineaFrba.Abm_Rol
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
-        }
+        }*/
 
         private void Alta_Load(object sender, EventArgs e)
         {
@@ -158,13 +159,13 @@ namespace AerolineaFrba.Abm_Rol
         {
             Boolean huboErrores = false;
 
-            if (txtNombre.TextLength == 0)
+            if (Validacion.esVacio(txtNombre.Text))
             {
                 MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if (!this.esTexto(txtNombre))
+            if (!Validacion.esTexto(txtNombre.Text))
             {
                 MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
