@@ -265,9 +265,12 @@ namespace AerolineaFrba.Abm_Ruta
                 if (e.ColumnIndex == 0)
                 {
                     DialogResult resultado = mostrarMensaje("lógica");
+                    int idRuta = Convert.ToInt32(darValorDadoIndex(e.RowIndex,"RUTA_ID"));
                     if (apretoSi(resultado))
                     {
-                        darDeBajaRuta(Convert.ToInt32(darValorDadoIndex(e.RowIndex,"RUTA_ID")));
+                        darDeBajaRuta(idRuta);
+                        darDeBajaPasajes(idRuta);
+                        darDeBajaEncomienda(idRuta);
                         ejecutarQuery();
                     }
                 }
@@ -284,6 +287,20 @@ namespace AerolineaFrba.Abm_Ruta
                         }
                     }*/
             }
+        }
+
+        private Object darDeBajaEncomienda(int idRuta)
+        {
+            SQLManager sqlManager = new SQLManager();
+            MessageBox.Show(idRuta.ToString(), "Ruta id", MessageBoxButtons.OK);
+            return sqlManager.generarSP("BorrarEncomiendas").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
+        }
+
+        private Object darDeBajaPasajes(int idRuta)
+        {
+            SQLManager sqlManager = new SQLManager();
+            MessageBox.Show(idRuta.ToString(), "Ruta id", MessageBoxButtons.OK);
+            return sqlManager.generarSP("BorrarPasajes").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
         }
 
         private DialogResult mostrarMensaje(string tipoDeBaja)
