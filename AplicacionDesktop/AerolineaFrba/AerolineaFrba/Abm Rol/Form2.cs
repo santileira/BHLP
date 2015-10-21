@@ -67,7 +67,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private void darDeAltaFuncionalidad(string funcion , string rol)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion" , funcion).
+            agregarStringSP("@Rol", rol).ejecutarSP();
+
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -77,13 +81,15 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            command.ExecuteScalar();
+            command.ExecuteScalar();*/
             
         }
 
         private Object darDeAltaRol(string nombre,List<string> funcionalidades)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("AltaRol").agregarStringSP("@Nombre", nombre).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRolV2]";
@@ -95,7 +101,7 @@ namespace AerolineaFrba.Abm_Rol
             parametroFuncionalidades.SqlDbType = SqlDbType.Structured;
             command.Parameters.Add(parametroFuncionalidades);
            
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private static DataTable CreateDataTable(IEnumerable<string> ids)
@@ -112,10 +118,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            return !this.validarTextNombre();
+            //return !this.validarTextNombre();
+            return Validacion.textNombre(txtNombre , "nombre de Rol");
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
@@ -129,7 +136,7 @@ namespace AerolineaFrba.Abm_Rol
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
-        }
+        }*/
 
         private void Alta_Load(object sender, EventArgs e)
         {
@@ -177,24 +184,24 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        private Boolean validarTextNombre()
+        /*private Boolean validarTextNombre()
         {
             Boolean huboErrores = false;
 
-            if (txtNombre.TextLength == 0)
+            if (Validacion.esVacio(txtNombre , "nombre de Rol" , true))
             {
                 MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if (!this.esTexto(txtNombre))
+            if (!Validacion.esTexto(txtNombre))
             {
                 MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
             return huboErrores;
-        }
+        }*/
 
         private void button4_Click(object sender, EventArgs e)
         {

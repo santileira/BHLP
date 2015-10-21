@@ -17,7 +17,7 @@ namespace AerolineaFrba.Abm_Rol
 
         Form formularioSiguiente;
         public Listado listado;
-       
+
 
         public Modificacion()
         {
@@ -41,7 +41,7 @@ namespace AerolineaFrba.Abm_Rol
             checkHabilitado.Enabled = false;
             checkHabilitado.Checked = false;
             lstFuncionalidadesTotales.Enabled = false;
-        
+
             button1.Enabled = false;
 
             string queryselect = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].[FUNCIONALIDADES]";
@@ -62,15 +62,15 @@ namespace AerolineaFrba.Abm_Rol
         {
             if (datosCorrectos())
             {
-                DialogResult resultado = MessageBox.Show("Se procede a modificar el rol seleccionado" , "Informe" , MessageBoxButtons.YesNo);
+                DialogResult resultado = MessageBox.Show("Se procede a modificar el rol seleccionado", "Informe", MessageBoxButtons.YesNo);
                 if (apretoSi(resultado))
                 {
                     string nombreNuevo = txtNombre.Text;
                     string nombreOriginal = txtRolSeleccionado.Text;
-                    modificarRol(nombreNuevo , nombreOriginal);
+                    modificarRol(nombreNuevo, nombreOriginal);
 
                     darDeBajaFuncionalidades(nombreNuevo);
-                    
+                   
                     foreach (String funcion in lstFuncionalidadesActuales.Items)
                     {
                         darDeAltaFuncionalidad(funcion, nombreNuevo);
@@ -78,7 +78,7 @@ namespace AerolineaFrba.Abm_Rol
 
                     (listado as Listado).iniciar();
                     this.cambiarVisibilidades(this.listado);
-                    
+
                 }
 
             }
@@ -86,21 +86,27 @@ namespace AerolineaFrba.Abm_Rol
 
         private Object darDeBajaFuncionalidades(string nombreNuevo)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("BajaFuncionalidades").agregarStringSP("@NombreRol", nombreNuevo).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaFuncionalidades]";
             command.CommandTimeout = 0;
 
             command.Parameters.AddWithValue("@NombreRol", nombreNuevo);
-      
-            return command.ExecuteScalar();
+
+            return command.ExecuteScalar();*/
 
         }
 
         private Object darDeAltaFuncionalidad(string funcion, string rol)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion", funcion).
+            agregarStringSP("@Rol", rol).ejecutarSP();
+            
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
@@ -110,12 +116,15 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
 
         }
 
         private Object modificarRol(string nombreNuevo , string nombreOriginal)
         {
+            /*SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("ModificarRol").agregarStringSP("@NombreNuevo", nombreNuevo).
+            agregarStringSP("@NombreOriginal" , nombreOriginal).ejecutarSP();*/
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -136,12 +145,13 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            Boolean huboErroresEnText = this.validarTextNombre();
+            /*Boolean huboErroresEnText = this.validarTextNombre();
       
-            return !(huboErroresEnText);
+            return !(huboErroresEnText);*/
+            return Validacion.textNombre(txtNombre , "nombre de Rol");
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
@@ -155,7 +165,8 @@ namespace AerolineaFrba.Abm_Rol
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
-        }
+            
+        }*/
 
         private void Alta_Load(object sender, EventArgs e)
         {
@@ -177,7 +188,7 @@ namespace AerolineaFrba.Abm_Rol
             if (lista.SelectedIndex != -1)
             {
                 lista.Items.RemoveAt(lista.SelectedIndex);
-               
+
             }
         }
 
@@ -187,11 +198,11 @@ namespace AerolineaFrba.Abm_Rol
             if (!lista2.Items.Contains(valor))
             {
                 lista2.Items.Add(lista1.Text);
-             
+
             }
         }
 
-        private void ejecutarCommand(string cadenaComando)
+        /*private void ejecutarCommand(string cadenaComando)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -206,9 +217,9 @@ namespace AerolineaFrba.Abm_Rol
             {
                 MessageBox.Show("Ocurrio un error al intentar dar de alta. Verifique que el rol ingresado no se encuentre ya cargado", "Error en el Alta del nuevo rol", MessageBoxButtons.OK);
             }
-        }
+        }*/
 
-        private Boolean validarTextNombre()
+        /*private Boolean validarTextNombre()
         {
             Boolean huboErrores = false;
             
@@ -234,7 +245,7 @@ namespace AerolineaFrba.Abm_Rol
             }
             
             return huboErrores;
-        }
+        }*/
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -254,9 +265,9 @@ namespace AerolineaFrba.Abm_Rol
             this.cambiarVisibilidades(this.listado);
         }
 
-        public void seSelecciono(string nombreRol,bool habilitado,Object[] funcionalidadesRol)
+        public void seSelecciono(string nombreRol, bool habilitado, Object[] funcionalidadesRol)
         {
-        
+
             txtRolSeleccionado.Text = nombreRol;
             txtRolSeleccionado.Enabled = true;
             txtNombre.Enabled = true;
@@ -265,7 +276,7 @@ namespace AerolineaFrba.Abm_Rol
             lstFuncionalidadesActuales.Items.Clear();
             lstFuncionalidadesActuales.Items.AddRange(funcionalidadesRol);
 
-           
+
             button6.Enabled = true;
             button3.Enabled = true;
             button2.Enabled = true;
@@ -275,12 +286,11 @@ namespace AerolineaFrba.Abm_Rol
             checkHabilitado.Checked = false;
             button1.Enabled = true;
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-      
     }
 }
+
+        
+
+      
+    
+

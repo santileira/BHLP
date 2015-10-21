@@ -163,7 +163,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Object modificarRuta()
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("ModificarRuta").agregarIntSP("@IdRuta", idRuta).agregarIntSP("@Codigo", txtCodigo).
+            agregarStringSP("@Servicio", cboServicio). agregarStringSP("@CiudadOrigen", txtCiudadOrigenNueva).
+            agregarStringSP("@CiudadDestino", txtCiudadDestinoNueva).agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text)).
+            agregarDecimalSP("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text)).ejecutarSP();
+            
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRuta]";
@@ -177,7 +183,7 @@ namespace AerolineaFrba.Abm_Ruta
             command.Parameters.AddWithValue("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text));
             command.Parameters.AddWithValue("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text));
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private Decimal enDecimal(string numero)
@@ -189,25 +195,27 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
+            huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
-            huboErrores = this.validarIgualdadCiudades() || huboErrores;
+            huboErrores = Validacion.igualdadCiudades(txtCiudadDestino, txtCiudadOrigen) || huboErrores;
 
             return !huboErrores;
         }
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = !this.seCompleto(txtCodigo, "Código");
-            algunoVacio = !this.seCompleto(txtCiudadDestinoNueva, "Ciudad de destino") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtCiudadOrigenNueva, "Ciudad de origen") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtPrecioEncomiendaNueva, "Precio de encomienda") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtPrecioPasajeNuevo, "Precio de pasaje") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboServicio, "Tipo de servicio") || algunoVacio;
+
+            Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código", true);
+            algunoVacio = Validacion.esVacio(txtCiudadDestino, "ciudad de destino", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtCiudadOrigen, "ciudad de origen", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtPrecioEncomienda, "precio de encomienda", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtPrecioPasaje, "precio de pasaje", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
 
             return algunoVacio;
         }
 
-        private Boolean seCompleto(TextBox txt, string campo)
+        /*private Boolean seCompleto(TextBox txt, string campo)
         {
             if (txt.TextLength == 0)
             {
@@ -215,9 +223,9 @@ namespace AerolineaFrba.Abm_Ruta
                 return false;
             }
             return true;
-        }
+        }*/
 
-        private Boolean seCompleto(ComboBox cbo, string campo)
+       /* private Boolean seCompleto(ComboBox cbo, string campo)
         {
             if (cbo.SelectedIndex == -1)
             {
@@ -225,19 +233,19 @@ namespace AerolineaFrba.Abm_Ruta
                 return false;
             }
             return true;
-        }
+        }*/
 
         private Boolean validarTipos()
         {
-            Boolean huboError = !this.numeroCorrecto(txtCodigo, "Código", false);
+            Boolean huboError = !Validacion.numeroCorrecto(txtCodigo, "código", false);
 
-            huboError = !this.numeroCorrecto(txtPrecioEncomiendaNueva, "Precio de encomienda", true) || huboError;
-            huboError = !this.numeroCorrecto(txtPrecioPasajeNuevo, "Precio de pasaje", true) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtPrecioEncomienda, "precio de encomienda", true) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtPrecioPasaje, "Pprecio de pasaje", true) || huboError;
 
             return huboError;
         }
-
-        private Boolean textoCorrecto(TextBox txt, string campo)
+        
+        /*private Boolean textoCorrecto(TextBox txt, string campo)
         {
             if (txt.TextLength != 0 && !this.esTexto(txt))
             {
@@ -245,9 +253,9 @@ namespace AerolineaFrba.Abm_Ruta
                 return false;
             }
             return true;
-        }
+        }*/
 
-        private Boolean numeroCorrecto(TextBox txt, string campo, bool debeSerDecimal)
+        /*private Boolean numeroCorrecto(TextBox txt, string campo, bool debeSerDecimal)
         {
             if (txt.TextLength != 0)
             {
@@ -259,9 +267,9 @@ namespace AerolineaFrba.Abm_Ruta
                 }
             }
             return true;
-        }
+        }*/
 
-        private Boolean validarIgualdadCiudades()
+        /*private Boolean validarIgualdadCiudades()
         {
             if (txtCiudadDestinoNueva.TextLength * txtCiudadOrigenNueva.TextLength != 0)
             {
@@ -272,27 +280,27 @@ namespace AerolineaFrba.Abm_Ruta
                 }
             }
             return false;
-        }
+        }*/
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
-        }
+        }*/
 
-        private Boolean esNumero(TextBox txt)
+        /*private Boolean esNumero(TextBox txt)
         {
             int numero;
             return int.TryParse(txt.Text, out numero);
-        }
+        }*/
 
-        private Boolean esDecimal(TextBox txt)
+        /*private Boolean esDecimal(TextBox txt)
         {
             decimal unDecimal;
             return decimal.TryParse(txt.Text, out unDecimal);
-        }
+        }*/
 
         private void botonSelOrigen_Click(object sender, EventArgs e)
         {

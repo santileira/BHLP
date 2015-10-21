@@ -47,19 +47,20 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button3_Click(object sender, EventArgs e)
         {
-   
-            
-            if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength != 0 && cboCamposFiltro1.SelectedIndex != -1)
+
+
+            if ((!sePusoAgregarFiltro1 || /*txtFiltros.TextLength != 0*/ !Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro1) && /*cboCamposFiltro1.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro1))
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if ((!sePusoAgregarFiltro2 || txtFiltros.TextLength != 0) && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro2 || /*txtFiltros.TextLength != 0*/ !Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro2) && /*cboCamposFiltro2.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro2))
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if (txtFiltro1.TextLength == 0 && cboCamposFiltro1.SelectedIndex != -1)
+            if (Validacion.esVacio(txtFiltro1) && /*cboCamposFiltro1.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro1))
                 MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
-            if (txtFiltro2.TextLength == 0 && cboCamposFiltro2.SelectedIndex != -1)
+            
+            if (Validacion.esVacio(txtFiltro2) && /*cboCamposFiltro2.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro2))
                 MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
             this.ejecutarQuery();
             
@@ -70,7 +71,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || Validacion.estaSeleccionado(cboFiltro3)/*cboFiltro3.SelectedIndex != -1*/);          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -130,7 +131,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
-            if (txtFiltro1.Enabled && txtFiltro1.Text.Length != 0)
+            if (txtFiltro1.Enabled && !Validacion.esVacio(txtFiltro1)/*txtFiltro1.Text.Length != 0*/)
             {
                 if (this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
                 {
@@ -188,31 +189,32 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
-            if (txt.TextLength == 0)
+            
+            if (Validacion.esVacio(txt , "criterio" , true))
             {
-                MessageBox.Show("El criterio no puede estar en blanco", "Error en el criterio", MessageBoxButtons.OK);
+                //MessageBox.Show("El criterio no puede estar en blanco", "Error en el criterio", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if(combo.SelectedIndex == -1)
+            if(Validacion.estaSeleccionado(combo , true))
             {
-                MessageBox.Show("Debe seleccionar un campo en el desplegable de opciones", "Error en el campo", MessageBoxButtons.OK);
+                //MessageBox.Show("Debe seleccionar un campo en el desplegable de opciones", "Error en el campo", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
             if (combo.Text.Equals("RUTA_COD") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
-                if (!this.esNumero(txt))
+                if (!Validacion.esNumero(txt , combo.Text , true))
                 {
-                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);
+                    /*MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);*/
                     huboErrores = true;
                 }
             }
             else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
             {
-                if (!this.esTexto(txt))
+                if (!Validacion.esTexto(txt , combo.Text , true))
                 {
-                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
+                    /*MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);*/
                     huboErrores = true;
                 }
             }
@@ -220,26 +222,26 @@ namespace AerolineaFrba.Abm_Ruta
             return !huboErrores;
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
-        }
+        }*/
 
-        private Boolean esNumero(TextBox txt)
+        /*private Boolean esNumero(TextBox txt)
         {
             String numericPattern = "[0-9]";
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
-        }
+        }*/
 
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
-            if (txtFiltro2.Enabled && txtFiltro2.Text.Length != 0)
+            if (txtFiltro2.Enabled && /*txtFiltro2.Text.Length != 0*/!Validacion.esVacio(txtFiltro2))
                 {
                     if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
                     {
@@ -250,7 +252,7 @@ namespace AerolineaFrba.Abm_Ruta
                 }
             else
                 {
-                    MessageBox.Show("Debe llenar el campo desplegable y el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
+                    MessageBox.Show("Debe llenar el texto para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
                 }
         }
 
@@ -291,7 +293,10 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Object darDeBajaRuta(int idRuta)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("BajaRuta").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
+           
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRuta]";
@@ -299,7 +304,7 @@ namespace AerolineaFrba.Abm_Ruta
 
             command.Parameters.AddWithValue("@IdRuta", idRuta);
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private void ejecutarCommand(string cadenaComando)
@@ -324,7 +329,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void cboCamposFiltro1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboCamposFiltro1.SelectedIndex != -1)
+            if (/*cboCamposFiltro1.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro1))
             {
                txtFiltro1.Enabled = true;
                button5.Enabled = true;
@@ -333,7 +338,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void cboCamposFiltro2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboCamposFiltro2.SelectedIndex != -1)
+            if (/*cboCamposFiltro2.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro2))
             {
                 txtFiltro2.Enabled = true;
                 button4.Enabled = true;

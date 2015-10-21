@@ -35,29 +35,29 @@ namespace AerolineaFrba.Abm_Rol
                 bool huboCondicion = false;
 
                 string querySelect = query;
-
+               
                 if (this.sePusoFiltro())
-                    querySelect = querySelect + " WHERE ";
+                    querySelect = querySelect + " AND ";
                 else
                     MessageBox.Show("No se ha agregado ningún filtro. Agregue para poder realizar la búsqueda", "Informe", MessageBoxButtons.OK);
 
-                if (txtFiltro1.TextLength != 0)
+                if (/*txtFiltro1.TextLength != 0*/!Validacion.esVacio(txtFiltro1 , "No importa" , false))
                 {
+                  
                     string condicion = "ROL_NOMBRE" + " LIKE '%" + txtFiltro1.Text + "%'";
                     this.generarQuery(ref huboCondicion, ref querySelect, condicion);
+                    
                 }
 
-                if (txtFiltro2.TextLength != 0)
+                if (/*txtFiltro2.TextLength != 0*/!Validacion.esVacio(txtFiltro2 , "No importa" , false))
                 {
                     string condicion = "ROL_NOMBRE" + "= '" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref querySelect, condicion);
                 }
 
-         
-
+               
                 this.ejecutarQuery(querySelect);
                 ultimaQuery = querySelect;
-               
                 txtFiltro1.Text = "";
                 txtFiltro2.Text = "";
                 txtFiltro4.Text = "";
@@ -69,7 +69,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || !Validacion.estaSeleccionado(cboFiltro3));          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -79,9 +79,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            Boolean huboErrores = false;
-
-            if (!this.esTexto(txtFiltro1))
+            //Boolean huboErrores = false;
+            return Validacion.filtrosContengaEIgualdad(txtFiltro1, txtFiltro2);
+            /*if (!this.esTexto(txtFiltro1))
             {
                 MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
@@ -93,11 +93,11 @@ namespace AerolineaFrba.Abm_Rol
                 huboErrores = true;
             }
 
-            return !huboErrores;
+            return !huboErrores;*/
         
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             if (txt.Text.Length == 0)
             {
@@ -108,7 +108,7 @@ namespace AerolineaFrba.Abm_Rol
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
-        }
+        }*/
 
         private void generarQuery(ref Boolean huboCondicion, ref string laQuery, string condicion)
         {
@@ -193,7 +193,9 @@ namespace AerolineaFrba.Abm_Rol
 
         private Object darDeBajaRol(string nombre)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("BajaRol").agregarStringSP("@Nombre", nombre).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRol]";
@@ -201,7 +203,7 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@Nombre", nombre);
            
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
        private void ejecutarCommand(string cadenaComando)
@@ -250,10 +252,6 @@ namespace AerolineaFrba.Abm_Rol
             this.Visible = false;
         }
 
-        private void txtFiltro1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
             
         
     }
