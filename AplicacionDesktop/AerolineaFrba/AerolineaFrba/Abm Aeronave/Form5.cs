@@ -27,6 +27,7 @@ namespace AerolineaFrba.Abm_Aeronave
         public string serv_cod = null;
         public DateTime fechaSalida;
         public DateTime fechaLlegada;
+        public Boolean llamadoDesdeModificacionSeleccionar;
 
         public Listado()
         {
@@ -355,7 +356,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             List<Object> listaFuncionalidades = new List<object>(7);
 
-            if (llamadoDesdeModificacion)
+            if (llamadoDesdeModificacionSeleccionar)
             {
                 cambiarVisibilidades(this.siguiente);
                 (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);

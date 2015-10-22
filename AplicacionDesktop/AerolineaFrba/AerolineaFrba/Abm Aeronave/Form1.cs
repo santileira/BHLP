@@ -63,7 +63,8 @@ namespace AerolineaFrba.Abm_Aeronave
             modificacion.listado = listado;
             listado.anterior = principal;
             listado.siguiente = modificacion;
-            listado.llamadoDesdeModificacion = true;
+            listado.llamadoDesdeModificacion = false;
+            listado.llamadoDesdeModificacionSeleccionar = true;
 
             this.cambiarVisibilidades(listado);
         }

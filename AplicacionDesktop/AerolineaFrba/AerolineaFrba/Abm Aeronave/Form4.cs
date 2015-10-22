@@ -129,6 +129,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private void button5_Click(object sender, EventArgs e)
         {
             listado.inicio();
+            listado.llamadoDesdeModificacion = true;
             this.cambiarVisibilidades(this.listado);
         }
 
