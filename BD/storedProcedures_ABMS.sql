@@ -306,8 +306,10 @@ BEGIN
 	
 	DECLARE @FechaMaxima DATETIME
 	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)
-	EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
 	
+	EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
+	EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
+	EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
 
 END
 
@@ -440,7 +442,6 @@ END
 
 GO
 
-
 /*
 SELECT * FROM [ABSTRACCIONX4].AERONAVES
 SELECT * FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = 'JORGE'
@@ -453,18 +454,23 @@ SET AERO_MATRI = 'PESCE'
 WHERE AERO_MATRI = 'DBC-748'
 GO*/
 -------------------------------Modificar Aeronave Pasajes-------------------------------
-CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronavePasajes 
-@MatriculaVieja VARCHAR(8) , 
-@MatriculaNueva VARCHAR(8)
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronavePasajes
+@MatriculaVieja VARCHAR(8), 
+@MatriculaNueva VARCHAR(8),
+@FechaBaja DATETIME,
+@FechaReinicio DATETIME
 AS
 BEGIN 
-	UPDATE [ABSTRACCIONX4].PASAJES 
+	UPDATE [ABSTRACCIONX4].PASAJES
 	SET AERO_MATRI = @MatriculaNueva
-	WHERE AERO_MATRI = @MatriculaVieja
+	WHERE AERO_MATRI = @MatriculaVieja AND 
+			  [ABSTRACCIONX4].ExisteViajeEntreFechas(
+			  (SELECT VIAJE_FECHA_SALIDA FROM ABSTRACCIONX4.VIAJES v WHERE v.VIAJE_COD = VIAJE_COD)
+			  ,@FechaBaja,@FechaReinicio) = 1
 END
 GO
 -------------------------------Modificar Aeronave Encomiendas-------------------------------
-ALTER PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
 @MatriculaVieja VARCHAR(8), 
 @MatriculaNueva VARCHAR(8),
 @FechaBaja DATETIME,
@@ -538,12 +544,22 @@ BEGIN
 	
 	IF(UPDATE(AERO_MATRI))
 	BEGIN
-		INSERT INTO [ABSTRACCIONX4].AERONAVES 
-		(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS)
-		SELECT AERO_MOD, AERO_MATRI, AERO_FAB,
-		SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS
-		FROM INSERTED
-		
+		BEGIN TRY
+			INSERT INTO [ABSTRACCIONX4].AERONAVES 
+			(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS)
+			SELECT AERO_MOD, AERO_MATRI, AERO_FAB,
+			SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS
+			FROM INSERTED
+		END TRY
+		BEGIN CATCH
+			DELETE FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @MatriculaVieja
+
+			INSERT INTO [ABSTRACCIONX4].AERONAVES 
+			(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS)
+			SELECT AERO_MOD, AERO_MATRI, AERO_FAB,
+			SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS
+			FROM INSERTED
+		END CATCH
 		/*EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @MatriculaVieja , @MatriculaNueva
 		EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @MatriculaVieja , @MatriculaNueva*/
 		EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaVieja , @MatriculaNueva
@@ -572,8 +588,8 @@ BEGIN
 		
 		SELECT * FROM INSERTED
 		
-		EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @MatriculaVieja , @MatriculaNueva
-		EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @MatriculaVieja , @MatriculaNueva
+		EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @MatriculaVieja , @MatriculaNueva , NULL , NULL
+		EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @MatriculaVieja , @MatriculaNueva , NULL , NULL
 		
 		DELETE FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = @MatriculaVieja
 	END
