@@ -345,8 +345,9 @@ namespace AerolineaFrba.Abm_Aeronave
             command.CommandTimeout = 0;
 
             command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
-            command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
+            command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
+            
 
             try
             {

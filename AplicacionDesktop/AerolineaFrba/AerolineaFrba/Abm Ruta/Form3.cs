@@ -269,8 +269,8 @@ namespace AerolineaFrba.Abm_Ruta
                     if (apretoSi(resultado))
                     {
                         darDeBajaRuta(idRuta);
-                        darDeBajaPasajes(idRuta);
-                        darDeBajaEncomienda(idRuta);
+                        /*darDeBajaPasajes(idRuta);
+                        darDeBajaEncomienda(idRuta);*/
                         ejecutarQuery();
                     }
                 }
@@ -289,7 +289,7 @@ namespace AerolineaFrba.Abm_Ruta
             }
         }
 
-        private Object darDeBajaEncomienda(int idRuta)
+       /* private Object darDeBajaEncomienda(int idRuta)
         {
             SQLManager sqlManager = new SQLManager();
             MessageBox.Show(idRuta.ToString(), "Ruta id", MessageBoxButtons.OK);
@@ -301,7 +301,7 @@ namespace AerolineaFrba.Abm_Ruta
             SQLManager sqlManager = new SQLManager();
             MessageBox.Show(idRuta.ToString(), "Ruta id", MessageBoxButtons.OK);
             return sqlManager.generarSP("BorrarPasajes").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
-        }
+        }*/
 
         private DialogResult mostrarMensaje(string tipoDeBaja)
         {

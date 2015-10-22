@@ -205,6 +205,16 @@ CREATE PROCEDURE [ABSTRACCIONX4].DarDeBajaLogica
 	@Matricula VARCHAR(8),
 	@FechaBaja DATETIME
 AS
+	DECLARE @TieneViajeComprado BIT
+	SET @TieneViajeComprado = [ABSTRACCIONX4].TieneViajeComprado(@Matricula)
+
+	IF @TieneViajeComprado = 1
+	BEGIN
+		DECLARE @Error varchar(80)
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
+		RAISERROR(@Error, 16, 1)
+	END
+
 	UPDATE ABSTRACCIONX4.AERONAVES 
 		SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
 		WHERE AERO_MATRI = @Matricula
@@ -253,22 +263,155 @@ END
 
 GO
 
--------------------------------Cancelar Aeronave Baja-------------------------------
-CREATE PROCEDURE [ABSTRACCIONX4].CancelarAeronaveBaja
+-------------------------------Cancelar Aeronave Fuera de Servicio-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].CancelarAeronaveFueraServicio
 	@Matricula VARCHAR(8),
-	@FechaBaja DATETIME
+	@FechaBaja DATETIME,
+	@FechaReinicio DATETIME
 AS
 BEGIN
 		UPDATE ABSTRACCIONX4.AERONAVES 
-			SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
+			SET AERO_BAJA_FS = 1 , AERO_FECHA_FS = @FechaBaja, AERO_FECHA_RS = @FechaReinicio
 			WHERE AERO_MATRI = @Matricula
+				  
 		
-		UPDATE ABSTRACCIONX4.PASAJES SET PASAJE_CANCELADO = 1 WHERE AERO_MATRI = @Matricula
-		UPDATE ABSTRACCIONX4.ENCOMIENDAS SET ENCOMIENDA_CANCELADO = 1 WHERE AERO_MATRI = @Matricula
+		UPDATE ABSTRACCIONX4.PASAJES 
+			SET PASAJE_CANCELADO = 1 
+			WHERE AERO_MATRI = @Matricula AND
+				  ABSTRACCIONX4.datetime_is_between(PASAJE_FECHA,AERO_FECHA_FS,AERO_FECHA_RS) = 1
+		UPDATE ABSTRACCIONX4.ENCOMIENDAS 
+			SET ENCOMIENDA_CANCELADO = 1 
+			WHERE AERO_MATRI = @Matricula AND
+				  ABSTRACCIONX4.datetime_is_between(ENCOMIENDA_FECHA,AERO_FECHA_FS,AERO_FECHA_RS) = 1
 END
 
 GO
 
+-------------------------------Suplantar Aeronave Baja-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].SuplantarAeronave
+	@Matricula VARCHAR(8),
+	@FechaBaja DATETIME,
+	@FechaReinicio DATETIME
+AS
+BEGIN
+	DECLARE @MatriculaNueva VARCHAR(8)
+	SET @MatriculaNueva = ABSTRACCIONX4.AeronaveDeMismasCaracteristicas(@Matricula,@FechaBaja,@FechaReinicio)
+	
+	IF @MatriculaNueva IS NULL
+	BEGIN
+		DECLARE @Error varchar(80)
+		SET @Error = 'Ninguna aeronave de la flota tiene las mismas características'
+		RAISERROR(@Error, 16, 1)
+	END
+	
+	DECLARE @FechaMaxima DATETIME
+	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)
+	EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
+	
+
+END
+
+GO
+
+-------------------------------Fecha de reinicio o maxima-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].FechaReinicioOMaxima
+	(@FechaReinicio DATETIME)
+RETURNS DATETIME
+AS
+BEGIN
+	IF @FechaReinicio IS NULL
+	BEGIN
+		DECLARE @FechaMaxima DATETIME
+		SELECT @FechaMaxima = MAX(VIAJE_FECHA_LLEGADA) FROM ABSTRACCIONX4.VIAJES
+		RETURN @FechaMaxima
+	END 
+	RETURN @FechaReinicio
+END
+
+GO
+
+
+-------------------------------Aeronave de mismas caracteristicas-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].AeronaveDeMismasCaracteristicas
+	(@Matricula VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
+RETURNS VARCHAR(8)
+AS
+BEGIN
+	DECLARE @TipoServicio TINYINT
+	DECLARE @Fabricante VARCHAR(30)
+	DECLARE @Modelo VARCHAR(30)
+	DECLARE @CantidadKG NUMERIC(6,2)
+	
+
+	SELECT @TipoServicio = SERV_COD, @Fabricante = AERO_FAB,
+		   @Modelo = AERO_MOD, 
+		   @CantidadKG = AERO_CANT_KGS
+		   FROM ABSTRACCIONX4.AERONAVES
+		   WHERE AERO_MATRI = @Matricula
+
+
+	DECLARE @MatriculaNueva VARCHAR(8)
+	SET @MatriculaNueva = NULL
+	SELECT TOP 1 @MatriculaNueva = AERO_MATRI
+		FROM ABSTRACCIONX4.AERONAVES
+		WHERE AERO_MATRI <> @Matricula AND
+			  SERV_COD = @TipoServicio AND 
+			  AERO_FAB = @Fabricante AND
+			  AERO_MOD = @Modelo AND
+			  AERO_CANT_KGS >= @CantidadKG AND
+			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
+			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
+			  ABSTRACCIONX4.DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
+			  
+
+	RETURN @MatriculaNueva
+END
+
+GO
+
+-------------------------------Cantidad de butacas p/v de una aeronave-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].CantidadButacas
+	(@Matricula VARCHAR(8),@Tipo VARCHAR(15))
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @Butacas SMALLINT
+
+	SELECT @Butacas = COUNT(*) 
+		FROM ABSTRACCIONX4.BUTACAS
+		WHERE AERO_MATRI = @Matricula AND
+			  BUT_TIPO = @Tipo
+
+	RETURN @Butacas
+END
+
+GO
+
+-------------------------------Disponible para todos los vuelos-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe
+	(@MatriculaNueva VARCHAR(8),@MatriculaVieja VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Cantidad INT
+	SET @Cantidad = 0
+
+	DECLARE @MaximaFechaSalida DATETIME
+	SELECT @MaximaFechaSalida = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)
+
+	SELECT @Cantidad = COUNT(*) 
+		FROM ABSTRACCIONX4.VIAJES v
+		WHERE v.AERO_MATRI = @MatriculaVieja AND
+			  [ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_SALIDA,@FechaBaja,@MaximaFechaSalida) = 1
+			  AND
+			  [ABSTRACCIONX4].aeronave_disponible(@MatriculaNueva,v.VIAJE_FECHA_SALIDA,v.VIAJE_FECHA_LLEGADAE) = 0
+
+	IF @Cantidad > 0
+		RETURN 0
+	RETURN 1
+END
+
+GO
 
 -------------------------------Modificar Aeronave-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarAeronave
@@ -298,7 +441,7 @@ END
 GO
 
 
-
+/*
 SELECT * FROM [ABSTRACCIONX4].AERONAVES
 SELECT * FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = 'JORGE'
 SELECT * FROM [ABSTRACCIONX4].ENCOMIENDAS WHERE AERO_MATRI = 'JORGE'
@@ -308,7 +451,7 @@ SELECT * FROM [ABSTRACCIONX4].PASAJES WHERE AERO_MATRI = 'JORGE'
 UPDATE [ABSTRACCIONX4].AERONAVES
 SET AERO_MATRI = 'PESCE'
 WHERE AERO_MATRI = 'DBC-748'
-GO
+GO*/
 -------------------------------Modificar Aeronave Pasajes-------------------------------
 CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronavePasajes 
 @MatriculaVieja VARCHAR(8) , 
@@ -321,14 +464,19 @@ BEGIN
 END
 GO
 -------------------------------Modificar Aeronave Encomiendas-------------------------------
-CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
-@MatriculaVieja VARCHAR(8) , 
-@MatriculaNueva VARCHAR(8)
+ALTER PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
+@MatriculaVieja VARCHAR(8), 
+@MatriculaNueva VARCHAR(8),
+@FechaBaja DATETIME,
+@FechaReinicio DATETIME
 AS
 BEGIN 
 	UPDATE [ABSTRACCIONX4].ENCOMIENDAS
 	SET AERO_MATRI = @MatriculaNueva
-	WHERE AERO_MATRI = @MatriculaVieja
+	WHERE AERO_MATRI = @MatriculaVieja AND 
+			  [ABSTRACCIONX4].ExisteViajeEntreFechas(
+			  (SELECT VIAJE_FECHA_SALIDA FROM ABSTRACCIONX4.VIAJES v WHERE v.VIAJE_COD = VIAJE_COD)
+			  ,@FechaBaja,@FechaReinicio) = 1
 END
 GO
 
@@ -346,14 +494,34 @@ GO
 
 -------------------------------Modificar Aeronave Viajes-------------------------------
 CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveViajes
-@MatriculaVieja VARCHAR(8) , 
-@MatriculaNueva VARCHAR(8)
+@MatriculaVieja VARCHAR(8), 
+@MatriculaNueva VARCHAR(8),
+@FechaBaja DATETIME,
+@FechaReinicio DATETIME
 AS
 BEGIN 
 	UPDATE [ABSTRACCIONX4].VIAJES
-	SET AERO_MATRI = @MatriculaNueva
-	WHERE AERO_MATRI = @MatriculaVieja
+		SET AERO_MATRI = @MatriculaNueva
+		WHERE AERO_MATRI = @MatriculaVieja AND
+			  [ABSTRACCIONX4].ExisteViajeEntreFechas(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1
 END
+GO
+
+-------------------------------Viajes asignados a aeronave-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ExisteViajeEntreFechas
+	(@FechaViaje DATETIME,@Fecha1 DATETIME,@Fecha2 DATETIME)
+RETURNS BIT
+AS
+BEGIN
+	IF @Fecha1 IS NULL
+		RETURN 1
+
+	DECLARE @Resultado BIT
+	SET @Resultado = [ABSTRACCIONX4].datetime_is_between(@FechaViaje,@Fecha1,@Fecha2)
+
+	RETURN @Resultado
+END
+
 GO
 
 -------------------------------Modificacion Matricula-------------------------------
@@ -379,7 +547,7 @@ BEGIN
 		/*EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @MatriculaVieja , @MatriculaNueva
 		EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @MatriculaVieja , @MatriculaNueva*/
 		EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaVieja , @MatriculaNueva
-		EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaVieja , @MatriculaNueva
+		EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaVieja , @MatriculaNueva, NULL, NULL
 		
 		DELETE FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @MatriculaVieja
 		
@@ -486,6 +654,9 @@ AS
 	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
 		SET RUTA_ESTADO = 0
 		WHERE RUTA_ID=@IdRuta
+
+	EXECUTE [ABSTRACCIONX4].BorrarPasajes @IdRuta
+	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta
 GO
 
 
