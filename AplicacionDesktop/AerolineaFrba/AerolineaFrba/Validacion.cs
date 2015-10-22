@@ -83,11 +83,13 @@ namespace AerolineaFrba
             }
             else
             {
-                if(mostrarMensaje)
+                if (mostrarMensaje && !esVacio(txtBox))
+                {
                     MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
-                return false;
+                    return false;
+                }
             }
-            //return regexTexto.IsMatch(txtBox.Text);
+            return true;//return regexTexto.IsMatch(txtBox.Text);
         }
 
         public static Boolean esVacio(TextBox txtBox ,string nombreCampo = "Pelotudo no queres mostrar el mensaje" , bool mostrarMensaje = false)
@@ -168,6 +170,16 @@ namespace AerolineaFrba
                     MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
                     return false;
                 }
+            }
+            return true;
+        }
+
+        public static Boolean fechaPosteriorALaDeHoy(DateTimePicker dateTimePicker1)
+        {
+            if (dateTimePicker1.Value.CompareTo(System.DateTime.Today) < 0)
+            {
+                MessageBox.Show("La fecha ingresada debe ser posterior a la fecha de hoy", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
             }
             return true;
         }

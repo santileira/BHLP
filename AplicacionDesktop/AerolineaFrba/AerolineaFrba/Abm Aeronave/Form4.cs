@@ -178,7 +178,11 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private bool datosCorrectos()
         {
-            return !this.validarTipos() ;
+            Boolean huboErrores = false;
+            huboErrores = this.validarLongitudes() || huboErrores;
+            huboErrores = this.validarTipos() || huboErrores;
+
+            return !huboErrores;
         }
 
         private Boolean validarLongitudes()

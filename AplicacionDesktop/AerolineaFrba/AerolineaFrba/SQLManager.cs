@@ -87,5 +87,11 @@ namespace AerolineaFrba
             }
             return table;
         }
+
+        public SQLManager agregarFechaSP(string nombreVariable, DateTimePicker dateTime)
+        {
+            command.Parameters.AddWithValue("@FechaAlta", Convert.ToDateTime(dateTime.Text));
+            return this;
+        }
     }
 }
