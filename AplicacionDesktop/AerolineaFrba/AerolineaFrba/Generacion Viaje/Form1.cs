@@ -34,9 +34,9 @@ namespace AerolineaFrba.Generacion_Viaje
         private void inicio()
         {
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.CustomFormat = "dd/mm/yyyy - HH:mm";
+            dateTimePicker1.CustomFormat = "dd/MM/yyyy - HH:mm";
             dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.CustomFormat = "dd/mm/yyyy - HH:mm";
+            dateTimePicker2.CustomFormat = "dd/MM/yyyy - HH:mm";
 
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker2.Value = DateTime.Now;

@@ -194,7 +194,9 @@ namespace AerolineaFrba.Abm_Rol
         private Object darDeBajaRol(string nombre)
         {
             SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("BajaRol").agregarStringSP("@Nombre", nombre).ejecutarSP();
+            return sqlManager.generarSP("BajaRol")
+                             .agregarStringSP("@Nombre", nombre)
+                             .ejecutarSP();
             /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;

@@ -65,16 +65,14 @@ namespace AerolineaFrba.Abm_Rol
                 DialogResult resultado = MessageBox.Show("Se procede a modificar el rol seleccionado", "Informe", MessageBoxButtons.YesNo);
                 if (apretoSi(resultado))
                 {
-                    string nombreNuevo = txtNombre.Text;
-                    string nombreOriginal = txtRolSeleccionado.Text;
-                    modificarRol(nombreNuevo, nombreOriginal);
+                    modificarRol();
 
-                    darDeBajaFuncionalidades(nombreNuevo);
+                    //darDeBajaFuncionalidades(nombreNuevo);
                    
-                    foreach (String funcion in lstFuncionalidadesActuales.Items)
+                    /*foreach (String funcion in lstFuncionalidadesActuales.Items)
                     {
                         darDeAltaFuncionalidad(funcion, nombreNuevo);
-                    }
+                    }*/
 
                     (listado as Listado).iniciar();
                     this.cambiarVisibilidades(this.listado);
@@ -84,11 +82,11 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        private Object darDeBajaFuncionalidades(string nombreNuevo)
+        /*private Object darDeBajaFuncionalidades(string nombreNuevo)
         {
             SQLManager sqlManager = new SQLManager();
             return sqlManager.generarSP("BajaFuncionalidades").agregarStringSP("@NombreRol", nombreNuevo).ejecutarSP();
-            /*SqlCommand command = new SqlCommand();
+            SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaFuncionalidades]";
@@ -96,11 +94,11 @@ namespace AerolineaFrba.Abm_Rol
 
             command.Parameters.AddWithValue("@NombreRol", nombreNuevo);
 
-            return command.ExecuteScalar();*/
+            return command.ExecuteScalar();
 
-        }
+        }*/
 
-        private Object darDeAltaFuncionalidad(string funcion, string rol)
+        /*private Object darDeAltaFuncionalidad(string funcion, string rol)
         {
             SQLManager sqlManager = new SQLManager();
             return sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion", funcion).
@@ -116,26 +114,39 @@ namespace AerolineaFrba.Abm_Rol
             command.Parameters.AddWithValue("@Funcion", funcion);
             command.Parameters.AddWithValue("@Rol", rol);
 
-            return command.ExecuteScalar();*/
+            return command.ExecuteScalar();
 
-        }
+        }*/
 
-        private Object modificarRol(string nombreNuevo , string nombreOriginal)
+        private void modificarRol()
         {
-            /*SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("ModificarRol").agregarStringSP("@NombreNuevo", nombreNuevo).
-            agregarStringSP("@NombreOriginal" , nombreOriginal).ejecutarSP();*/
-            SqlCommand command = new SqlCommand();
+            new SQLManager().generarSP("ModificarRol")
+                            .agregarStringSP("@NombreOriginal", txtRolSeleccionado)
+                            .agregarStringSP("@NombreNuevo", txtNombre)
+                            .agregarListaSP("@Funcionalidades", funcionalidadesActuales())
+                            .agregarBooleanoSP("@Estado",checkHabilitado.Enabled?checkHabilitado.Checked:true)
+                            .ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRol]";
             command.CommandTimeout = 0;
 
-            command.Parameters.AddWithValue("@NombreNuevo", nombreNuevo);
             command.Parameters.AddWithValue("@NombreOriginal", nombreOriginal);
-            command.Parameters.AddWithValue("@Estado", checkHabilitado.Enabled?checkHabilitado.Checked:true);
+            command.Parameters.AddWithValue("@NombreNuevo", nombreNuevo);
+            command.Parameters.AddWithValue("@Estado",checkHabilitado.Enabled?checkHabilitado.Checked:true);
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
+        }
+
+        private List<Object> funcionalidadesActuales()
+        {
+            List<Object> funcionalidades = new List<Object>();
+            foreach (Object func in lstFuncionalidadesActuales.Items)
+            {
+                funcionalidades.Add(func);
+            }
+            return funcionalidades;
         }
 
         private bool apretoSi(DialogResult resultado)
