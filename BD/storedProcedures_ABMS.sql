@@ -299,6 +299,119 @@ GO
 
 
 
+SELECT * FROM [ABSTRACCIONX4].AERONAVES
+SELECT * FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = 'JORGE'
+SELECT * FROM [ABSTRACCIONX4].ENCOMIENDAS WHERE AERO_MATRI = 'JORGE'
+SELECT * FROM [ABSTRACCIONX4].VIAJES WHERE AERO_MATRI = 'JORGE'
+SELECT * FROM [ABSTRACCIONX4].PASAJES WHERE AERO_MATRI = 'JORGE'
+--DBC-748
+UPDATE [ABSTRACCIONX4].AERONAVES
+SET AERO_MATRI = 'PESCE'
+WHERE AERO_MATRI = 'DBC-748'
+GO
+-------------------------------Modificar Aeronave Pasajes-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronavePasajes 
+@MatriculaVieja VARCHAR(8) , 
+@MatriculaNueva VARCHAR(8)
+AS
+BEGIN 
+	UPDATE [ABSTRACCIONX4].PASAJES 
+	SET AERO_MATRI = @MatriculaNueva
+	WHERE AERO_MATRI = @MatriculaVieja
+END
+GO
+-------------------------------Modificar Aeronave Encomiendas-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
+@MatriculaVieja VARCHAR(8) , 
+@MatriculaNueva VARCHAR(8)
+AS
+BEGIN 
+	UPDATE [ABSTRACCIONX4].ENCOMIENDAS
+	SET AERO_MATRI = @MatriculaNueva
+	WHERE AERO_MATRI = @MatriculaVieja
+END
+GO
+
+-------------------------------Modificar Aeronave BUTACAS-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveButacas
+@MatriculaVieja VARCHAR(8) , 
+@MatriculaNueva VARCHAR(8)
+AS
+BEGIN 
+	UPDATE [ABSTRACCIONX4].BUTACAS
+	SET AERO_MATRI = @MatriculaNueva
+	WHERE AERO_MATRI = @MatriculaVieja
+END
+GO
+
+-------------------------------Modificar Aeronave Viajes-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveViajes
+@MatriculaVieja VARCHAR(8) , 
+@MatriculaNueva VARCHAR(8)
+AS
+BEGIN 
+	UPDATE [ABSTRACCIONX4].VIAJES
+	SET AERO_MATRI = @MatriculaNueva
+	WHERE AERO_MATRI = @MatriculaVieja
+END
+GO
+
+-------------------------------Modificacion Matricula-------------------------------
+
+CREATE TRIGGER [ABSTRACCIONX4].ModificarMatricula
+ON [ABSTRACCIONX4].AERONAVES
+INSTEAD OF UPDATE
+AS
+DECLARE @MatriculaVieja VARCHAR(8)
+DECLARE @MatriculaNueva VARCHAR(8)
+BEGIN
+	SELECT @MatriculaVieja = AERO_MATRI FROM DELETED
+	SELECT @MatriculaNueva = AERO_MATRI FROM INSERTED
+	
+	IF(UPDATE(AERO_MATRI))
+	BEGIN
+		INSERT INTO [ABSTRACCIONX4].AERONAVES 
+		(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS)
+		SELECT AERO_MOD, AERO_MATRI, AERO_FAB,
+		SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS
+		FROM INSERTED
+		
+		/*EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @MatriculaVieja , @MatriculaNueva
+		EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @MatriculaVieja , @MatriculaNueva*/
+		EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaVieja , @MatriculaNueva
+		EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaVieja , @MatriculaNueva
+		
+		DELETE FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @MatriculaVieja
+		
+		
+	END
+END
+GO
+-------------------------------Modificacion Butaca-------------------------------
+CREATE TRIGGER [ABSTRACCIONX4].ModificacionButaca
+ON [ABSTRACCIONX4].BUTACAS
+INSTEAD OF UPDATE
+AS
+DECLARE @MatriculaVieja VARCHAR(8)
+DECLARE @MatriculaNueva VARCHAR(8)
+BEGIN
+	SELECT @MatriculaVieja = AERO_MATRI FROM DELETED
+	SELECT @MatriculaNueva = AERO_MATRI FROM INSERTED
+	
+	IF(UPDATE(AERO_MATRI))
+	BEGIN
+		INSERT INTO [ABSTRACCIONX4].BUTACAS 
+		
+		SELECT * FROM INSERTED
+		
+		EXECUTE [ABSTRACCIONX4].ModificarAeronavePasajes @MatriculaVieja , @MatriculaNueva
+		EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @MatriculaVieja , @MatriculaNueva
+		
+		DELETE FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = @MatriculaVieja
+	END
+END
+GO
+
 -------------------------------Viajes asignados a aeronave-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].TieneViajeAsignado
 	(@Matricula VARCHAR(8))
@@ -313,6 +426,7 @@ BEGIN
 END
 
 GO
+
 
 -------------------------------Alta Ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRuta
@@ -339,6 +453,8 @@ AS
 	END CATCH
 GO
 
+-------------------------------Obtener Codigo Ciudad-------------------------------
+
 CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigoCiudad (@Ciudad VARCHAR(80))
 RETURNS SMALLINT
 AS
@@ -350,6 +466,8 @@ END
 
 GO
 
+
+-------------------------------Obtener Codigo Servicio-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigoServicio (@Servicio VARCHAR(30))
 RETURNS TINYINT
 AS

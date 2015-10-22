@@ -157,7 +157,9 @@ namespace AerolineaFrba.Abm_Ruta
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                modificarRuta();         
+                modificarRuta();
+                (listado as Listado).inicio();
+                this.cambiarVisibilidades(this.listado);
             }
         }
 

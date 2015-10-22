@@ -74,7 +74,7 @@ namespace AerolineaFrba.Abm_Aeronave
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeAsignado(@Matricula)";
+            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeComprado(@Matricula)";
             command.CommandTimeout = 0;
 
             command.Parameters.AddWithValue("@Matricula", matricula);
@@ -142,13 +142,19 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                this.modificar();       
+                this.modificar();
+                (listado as Listado).inicio();
+                this.cambiarVisibilidades(this.listado);
             }
         }
 
         private Object modificar()
         {
-            SqlCommand command = new SqlCommand();
+            return new SQLManager().generarSP("ModificarAeronave").agregarStringSP("@MatriculaActual", txtMatriculaActual).
+            agregarStringSP("@Modelo", txtModelo).agregarStringSP("@Matricula" , txtMatricula).
+            agregarStringSP("@Fabricante", cboFabricante).agregarStringSP("@TipoDeServicio", cboServicio).
+            agregarIntSP("@CantidadButacas", txtButacas).agregarDecimalSP("@CantidadKG", cantidadKilogramos()).ejecutarSP();
+            /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarAeronave]";
@@ -162,7 +168,7 @@ namespace AerolineaFrba.Abm_Aeronave
             command.Parameters.AddWithValue("@CantidadButacas", Convert.ToInt16(txtButacas.Text));
             command.Parameters.AddWithValue("@CantidadKG", cantidadKilogramos());
 
-            return command.ExecuteScalar();
+            return command.ExecuteScalar();*/
         }
 
         private Decimal cantidadKilogramos()
@@ -177,16 +183,16 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
-            algunoVacio = !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboServicio, "Tipo de Servicio") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
+            Boolean algunoVacio = Validacion.esVacio(txtModelo, "Modelo");
+            algunoVacio = Validacion.esVacio(txtMatricula, "Matricula") || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio") || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboFabricante, "Fabricante") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos") || algunoVacio;
 
             return algunoVacio;
         }
-
+        /*
         private Boolean seCompleto(TextBox txt, string campo)
         {
             if (txt.TextLength == 0)
@@ -197,9 +203,9 @@ namespace AerolineaFrba.Abm_Aeronave
             else
                 return true;
         }
+        */
 
-
-        private Boolean seCompleto(ComboBox cbo, string campo)
+       /* private Boolean seCompleto(ComboBox cbo, string campo)
         {
             if (cbo.Text.Equals(""))
             {
@@ -208,22 +214,22 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             else
                 return true;
-        }
+        }*/
 
         private Boolean validarTipos()
         {
             Boolean huboError = false;
 
-            huboError = !esTexto(txtModelo, "modelo") || huboError;
-            huboError = !esTexto(txtMatricula, "matrícula") || huboError;
-            huboError = !esNumero(txtButacas, "cantidad de butacas", true) || huboError;
-            huboError = !esNumero(txtKilos, "cantidad de Kg", false) || huboError;
+            huboError = !Validacion.esTexto(txtModelo, "modelo" , true) || huboError;
+            huboError = !Validacion.esTexto(txtMatricula, "matrícula" , true) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas", false) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtKilos, "cantidad de Kg", true) || huboError;
 
             return huboError;
         }
 
 
-        private Boolean esTexto(TextBox txt, string campo)
+       /* private Boolean esTexto(TextBox txt, string campo)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
@@ -234,9 +240,9 @@ namespace AerolineaFrba.Abm_Aeronave
                 return false;
             }
             return true;
-        }
+        }*/
 
-        private Boolean esNumero(TextBox txt, string campo, bool debeSerEntero)
+       /* private Boolean esNumero(TextBox txt, string campo, bool debeSerEntero)
         {
             int n;
             decimal d;
@@ -261,7 +267,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             }
             return true;
-        }
+        }*/
 
         private void cargarComboServicio()
         {
