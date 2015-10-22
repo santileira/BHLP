@@ -37,13 +37,13 @@ namespace AerolineaFrba
 
         public SQLManager agregarStringSP(string nombreVariable , TextBox txt)
         {
-            command.Parameters.AddWithValue(nombreVariable, Convert.ToInt32(txt.Text));
+            command.Parameters.AddWithValue(nombreVariable, txt.Text);
             return this;
         }
 
         public SQLManager agregarStringSP(string nombreVariable, ComboBox cmb)
         {
-            command.Parameters.AddWithValue(nombreVariable, Convert.ToInt32(cmb.Text));
+            command.Parameters.AddWithValue(nombreVariable, cmb.Text);
             return this;
         }
 
@@ -63,6 +63,12 @@ namespace AerolineaFrba
         public SQLManager agregarDecimalSP(string nombreVariable, decimal numero)
         {
             command.Parameters.AddWithValue(nombreVariable, numero);
+            return this;
+        }
+
+        public SQLManager agregarBooleanoSP(string nombreVariable, bool valor)
+        {
+            command.Parameters.AddWithValue(nombreVariable, valor);
             return this;
         }
 

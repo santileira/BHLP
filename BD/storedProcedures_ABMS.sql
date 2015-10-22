@@ -1,41 +1,31 @@
 
--------------------------------Alta Rol-------------------------------
+-------------------------------Tipo Lista-------------------------------
+CREATE TYPE [ABSTRACCIONX4].Lista AS TABLE 
+( elemento VARCHAR(30) )
 
+GO
+
+-------------------------------Alta Rol-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRol
-	@Nombre VARCHAR(30)
-	
+	@Nombre VARCHAR(30),
+	@Funcionalidades Lista Readonly
 AS
+	BEGIN TRANSACTION
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE) VALUES (@Nombre)
+		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD,FUNC_COD)
+			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
+			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
+		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
+		ROLLBACK TRANSACTION
 		DECLARE @Error varchar(80)
 		SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
 		RAISERROR(@Error, 16, 1)
 	END CATCH
-GO
 
--------------------------------Alta Funcionalidad-------------------------------
---DROP PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
-CREATE PROCEDURE [ABSTRACCIONX4].AltaFuncionalidad
-	@Funcion VARCHAR(60),
-	@Rol VARCHAR(30)
-AS
-	BEGIN TRY
-		DECLARE @CodRol TINYINT
-		DECLARE @CodFunc TINYINT
-		SET @CodRol = [ABSTRACCIONX4].DarCodigoDeRol(@Rol)
-		SET @CodFunc = [ABSTRACCIONX4].DarCodigoDeFuncionalidad(@Funcion)
-		
-		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD , FUNC_COD) VALUES (@CodRol , @CodFunc)
-	END TRY
-	BEGIN CATCH
-		DECLARE @Error varchar(80)
-		--SET @Error = 'El nombre ' + @Rol + ' ya esta en uso para otro rol'
-		RAISERROR(@Error, 16, 1)
-	END CATCH
 GO
-
 
 -------------------------------Dar Codigo De Rol-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeRol (@Rol VARCHAR(30))
@@ -86,14 +76,18 @@ GO
 
 -------------------------------Modificar Rol-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRol
-	@NombreNuevo VARCHAR(30),
 	@NombreOriginal VARCHAR(30),
+	@NombreNuevo VARCHAR(30),
+	@Funcionalidades Lista READONLY,
 	@Estado BIT
 AS
 	BEGIN TRY
 		UPDATE ABSTRACCIONX4.ROLES 
-		SET ROL_NOMBRE = @NombreNuevo, ROL_ESTADO = @Estado WHERE ROL_NOMBRE = @NombreOriginal
-		
+			SET ROL_NOMBRE = @NombreNuevo, ROL_ESTADO = @Estado 
+			WHERE ROL_NOMBRE = @NombreOriginal
+		DECLARE @CodigoRol TINYINT
+		SET @CodigoRol = [ABSTRACCIONX4].DarCodigoDeRol(@NombreNuevo)
+		EXEC [ABSTRACCIONX4].ActualizarFuncionalidades @CodigoRol,@Funcionalidades
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(80)
@@ -102,8 +96,45 @@ AS
 	END CATCH
 GO
 
+
+-------------------------------Actualizar Funcionalidades-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].ActualizarFuncionalidades
+	@CodigoRol TINYINT,
+	@FuncionalidadesNuevas Lista READONLY
+AS
+BEGIN
+	INSERT INTO [ABSTRACCIONX4].FUNCIONES_ROLES (ROL_COD,FUNC_COD)
+		SELECT @CodigoRol,
+			   ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento)
+		FROM @FuncionalidadesNuevas
+		WHERE elemento NOT IN (SELECT * FROM [ABSTRACCIONX4].FuncionalidadesRol(@CodigoRol))
+	
+	DELETE FROM ABSTRACCIONX4.FUNCIONES_ROLES
+		WHERE ROL_COD = @CodigoRol AND
+			  FUNC_COD NOT IN
+				(SELECT ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento)
+				 FROM @FuncionalidadesNuevas)
+END
+
+GO
+
+-------------------------------Funcionalidades del rol-------------------------------
+
+CREATE FUNCTION [ABSTRACCIONX4].FuncionalidadesRol
+	(@CodigoRol TINYINT)
+RETURNS @FuncionalidadesRol TABLE (Funcionalidad VARCHAR(30))
+AS
+BEGIN
+	INSERT INTO @FuncionalidadesRol
+	SELECT FUNC_DESC 
+		FROM FUNCIONALIDADES F JOIN FUNCIONES_ROLES FR ON (F.FUNC_COD = FR.FUNC_COD)
+		WHERE ROL_COD = @CodigoRol
+	RETURN
+END
+
+GO
+
 -------------------------------Baja Funcionalidades-------------------------------
---DROP PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
 CREATE PROCEDURE [ABSTRACCIONX4].BajaFuncionalidades
 	@NombreRol VARCHAR(30)	
 AS
@@ -393,22 +424,3 @@ END
 
 GO
 
-
--------------------------------Tipo Lista-------------------------------
-CREATE TYPE [ABSTRACCIONX4].Lista AS TABLE 
-( elemento VARCHAR(30) )
-
-GO
-
-
--- ###########
-
-CREATE PROCEDURE [ABSTRACCIONX4].AltaRolV2
-	@Nombre VARCHAR(30),
-	@Funcionalidades Lista Readonly
-AS
-		INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE) VALUES (@Nombre)
-		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD,FUNC_COD)
-			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
-			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
-GO

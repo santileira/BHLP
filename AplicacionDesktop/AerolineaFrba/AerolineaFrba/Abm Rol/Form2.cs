@@ -80,7 +80,7 @@ namespace AerolineaFrba.Abm_Rol
         private Object darDeAltaRol()
         {
             SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("AltaRolV2").
+            return sqlManager.generarSP("AltaRol").
                    agregarStringSP("@Nombre", txtNombre.Text).
                    agregarListaSP("@Funcionalidades", funcionalidadesActuales()).
                    ejecutarSP();
