@@ -155,3 +155,4 @@ C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFr
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Registro_Llegada_Destino.Form1.resources
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Registro_Llegada_Destino.Form2.resources
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Form7.resources
+C:\Users\ezequiel\Documents\UTN - FRBA - INGENIERIA EN SISTEMAS\3° Año\Gestion de Datos\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Abm_Aeronave.Form7.resources

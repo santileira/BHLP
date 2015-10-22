@@ -185,20 +185,13 @@ namespace AerolineaFrba.Generacion_Viaje
 
         private Object insertarNuevoViaje()
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[GenerarNuevoViaje]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@salida", dateTimePicker1.Value);
-            command.Parameters.AddWithValue("@llegadaEstimada", dateTimePicker2.Value);
-            int ruta;
-            int.TryParse(txtRuta.Text, out ruta);
-            command.Parameters.AddWithValue("@ruta", ruta);
-            command.Parameters.AddWithValue("@matricula", txtMatricula.Text);
-
-            return command.ExecuteScalar();
+            SQLManager manejador = new SQLManager();
+            manejador.generarSP("GenerarNuevoViaje");
+            manejador.agregarStringSP("@salida", dateTimePicker1.Value.ToString());
+            manejador.agregarStringSP("@llegadaEstimada", dateTimePicker2.Value.ToString());
+            manejador.agregarIntSP("@ruta", txtRuta);
+            manejador.agregarStringSP("@matricula", txtMatricula.Text);
+            return manejador.ejecutarSP();
         }
 
     }
