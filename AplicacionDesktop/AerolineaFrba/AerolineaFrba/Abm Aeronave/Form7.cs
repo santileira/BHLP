@@ -13,9 +13,15 @@ namespace AerolineaFrba.Abm_Aeronave
     public partial class Form7 : Form
     {
         private string mensaje;
-        public Form7(string unMensaje)
+        private string matricula;
+        private DateTime fechaBaja;
+        private DateTime fechaReinicio;
+        public Form7(string unMensaje,string unaMatricula,DateTime unaFechaBaja,DateTime unaFechaReinicio)
         {
             mensaje = unMensaje;
+            matricula = unaMatricula;
+            fechaBaja = unaFechaBaja;
+            fechaReinicio = unaFechaReinicio;
             InitializeComponent();
         }
 
@@ -26,7 +32,11 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void botonCancelar_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            new SQLManager().generarSP("CancelarAeronaveFueraServicio")
+                            .agregarStringSP("@Matricula",matricula)
+                            .agregarFechaSP("@FechaBaja",fechaBaja)
+                            .agregarFechaSP("@FechaReinicio",fechaReinicio)
+                            .ejecutarSP();
             this.Close();
         }
 

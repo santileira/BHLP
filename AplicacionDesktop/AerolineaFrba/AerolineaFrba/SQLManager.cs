@@ -90,7 +90,13 @@ namespace AerolineaFrba
 
         public SQLManager agregarFechaSP(string nombreVariable, DateTimePicker dateTime)
         {
-            command.Parameters.AddWithValue("@FechaAlta", Convert.ToDateTime(dateTime.Text));
+            command.Parameters.AddWithValue(nombreVariable, Convert.ToDateTime(dateTime.Text));
+            return this;
+        }
+
+        public SQLManager agregarFechaSP(string nombreVariable, DateTime dateTime)
+        {
+            command.Parameters.AddWithValue(nombreVariable, dateTime);
             return this;
         }
     }

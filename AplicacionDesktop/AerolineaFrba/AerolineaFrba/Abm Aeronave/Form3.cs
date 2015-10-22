@@ -330,10 +330,18 @@ namespace AerolineaFrba.Abm_Aeronave
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DarDeBajaLogica]";
             command.CommandTimeout = 0;
 
-            command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
+            string matricula = dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString();
+            command.Parameters.AddWithValue("@Matricula", matricula);
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
 
-            return command.ExecuteScalar();
+            try
+            {
+                command.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                new Form7(e.Message,matricula, fechaBaja, null).ShowDialog();
+            }
         }
 
         public void dejarFueraDeServicio(DateTime fechaReinicio , DateTime fechaBaja)
@@ -355,7 +363,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             catch (Exception e)
             {
-                new Form7(e.Message).ShowDialog();
+                new Form7(e.Message,fechaBaja,fechaReinicio).ShowDialog();
             }
         }
 
