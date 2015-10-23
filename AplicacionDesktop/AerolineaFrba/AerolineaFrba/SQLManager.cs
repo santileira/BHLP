@@ -58,7 +58,6 @@ namespace AerolineaFrba
         {   
             return command.ExecuteScalar();
         }
-
         public SQLManager agregarDecimalSP(string nombreVariable, decimal numero)
         {
             command.Parameters.AddWithValue(nombreVariable, numero);
@@ -93,6 +92,8 @@ namespace AerolineaFrba
             command.Parameters.AddWithValue(nombreVariable, Convert.ToDateTime(dateTime.Text));
             return this;
         }
+
+       
 
         public SQLManager agregarFechaSP(string nombreVariable, DateTime dateTime)
         {

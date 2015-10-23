@@ -221,9 +221,14 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
 
-            if (this.loActivoGenerarViajes && this.serv_cod != null)
-                this.query += " WHERE a.SERV_COD = " + this.serv_cod + " AND ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
-                + this.fechaSalida + "', '" + this.fechaLlegada + "') = 1";
+            if (this.loActivoGenerarViajes)
+            {
+                this.query += " WHERE ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
+                + this.fechaSalida.ToString() + "', '" + this.fechaLlegada.ToString() + "') = 1 ";
+
+                if (this.serv_cod != null)
+                    this.query += " AND a.SERV_COD = " + this.serv_cod;
+            }
         }
 
 

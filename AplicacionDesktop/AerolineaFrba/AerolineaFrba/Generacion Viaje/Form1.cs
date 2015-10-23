@@ -31,6 +31,7 @@ namespace AerolineaFrba.Generacion_Viaje
             this.inicio();
         }
 
+
         private void inicio()
         {
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
