@@ -94,6 +94,8 @@ namespace AerolineaFrba
             return this;
         }
 
+       
+
         public SQLManager agregarFechaSP(string nombreVariable, DateTime dateTime)
         {
             command.Parameters.AddWithValue(nombreVariable, dateTime);

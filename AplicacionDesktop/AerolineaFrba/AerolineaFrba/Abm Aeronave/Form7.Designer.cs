@@ -50,6 +50,7 @@
             this.botonSuplantar.TabIndex = 1;
             this.botonSuplantar.Text = "Suplantar";
             this.botonSuplantar.UseVisualStyleBackColor = true;
+            this.botonSuplantar.Click += new System.EventHandler(this.botonSuplantar_Click);
             // 
             // botonCancelar
             // 
