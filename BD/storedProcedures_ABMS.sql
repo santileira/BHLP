@@ -465,12 +465,12 @@ BEGIN
 	RETURN 1
 END
 
-GO
+
+SELECT * FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI LIKE 'F%' order by AERO_MATRI
 
 
-****??????????????????????????????????????????????????????????????????????????????????????????????
 -------------------------------Modificar Aeronave-------------------------------
-ALTER PROCEDURE [ABSTRACCIONX4].ModificarAeronave
+CREATE PROCEDURE [ABSTRACCIONX4].ModificarAeronave
 	@MatriculaActual VARCHAR(8),
 	@Modelo VARCHAR(30),
 	@Matricula VARCHAR(8),
@@ -483,6 +483,7 @@ AS
 		DECLARE @Error varchar(80)
 		DECLARE @ExisteMatricula BIT
 BEGIN 
+		DECLARE @CodigoServicio SMALLINT
 		DECLARE @viajeComprado BIT
 		DECLARE @CantidadButacas SMALLINT
 		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
@@ -492,12 +493,13 @@ BEGIN
 		--Matricula nueva, distintas, no existe otra y tiene viaje comprado
 		IF(@Matricula != @MatriculaActual AND @ExisteMatricula = 0)
 		BEGIN
+			SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
 			--si tiene viaje comprado solo modifico su nombre, no se puede otra cosa EN AERONAVES
 			IF( @viajeComprado = 1)
 			BEGIN
-				UPDATE ABSTRACCIONX4.AERONAVES
-				SET AERO_MATRI = @Matricula
-				WHERE AERO_MATRI = @MatriculaActual
+				INSERT INTO [ABSTRACCIONX4].AERONAVES 
+				(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS) VALUES
+				(@Modelo , @Matricula , @Fabricante , @CodigoServicio , @CantidadButacas , @CantidadKG)
 
 				EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
 				EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaActual , @Matricula
@@ -534,11 +536,11 @@ BEGIN
 					EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
 				END
 			END
-			/*ELSE
+			ELSE
 			BEGIN
 				SET @Error = '(modificar aeronave)Ya existe una aeronave con matrícula ' + @Matricula
 				RAISERROR(@Error, 16, 1)
-			END*/
+			END
 		END
 END
 GO
@@ -554,7 +556,7 @@ END
 GO
 
 -------------------------------Modificar Aeronave Pasajes-------------------------------
-ALTER PROCEDURE  [ABSTRACCIONX4].ModificarAeronavePasajes
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronavePasajes
 @MatriculaVieja VARCHAR(8), 
 @MatriculaNueva VARCHAR(8),
 @FechaBaja DATETIME,
@@ -578,7 +580,7 @@ BEGIN
 END
 GO
 -------------------------------Modificar Aeronave Encomiendas-------------------------------
-ALTER PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveEncomiendas
 @MatriculaVieja VARCHAR(8), 
 @MatriculaNueva VARCHAR(8),
 @FechaBaja DATETIME,
@@ -650,62 +652,11 @@ END
 
 GO
 
--------------------------------Modificacion Matricula-------------------------------
---DROP TRIGGER [ABSTRACCIONX4].ModificarMatricula
-DROP  TRIGGER [ABSTRACCIONX4].ModificarMatricula
-ON [ABSTRACCIONX4].AERONAVES
-INSTEAD OF UPDATE
-AS
-DECLARE @MatriculaVieja VARCHAR(8)
-DECLARE @MatriculaNueva VARCHAR(8)
-DECLARE @ServCod TINYINT
-DECLARE @AeroCantBut SMALLINT
-DECLARE @AeroCantKG NUMERIC(6,2)
-DECLARE @AeroFab VARCHAR(30)
-DECLARE @Modelo VARCHAR(30)
-DECLARE @Error VARCHAR(80)
-DECLARE @Entro BIT
-DECLARE @ExisteMatricula BIT
-BEGIN
-	SELECT @MatriculaVieja = AERO_MATRI FROM DELETED
-	SELECT @MatriculaNueva = AERO_MATRI , @Modelo = AERO_MOD , @AeroFab = AERO_FAB, @ServCod = SERV_COD , 
-	@AeroCantBut = AERO_CANT_BUTACAS, @AeroCantKG = AERO_CANT_KGS  FROM INSERTED
-	
-	SELECT @ExisteMatricula = COUNT(*) FROM  [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @MatriculaNueva
-	SET @Entro = 0
-	IF(UPDATE(AERO_MATRI) AND NOT UPDATE(AERO_FAB))
-	BEGIN
-		IF(@MatriculaVieja != @MatriculaNueva)
-		BEGIN --SI NO EXISTE LA MATRICULA NUEVA LA INSERTO PORQUE ES UNICA 
-			IF(@ExisteMatricula = 0)
-			BEGIN	
-				INSERT INTO [ABSTRACCIONX4].AERONAVES 
-				(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS)
-				SELECT AERO_MOD, AERO_MATRI, AERO_FAB,
-				SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS
-				FROM INSERTED
-			END
-			ELSE
-				-- SI EXISTE NO SON IGUALES POR LO TANTO NO LA PUEDO INGRESAR
-			BEGIN
-				SET @Error = '(trigger)Ya existe una aeronave con matrícula ' + @MatriculaNueva
-				RAISERROR(@Error, 16, 1)
-			END
-		END
-		
-		EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaVieja , @MatriculaNueva , NULL , NULL
-		
-		--IF(@Entro = 0)
-		BEGIN
-		DELETE FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @MatriculaVieja
-		END
-	END
-	
-END
+-------------------------------Modificacion Matricula-------------------------------OBSOLETO, NO SIRVE!DEJENLO POR LAS DUDAS
 
 GO
 -------------------------------Modificacion Butaca-------------------------------
-ALTER TRIGGER [ABSTRACCIONX4].ModificacionButaca
+CREATE TRIGGER [ABSTRACCIONX4].ModificacionButaca
 ON [ABSTRACCIONX4].BUTACAS
 INSTEAD OF UPDATE
 AS
