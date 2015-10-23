@@ -1,16 +1,3 @@
--------------------------------Convertir datetime a formato yyyy/dd/mm hh:mm:ss.0000----------------------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].convert_datetime
-
- (@fecha DATETIME)
-
-RETURNS datetime
-
-AS
-
-BEGIN
-	return DATETIMEFROMPARTS(year(@fecha), day(@fecha), month(@fecha), datepart(hour, @fecha), datepart(minute, @fecha), datepart(second, @fecha), 0)
-END
-GO
 -------------------------------Fecha entre dos fechas----------------------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].datetime_between
 
@@ -61,7 +48,7 @@ GO
 -------------------------------Aeronaves disponibles para un vuelo-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].aeronave_disponible
 
- (@matricula VARCHAR(8), @fecha_salida DATETIME, @fecha_llegada_estimada DATETIME)
+ (@matricula VARCHAR(8), @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
 
 RETURNS smallint
 
@@ -73,10 +60,10 @@ BEGIN
 						when @matricula not in (select distinct AERO_MATRI
 												from ABSTRACCIONX4.VIAJES v
 												where
-												([ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_SALIDA, [ABSTRACCIONX4].convert_datetime(@fecha_salida), [ABSTRACCIONX4].convert_datetime(@fecha_llegada_estimada)) = 1) or
-												([ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_LLEGADAE,[ABSTRACCIONX4].convert_datetime(@fecha_salida), [ABSTRACCIONX4].convert_datetime(@fecha_llegada_estimada)) = 1) or
-												([ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].convert_datetime(@fecha_salida), v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE) = 1) or
-												([ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].convert_datetime(@fecha_llegada_estimada), v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE) = 1)
+												([ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_SALIDA, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_LLEGADAE, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_salida, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE) = 1)
 												)
 						then 1
 						else 0

@@ -57,7 +57,7 @@
             this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Location = new System.Drawing.Point(23, 59);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(403, 157);
+            this.groupBox1.Size = new System.Drawing.Size(729, 157);
             this.groupBox1.TabIndex = 42;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Buscar viaje disponible";
@@ -137,7 +137,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(316, 222);
+            this.button1.Location = new System.Drawing.Point(642, 222);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(110, 38);
             this.button1.TabIndex = 43;
@@ -168,7 +168,7 @@
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg.Size = new System.Drawing.Size(403, 199);
+            this.dg.Size = new System.Drawing.Size(729, 199);
             this.dg.TabIndex = 45;
             // 
             // button6
@@ -185,7 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 607);
+            this.ClientSize = new System.Drawing.Size(804, 607);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button4);

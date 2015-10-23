@@ -48,9 +48,6 @@ namespace AerolineaFrba.Generacion_Viaje
             this.listadoAeronaves.serv_cod = null;
             this.listadoRutas.serv_cod = null;
 
-            dateTimePicker2.Enabled = false;
-            button5.Enabled = false;
-
             sePuedeGuardar = false;
         }
 
@@ -76,6 +73,9 @@ namespace AerolineaFrba.Generacion_Viaje
                 MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
             else
             {
+                this.listadoAeronaves.queryViajes = " WHERE ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
+                + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
+
                 this.listadoAeronaves.extenderQuery();
                 this.listadoAeronaves.ejecutarConsulta();
                 this.cambiarVisibilidades(this.listadoAeronaves);
@@ -103,37 +103,12 @@ namespace AerolineaFrba.Generacion_Viaje
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            if (!primeraVez)
-            {
-                if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
-                {
-                    MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
-                    dateTimePicker1.Value = DateTime.Now;
-                }
-                else
-                {
-                    this.listadoAeronaves.fechaSalida = dateTimePicker1.Value;
-                    dateTimePicker2.Enabled = true;
-                }
-            }
+
         }
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
-            button5.Enabled = true;
 
-            if (!primeraVez)
-            {
-                if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
-                {
-                    MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
-                    dateTimePicker2.Value = DateTime.Now;
-                }
-                else
-                    this.listadoAeronaves.fechaLlegada = dateTimePicker2.Value;
-            }
-            else
-                primeraVez = false;
         }
 
         private Boolean fechasErroneas()
@@ -152,6 +127,18 @@ namespace AerolineaFrba.Generacion_Viaje
             {
                 huboError = true;
                 MessageBox.Show("Las aeronaves tardan como mucho 24 hs en llegar a destino");
+            }
+
+            if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+            {
+                huboError = true;
+                MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy"); 
+            }
+
+            if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
+            {
+                huboError = true;
+                MessageBox.Show("La fecha de llegada no puede ser anterior a la fecha de hoy");
             }
 
             return huboError;

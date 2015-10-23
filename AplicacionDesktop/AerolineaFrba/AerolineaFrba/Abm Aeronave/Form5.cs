@@ -23,11 +23,13 @@ namespace AerolineaFrba.Abm_Aeronave
         public bool llamadoDesdeModificacion = false;
 
         public bool loActivoGenerarViajes = false;
+        public string queryViajes;
+
         public bool loActivoModificar = false;
         public string serv_cod = null;
-        public DateTime fechaSalida;
-        public DateTime fechaLlegada;
+
         public Boolean llamadoDesdeModificacionSeleccionar;
+        
 
         public Listado()
         {
@@ -223,8 +225,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             if (this.loActivoGenerarViajes)
             {
-                this.query += " WHERE ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
-                + this.fechaSalida.ToString() + "', '" + this.fechaLlegada.ToString() + "') = 1 ";
+                this.query += this.queryViajes;
 
                 if (this.serv_cod != null)
                     this.query += " AND a.SERV_COD = " + this.serv_cod;
