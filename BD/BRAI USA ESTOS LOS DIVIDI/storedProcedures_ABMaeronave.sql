@@ -220,8 +220,11 @@ CREATE PROCEDURE [ABSTRACCIONX4].SuplantarAeronave
 	@FechaReinicio DATETIME
 AS
 BEGIN
+	DECLARE @FechaMaxima DATETIME
+	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)
+	
 	DECLARE @MatriculaNueva VARCHAR(8)
-	SET @MatriculaNueva = ABSTRACCIONX4.AeronaveDeMismasCaracteristicas(@Matricula,@FechaBaja,@FechaReinicio)
+	SET @MatriculaNueva = ABSTRACCIONX4.AeronaveDeMismasCaracteristicas(@Matricula,@FechaBaja,@FechaMaxima)
 	
 	IF @MatriculaNueva IS NULL
 	BEGIN
@@ -229,9 +232,6 @@ BEGIN
 		SET @Error = 'Ninguna aeronave de la flota tiene las mismas características'
 		RAISERROR(@Error, 16, 1)
 	END
-	
-	DECLARE @FechaMaxima DATETIME
-	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)
 	
 	EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
 	EXECUTE [ABSTRACCIONX4].ModificarAeronaveEncomiendas @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
@@ -316,7 +316,7 @@ END
 GO
 
 -------------------------------Disponible para todos los vuelos-------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe
+ALTER FUNCTION [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe
 	(@MatriculaNueva VARCHAR(8),@MatriculaVieja VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
 RETURNS BIT
 AS
@@ -324,13 +324,13 @@ BEGIN
 	DECLARE @Cantidad INT
 	SET @Cantidad = 0
 
-	DECLARE @MaximaFechaSalida DATETIME
-	SELECT @MaximaFechaSalida = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)
+	/*DECLARE @MaximaFechaSalida DATETIME
+	SELECT @MaximaFechaSalida = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)*/
 
 	SELECT @Cantidad = COUNT(*) 
 		FROM ABSTRACCIONX4.VIAJES v
 		WHERE v.AERO_MATRI = @MatriculaVieja AND
-			  [ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_SALIDA,@FechaBaja,@MaximaFechaSalida) = 1
+			  [ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1
 			  AND
 			  [ABSTRACCIONX4].aeronave_disponible(@MatriculaNueva,v.VIAJE_FECHA_SALIDA,v.VIAJE_FECHA_LLEGADAE) = 0
 
@@ -597,7 +597,7 @@ WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta)
 GO
 
 
-SELECT * FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.VIAJES V ON (P.VIAJE_COD = V.VIAJE_COD)
-WHERE V.AERO_MATRI= 'ZBV-508' ORDER BY VIAJE_FECHA_SALIDA
+/*SELECT * FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.VIAJES V ON (P.VIAJE_COD = V.VIAJE_COD)
+WHERE V.AERO_MATRI= 'ASQ-169' ORDER BY VIAJE_FECHA_SALIDA
 
-UPDATE ABSTRACCIONX4.AERONAVES SET AERO_BAJA_VU = 0 WHERE AERO_MATRI = 'ZRH-446'
+UPDATE ABSTRACCIONX4.AERONAVES SET AERO_BAJA_VU = 0 WHERE AERO_MATRI = 'ZRH-446'*/
