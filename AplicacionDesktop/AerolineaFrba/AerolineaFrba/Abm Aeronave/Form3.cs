@@ -333,14 +333,14 @@ namespace AerolineaFrba.Abm_Aeronave
             string matricula = dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString();
             command.Parameters.AddWithValue("@Matricula", matricula);
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
-            Nullable < DateTime > lastPosteDate =  null ; // lo hizo leira, es la unica manera de encontre de castearlo brai
+            Nullable<DateTime> lastPosteDate =  null ; // lo hizo leira, es la unica manera de encontre de castearlo brai
             try
             {
                 command.ExecuteScalar();
             }
             catch (Exception e)
             {
-                new Form7(e.Message, matricula, fechaBaja).ShowDialog();
+                new Form7(e.Message, matricula, true, fechaBaja, DateTime.Today).ShowDialog();
                 
             }
         }
@@ -364,7 +364,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             catch (Exception e)
             {
-                new Form7(e.Message, matricula ,fechaBaja,fechaReinicio).ShowDialog();
+                new Form7(e.Message, matricula,false, fechaBaja, fechaReinicio).ShowDialog();
             }
         }
 

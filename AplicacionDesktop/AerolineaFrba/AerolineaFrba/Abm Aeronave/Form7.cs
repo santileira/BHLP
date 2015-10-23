@@ -18,22 +18,13 @@ namespace AerolineaFrba.Abm_Aeronave
         private DateTime fechaReinicio;
         private Boolean llamadoDesdeBajaLogica;
 
-        public Form7(string unMensaje,string unaMatricula,DateTime unaFechaBaja,DateTime unaFechaReinicio )
+        public Form7(string unMensaje,string unaMatricula,Boolean desdeBajaLogica,DateTime unaFechaBaja,DateTime unaFechaReinicio )
         {
             mensaje = unMensaje;
             matricula = unaMatricula;
             fechaBaja = unaFechaBaja;
-            fechaReinicio = (DateTime)unaFechaReinicio;
-            Boolean llamadoDesdeBajaLogica = false;
-            InitializeComponent();
-        }
-
-        public Form7(string unMensaje, string unaMatricula, DateTime unaFechaBaja)
-        {
-            mensaje = unMensaje;
-            matricula = unaMatricula;
-            fechaBaja = unaFechaBaja;
-            Boolean llamadoDesdeBajaLogica = true;
+            fechaReinicio = unaFechaReinicio;
+            llamadoDesdeBajaLogica = desdeBajaLogica;
             InitializeComponent();
         }
 
@@ -47,7 +38,6 @@ namespace AerolineaFrba.Abm_Aeronave
             ; // para comprar con null no encontre otra cosa
             if (llamadoDesdeBajaLogica)
             {
-                MessageBox.Show("Entre a cancelar baja", "OK", MessageBoxButtons.OK);
                 new SQLManager().generarSP("CancelarAeronaveBaja")
                             .agregarStringSP("@Matricula", matricula)
                             .agregarFechaSP("@FechaBaja", fechaBaja)
@@ -55,11 +45,10 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             else
             {
-                MessageBox.Show ("Entre a cancelar fuera de servicio", "OK", MessageBoxButtons.OK);
                 new SQLManager().generarSP("CancelarAeronaveFueraServicio")
                             .agregarStringSP("@Matricula", matricula)
                             .agregarFechaSP("@FechaBaja", fechaBaja)
-                            .agregarFechaSP("@FechaReinicio", (DateTime)fechaReinicio)
+                            .agregarFechaSP("@FechaReinicio", fechaReinicio)
                             .ejecutarSP();
             }
             
