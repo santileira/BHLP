@@ -124,7 +124,10 @@ namespace AerolineaFrba.Compra
             if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
             {
                 if (dateTimePicker1.Value.Year != DateTime.Now.Year || dateTimePicker1.Value.Month != DateTime.Now.Month || dateTimePicker1.Value.Day != DateTime.Now.Day)
+                {
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
+                    dateTimePicker1.Value = DateTime.Now;
+                }
             }
 
         }
