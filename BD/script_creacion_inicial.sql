@@ -6,8 +6,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
+select AERO_MATRI from ABSTRACCIONX4.AERONAVES WHERE AERO_MATRI LIKE 'L%' ORDER BY AERO_MATRI
+delete from ABSTRACCIONX4.BUTACAS
+where AERO_MATRI = 'SANTI'
+delete from ABSTRACCIONX4.AERONAVES
+where AERO_MATRI = 'SANTI'
 -- =============================================================================================
 -- Descripción:	Creación de Esquema
 -- =============================================================================================

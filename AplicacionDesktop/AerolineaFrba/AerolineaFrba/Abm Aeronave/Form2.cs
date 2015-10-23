@@ -140,13 +140,13 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = Validacion.esVacio(txtModelo, "Modelo");
-            algunoVacio = Validacion.esVacio(txtMatricula, "Matricula") || algunoVacio;
-            algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio") || algunoVacio;
+            Boolean algunoVacio = Validacion.esVacio(txtModelo, "Modelo" , true);
+            algunoVacio = Validacion.esVacio(txtMatricula, "Matricula", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas pasillo") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtVenta, "Cantidad de butacas ventanilla") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas pasillo", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtVenta, "Cantidad de butacas ventanilla", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos", true) || algunoVacio;
 
             return algunoVacio;
         }
