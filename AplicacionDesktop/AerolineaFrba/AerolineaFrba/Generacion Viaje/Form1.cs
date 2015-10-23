@@ -105,7 +105,10 @@ namespace AerolineaFrba.Generacion_Viaje
             if (!primeraVez)
             {
                 if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+                {
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
+                    dateTimePicker1.Value = DateTime.Now;
+                }
                 else
                 {
                     this.listadoAeronaves.fechaSalida = dateTimePicker1.Value;
@@ -121,7 +124,10 @@ namespace AerolineaFrba.Generacion_Viaje
             if (!primeraVez)
             {
                 if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
+                {
                     MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
+                    dateTimePicker2.Value = DateTime.Now;
+                }
                 else
                     this.listadoAeronaves.fechaLlegada = dateTimePicker2.Value;
             }
@@ -192,6 +198,11 @@ namespace AerolineaFrba.Generacion_Viaje
             manejador.agregarIntSP("@ruta", txtRuta);
             manejador.agregarStringSP("@matricula", txtMatricula.Text);
             return manejador.ejecutarSP();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

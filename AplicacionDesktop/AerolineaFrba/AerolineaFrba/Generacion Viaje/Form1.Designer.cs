@@ -140,6 +140,7 @@
             this.label7.Size = new System.Drawing.Size(84, 13);
             this.label7.TabIndex = 33;
             this.label7.Text = "Fecha de Salida";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // dateTimePicker1
             // 

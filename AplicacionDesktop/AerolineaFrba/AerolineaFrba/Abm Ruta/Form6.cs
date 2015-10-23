@@ -18,6 +18,7 @@ namespace AerolineaFrba.Abm_Ruta
         public bool vieneDeAlta = false;
         public bool vieneDeArribo = false;
         public bool vieneDeModificacion = false;
+        public bool vieneDeCompras = false;
         //public Listado listado;
 
         public ListadoCiudades(Form formAnterior)
@@ -194,6 +195,12 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 (anterior as Registro_Llegada_Destino.Form1).seSelecciono(this.ciudadSeleccionada());
             }
+
+            if (vieneDeCompras)
+            {
+                (anterior as Compra.Form1).seSelecciono(this.ciudadSeleccionada());
+            }
+
 
         }
 

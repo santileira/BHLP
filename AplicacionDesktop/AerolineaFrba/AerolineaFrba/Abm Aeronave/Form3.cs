@@ -323,7 +323,7 @@ namespace AerolineaFrba.Abm_Aeronave
         }
 
         public Object darDeBajaLogica(DateTime fechaBaja)
-        {
+        {/*
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -341,12 +341,13 @@ namespace AerolineaFrba.Abm_Aeronave
             catch (Exception e)
             {
                 new Form7(e.Message,matricula, fechaBaja, null).ShowDialog();
-            }
+            }*/
+            return 1;
         }
 
         public void dejarFueraDeServicio(DateTime fechaReinicio , DateTime fechaBaja)
         {
-            SqlCommand command = new SqlCommand();
+        /*    SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DejarAeronaveFueraDeServicio]";
@@ -356,7 +357,6 @@ namespace AerolineaFrba.Abm_Aeronave
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
             command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
             
-
             try
             {
                 command.ExecuteScalar();
@@ -364,7 +364,8 @@ namespace AerolineaFrba.Abm_Aeronave
             catch (Exception e)
             {
                 new Form7(e.Message,fechaBaja,fechaReinicio).ShowDialog();
-            }
+            }*/
+        
         }
 
         private Boolean apretoSi(DialogResult resultado)
