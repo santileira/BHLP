@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba.Abm_Aeronave
 {
-    
+
     public partial class Baja : Form
     {
         const string QUERY_BASE = "SELECT AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) WHERE AERO_BAJA_VU = 0 AND AERO_BAJA_FS = 0";
@@ -24,7 +24,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private int filtro;
         private int indiceAeronaveElegida;
         public Boolean huboCondicion;
-        
+
         public Baja()
         {
             InitializeComponent();
@@ -54,7 +54,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
                 this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
             }
-            
+
             consultaColumnasFechas.Connection = Program.conexion();
             varfecha = consultaColumnasFechas.ExecuteReader();
 
@@ -68,7 +68,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private void Listado_Load(object sender, EventArgs e)
         {
             this.iniciar();
-            
+
         }
 
         //Boton Limpiar
@@ -76,7 +76,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             this.iniciar();
         }
-     
+
 
         //Boton Buscar
         private void button3_Click(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 MessageBox.Show("No se ha agregado contenido para el filtro por fecha", "Informe", MessageBoxButtons.OK);
             }
-            
+
             this.ejecutarQuery();
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
@@ -111,14 +111,14 @@ namespace AerolineaFrba.Abm_Aeronave
         private Boolean sePusoFiltro()
         {
             return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboCamposFiltro3.SelectedIndex != -1);
-        }        
+        }
 
         public void ejecutarQuery()
         {
             sePusoAgregarFiltro1 = false;
             sePusoAgregarFiltro2 = false;
             sePusoAgregarFiltro3 = false;
-            
+
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -198,7 +198,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
-       
+
         private Boolean concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
@@ -209,8 +209,8 @@ namespace AerolineaFrba.Abm_Aeronave
                     this.query += " WHERE ";
                 }
                 else*/
-                    this.query += " AND ";
-                
+                this.query += " AND ";
+
                 this.query += combo.Text + criterio;
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
@@ -220,7 +220,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 return true;
             }
             return false;
-            
+
         }
 
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
@@ -239,7 +239,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("AERO_CANT_BUTACAS") || combo.Text.Equals("AERO_CANT_KGS")) 
+            if (combo.Text.Equals("AERO_CANT_BUTACAS") || combo.Text.Equals("AERO_CANT_KGS"))
             {
                 if (!this.esNumero(txt))
                 {
@@ -270,7 +270,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private Boolean esNumero(TextBox txt)
         {
             int n;
-            return int.TryParse(txt.Text,out n);
+            return int.TryParse(txt.Text, out n);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -292,7 +292,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
                 return;
             }
-           
+
             //ejecutarSeleccion();
 
             //(anterior as Modificacion).seSelecciono();
@@ -306,7 +306,7 @@ namespace AerolineaFrba.Abm_Aeronave
             var senderGrid = (DataGridView)sender;
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                
+
                 indiceAeronaveElegida = e.RowIndex;
                 if (e.ColumnIndex == 0)
                 {
@@ -316,7 +316,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 else
                     if (e.ColumnIndex == 1)
                     {
-                        new Form6(this , true).ShowDialog();
+                        new Form6(this, true).ShowDialog();
                         ejecutarQuery();
                     }
             }
@@ -333,7 +333,6 @@ namespace AerolineaFrba.Abm_Aeronave
             string matricula = dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString();
             command.Parameters.AddWithValue("@Matricula", matricula);
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
-            Nullable<DateTime> lastPosteDate =  null ; // lo hizo leira, es la unica manera de encontre de castearlo brai
             try
             {
                 command.ExecuteScalar();
@@ -341,11 +340,10 @@ namespace AerolineaFrba.Abm_Aeronave
             catch (Exception e)
             {
                 new Form7(e.Message, matricula, true, fechaBaja, DateTime.Today).ShowDialog();
-                
             }
         }
 
-        public void dejarFueraDeServicio(DateTime fechaReinicio , DateTime fechaBaja)
+        public void dejarFueraDeServicio(DateTime fechaReinicio, DateTime fechaBaja)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -356,7 +354,7 @@ namespace AerolineaFrba.Abm_Aeronave
             command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
             command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
-            
+
 
             try
             {
@@ -372,10 +370,10 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             return resultado == System.Windows.Forms.DialogResult.Yes;
         }
-        
+
         private void button1_Click_1(object sender, EventArgs e)
         {
-           
+
             if (cboCamposFiltro3.SelectedIndex != -1 && dateTimePicker1.Text.Length != 0)
             {
                 if (this.concatenarCriterio(dateTimePicker1, cboCamposFiltro3, " = '" + dateTimePicker1.Value + "'"))
@@ -399,17 +397,17 @@ namespace AerolineaFrba.Abm_Aeronave
                     this.query += " WHERE ";
             }
             else*/
-                    this.query += " AND ";
+            this.query += " AND ";
 
             this.query += combo.Text + criterio;
             string mensaje = "'" + dateTimePicker1.Value + "'" + " sobre el campo " + combo.Text;
             //MessageBox.Show("query: "+this.query ,"error", MessageBoxButtons.OK);
             txtFiltros.Text += "Se ha agregado el filtro por fecha " + mensaje + System.Environment.NewLine;
-            
+
             return true;
         }
 
-        
+
 
         private DialogResult mostrarMensaje(string tipoDeBaja)
         {
@@ -430,8 +428,6 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             txtFiltro1.Enabled = true;
         }
-
-
 
     }
 }

@@ -35,23 +35,19 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void botonCancelar_Click(object sender, EventArgs e)
         {
-            ; // para comprar con null no encontre otra cosa
-            if (llamadoDesdeBajaLogica)
-            {
-                new SQLManager().generarSP("CancelarAeronaveBaja")
-                            .agregarStringSP("@Matricula", matricula)
-                            .agregarFechaSP("@FechaBaja", fechaBaja)
-                            .ejecutarSP();
+            SQLManager manager = new SQLManager().generarSP("CancelarPasajesEncomiendasAeronave")
+                                                 .agregarStringSP("@Matricula", matricula)
+                                                 .agregarFechaSP("@FechaBaja", fechaBaja);
+
+            if(llamadoDesdeBajaLogica){
+                manager = manager.agregarValorNulo("@FechaReinicio");
             }
-            else
-            {
-                new SQLManager().generarSP("CancelarAeronaveFueraServicio")
-                            .agregarStringSP("@Matricula", matricula)
-                            .agregarFechaSP("@FechaBaja", fechaBaja)
-                            .agregarFechaSP("@FechaReinicio", fechaReinicio)
-                            .ejecutarSP();
+            else{
+                manager = manager.agregarFechaSP("@FechaReinicio",fechaReinicio);
             }
-            
+
+            manager.ejecutarSP();
+
             this.Close();
         }
 

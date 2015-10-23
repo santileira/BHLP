@@ -31,19 +31,25 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             cargarComboServicio();
             cargarComboFabricante();
-
+          
             txtModeloActual.Text = registro.Cells["AERO_MOD"].Value.ToString();
             txtMatriculaActual.Text = registro.Cells["AERO_MATRI"].Value.ToString();
+            // van aca y no al principio porque necesito tener el valor de matricula seteado ya
+            Int16 cantidadPasillo = obtenerButacas("Pasillo", txtMatriculaActual.Text);
+            Int16 cantidadVentanilla = obtenerButacas("Ventanilla", txtMatriculaActual.Text);
+
             txtFabricanteActual.Text = registro.Cells["AERO_FAB"].Value.ToString();
             txtServicioActual.Text = registro.Cells["SERV_DESC"].Value.ToString();
-            txtButacasActual.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
+            txtButacasActual.Text = cantidadPasillo.ToString();
+            txtVenta.Text = cantidadVentanilla.ToString();
             txtKilosActual.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
             
             txtModelo.Text = registro.Cells["AERO_MOD"].Value.ToString();
             txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
             cboFabricante.Text = registro.Cells["AERO_FAB"].Value.ToString();
             cboServicio.Text = registro.Cells["SERV_DESC"].Value.ToString();
-            txtButacas.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
+            txtButacas.Text = cantidadPasillo.ToString();
+            txtVenta1.Text = cantidadVentanilla.ToString();
             txtKilos.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
 
 
@@ -51,6 +57,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
             txtButacas.Enabled =
             txtButacasActual.Enabled =
+            txtVenta1.Enabled=
+            txtVenta.Enabled=
             txtKilos.Enabled =
             txtKilosActual.Enabled =
             txtModelo.Enabled =
@@ -67,6 +75,20 @@ namespace AerolineaFrba.Abm_Aeronave
             button2.Enabled = true;
             button3.Enabled = true;
             
+        }
+
+        private Int16 obtenerButacas(string tipo, string matricula)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.CantidadButacas(@Matricula , @Tipo)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Matricula", matricula);
+            command.Parameters.AddWithValue("@Tipo", tipo);
+
+            return (Int16)command.ExecuteScalar();
         }
 
         private Boolean tieneUnViajeAsignado(string matricula)
@@ -143,6 +165,7 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
+                //this.modificar();
                 try
                 {
                     this.modificar();
@@ -150,6 +173,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 catch
                 {
                     MessageBox.Show("Ya existe una aeronave con la matrícula " + txtMatricula.Text, "Advertencia", MessageBoxButtons.OK);
+                    return;
                 }
                 (listado as Listado).inicio();
                 this.cambiarVisibilidades(this.listado);
@@ -158,11 +182,11 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Object modificar()
         {
-            MessageBox.Show(txtMatricula.Text + txtModelo.Text + txtMatricula.Text + cboFabricante.Text + cboServicio.Text + txtButacas.Text + cantidadKilogramos(), "sads", MessageBoxButtons.OK);
             return new SQLManager().generarSP("ModificarAeronave").agregarStringSP("@MatriculaActual", txtMatriculaActual).
             agregarStringSP("@Modelo", txtModelo).agregarStringSP("@Matricula" , txtMatricula).
             agregarStringSP("@Fabricante", cboFabricante).agregarStringSP("@TipoDeServicio", cboServicio).
-            agregarIntSP("@CantidadButacas", txtButacas).agregarDecimalSP("@CantidadKG", cantidadKilogramos()).ejecutarSP();
+            agregarIntSP("@CantidadPasillo", txtButacas).agregarIntSP("@CantidadVentanilla", txtVenta1).
+            agregarDecimalSP("@CantidadKG", cantidadKilogramos()).ejecutarSP();
             /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -200,7 +224,8 @@ namespace AerolineaFrba.Abm_Aeronave
             algunoVacio = Validacion.esVacio(txtMatricula, "Matricula") || algunoVacio;
             algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio") || algunoVacio;
             algunoVacio = Validacion.esVacio(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas pasillo") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtVenta1, "Cantidad de butacas ventanilla") || algunoVacio;
             algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos") || algunoVacio;
 
             return algunoVacio;
@@ -235,7 +260,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
             huboError = !Validacion.esTexto(txtModelo, "modelo" , true) || huboError;
             huboError = !Validacion.esTexto(txtMatricula, "matrícula" , true) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas", false) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas pasillo", false) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtVenta1, "cantidad de butacas ventanilla", false) || huboError;
             huboError = !Validacion.numeroCorrecto(txtKilos, "cantidad de Kg", true) || huboError;
 
             return huboError;
@@ -317,5 +343,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
             reader.Close();
         }
+
+        
     }
 }

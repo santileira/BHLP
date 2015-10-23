@@ -74,5 +74,12 @@ namespace AerolineaFrba
 
         }
 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Compra.Form1 compra = new Compra.Form1();
+            this.cambiarVisibilidades(compra);
+            compra.primeraVez = false;
+        }
+
     }
 }
