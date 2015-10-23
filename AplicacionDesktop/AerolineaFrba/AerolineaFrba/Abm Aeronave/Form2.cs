@@ -58,7 +58,18 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                darDeAltaAeronave();         
+                try
+                {
+                    darDeAltaAeronave();
+                }
+                catch
+                {
+                    
+                    MessageBox.Show("La matrícula " + txtMatricula.Text + " ya existe. Ingrese otra", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+
+                this.cambiarVisibilidades(new Principal());
             }
 
         }
@@ -67,7 +78,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             return new SQLManager().generarSP("AltaAeronave").agregarStringSP("@Modelo", txtModelo).
             agregarStringSP("@Matricula", txtMatricula).agregarStringSP("@Fabricante", cboFabricante).
-            agregarStringSP("@TipoDeServicio", cboServicio).agregarIntSP("@CantidadButacas", txtButacas).
+            agregarStringSP("@TipoDeServicio", cboServicio).agregarIntSP("@CantidadPasillo", txtButacas).agregarIntSP("@CantidadVentanilla" , txtVenta).
             agregarDecimalSP("@CantidadKG", cantidadKilogramos()).agregarFechaSP("@FechaAlta", dateTimePicker1).ejecutarSP();
             /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -133,7 +144,8 @@ namespace AerolineaFrba.Abm_Aeronave
             algunoVacio = Validacion.esVacio(txtMatricula, "Matricula") || algunoVacio;
             algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio") || algunoVacio;
             algunoVacio = Validacion.esVacio(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas pasillo") || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtVenta, "Cantidad de butacas ventanilla") || algunoVacio;
             algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos") || algunoVacio;
 
             return algunoVacio;
@@ -180,7 +192,8 @@ namespace AerolineaFrba.Abm_Aeronave
 
             huboError = !Validacion.esTexto(txtModelo, "modelo", true) || huboError;
             huboError = !Validacion.esTexto(txtMatricula, "matrícula", true) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas", false) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas pasillo", false) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtVenta, "cantidad de butacas ventanilla", false) || huboError;
             huboError = !Validacion.numeroCorrecto(txtKilos, "cantidad de Kg", true) || huboError;
 
             return huboError;
@@ -271,10 +284,8 @@ namespace AerolineaFrba.Abm_Aeronave
             reader.Close();
         }
 
-        private void cboServicio_SelectedIndexChanged(object sender, EventArgs e)
-        {
+      
 
-        }
 
     }
 }

@@ -159,16 +159,20 @@ CREATE PROCEDURE [ABSTRACCIONX4].AltaAeronave
 	@Matricula VARCHAR(8),
 	@Fabricante VARCHAR(30),
 	@TipoDeServicio VARCHAR(30),
-	@CantidadButacas SMALLINT,
+	@CantidadPasillo SMALLINT,
+	@CantidadVentanilla SMALLINT,
 	@CantidadKG NUMERIC(6,2),
 	@FechaAlta DATETIME
 AS
 	BEGIN TRY
 		DECLARE @CodigoServicio TINYINT
+		DECLARE @CantidadButacas TINYINT
+		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 		SELECT @CodigoServicio=SERV_COD FROM ABSTRACCIONX4.SERVICIOS WHERE SERV_DESC = @TipoDeServicio
 		INSERT INTO ABSTRACCIONX4.AERONAVES 
 			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA)
 			VALUES (@Modelo,@Matricula,@Fabricante,@CodigoServicio,@CantidadButacas,@CantidadKG,@FechaAlta)
+		EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(80)
@@ -176,7 +180,32 @@ AS
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO
+-------------------------------Actualizar Butacas-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].AgregarButacas 
+@Matricula VARCHAR(8), 
+@CantidadPasillo TINYINT, 
+@CantidadVentanilla TINYINT
+AS
+BEGIN
+	DECLARE @i SMALLINT
+	SET @i = 0
+	DECLARE @CantidadButacas TINYINT
+	SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
+	WHILE (@i < @CantidadPasillo)
+	BEGIN
+		INSERT INTO [ABSTRACCIONX4].BUTACAS (BUT_NRO , BUT_PISO , AERO_MATRI , BUT_TIPO)
+		VALUES (@i , 1 , @Matricula , 'Pasillo')
+		SET @i = @i + 1
+	END
 
+	WHILE (@i < @CantidadButacas)
+	BEGIN
+		INSERT INTO [ABSTRACCIONX4].BUTACAS (BUT_NRO , BUT_PISO , AERO_MATRI , BUT_TIPO)
+		VALUES (@i , 1 , @Matricula , 'Ventanilla')
+		SET @i = @i + 1
+	END
+	
+END
 
 -------------------------------Baja Aeronave-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
@@ -200,6 +229,8 @@ BEGIN
 			WHERE AERO_MATRI = @Matricula
 END
 GO
+
+-------------------------------Dar de Baja Logica-------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].DarDeBajaLogica
 	@Matricula VARCHAR(8),
