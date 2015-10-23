@@ -143,7 +143,14 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                this.modificar();
+                try
+                {
+                    this.modificar();
+                }
+                catch
+                {
+                    MessageBox.Show("Ya existe una aeronave con la matrícula " + txtMatricula.Text, "Advertencia", MessageBoxButtons.OK);
+                }
                 (listado as Listado).inicio();
                 this.cambiarVisibilidades(this.listado);
             }
@@ -151,6 +158,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Object modificar()
         {
+            MessageBox.Show(txtMatricula.Text + txtModelo.Text + txtMatricula.Text + cboFabricante.Text + cboServicio.Text + txtButacas.Text + cantidadKilogramos(), "sads", MessageBoxButtons.OK);
             return new SQLManager().generarSP("ModificarAeronave").agregarStringSP("@MatriculaActual", txtMatriculaActual).
             agregarStringSP("@Modelo", txtModelo).agregarStringSP("@Matricula" , txtMatricula).
             agregarStringSP("@Fabricante", cboFabricante).agregarStringSP("@TipoDeServicio", cboServicio).

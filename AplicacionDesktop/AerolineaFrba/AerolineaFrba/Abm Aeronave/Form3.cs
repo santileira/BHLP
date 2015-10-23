@@ -322,7 +322,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
         }
 
-        public Object darDeBajaLogica(DateTime fechaBaja)
+        public void darDeBajaLogica(DateTime fechaBaja)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
@@ -340,7 +340,8 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             catch (Exception e)
             {
-                new Form7(e.Message,matricula, fechaBaja, null).ShowDialog();
+                //new Form7(e.Message,matricula, fechaBaja, null).ShowDialog();
+                
             }
         }
 
@@ -363,7 +364,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             catch (Exception e)
             {
-                new Form7(e.Message,fechaBaja,fechaReinicio).ShowDialog();
+                //new Form7(e.Message,fechaBaja,fechaReinicio).ShowDialog();
             }
         }
 
