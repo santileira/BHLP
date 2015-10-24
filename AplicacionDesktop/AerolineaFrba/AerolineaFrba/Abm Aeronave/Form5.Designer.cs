@@ -215,6 +215,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
+         
             // 
             // lblErrores
             // 
