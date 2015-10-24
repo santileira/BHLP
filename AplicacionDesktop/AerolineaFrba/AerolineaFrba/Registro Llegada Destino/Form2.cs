@@ -14,6 +14,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
     public partial class Form2 : Form
     {
         int viaje_cod;
+        public Form anterior;
 
         public Form2(DataGridViewRow registro, int viajeCod)
         {
@@ -59,16 +60,10 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[agregarFechaLlegada]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@fecha", dateTimePicker1.Value.ToString());
-            command.Parameters.AddWithValue("@viajecod", viaje_cod);
-
-            command.ExecuteScalar();*/
+            new SQLManager().generarSP("agregarFechaLlegada")
+                              .agregarStringSP("@fecha", dateTimePicker1.Value.ToString())
+                                .agregarIntSP("@viajecod", viaje_cod)
+                                  .ejecutarSP();
 
             MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
             Form formularioSiguiente = new Menu();
@@ -78,8 +73,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form formularioSiguiente = new Form1();
-            this.cambiarVisibilidades(formularioSiguiente);
+            this.cambiarVisibilidades(anterior);
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)

@@ -617,6 +617,8 @@ INSERT INTO[ABSTRACCIONX4].[VIAJES]
 			FROM gd_esquema.Maestra 
 	GROUP BY FechaSalida,Fecha_LLegada_Estimada,FechaLLegada,Ruta_Codigo,Aeronave_Matricula,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino
 GO
+
+-- PARA PROBAR REGISTRO LLEGADA DESTINO - INSERT INTO [ABSTRACCIONX4].[VIAJES] values(GETDATE(),NULL,(GETDATE() + 1),'ZBV-508',12)
 --SELECT * FROM [ABSTRACCIONX4].[VIAJES] 
 
 -- Inserta los clientes en la tabla clientes
