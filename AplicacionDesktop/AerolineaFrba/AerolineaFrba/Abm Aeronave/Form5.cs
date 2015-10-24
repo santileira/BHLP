@@ -381,6 +381,11 @@ namespace AerolineaFrba.Abm_Aeronave
             this.cambiarVisibilidades(this.anterior);
     
         }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
 

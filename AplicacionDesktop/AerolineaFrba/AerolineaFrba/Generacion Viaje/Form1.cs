@@ -97,8 +97,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
         private void button6_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Menu();
-            this.cambiarVisibilidades(formularioSiguiente);
+            this.cambiarVisibilidades(new Menu());
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)

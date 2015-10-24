@@ -77,8 +77,10 @@ namespace AerolineaFrba
         private void button7_Click(object sender, EventArgs e)
         {
             Compra.Form1 compra = new Compra.Form1();
+            Compra.Form2 compra2 = new Compra.Form2();
+            compra.formularioSiguiente = compra2;
+            compra2.anterior = compra;
             this.cambiarVisibilidades(compra);
-            compra.primeraVez = false;
         }
 
     }

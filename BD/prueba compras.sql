@@ -13,10 +13,13 @@ select distinct v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE Fecha_
 				r1.SERV_COD = s.SERV_COD
 	order by Fecha_Salida
 
+	select( (select 2) - (select 1))
+
 	select *
 	from ABSTRACCIONX4.CIUDADES
 
-	
+	select *
+	from ABSTRACCIONX4.AERONAVES
 	select *
 	from ABSTRACCIONX4.BUTACAS
 	where BUT_TIPO = 'Ventanilla'

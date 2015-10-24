@@ -15,7 +15,7 @@ namespace AerolineaFrba.Compra
     {
         Boolean seleccionandoOrigen;
         public Boolean primeraVez = true;
-        Form formularioSiguiente;
+        public Form formularioSiguiente;
 
         public Form1()
         {
@@ -117,6 +117,11 @@ namespace AerolineaFrba.Compra
             dg.DataMember = "Busqueda";
 
             conexion.Close();
+
+            dg.Columns["VIAJE_COD"].Visible = false;
+            dg.Columns["AERO_MATRI"].Visible = false;
+
+            dg.CurrentCell = null;
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -125,7 +130,7 @@ namespace AerolineaFrba.Compra
             {
                 if (dateTimePicker1.Value.Year != DateTime.Now.Year || dateTimePicker1.Value.Month != DateTime.Now.Month || dateTimePicker1.Value.Day != DateTime.Now.Day)
                 {
-                    MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
+                    MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy", "Error en las fechas", MessageBoxButtons.OK);
                     dateTimePicker1.Value = DateTime.Now;
                 }
             }
@@ -134,9 +139,22 @@ namespace AerolineaFrba.Compra
 
         private void button6_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Menu();
-            this.cambiarVisibilidades(formularioSiguiente);
+            this.cambiarVisibilidades(new Menu());
         }
 
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            (formularioSiguiente as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (dg.CurrentCell == null)
+                MessageBox.Show("Debe seleccionar algun viaje disponible", "Error en la seleccion de viajes", MessageBoxButtons.OK);
+            else
+            { 
+                this.cambiarVisibilidades(formularioSiguiente);
+            }
+        }
     }
 }
