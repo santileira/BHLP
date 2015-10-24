@@ -20,59 +20,23 @@ END
 
 GO
 
--------------------------------Butacas totales de una aeronave-----------------------------
-CREATE FUNCTION [ABSTRACCIONX4].butacasAeronave(@matricula varchar(8))
-RETURNS table
-
-AS
-	return(
-			(select a.AERO_CANT_KGS
-				from ABSTRACCIONX4.AERONAVES a
-				where a.AERO_MATRI = @matricula)
-			)
-		
-GO
-
 -------------------------------Butacas pasillo disponibles para una aeronave en un viaje determinado-----------------------------
-CREATE FUNCTION [ABSTRACCIONX4].butacasDisponiblesPasillo(@viaje_cod int, @matricula varchar(8))
+CREATE FUNCTION [ABSTRACCIONX4].butacasDisponibles(@viaje_cod int, @matricula varchar(8))
 RETURNS table
 
 AS
 	return(
-			select distinct b.BUT_NRO, b.BUT_TIPO
+			select b.BUT_NRO, b.BUT_TIPO
 			from ABSTRACCIONX4.BUTACAS b
-			where b.AERO_MATRI not in (select distinct p.AERO_MATRI
-										from ABSTRACCIONX4.PASAJES p
-										where p.AERO_MATRI = @matricula and
-										p.VIAJE_COD = @viaje_cod)
-			and b.BUT_NRO not in (select distinct p.BUT_NRO
-										from ABSTRACCIONX4.PASAJES p
-										where p.AERO_MATRI = @matricula and
-										p.VIAJE_COD = @viaje_cod)
-
-			and b.BUT_TIPO = 'Pasillo')
+			where AERO_MATRI = @matricula and
+			b.BUT_NRO not in(select p.BUT_NRO
+								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
+								where p.BUT_NRO = b.BUT_NRO and
+								p.AERO_MATRI = b.AERO_MATRI and
+								p.AERO_MATRI = @matricula and p.VIAJE_COD = @viaje_cod)
+			)
 GO
 
-
--------------------------------Butacas ventanilla disponibles para una aeronave en un viaje determinado-----------------------------
-CREATE FUNCTION [ABSTRACCIONX4].butacasDisponiblesVentanilla(@viaje_cod int, @matricula varchar(8))
-RETURNS table
-
-AS
-	return(
-			select distinct b.BUT_NRO, b.BUT_TIPO
-			from ABSTRACCIONX4.BUTACAS b
-			where b.AERO_MATRI not in (select distinct p.AERO_MATRI
-										from ABSTRACCIONX4.PASAJES p
-										where p.AERO_MATRI = @matricula and
-										p.VIAJE_COD = @viaje_cod)
-			and b.BUT_NRO not in (select distinct p.BUT_NRO
-										from ABSTRACCIONX4.PASAJES p
-										where p.AERO_MATRI = @matricula and
-										p.VIAJE_COD = @viaje_cod)
-
-			and b.BUT_TIPO = 'Ventanilla')
-GO
 
 -------------------------------Filtrar los viajes disponibles para una fecha y ruta------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].buscarViajesDisponibles(@fecha datetime, @origen varchar(80), @destino varchar(80))

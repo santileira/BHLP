@@ -33,11 +33,10 @@ namespace AerolineaFrba.Compra
 
         public void seSelecciono(DataGridViewRow registro)
         {
-            this.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponiblesPasillo('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", "1");
-            this.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponiblesVentanilla('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", "0");
+            this.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')");
         }
 
-        private void ejecutarQuery(string query, string tipo)
+        private void ejecutarQuery(string query)
         {           
             SqlConnection conexion = Program.conexion();
             DataTable t = new DataTable("Busqueda");
@@ -47,17 +46,9 @@ namespace AerolineaFrba.Compra
             a.Fill(ds, "Busqueda");
             //Ligar el datagrid con la fuente de datos
 
-            if (tipo == "1")
-            {
-                dgPasillo.DataSource = ds;
-                dgPasillo.DataMember = "Busqueda";
-            }
-            else
-            {
-                dgVentanilla.DataSource = ds;
-                dgVentanilla.DataMember = "Busqueda";
-            }
-
+            dg.DataSource = ds;
+            dg.DataMember = "Busqueda";
+       
             conexion.Close();
         }
         

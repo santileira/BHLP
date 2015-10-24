@@ -215,11 +215,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
-<<<<<<< HEAD
-            this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
-=======
-         
->>>>>>> 48b313b54b57aef5bed31821e9bc719a279f8000
+
             // 
             // lblErrores
             // 

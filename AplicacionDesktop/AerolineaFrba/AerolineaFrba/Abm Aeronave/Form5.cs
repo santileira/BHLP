@@ -29,7 +29,7 @@ namespace AerolineaFrba.Abm_Aeronave
         public string serv_cod = null;
 
         public Boolean llamadoDesdeModificacionSeleccionar;
-        
+
 
         public Listado()
         {
@@ -375,21 +375,14 @@ namespace AerolineaFrba.Abm_Aeronave
 
             if (this.loActivoGenerarViajes)
             {
-                (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);   
+                (anterior as Generacion_Viaje.Form1).seSeleccionoAeronave(dg.SelectedRows[0]);
             }
 
             this.cambiarVisibilidades(this.anterior);
-    
-        }
-
-<<<<<<< HEAD
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
         }
-=======
-     
->>>>>>> 48b313b54b57aef5bed31821e9bc719a279f8000
+
     }
 }
+    
 
