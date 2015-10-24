@@ -165,8 +165,8 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                //this.modificar();
-                try
+                this.modificar();
+                /*try
                 {
                     this.modificar();
                 }
@@ -174,7 +174,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 {
                     MessageBox.Show("Ya existe una aeronave con la matrícula " + txtMatricula.Text, "Advertencia", MessageBoxButtons.OK);
                     return;
-                }
+                }*/
                 (listado as Listado).inicio();
                 this.cambiarVisibilidades(this.listado);
             }

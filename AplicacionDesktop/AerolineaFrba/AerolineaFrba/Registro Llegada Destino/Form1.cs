@@ -90,35 +90,41 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         public String consultaSeteada()
         {
-            return "SELECT a.AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI)"; // WHERE v.VIAJE_FECHA_LLEGADA = NULL
+            return "SELECT a.AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI) WHERE v.VIAJE_FECHA_LLEGADA IS NULL";
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (!camposNoCompletos())
+            if (validarCampos())
             {
                 viaje_cod = esDestinoValido();
-                if(viaje_cod!=-1)
+                if (viaje_cod != -1)
                 {
-                Form cargaFecha = new Form2(aeronaveSeleccionada,viaje_cod);
-                cambiarVisibilidades(cargaFecha);
+                    Form2 cargaFecha = new Form2(aeronaveSeleccionada, viaje_cod);
+                    cargaFecha.anterior = this;
+                    cambiarVisibilidades(cargaFecha);
+                }
+                else
+                {
+                    MessageBox.Show("El Destino seleccionado no corresponde al destino de la aeronave", "Destino inválido", MessageBoxButtons.OK);
                 }
             }
         }
 
         private int esDestinoValido()
         {
-            /*SqlCommand command = new SqlCommand();
+
+            SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[llegaADestinoCorrecto]";
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.llegaADestinoCorrecto(@Matricula , @Tipo)";
             command.CommandTimeout = 0;
 
-            command.Parameters.AddWithValue("@MatriculaTxt", txtMatricula.Text);
-            command.Parameters.AddWithValue("@ciuDestinoTxt", txtCiudadDestino.Text);
+            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
+            command.Parameters.AddWithValue("@Tipo", txtCiudadDestino.Text);
 
-            return (int)command.ExecuteScalar();*/
-            return 1;
+            return (int)command.ExecuteScalar();
+
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -127,25 +133,14 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             this.cambiarVisibilidades(formularioSiguiente);
         }
 
-        private Boolean camposNoCompletos()
+        private Boolean validarCampos()
         {
-            Boolean algunoVacio = !this.seCompleto(txtMatricula, "Matricula");
-            algunoVacio = !this.seCompleto(txtCiudadOrigen, "Ciudad Origen") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtCiudadDestino, "Ciudad Destino") || algunoVacio;
 
-
-            return algunoVacio;
+            return Validacion.textNombre(txtCiudadOrigen, "Ciudad Origen") &&
+                    Validacion.textNombre(txtCiudadDestino, "Ciudad Destino") &&
+                     Validacion.textNombre(txtMatricula, "Matricula") &&
+                      !Validacion.igualdadCiudades(txtCiudadOrigen, txtCiudadDestino);
         }
 
-        private Boolean seCompleto(TextBox txt, string campo)
-        {
-            if (txt.TextLength == 0)
-            {
-                MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            else
-                return true;
-        }
     }
 }
