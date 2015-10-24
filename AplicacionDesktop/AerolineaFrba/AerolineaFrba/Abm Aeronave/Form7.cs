@@ -60,6 +60,8 @@ namespace AerolineaFrba.Abm_Aeronave
                 sqlManager.agregarFechaNula("@FechaReinicio").ejecutarSP();
             else
                 sqlManager.agregarFechaSP("@FechaReinicio", fechaReinicio).ejecutarSP();
+
+            this.Close();
         }
 
     }
