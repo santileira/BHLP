@@ -1,10 +1,56 @@
+-------------------------------Kg disponibles en la aeronave de un viaje determinado-----------------------------
+CREATE FUNCTION [ABSTRACCIONX4].kilosDisponibles(@viaje_cod int, @matricula varchar(8))
+RETURNS numeric(7,2)
+
+AS
+BEGIN
+		
+	return(
+			(select a.AERO_CANT_KGS
+				from ABSTRACCIONX4.AERONAVES a
+				where a.AERO_MATRI = @matricula) -
+			
+				(select sum(e.ENCOMIENDA_PESO_KG)
+				from ABSTRACCIONX4.ENCOMIENDAS e
+				where e.VIAJE_COD = @viaje_cod and
+				e.AERO_MATRI = @matricula)
+				)
+		
+END
+
+GO
+-------------------------------Butacas disponibles para una aeronave en un viaje determinado-----------------------------
+CREATE FUNCTION [ABSTRACCIONX4].butacasDisponibles(@viaje_cod int, @matricula varchar(8))
+RETURNS smallint
+
+AS
+BEGIN
+		return(
+				(select a.AERO_CANT_BUTACAS
+				from ABSTRACCIONX4.AERONAVES a
+				where a.AERO_MATRI = @matricula) -
+		
+				(select count(*)
+				from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
+				where p.BUT_NRO = b.BUT_NRO and
+				p.VIAJE_COD = @viaje_cod and
+				b.AERO_MATRI = @matricula)
+				)
+		
+END
+
+GO
+
 -------------------------------Filtrar los viajes disponibles para una fecha y ruta------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].buscarViajesDisponibles(@fecha datetime, @origen varchar(80), @destino varchar(80))
 RETURNS table
 
 AS
-	return (select distinct v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE Fecha_Llegada, c1.CIU_DESC Origen, c2.CIU_DESC Destino, s.SERV_DESC
-			from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r1, ABSTRACCIONX4.RUTAS_AEREAS r2,ABSTRACCIONX4.CIUDADES c1, ABSTRACCIONX4.CIUDADES c2,ABSTRACCIONX4.SERVICIOS s
+	return (select distinct v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE Fecha_Llegada, 
+				c1.CIU_DESC Origen, c2.CIU_DESC Destino, s.SERV_DESC, [ABSTRACCIONX4].butacasDisponibles(v.VIAJE_COD, v.AERO_MATRI) Butacas_Disponibles, 
+					[ABSTRACCIONX4].kilosDisponibles(v.VIAJE_COD, v.AERO_MATRI) Kilos_Disponibles
+			from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r1, ABSTRACCIONX4.RUTAS_AEREAS r2,
+				ABSTRACCIONX4.CIUDADES c1, ABSTRACCIONX4.CIUDADES c2,ABSTRACCIONX4.SERVICIOS s
 			where v.RUTA_ID = r1.RUTA_ID and
 				v.RUTA_ID = r2.RUTA_ID and
 				r1.CIU_COD_O = c1.CIU_COD and
