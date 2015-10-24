@@ -40,7 +40,7 @@ namespace AerolineaFrba.Abm_Aeronave
                                                  .agregarFechaSP("@FechaBaja", fechaBaja);
 
             if(llamadoDesdeBajaLogica){
-                manager = manager.agregarValorNulo("@FechaReinicio");
+                manager = manager.agregarFechaNula("@FechaReinicio");
             }
             else{
                 manager = manager.agregarFechaSP("@FechaReinicio",fechaReinicio);
@@ -53,11 +53,11 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void botonSuplantar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Entre a suplantar", "OK", MessageBoxButtons.OK);
-            SQLManager sqlManager = new SQLManager().generarSP("SuplantarAeronave").agregarStringSP("@Matricula", matricula)
-            .agregarFechaSP("@FechaBaja", fechaBaja);
+            SQLManager sqlManager = new SQLManager().generarSP("SuplantarAeronave")
+                                                    .agregarStringSP("@Matricula", matricula)
+                                                    .agregarFechaSP("@FechaBaja", fechaBaja);
             if (llamadoDesdeBajaLogica)
-                sqlManager.agregarStringSP("@FechaReinicio",(string) null).ejecutarSP();
+                sqlManager.agregarFechaNula("@FechaReinicio").ejecutarSP();
             else
                 sqlManager.agregarFechaSP("@FechaReinicio", fechaReinicio).ejecutarSP();
         }

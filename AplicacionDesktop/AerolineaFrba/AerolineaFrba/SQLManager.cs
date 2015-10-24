@@ -93,9 +93,9 @@ namespace AerolineaFrba
             return this;
         }
 
-        public SQLManager agregarValorNulo(string nombreVariable)
+        public SQLManager agregarFechaNula(string nombreVariable)
         {
-            command.Parameters.AddWithValue(nombreVariable, null);
+            command.Parameters.AddWithValue(nombreVariable, System.Data.SqlTypes.SqlDateTime.Null);
             return this;
         }
 
