@@ -32,7 +32,6 @@ END
 GO
 
 
--------------------------------Alta Aeronave-------------------------------
 
 
 
@@ -637,7 +636,9 @@ END
 GO
 
 
-CREATE PROCEDURE [ABSTRACCIONX4].AltaAeronave
+-------------------------------Alta Aeronave-------------------------------
+
+create PROCEDURE [ABSTRACCIONX4].AltaAeronave
 	@Modelo VARCHAR(30),
 	@Matricula VARCHAR(8),
 	@Fabricante VARCHAR(30),
