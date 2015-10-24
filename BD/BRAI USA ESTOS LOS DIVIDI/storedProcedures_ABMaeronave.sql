@@ -34,34 +34,7 @@ GO
 
 -------------------------------Alta Aeronave-------------------------------
 
-CREATE PROCEDURE [ABSTRACCIONX4].AltaAeronave
-	@Modelo VARCHAR(30),
-	@Matricula VARCHAR(8),
-	@Fabricante VARCHAR(30),
-	@TipoDeServicio VARCHAR(30),
-	@CantidadPasillo SMALLINT,
-	@CantidadVentanilla SMALLINT,
-	@CantidadKG NUMERIC(6,2),
-	@FechaAlta DATETIME
-AS
-	BEGIN TRY
-		DECLARE @CodigoServicio TINYINT
-		DECLARE @CantidadButacas TINYINT
-		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
-		SELECT @CodigoServicio=SERV_COD FROM ABSTRACCIONX4.SERVICIOS WHERE SERV_DESC = @TipoDeServicio
-		INSERT INTO ABSTRACCIONX4.AERONAVES 
-			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA)
-			VALUES (@Modelo,@Matricula,@Fabricante,@CodigoServicio,@CantidadButacas,@CantidadKG,@FechaAlta)
-		EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
-	END TRY
-	BEGIN CATCH
-		DECLARE @Error varchar(80)
-		SET @Error = 'Ya existe una aeronave con matrícula ' + @Matricula
-		RAISERROR(@Error, 16, 1)
-	END CATCH
 
-
-GO
 
 -------------------------------Baja Aeronave-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
@@ -616,6 +589,52 @@ END
 GO
 
 
+-------------------------------Obter Codigo de Ciudad-------------------------------
+
+CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigoCiudad(@Ciudad VARCHAR(80))
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @Codigo SMALLINT
+	SELECT @Codigo = CIU_COD FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_DESC = @Ciudad
+	RETURN @Codigo
+END
+GO
+
+
+CREATE PROCEDURE [ABSTRACCIONX4].AltaAeronave
+	@Modelo VARCHAR(30),
+	@Matricula VARCHAR(8),
+	@Fabricante VARCHAR(30),
+	@TipoDeServicio VARCHAR(30),
+	@CantidadPasillo SMALLINT,
+	@CantidadVentanilla SMALLINT,
+	@CantidadKG NUMERIC(6,2),
+	@FechaAlta DATETIME,
+	@CiudadPrincipal VARCHAR(80)
+AS
+	BEGIN TRY
+		DECLARE @CodigoServicio TINYINT
+		DECLARE @CantidadButacas TINYINT
+		DECLARE @CodigoCiudad SMALLINT
+		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
+		SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
+		SET @CodigoCiudad = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadPrincipal)
+
+		INSERT INTO ABSTRACCIONX4.AERONAVES 
+			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA , CIU_COD_P)
+			VALUES (@Modelo,@Matricula,@Fabricante,@CodigoServicio,@CantidadButacas,@CantidadKG,@FechaAlta,@CodigoCiudad)
+		EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
+	END TRY
+	BEGIN CATCH
+		DECLARE @Error varchar(80)
+		SET @Error = 'Ya existe una aeronave con matrícula ' + @Matricula
+		RAISERROR(@Error, 16, 1)
+	END CATCH
+
+
+GO
+
 /*
 DROP  PROCEDURE [ABSTRACCIONX4].BorrarEncomiendas
 DROP PROCEDURE [ABSTRACCIONX4].BorrarPasajes
@@ -646,5 +665,6 @@ DROP PROCEDURE  [ABSTRACCIONX4].ModificarAeronaveViajes
 DROP FUNCTION [ABSTRACCIONX4].CantidadButacas
 DROP FUNCTION [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe
 DROP FUNCTION [ABSTRACCIONX4].ObtenerCodigoServicio
+DROP FUNCTION [ABSTRACCIONX4].ObtenerCodigoCiudad
 
 */
