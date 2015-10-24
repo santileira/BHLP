@@ -34,6 +34,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             cargarComboServicio();
             cargarComboFabricante();
+            cargarComboCiudades();
             txtMatricula.Text = "";
             txtModelo.Text = "";
             txtModelo.Focus();
@@ -58,10 +59,10 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                try
-                {
-                    darDeAltaAeronave();
-                }
+                //try
+                // {
+                darDeAltaAeronave();
+                /*}
                 catch
                 {
                     
@@ -70,6 +71,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 }
 
                 this.cambiarVisibilidades(new Principal());
+            */
             }
 
         }
@@ -79,7 +81,8 @@ namespace AerolineaFrba.Abm_Aeronave
             return new SQLManager().generarSP("AltaAeronave").agregarStringSP("@Modelo", txtModelo).
             agregarStringSP("@Matricula", txtMatricula).agregarStringSP("@Fabricante", cboFabricante).
             agregarStringSP("@TipoDeServicio", cboServicio).agregarIntSP("@CantidadPasillo", txtButacas).agregarIntSP("@CantidadVentanilla" , txtVenta).
-            agregarDecimalSP("@CantidadKG", cantidadKilogramos()).agregarFechaSP("@FechaAlta", dateTimePicker1).ejecutarSP();
+            agregarDecimalSP("@CantidadKG", cantidadKilogramos()).agregarFechaSP("@FechaAlta", dateTimePicker1).
+            agregarStringSP("@CiudadPrincipal" , cboCiudades.Text).ejecutarSP();
             /*SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -284,8 +287,23 @@ namespace AerolineaFrba.Abm_Aeronave
             reader.Close();
         }
 
-      
+        private void cargarComboCiudades()
+        {
+            cboCiudades.Items.Clear();
 
+            SqlDataReader reader;
+            SqlCommand consultaServicios = new SqlCommand();
+            consultaServicios.CommandType = CommandType.Text;
+            consultaServicios.CommandText = "SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES]";
+            consultaServicios.Connection = Program.conexion();
+
+            reader = consultaServicios.ExecuteReader();
+
+            while (reader.Read())
+                this.cboCiudades.Items.Add(reader.GetValue(0));
+
+            reader.Close();
+        }
 
     }
 }
