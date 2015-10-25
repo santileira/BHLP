@@ -40,7 +40,7 @@ namespace AerolineaFrba.Compra
             txtTel.Text = "";
             txtMail.Text = "";
 
-            txtDni.Focus = true;
+            txtDni.Focus();
 
             txtApe.Enabled = false;
             txtDire.Enabled = false;
