@@ -286,7 +286,6 @@ BEGIN
 	DECLARE @Fabricante VARCHAR(30)
 	DECLARE @Modelo VARCHAR(30)
 	DECLARE @CantidadKG NUMERIC(6,2)
-	
 
 	SELECT @TipoServicio = SERV_COD, @Fabricante = AERO_FAB,
 		   @Modelo = AERO_MOD, 
@@ -303,7 +302,9 @@ BEGIN
 			  SERV_COD = @TipoServicio AND 
 			  AERO_FAB = @Fabricante AND
 			  AERO_MOD = @Modelo AND
+			  AERO_FECHA_ALTA > @FechaBaja AND
 			  AERO_CANT_KGS >= @CantidadKG AND
+			  AERO_BAJA_FS = 0 AND AERO_BAJA_VU = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
 			  ABSTRACCIONX4.DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
