@@ -1,3 +1,17 @@
+-------------------------------Buscar cliente para un cierto dni y apellido-----------------------------
+CREATE FUNCTION [ABSTRACCIONX4].buscarCliente(@dni numeric(10,0), @ape varchar(60))
+RETURNS table
+
+AS		
+	return(
+			select *
+				from ABSTRACCIONX4.CLIENTES c
+				where CLI_APELLIDO = @ape and
+				CLI_DNI = @dni
+				)
+		
+GO
+
 -------------------------------Kg disponibles en la aeronave de un viaje determinado-----------------------------
 CREATE FUNCTION [ABSTRACCIONX4].kilosDisponibles(@viaje_cod int, @matricula varchar(8))
 RETURNS table

@@ -12,8 +12,13 @@ namespace AerolineaFrba.Compra
 {
     public partial class Form4 : Form
     {
-        public Form pasajerosYEncomiendas;
+        public Form servicioDeEncomiendas;
+        public Form butacas;
+
         public Form anterior;
+
+        public int cantidadButacasDisponibles;
+        public double cantidadKilosDisponibles;
 
         public Form4()
         {
@@ -23,6 +28,22 @@ namespace AerolineaFrba.Compra
         private void Form4_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(this.anterior);
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(this.butacas);
         }
     }
 }

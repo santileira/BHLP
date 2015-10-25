@@ -158,7 +158,7 @@ namespace AerolineaFrba.Compra
 
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            (formularioSiguiente as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
+            (((formularioSiguiente as Compra.Form3).formularioSiguiente as Compra.Form4).butacas as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
         }
 
         private void button5_Click(object sender, EventArgs e)

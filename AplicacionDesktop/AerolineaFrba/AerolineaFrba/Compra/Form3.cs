@@ -54,7 +54,7 @@ namespace AerolineaFrba.Compra
             if (chkPasajes.Checked)
             {
                 huboErrores = Validacion.esVacio(txtButacas, "Butacas", true);
-                huboErrores = Validacion.numeroCorrecto(txtButacas, "Butacas", false);
+                huboErrores = !Validacion.numeroCorrecto(txtButacas, "Butacas", false);
                 
                 if(Convert.ToInt32(txtButacas.Text) > this.cantidadButacasDisponibles)
                 {
@@ -66,7 +66,7 @@ namespace AerolineaFrba.Compra
             if (chkEncomiendas.Checked)
             {
                 huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true);
-                huboErrores2 = Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
+                huboErrores2 = !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
 
                 if (Convert.ToDouble(txtKilos.Text) > this.cantidadKilosDisponibles)
                 {
@@ -77,7 +77,9 @@ namespace AerolineaFrba.Compra
 
             if ((chkPasajes.Checked && !huboErrores) || (chkEncomiendas.Checked && !huboErrores2))
             {
-                this.cambiarVisibilidades(this.pasajerosYEncomiendas);
+                (this.formularioSiguiente as Compra.Form4).cantidadButacasDisponibles = this.cantidadButacasDisponibles;
+                (this.formularioSiguiente as Compra.Form4).cantidadKilosDisponibles = this.cantidadKilosDisponibles;
+                this.cambiarVisibilidades(this.formularioSiguiente);
             }
         }
 
@@ -99,7 +101,7 @@ namespace AerolineaFrba.Compra
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
-            this.anterior.Visible = true;
+            this.formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 

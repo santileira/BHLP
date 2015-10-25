@@ -78,13 +78,21 @@ namespace AerolineaFrba
         {
             Compra.Form1 compra = new Compra.Form1();
             Compra.Form3 ingresarCantidades = new Compra.Form3();
-            Compra.Form4 pasajesYEncomiendas = new Compra.Form4();
+            Compra.Form4 cargaDeDatos = new Compra.Form4();
+
+            Compra.Form2 butacas = new Compra.Form2();
+            Compra.Form5 servicioDeEncomiendas = new Compra.Form5();
 
             compra.formularioSiguiente = ingresarCantidades;
             ingresarCantidades.anterior = compra;
 
-            ingresarCantidades.formularioSiguiente = pasajesYEncomiendas;
-            pasajesYEncomiendas.anterior = ingresarCantidades;
+            ingresarCantidades.formularioSiguiente = cargaDeDatos;
+            cargaDeDatos.anterior = ingresarCantidades;
+
+            cargaDeDatos.butacas = butacas;
+            butacas.anterior = cargaDeDatos;
+            cargaDeDatos.servicioDeEncomiendas = servicioDeEncomiendas;
+            servicioDeEncomiendas.anterior = cargaDeDatos;
             
             this.cambiarVisibilidades(compra);
         }
