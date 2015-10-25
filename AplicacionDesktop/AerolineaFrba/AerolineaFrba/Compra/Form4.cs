@@ -46,5 +46,9 @@ namespace AerolineaFrba.Compra
             (this.butacas as Compra.Form2).inicio();
             this.cambiarVisibilidades(this.butacas);
         }
+
+        public void agregarPasaje()
+        {
+        }
     }
 }
