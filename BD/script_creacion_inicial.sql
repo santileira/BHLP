@@ -22,7 +22,6 @@ where AERO_MATRI = 'SANTI'*/
 -- Descripción:	Creación de Tablas
 -- =============================================================================================
 
-
 --Rol: Si el estado es 0, se encuentra inactivo, si es 1 activo.
 
 --TIENE INSERT
