@@ -97,18 +97,41 @@ namespace AerolineaFrba.Registro_Llegada_Destino
         {
             if (validarCampos())
             {
-                viaje_cod = esDestinoValido();
-                if (viaje_cod != -1)
+                if (esOrigenValido())
                 {
-                    Form2 cargaFecha = new Form2(aeronaveSeleccionada, viaje_cod);
-                    cargaFecha.anterior = this;
-                    cambiarVisibilidades(cargaFecha);
+                    viaje_cod = esDestinoValido();
+                    if (viaje_cod != -1)
+                    {
+                        Form2 cargaFecha = new Form2(aeronaveSeleccionada, viaje_cod);
+                        cargaFecha.anterior = this;
+                        cambiarVisibilidades(cargaFecha);
+                    }
+                    else
+                    {
+                        MessageBox.Show("El Destino seleccionado no corresponde al destino de la aeronave", "Destino inválido", MessageBoxButtons.OK);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("El Destino seleccionado no corresponde al destino de la aeronave", "Destino inválido", MessageBoxButtons.OK);
+                    MessageBox.Show("El Origen seleccionado no corresponde al origen de la aeronave", "Origen inválido", MessageBoxButtons.OK);
                 }
             }
+        }
+
+        private bool esOrigenValido()
+        {
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.esOrigenCorrecto(@Matricula , @ciuOrigenTxt)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
+            command.Parameters.AddWithValue("@ciuOrigenTxt", txtCiudadOrigen.Text);
+
+            return (bool)command.ExecuteScalar();
+
         }
 
         private int esDestinoValido()
@@ -117,11 +140,11 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT ABSTRACCIONX4.llegaADestinoCorrecto(@Matricula , @Tipo)";
+            command.CommandText = "SELECT ABSTRACCIONX4.llegaADestinoCorrecto(@Matricula , @ciuDestinoTxt)";
             command.CommandTimeout = 0;
 
             command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
-            command.Parameters.AddWithValue("@Tipo", txtCiudadDestino.Text);
+            command.Parameters.AddWithValue("@ciuDestinoTxt", txtCiudadDestino.Text);
 
             return (int)command.ExecuteScalar();
 
