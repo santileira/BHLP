@@ -38,7 +38,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtNom = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtNac = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtTel = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -48,6 +47,9 @@
             this.dgCliente = new System.Windows.Forms.DataGridView();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.dp = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgButacas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgKilos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
@@ -71,18 +73,19 @@
             this.dgButacas.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgButacas.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgButacas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgButacas.Location = new System.Drawing.Point(38, 329);
+            this.dgButacas.Location = new System.Drawing.Point(26, 326);
             this.dgButacas.MultiSelect = false;
             this.dgButacas.Name = "dgButacas";
             this.dgButacas.ReadOnly = true;
             this.dgButacas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgButacas.Size = new System.Drawing.Size(266, 98);
+            this.dgButacas.Size = new System.Drawing.Size(298, 98);
             this.dgButacas.TabIndex = 48;
+            this.dgButacas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgButacas_CellContentClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(35, 293);
+            this.label2.Location = new System.Drawing.Point(24, 293);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 13);
             this.label2.TabIndex = 50;
@@ -145,6 +148,7 @@
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 57;
+            this.txtNom.TextChanged += new System.EventHandler(this.txtNom_TextChanged);
             // 
             // label4
             // 
@@ -154,13 +158,6 @@
             this.label4.Size = new System.Drawing.Size(47, 13);
             this.label4.TabIndex = 56;
             this.label4.Text = "Nombre:";
-            // 
-            // txtNac
-            // 
-            this.txtNac.Location = new System.Drawing.Point(190, 232);
-            this.txtNac.Name = "txtNac";
-            this.txtNac.Size = new System.Drawing.Size(134, 20);
-            this.txtNac.TabIndex = 63;
             // 
             // label5
             // 
@@ -177,6 +174,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 61;
+            this.txtTel.TextChanged += new System.EventHandler(this.txtTel_TextChanged);
             // 
             // label6
             // 
@@ -193,6 +191,7 @@
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 59;
+            this.txtDire.TextChanged += new System.EventHandler(this.txtDire_TextChanged);
             // 
             // label7
             // 
@@ -236,6 +235,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 67;
+            this.txtMail.TextChanged += new System.EventHandler(this.txtMail_TextChanged);
             // 
             // label8
             // 
@@ -246,16 +246,46 @@
             this.label8.TabIndex = 66;
             this.label8.Text = "Direccion de correo electronico:";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(212, 446);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(112, 38);
+            this.button2.TabIndex = 68;
+            this.button2.Text = "Confirmar pasaje";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(26, 446);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(112, 38);
+            this.button3.TabIndex = 69;
+            this.button3.Text = "Limpiar";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // dp
+            // 
+            this.dp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dp.Location = new System.Drawing.Point(190, 232);
+            this.dp.Name = "dp";
+            this.dp.Size = new System.Drawing.Size(136, 20);
+            this.dp.TabIndex = 70;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 522);
+            this.Controls.Add(this.dp);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.txtMail);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.dgCliente);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.txtNac);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtTel);
             this.Controls.Add(this.label6);
@@ -295,7 +325,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtNom;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtNac;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtTel;
         private System.Windows.Forms.Label label6;
@@ -305,5 +334,8 @@
         private System.Windows.Forms.DataGridView dgCliente;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.DateTimePicker dp;
     }
 }

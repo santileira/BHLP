@@ -14,6 +14,9 @@ namespace AerolineaFrba.Compra
     public partial class Form2 : Form
     {
         public Form anterior;
+        public Boolean encontroCliente = false;
+        public Boolean actualizarTabla = false;
+        public int codigoCliente;
 
         public Form2()
         {
@@ -30,20 +33,26 @@ namespace AerolineaFrba.Compra
             txtApe.Text = "";
             txtDire.Text = "";
             txtDni.Text = "";
-            txtNac.Text = "";
+
             txtNom.Text = "";
             txtTel.Text = "";
             txtMail.Text = "";
 
             txtApe.Enabled = false;
             txtDire.Enabled = false;
-            txtNac.Enabled = false;
+            dp.Enabled = false;
             txtNom.Enabled = false;
             txtTel.Enabled = false;
             txtMail.Enabled = false;
 
             button1.Enabled = false;
-                 
+
+            encontroCliente = false;
+            actualizarTabla = false;
+
+            dgCliente.CurrentCell = null;
+
+            dp.Value = DateTime.Now;
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -86,7 +95,7 @@ namespace AerolineaFrba.Compra
         private void button1_Click(object sender, EventArgs e)
         {
             txtDire.Enabled = true;
-            txtNac.Enabled = true;
+            dp.Enabled = true;
             txtNom.Enabled = true;
             txtTel.Enabled = true;
             txtMail.Enabled = true;
@@ -95,13 +104,15 @@ namespace AerolineaFrba.Compra
 
             if (dgCliente.RowCount == 1)
             {
-                dgKilos.Rows[0].Cells["Kilos"].Value.ToString();
+                encontroCliente = true;
 
                 txtDire.Text = dgCliente.Rows[0].Cells["CLI_DIRECCION"].Value.ToString();
-                txtNac.Text = dgCliente.Rows[0].Cells["CLI_FECHA_NAC"].Value.ToString();
+                dp.Value = (DateTime)dgCliente.Rows[0].Cells["CLI_FECHA_NAC"].Value;
                 txtNom.Text = dgCliente.Rows[0].Cells["CLI_NOMBRE"].Value.ToString();
                 txtTel.Text = dgCliente.Rows[0].Cells["CLI_TELEFONO"].Value.ToString();
                 txtMail.Text = dgCliente.Rows[0].Cells["CLI_MAIL"].Value.ToString();
+
+                codigoCliente = (int)dgCliente.Rows[0].Cells["CLI_COD"].Value;
             }
             else
                 MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
@@ -117,6 +128,88 @@ namespace AerolineaFrba.Compra
         private void txtApe_TextChanged(object sender, EventArgs e)
         {
             button1.Enabled = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.inicio();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Boolean huboError = false;
+
+            huboError = Validacion.esVacio(txtDni, "DNI", true);
+            huboError = Validacion.esVacio(txtTel, "Telefono", true);
+            huboError = Validacion.esVacio(txtDire, "Direccion", true);
+            huboError = Validacion.esVacio(txtMail, "Mail", true);
+            huboError = Validacion.esVacio(txtNom, "Nombre", true);
+            huboError = Validacion.esVacio(txtApe, "Apellido", true);
+             
+            huboError = !Validacion.numeroCorrecto(txtDni, "DNI", false);
+            huboError = !Validacion.numeroCorrecto(txtTel, "Telefono", false);
+
+            huboError = !Validacion.esTexto(txtDire, "Direccion", true);
+            huboError = !Validacion.esTexto(txtMail, "Mail", true);
+            huboError = !Validacion.esTexto(txtNom, "Nombre", true);
+            huboError = !Validacion.esTexto(txtApe, "Apellido", true);
+
+            if (dp.Value.Year > DateTime.Now.Year && dp.Value.Month > DateTime.Now.Month && dp.Value.Day > DateTime.Now.Day)
+            {
+                huboError = true;
+                MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);
+            }
+            
+  /*          if (dgCliente.CurrentCell == null)
+            {
+                huboError = true;
+                MessageBox.Show("Debe seleccionar una butaca", "Error en los datos", MessageBoxButtons.OK);
+            }
+*/
+
+            if(!huboError)
+            {
+                dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor = Color.Gray;
+                dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Style.BackColor = Color.Gray;
+            }
+                
+
+        }
+
+        private void dgButacas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtNom_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtDire_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtTel_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtNac_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtMail_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void hayQueActualizarTabla()
+        {
+            if (encontroCliente)
+                actualizarTabla = true;
         }
     }
 }
