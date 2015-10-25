@@ -16,7 +16,9 @@ namespace AerolineaFrba.Compra
         public Form anterior;
         public Boolean encontroCliente = false;
         public Boolean actualizarTabla = false;
-        public int codigoCliente;
+        public int codigoCliente = 0;
+
+        public int cantidadButacas;
 
         public Form2()
         {
@@ -38,6 +40,8 @@ namespace AerolineaFrba.Compra
             txtTel.Text = "";
             txtMail.Text = "";
 
+            txtDni.Focus = true;
+
             txtApe.Enabled = false;
             txtDire.Enabled = false;
             dp.Enabled = false;
@@ -53,6 +57,11 @@ namespace AerolineaFrba.Compra
             dgCliente.CurrentCell = null;
 
             dp.Value = DateTime.Now;
+
+            if (this.cantidadButacas == 0)
+                button2.Enabled = false;
+            else
+                button2.Enabled = true;
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -115,8 +124,19 @@ namespace AerolineaFrba.Compra
                 codigoCliente = (int)dgCliente.Rows[0].Cells["CLI_COD"].Value;
             }
             else
+            {
                 MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
-        
+
+                dgCliente.Rows[0].Cells["CLI_DIRECCION"].Value = txtDire.Text;
+                dgCliente.Rows[0].Cells["CLI_FECHA_NAC"].Value = dp.Value;
+                dgCliente.Rows[0].Cells["CLI_NOMBRE"].Value = txtNom.Text;
+                dgCliente.Rows[0].Cells["CLI_TELEFONO"].Value = txtTel.Text;
+                dgCliente.Rows[0].Cells["CLI_MAIL"].Value = txtMail.Text;
+                dgCliente.Rows[0].Cells["CLI_COD"].Value = 0;
+                dgCliente.Rows[0].Cells["CLI_DNI"].Value = txtDni.Text;
+                dgCliente.Rows[0].Cells["CLI_APELLIDO"].Value = txtApe.Text;      
+            
+            }
         }
 
 
@@ -159,21 +179,41 @@ namespace AerolineaFrba.Compra
                 huboError = true;
                 MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);
             }
-            
-  /*          if (dgCliente.CurrentCell == null)
+
+            if (dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor == Color.Gray)
             {
                 huboError = true;
-                MessageBox.Show("Debe seleccionar una butaca", "Error en los datos", MessageBoxButtons.OK);
+                MessageBox.Show("La butaca seleccionada ya se encuentra ocupada", "Error en los datos", MessageBoxButtons.OK);
             }
-*/
 
             if(!huboError)
             {
+                MessageBox.Show("Se ha guardado el pasaje", "Pasaje confirmado", MessageBoxButtons.OK);
+
                 dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor = Color.Gray;
                 dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Style.BackColor = Color.Gray;
+
+                (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), actualizarTabla);
+
+                this.cantidadButacas -= 1;
+                this.inicio();
             }
                 
 
+        }
+
+        public void liberarButaca(string but)
+        {
+            foreach (DataGridViewRow row in dgButacas.Rows)
+            {
+                if (row.Cells["BUT_NRO"].Value.ToString() == but)
+                {
+                    row.Cells["BUT_NRO"].Style.BackColor = Color.White;
+                    row.Cells["BUT_TIPO"].Style.BackColor = Color.White;
+                }
+            }
+
+            this.cantidadButacas += 1;
         }
 
         private void dgButacas_CellContentClick(object sender, DataGridViewCellEventArgs e)

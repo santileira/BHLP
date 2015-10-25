@@ -14,6 +14,8 @@ namespace AerolineaFrba.Compra
     {
         public Form anterior;
 
+        public double cantidadKilos;
+
         public Form5()
         {
             InitializeComponent();

@@ -25,8 +25,6 @@ namespace AerolineaFrba.Compra
         private void Form1_Load(object sender, EventArgs e)
         {
             this.inicio();
-
-
         }
 
         public void completarCantidades(int butacas, string kilos)

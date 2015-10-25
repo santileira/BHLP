@@ -51,12 +51,14 @@ namespace AerolineaFrba.Compra
             Boolean huboErrores = false;
             Boolean huboErrores2 = false;
 
+            int but = 0;
+            double kg = 0;
+
             if (chkPasajes.Checked)
             {
                 huboErrores = Validacion.esVacio(txtButacas, "Butacas", true);
                 huboErrores = !Validacion.numeroCorrecto(txtButacas, "Butacas", false);
 
-                int but;
                 if (int.TryParse(txtButacas.Text, out but))
                 {
                     if (but > this.cantidadButacasDisponibles)
@@ -72,7 +74,6 @@ namespace AerolineaFrba.Compra
                 huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true);
                 huboErrores2 = !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
 
-                double kg;
                 if (double.TryParse(txtKilos.Text, out kg))
                 {
                     if (kg > this.cantidadKilosDisponibles)
@@ -85,8 +86,14 @@ namespace AerolineaFrba.Compra
 
             if ((chkPasajes.Checked && !huboErrores) || (chkEncomiendas.Checked && !huboErrores2))
             {
-                (this.formularioSiguiente as Compra.Form4).cantidadButacasDisponibles = this.cantidadButacasDisponibles;
-                (this.formularioSiguiente as Compra.Form4).cantidadKilosDisponibles = this.cantidadKilosDisponibles;
+
+                (this.formularioSiguiente as Compra.Form4).cantidadButacas = but;
+                (this.formularioSiguiente as Compra.Form4).cantidadKilos = kg;
+
+                ((this.formularioSiguiente as Compra.Form4).butacas as Compra.Form2).cantidadButacas = but;
+                ((this.formularioSiguiente as Compra.Form4).servicioDeEncomiendas as Compra.Form5).cantidadKilos = kg;
+
+                (this.formularioSiguiente as Compra.Form4).inicio();
                 this.cambiarVisibilidades(this.formularioSiguiente);
             }
         }
