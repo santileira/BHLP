@@ -21,6 +21,10 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             InitializeComponent();
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd/MM/yyyy - HH:mm:ss";
+            DateTime fechaSalida = (DateTime)obtenerFechaSalida(viajeCod);
+            dateTimePicker1.MinDate = fechaSalida;
+            dateTimePicker1.MaxDate = fechaSalida.AddDays(1);
+
 
             viaje_cod = viajeCod;
 
@@ -81,5 +85,21 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
+
+        private DateTime obtenerFechaSalida(int viajeCod)
+        {
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.obtenerFechaSalidaDeUnViaje(@ViajeCod)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@ViajeCod", viajeCod);
+
+            return (DateTime)command.ExecuteScalar();
+
+        }
+
     }
 }
