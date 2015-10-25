@@ -33,10 +33,15 @@ namespace AerolineaFrba.Compra
 
         public void seSelecciono(DataGridViewRow registro)
         {
-            this.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')");
+            this.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dg);
+            this.ejecutarQuery("select * from [ABSTRACCIONX4].kilosDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dg2);
+
+            string kilos = dg2.Rows[0].Cells["Kilos"].Value.ToString();
+
+            (this.anterior as Compra.Form1).completarCantidades(dg.RowCount, kilos);
         }
 
-        private void ejecutarQuery(string query)
+        private void ejecutarQuery(string query, DataGridView unDg)
         {           
             SqlConnection conexion = Program.conexion();
             DataTable t = new DataTable("Busqueda");
@@ -46,8 +51,8 @@ namespace AerolineaFrba.Compra
             a.Fill(ds, "Busqueda");
             //Ligar el datagrid con la fuente de datos
 
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
+            unDg.DataSource = ds;
+            unDg.DataMember = "Busqueda";
        
             conexion.Close();
         }

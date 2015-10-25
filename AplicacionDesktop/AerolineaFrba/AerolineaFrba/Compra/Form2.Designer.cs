@@ -31,7 +31,9 @@
             this.button6 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
+            this.dg2 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg2)).BeginInit();
             this.SuspendLayout();
             // 
             // button6
@@ -69,11 +71,29 @@
             this.label2.TabIndex = 50;
             this.label2.Text = "Butacas libres:";
             // 
+            // dg2
+            // 
+            this.dg2.AllowUserToAddRows = false;
+            this.dg2.AllowUserToDeleteRows = false;
+            this.dg2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dg2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dg2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg2.Location = new System.Drawing.Point(9, 103);
+            this.dg2.MultiSelect = false;
+            this.dg2.Name = "dg2";
+            this.dg2.ReadOnly = true;
+            this.dg2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dg2.Size = new System.Drawing.Size(12, 68);
+            this.dg2.TabIndex = 51;
+            this.dg2.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 354);
+            this.Controls.Add(this.dg2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button6);
@@ -82,6 +102,7 @@
             this.Text = "Compra de Pasajes y Encomiendas";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,5 +113,6 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridView dg;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dg2;
     }
 }

@@ -55,8 +55,59 @@ select count(*)
 					b.AERO_MATRI = 'BZD-177'
 
 
+select *
+from ABSTRACCIONX4.AERONAVES
+where AERO_MATRI = 'HKR-319'
+
+select b.BUT_NRO
+from ABSTRACCIONX4.BUTACAS b
+where b.BUT_NRO 
+
+select b.BUT_NRO, b.BUT_TIPO
+from ABSTRACCIONX4.BUTACAS b
+where AERO_MATRI = 'HKR-319' and
+b.BUT_NRO not in(select p.BUT_NRO
+from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
+where p.BUT_NRO = b.BUT_NRO and
+p.AERO_MATRI = b.AERO_MATRI and
+p.AERO_MATRI = 'HKR-319' and p.VIAJE_COD = 5463
+)
+
+select((select a.AERO_CANT_KGS
+		from ABSTRACCIONX4.AERONAVES a
+		where AERO_MATRI = 'HKR-319') - (select sum(e.ENCOMIENDA_PESO_KG)
+											from ABSTRACCIONX4.ENCOMIENDAS e
+											where e.AERO_MATRI = 'HKR-319' and
+											e.VIAJE_COD = 5463)) Kilos
 
 
+
+
+select *
+from ABSTRACCIONX4.AERONAVES
+
+select *
+from ABSTRACCIONX4.VIAJES
+select *
+from (select b.BUT_NRO, b.BUT_TIPO
+from ABSTRACCIONX4.BUTACAS b
+where AERO_MATRI = 'HKR-319' and
+b.BUT_NRO not in(select p.BUT_NRO
+from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
+where p.BUT_NRO = b.BUT_NRO and
+p.AERO_MATRI = b.AERO_MATRI and
+p.AERO_MATRI = 'HKR-319' and p.VIAJE_COD = 5463
+)) t
+where t.BUT_TIPO = 'Pasillo'
+
+
+
+select p.BUT_NRO
+from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
+where p.BUT_NRO = b.BUT_NRO and
+p.AERO_MATRI = b.AERO_MATRI and
+p.AERO_MATRI = 'HKR-319' and p.VIAJE_COD = 5463
+and b.BUT_TIPO = 'Ventanilla'
 
 
 

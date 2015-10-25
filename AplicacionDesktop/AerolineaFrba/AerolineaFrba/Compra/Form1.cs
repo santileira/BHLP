@@ -25,6 +25,14 @@ namespace AerolineaFrba.Compra
         private void Form1_Load(object sender, EventArgs e)
         {
             this.inicio();
+
+
+        }
+
+        public void completarCantidades(int butacas, string kilos)
+        {
+            lblButacas.Text = butacas.ToString();
+            lblKilos.Text = kilos;
         }
 
         private void inicio()
@@ -36,6 +44,8 @@ namespace AerolineaFrba.Compra
 
             txtCiudadDestino.Text = "";
             txtCiudadOrigen.Text = "";
+            lblButacas.Text = "";
+            lblKilos.Text = "";
 
             button1.Enabled = false;
             button2.Enabled = true;
@@ -90,6 +100,8 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Boolean huboError = false;
+
             if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
             {
                 if (dateTimePicker1.Value.Year != DateTime.Now.Year || dateTimePicker1.Value.Month != DateTime.Now.Month || dateTimePicker1.Value.Day != DateTime.Now.Day)
@@ -100,7 +112,9 @@ namespace AerolineaFrba.Compra
                 }
             }
             else
+            {
                 this.ejecutarQuery();
+            }
         }
 
         private void ejecutarQuery()
@@ -152,7 +166,9 @@ namespace AerolineaFrba.Compra
             if (dg.CurrentCell == null)
                 MessageBox.Show("Debe seleccionar algun viaje disponible", "Error en la seleccion de viajes", MessageBoxButtons.OK);
             else
-            { 
+            {
+                (formularioSiguiente as Compra.Form3).cantidadButacasDisponibles = Convert.ToInt32(lblButacas.Text);
+                (formularioSiguiente as Compra.Form3).cantidadKilosDisponibles = Convert.ToDouble(lblKilos.Text);
                 this.cambiarVisibilidades(formularioSiguiente);
             }
         }
