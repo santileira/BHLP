@@ -43,6 +43,7 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            (this.butacas as Compra.Form2).inicio();
             this.cambiarVisibilidades(this.butacas);
         }
     }

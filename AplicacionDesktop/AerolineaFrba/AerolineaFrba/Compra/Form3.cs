@@ -55,11 +55,15 @@ namespace AerolineaFrba.Compra
             {
                 huboErrores = Validacion.esVacio(txtButacas, "Butacas", true);
                 huboErrores = !Validacion.numeroCorrecto(txtButacas, "Butacas", false);
-                
-                if(Convert.ToInt32(txtButacas.Text) > this.cantidadButacasDisponibles)
+
+                int but;
+                if (int.TryParse(txtButacas.Text, out but))
                 {
-                    MessageBox.Show("La cantidad de butacas solicitadas supera a a cantidad de butacas disponibles", "Error en las butacas", MessageBoxButtons.OK);
-                    huboErrores = true;
+                    if (but > this.cantidadButacasDisponibles)
+                    {
+                        MessageBox.Show("La cantidad de butacas solicitadas supera a a cantidad de butacas disponibles", "Error en las butacas", MessageBoxButtons.OK);
+                        huboErrores = true;
+                    }
                 }
             }
 
@@ -68,10 +72,14 @@ namespace AerolineaFrba.Compra
                 huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true);
                 huboErrores2 = !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
 
-                if (Convert.ToDouble(txtKilos.Text) > this.cantidadKilosDisponibles)
+                double kg;
+                if (double.TryParse(txtKilos.Text, out kg))
                 {
-                    MessageBox.Show("La cantidad de kilos solicitados supera a a cantidad de kilos disponibles", "Error en el pesaje de la encomienda", MessageBoxButtons.OK);
-                    huboErrores = true;
+                    if (kg > this.cantidadKilosDisponibles)
+                    {
+                        MessageBox.Show("La cantidad de kilos solicitados supera a a cantidad de kilos disponibles", "Error en el pesaje de la encomienda", MessageBoxButtons.OK);
+                        huboErrores = true;
+                    }
                 }
             }
 
@@ -101,7 +109,7 @@ namespace AerolineaFrba.Compra
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
-            this.formularioSiguiente.Visible = true;
+            formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 

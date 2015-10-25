@@ -25,8 +25,16 @@ namespace AerolineaFrba.Compra
             this.inicio();
         }
 
-        private void inicio()
+        public void inicio()
         {
+            txtApe.Text = "";
+            txtDire.Text = "";
+            txtDni.Text = "";
+            txtNac.Text = "";
+            txtNom.Text = "";
+            txtTel.Text = "";
+            txtMail.Text = "";
+
             txtApe.Enabled = false;
             txtDire.Enabled = false;
             txtNac.Enabled = false;
@@ -35,14 +43,6 @@ namespace AerolineaFrba.Compra
             txtMail.Enabled = false;
 
             button1.Enabled = false;
-
-            txtApe.Text = "";
-            txtDire.Text = "";
-            txtDni.Text = "";
-            txtNac.Text = "";
-            txtNom.Text = "";
-            txtTel.Text = "";
-            txtMail.Text = "";
                  
         }
 
