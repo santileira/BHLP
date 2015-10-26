@@ -48,16 +48,25 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+
+
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.cboAnios = new System.Windows.Forms.ComboBox();
             this.cboMeses = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+    
+  
+            this.txtNroTarjeta = new System.Windows.Forms.TextBox();
+        
+
+            this.ckPagaCuotas = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cboTipoTarjeta = new System.Windows.Forms.ComboBox();
+       
+            this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cboFormaPago = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.txtCodSeg = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -228,10 +237,11 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.cboFormaPago);
             this.groupBox2.Location = new System.Drawing.Point(377, 54);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(294, 215);
+            this.groupBox2.Size = new System.Drawing.Size(294, 229);
             this.groupBox2.TabIndex = 109;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Forma de Pago";
@@ -239,11 +249,13 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.textBox3);
+            this.groupBox3.Controls.Add(this.txtCodSeg);
+            this.groupBox3.Controls.Add(this.txtNroTarjeta);
             this.groupBox3.Controls.Add(this.cboAnios);
             this.groupBox3.Controls.Add(this.cboMeses);
-            this.groupBox3.Controls.Add(this.checkBox1);
+            this.groupBox3.Controls.Add(this.ckPagaCuotas);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.comboBox2);
+            this.groupBox3.Controls.Add(this.cboTipoTarjeta);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label2);
@@ -254,6 +266,71 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Datos de la Tarjeta";
             this.groupBox3.Visible = false;
+            // 
+            // txtNroTarjeta
+            // 
+            this.txtNroTarjeta.Location = new System.Drawing.Point(123, 28);
+            this.txtNroTarjeta.Name = "txtNroTarjeta";
+            this.txtNroTarjeta.Size = new System.Drawing.Size(152, 20);
+            this.txtNroTarjeta.TabIndex = 2;
+            // 
+            // cboAnios
+            // 
+            this.cboAnios.FormattingEnabled = true;
+            this.cboAnios.Location = new System.Drawing.Point(162, 79);
+            this.cboAnios.Name = "cboAnios";
+            this.cboAnios.Size = new System.Drawing.Size(47, 21);
+            this.cboAnios.TabIndex = 11;
+            // 
+            // cboMeses
+            // 
+            this.cboMeses.FormattingEnabled = true;
+            this.cboMeses.Items.AddRange(new object[] {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12});
+            this.cboMeses.Location = new System.Drawing.Point(123, 79);
+            this.cboMeses.Name = "cboMeses";
+            this.cboMeses.Size = new System.Drawing.Size(40, 21);
+            this.cboMeses.TabIndex = 10;
+            // 
+            // ckPagaCuotas
+            // 
+            this.ckPagaCuotas.AutoSize = true;
+            this.ckPagaCuotas.Location = new System.Drawing.Point(123, 138);
+            this.ckPagaCuotas.Name = "ckPagaCuotas";
+            this.ckPagaCuotas.Size = new System.Drawing.Size(116, 17);
+            this.ckPagaCuotas.TabIndex = 9;
+            this.ckPagaCuotas.Text = "¿Pagar en cuotas?";
+            this.ckPagaCuotas.UseVisualStyleBackColor = true;
+            this.ckPagaCuotas.Visible = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(8, 113);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(82, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "Tipo de Tarjeta:";
+            // 
+            // cboTipoTarjeta
+            // 
+            this.cboTipoTarjeta.FormattingEnabled = true;
+            this.cboTipoTarjeta.Location = new System.Drawing.Point(123, 108);
+            this.cboTipoTarjeta.Name = "cboTipoTarjeta";
+            this.cboTipoTarjeta.Size = new System.Drawing.Size(121, 21);
+            this.cboTipoTarjeta.TabIndex = 6;
+            this.cboTipoTarjeta.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -318,46 +395,17 @@
             this.cboMeses.Size = new System.Drawing.Size(40, 21);
             this.cboMeses.TabIndex = 10;
             // 
-            // checkBox1
+      
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(123, 138);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(116, 17);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "¿Pagar en cuotas?";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Visible = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 113);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 13);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "Tipo de Tarjeta:";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(123, 108);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 6;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cboFormaPago.FormattingEnabled = true;
+            this.cboFormaPago.Items.AddRange(new object[] {
             "Efectivo",
             "Tarjeta de crédito"});
-            this.comboBox1.Location = new System.Drawing.Point(7, 25);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(281, 21);
-            this.comboBox1.TabIndex = 0;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.cboFormaPago.Location = new System.Drawing.Point(7, 25);
+            this.cboFormaPago.Name = "cboFormaPago";
+            this.cboFormaPago.Size = new System.Drawing.Size(281, 21);
+            this.cboFormaPago.TabIndex = 0;
+            this.cboFormaPago.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button2
             // 
@@ -367,6 +415,13 @@
             this.button2.TabIndex = 110;
             this.button2.Text = "Confirmar Compra";
             this.button2.UseVisualStyleBackColor = true;
+            // 
+            // txtCodSeg
+            // 
+            this.txtCodSeg.Location = new System.Drawing.Point(123, 53);
+            this.txtCodSeg.Name = "txtCodSeg";
+            this.txtCodSeg.Size = new System.Drawing.Size(86, 20);
+            this.txtCodSeg.TabIndex = 12;
             // 
             // Form6
             // 
@@ -379,6 +434,7 @@
             this.Controls.Add(this.button6);
             this.Name = "Form6";
             this.Text = "Form6";
+            this.Load += new System.EventHandler(this.Form6_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -408,19 +464,19 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cboFormaPago;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtNroTarjeta;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cboTipoTarjeta;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox ckPagaCuotas;
         private System.Windows.Forms.ComboBox cboAnios;
         private System.Windows.Forms.ComboBox cboMeses;
+        private System.Windows.Forms.TextBox txtCodSeg;
     }
 }

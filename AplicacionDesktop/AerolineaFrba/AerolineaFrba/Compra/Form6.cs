@@ -32,7 +32,7 @@ namespace AerolineaFrba.Compra
 
             while (varTarjeta.Read())
             {
-                this.comboBox2.Items.Add(varTarjeta.GetValue(0));
+                this.cboTipoTarjeta.Items.Add(varTarjeta.GetValue(0));
             }
 
             int anioActual = (int)DateTime.Now.Year;            
@@ -44,7 +44,7 @@ namespace AerolineaFrba.Compra
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "Tarjeta de crédito")
+            if (cboFormaPago.SelectedItem.ToString() == "Tarjeta de crédito")
             {
                 groupBox3.Visible = true;
             }
@@ -109,7 +109,7 @@ namespace AerolineaFrba.Compra
             SqlDataReader varCuotas;
             SqlCommand consulta = new SqlCommand();
             consulta.CommandType = CommandType.Text;
-            consulta.CommandText = "SELECT TIPO_CUO FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_DESC='" + comboBox2.SelectedItem.ToString() + "'";
+            consulta.CommandText = "SELECT TIPO_CUO FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_DESC='" + cboTipoTarjeta.SelectedItem.ToString() + "'";
             consulta.Connection = Program.conexion();
             varCuotas = consulta.ExecuteReader();
 
@@ -117,12 +117,17 @@ namespace AerolineaFrba.Compra
 
             if ((bool)varCuotas.GetValue(0))
             {
-                checkBox1.Visible = true;
+                ckPagaCuotas.Visible = true;
             }
             else
             {
-                checkBox1.Visible = false;
+                ckPagaCuotas.Visible = false;
             }
+        }
+
+        private void Form6_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
