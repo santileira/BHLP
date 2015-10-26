@@ -672,6 +672,56 @@ AS
 
 GO
 
+-------------------------------Obtener Codigo de Ciudad-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].DatosDeAeronaveASuplantar(@Matricula VARCHAR(8),@FechaBaja DATETIME)
+RETURNS @Datos TABLE (AERO_MOD VARCHAR(30),AERO_FAB VARCHAR(30),SERV_DESC VARCHAR(30),CIU_DESC VARCHAR(80),
+				BUT_PASILLO SMALLINT, BUT_VENTANILLA SMALLINT, CANT_KGS NUMERIC(6,2))
+AS
+BEGIN
+	DECLARE @FechaMaxima DATETIME
+	SET @FechaMaxima = ABSTRACCIONX4.FechaReinicioOMaxima(NULL)
+
+	INSERT INTO @Datos
+		SELECT AERO_MOD, AERO_FAB, s.SERV_DESC, 
+			   [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula,@FechaBaja),
+			   (SELECT COUNT(*) 
+					FROM ABSTRACCIONX4.BUTACAS 
+					WHERE AERO_MATRI = @Matricula AND BUT_TIPO = 'Pasillo'),
+				(SELECT COUNT(*) 
+					FROM ABSTRACCIONX4.BUTACAS 
+					WHERE AERO_MATRI = @Matricula AND BUT_TIPO = 'Ventanilla'),
+				AERO_CANT_KGS
+			FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (s.SERV_COD = a.SERV_COD)
+
+	RETURN
+END
+GO
+
+
+-------------------------------Ciudad en la que se encuentra-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula VARCHAR(8),@FechaBaja DATETIME)
+RETURNS VARCHAR(80)
+AS
+BEGIN
+	DECLARE @FechaMaxima DATETIME
+	SET @FechaMaxima = ABSTRACCIONX4.FechaReinicioOMaxima(NULL)
+
+	DECLARE @Ciudad VARCHAR(80)
+
+	SELECT TOP 1 @Ciudad = c.CIU_DESC 
+		FROM ABSTRACCIONX4.VIAJES v JOIN ABSTRACCIONX4.RUTAS_AEREAS r ON (v.RUTA_ID=r.RUTA_ID)
+									JOIN ABSTRACCIONX4.CIUDADES c ON (r.CIU_COD_O=C.CIU_COD)
+		WHERE v.AERO_MATRI = @Matricula AND 
+			  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaMaxima) = 1
+		ORDER BY v.VIAJE_FECHA_SALIDA
+
+	RETURN @Ciudad
+END
+GO
+
+
+
+
 /*
 DROP  PROCEDURE [ABSTRACCIONX4].BorrarEncomiendas
 DROP PROCEDURE [ABSTRACCIONX4].BorrarPasajes
@@ -704,4 +754,6 @@ DROP FUNCTION [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe
 DROP FUNCTION [ABSTRACCIONX4].ObtenerCodigoServicio
 DROP FUNCTION [ABSTRACCIONX4].ObtenerCodigoCiudad
 DROP FUNCTION [ABSTRACCIONX4].TieneViajeEntreFechas
+DROP FUNCTION [ABSTRACCIONX4].DatosDeAeronaveASuplantar
+DROP FUNCTION [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra
 */

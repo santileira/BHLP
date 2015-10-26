@@ -13,17 +13,48 @@ namespace AerolineaFrba.Abm_Aeronave
 {
     public partial class Alta : Form
     {
+        Boolean llamadoDesdeBaja;
+        string matriculaAveronaveBaja;
+        int limiteButacasPasillo;
+        int limiteButacasVentanilla;
+        Decimal limiteKG;
+        DateTime limiteFecha;
+        Form formAnterior;
 
-        public Listado listado;
-        Form formularioSiguiente;
-        
-
-        public Alta()
+        public Alta(Boolean llamadoDesdeBaja, Form formAnterior, string matriculaAveronaveBaja, DateTime fechaBaja)
         {
-            InitializeComponent();                      
+            this.llamadoDesdeBaja = llamadoDesdeBaja;
+            this.matriculaAveronaveBaja = matriculaAveronaveBaja;
+            this.limiteFecha = fechaBaja;
+            this.formAnterior = formAnterior;
+            InitializeComponent();
+            cargarDatosIniciales();        
         }
 
-        
+        private void cargarDatosIniciales()
+        {
+            if (llamadoDesdeBaja)
+            {
+
+                txtModelo.Enabled = false;
+                button6.Visible = false;
+
+                cargarDatosFijos();
+
+                cboFabricante.SelectedIndex = 0;
+                cboCiudades.SelectedIndex = 0;
+                cboServicio.SelectedIndex = 0;
+                cboFabricante.Enabled = false;
+                cboCiudades.Enabled = false;
+                cboServicio.Enabled = false;
+            }
+            else
+            {
+                cargarComboCiudades();
+                cargarComboFabricante();
+                cargarComboServicio();
+            }
+        }
 
         private void Alta_Load(object sender, EventArgs e)
         {
@@ -32,14 +63,18 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void inicio()
         {
-            cargarComboServicio();
-            cargarComboFabricante();
-            cargarComboCiudades();
             txtMatricula.Text = "";
-            txtModelo.Text = "";
-            txtModelo.Focus();
             txtButacas.Text = "";
+            txtVenta.Text = "";
             txtKilos.Text = "";
+            dateTimePicker1.Value = DateTime.Today;
+            if (!llamadoDesdeBaja)
+            {
+                txtModelo.Text = "";
+                cboCiudades.Text = "";
+                cboFabricante.Text = "";
+                cboServicio.Text = "";
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -59,19 +94,25 @@ namespace AerolineaFrba.Abm_Aeronave
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
-                //try
-                // {
-                darDeAltaAeronave();
-                /*}
+                try
+                {
+                    darDeAltaAeronave();
+
+                    if (llamadoDesdeBaja)
+                    {
+                        (formAnterior as Form7).cargoDatosParaSuplantar = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        this.cambiarVisibilidades(new Principal());
+                    }
+                }
                 catch
                 {
-                    
                     MessageBox.Show("La matrícula " + txtMatricula.Text + " ya existe. Ingrese otra", "Error", MessageBoxButtons.OK);
                     return;
                 }
-
-                this.cambiarVisibilidades(new Principal());
-            */
             }
 
         }
@@ -112,6 +153,7 @@ namespace AerolineaFrba.Abm_Aeronave
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
             huboErrores = this.validarFecha() || huboErrores;
+            huboErrores = this.validarLimitesBaja() || huboErrores;
 
             return !huboErrores;
         }
@@ -202,8 +244,42 @@ namespace AerolineaFrba.Abm_Aeronave
             return huboError;
         }
 
-        
 
+        private bool validarLimitesBaja()
+        {
+            if (!llamadoDesdeBaja)
+            {
+                return false;
+            }
+
+            Boolean huboError = false;
+
+            if (Convert.ToInt16(txtButacas.Text) < limiteButacasPasillo)
+            {
+                MessageBox.Show("La cantidad de butacas pasillo debe ser al menos " + limiteButacasPasillo.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
+                huboError =  true;
+            }
+
+            if (Convert.ToInt16(txtVenta.Text) < limiteButacasVentanilla)
+            {
+                MessageBox.Show("La cantidad de butacas ventanilla debe ser al menos " + limiteButacasVentanilla.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
+                huboError =  true;
+            }
+
+            if (Convert.ToDecimal(txtKilos) < limiteKG)
+            {
+                MessageBox.Show("La cantidad de kilogramos debe ser al menos " + limiteKG.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
+                huboError = true;
+            }
+
+            if (dateTimePicker1.Value.CompareTo(limiteFecha) > 0)
+            {
+                MessageBox.Show("La fecha de alta debe ser anterior a " + limiteFecha.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
+                huboError = true;
+            }
+
+            return huboError;
+        }
        /* private Boolean esTexto(TextBox txt,string campo)
         {
             String textPattern = "[A-Za-z]";
@@ -246,8 +322,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button6_Click(object sender, EventArgs e)
         {
-            formularioSiguiente = new Principal();
-            this.cambiarVisibilidades(formularioSiguiente);
+            this.cambiarVisibilidades(new Principal());
         }
 
 
@@ -301,6 +376,34 @@ namespace AerolineaFrba.Abm_Aeronave
 
             while (reader.Read())
                 this.cboCiudades.Items.Add(reader.GetValue(0));
+
+            reader.Close();
+        }
+
+        private void cargarDatosFijos()
+        {
+            cboServicio.Items.Clear();
+
+            SqlDataReader reader;
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT * FROM [ABSTRACCIONX4].DatosDeAeronaveASuplantar(@Matricula,@FechaBaja)";
+            command.Connection = Program.conexion();
+
+            command.Parameters.AddWithValue("@Matricula", matriculaAveronaveBaja);
+            command.Parameters.AddWithValue("@FechaBaja", limiteFecha);
+
+            reader = command.ExecuteReader();
+
+            reader.Read(); 
+
+            txtModelo.Text = reader.GetValue(0).ToString();
+            cboFabricante.Items.Add(reader.GetValue(1).ToString());
+            cboServicio.Items.Add(reader.GetValue(2).ToString());
+            cboCiudades.Items.Add(reader.GetValue(3).ToString());
+            limiteButacasPasillo = Convert.ToInt16(reader.GetValue(4).ToString());
+            limiteButacasVentanilla = Convert.ToInt16(reader.GetValue(5));
+            limiteKG = Convert.ToDecimal(reader.GetValue(6));
 
             reader.Close();
         }
