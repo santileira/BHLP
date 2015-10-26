@@ -47,6 +47,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtCodSeg = new System.Windows.Forms.TextBox();
             this.txtNroTarjeta = new System.Windows.Forms.TextBox();
             this.cboAnios = new System.Windows.Forms.ComboBox();
             this.cboMeses = new System.Windows.Forms.ComboBox();
@@ -58,7 +59,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboFormaPago = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.txtCodSeg = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -257,6 +257,13 @@
             this.groupBox3.Text = "Datos de la Tarjeta";
             this.groupBox3.Visible = false;
             // 
+            // txtCodSeg
+            // 
+            this.txtCodSeg.Location = new System.Drawing.Point(123, 53);
+            this.txtCodSeg.Name = "txtCodSeg";
+            this.txtCodSeg.Size = new System.Drawing.Size(86, 20);
+            this.txtCodSeg.TabIndex = 12;
+            // 
             // txtNroTarjeta
             // 
             this.txtNroTarjeta.Location = new System.Drawing.Point(123, 28);
@@ -276,6 +283,18 @@
             // 
             this.cboMeses.FormattingEnabled = true;
             this.cboMeses.Items.AddRange(new object[] {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
             1,
             2,
             3,
@@ -370,13 +389,6 @@
             this.button2.Text = "Confirmar Compra";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // txtCodSeg
-            // 
-            this.txtCodSeg.Location = new System.Drawing.Point(123, 53);
-            this.txtCodSeg.Name = "txtCodSeg";
-            this.txtCodSeg.Size = new System.Drawing.Size(86, 20);
-            this.txtCodSeg.TabIndex = 12;
-            // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,8 +436,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNroTarjeta;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cboTipoTarjeta;
         private System.Windows.Forms.Button button2;
