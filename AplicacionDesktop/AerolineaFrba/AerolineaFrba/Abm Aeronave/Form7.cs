@@ -17,6 +17,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private DateTime fechaBaja;
         private DateTime fechaReinicio;
         private Boolean llamadoDesdeBajaLogica;
+        public Boolean cargoDatosParaSuplantar;
 
         public Form7(string unMensaje,string unaMatricula,Boolean desdeBajaLogica,DateTime unaFechaBaja,DateTime unaFechaReinicio )
         {
@@ -25,6 +26,7 @@ namespace AerolineaFrba.Abm_Aeronave
             fechaBaja = unaFechaBaja;
             fechaReinicio = unaFechaReinicio;
             llamadoDesdeBajaLogica = desdeBajaLogica;
+            cargoDatosParaSuplantar = false;
             InitializeComponent();
         }
 
@@ -53,15 +55,38 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void botonSuplantar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                suplantarAeronave();
+                this.Close();
+            }
+            catch (Exception error)
+            {
+                darDeAltaNuevaAeronave();
+                if (cargoDatosParaSuplantar)
+                {
+                    suplantarAeronave();
+                    this.Close();
+                }
+            }
+        }
+
+        private void suplantarAeronave()
+        {
             SQLManager sqlManager = new SQLManager().generarSP("SuplantarAeronave")
                                                     .agregarStringSP("@Matricula", matricula)
                                                     .agregarFechaSP("@FechaBaja", fechaBaja);
             if (llamadoDesdeBajaLogica)
-                sqlManager.agregarFechaNula("@FechaReinicio").ejecutarSP();
+                sqlManager = sqlManager.agregarFechaNula("@FechaReinicio");
             else
-                sqlManager.agregarFechaSP("@FechaReinicio", fechaReinicio).ejecutarSP();
+                sqlManager = sqlManager.agregarFechaSP("@FechaReinicio", fechaReinicio);
 
-            this.Close();
+            sqlManager.ejecutarSP();
+        }
+
+        private void darDeAltaNuevaAeronave()
+        {
+            new Alta(true, this,matricula,fechaBaja).ShowDialog();
         }
 
     }

@@ -306,17 +306,24 @@ namespace AerolineaFrba.Abm_Aeronave
             var senderGrid = (DataGridView)sender;
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-
                 indiceAeronaveElegida = e.RowIndex;
+
+                Object fechaAlta = dg.Rows[indiceAeronaveElegida].Cells["AERO_FECHA_ALTA"].Value;
+
+                if (fechaAlta == DBNull.Value)
+                {
+                    fechaAlta = null;
+                }
+
                 if (e.ColumnIndex == 0)
                 {
-                    new Form6(this, false).ShowDialog();
+                    new Form6(this, false,(Nullable<DateTime>)fechaAlta).ShowDialog();
                     ejecutarQuery();
                 }
                 else
                     if (e.ColumnIndex == 1)
                     {
-                        new Form6(this, true).ShowDialog();
+                        new Form6(this, true,(Nullable<DateTime>)fechaAlta).ShowDialog();
                         ejecutarQuery();
                     }
             }
