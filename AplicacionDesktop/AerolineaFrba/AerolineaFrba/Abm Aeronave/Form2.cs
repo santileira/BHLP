@@ -266,7 +266,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboError =  true;
             }
 
-            if (Convert.ToDecimal(txtKilos) < limiteKG)
+            if (Convert.ToDecimal(txtKilos.Text) < limiteKG)
             {
                 MessageBox.Show("La cantidad de kilogramos debe ser al menos " + limiteKG.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
                 huboError = true;
@@ -395,7 +395,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
             reader = command.ExecuteReader();
 
-            reader.Read(); 
+            reader.Read();
+
+            MessageBox.Show(matriculaAveronaveBaja, "Error en los datos ingresados", MessageBoxButtons.OK);
 
             txtModelo.Text = reader.GetValue(0).ToString();
             cboFabricante.Items.Add(reader.GetValue(1).ToString());

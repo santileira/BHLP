@@ -302,7 +302,7 @@ BEGIN
 			  SERV_COD = @TipoServicio AND 
 			  AERO_FAB = @Fabricante AND
 			  AERO_MOD = @Modelo AND
-			  AERO_FECHA_ALTA > @FechaBaja AND
+			  [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA,@FechaBaja,@FechaReinicio) = 0 AND
 			  AERO_CANT_KGS >= @CantidadKG AND
 			  AERO_BAJA_FS = 0 AND AERO_BAJA_VU = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
@@ -692,6 +692,7 @@ BEGIN
 					WHERE AERO_MATRI = @Matricula AND BUT_TIPO = 'Ventanilla'),
 				AERO_CANT_KGS
 			FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (s.SERV_COD = a.SERV_COD)
+			WHERE AERO_MATRI = @Matricula
 
 	RETURN
 END
