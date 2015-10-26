@@ -175,5 +175,12 @@ namespace AerolineaFrba.Compra
             }
         }
 
+        // Efectuar Compra
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

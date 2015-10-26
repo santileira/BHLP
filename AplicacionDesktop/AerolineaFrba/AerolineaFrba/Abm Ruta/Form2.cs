@@ -57,7 +57,20 @@ namespace AerolineaFrba.Abm_Ruta
             if (this.datosCorrectos())
             {
                 MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva ruta", "Alta de nueva ruta", MessageBoxButtons.OK);
-                darDeAltaRuta();
+                try
+                {
+                    darDeAltaRuta();
+                    
+
+                }
+                catch
+                {
+                    MessageBox.Show("Ya existe una ruta de " + txtCiudadOrigen.Text + " a " + txtCiudadDestino.Text +
+                    " con el código " + txtCodigo.Text.ToString() + " y servicio " + cboServicio.Text, 
+                    "Advertencia", MessageBoxButtons.OK);
+                    return;
+                }
+                this.cambiarVisibilidades(new Principal());
             }
 
         }

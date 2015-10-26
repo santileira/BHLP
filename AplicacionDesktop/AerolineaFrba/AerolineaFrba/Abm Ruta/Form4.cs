@@ -42,25 +42,43 @@ namespace AerolineaFrba.Abm_Ruta
             txtPrecioEncomiendaNueva.Text = txtPrecioEncomienda.Text = registro.Cells["RUTA_PRECIO_BASE_KG"].Value.ToString();
             txtPrecioPasajeNuevo.Text = txtPrecioPasaje.Text = registro.Cells["RUTA_PRECIO_BASE_PASAJE"].Value.ToString();
 
+            Boolean viajeProgramado = !tieneViajeProgramado(idRuta);
+
+            botonSelOrigen.Enabled =
+            botonSelDestino.Enabled =
+            txtTipoDeServicio.Enabled =
+            txtPrecioEncomienda.Enabled =
+            txtPrecioPasaje.Enabled =
+            txtCiudadDestino.Enabled =
+            txtCiudadOrigen.Enabled =
+            txtPrecioEncomiendaNueva.Enabled =
+            txtPrecioPasajeNuevo.Enabled =
+            txtCiudadOrigenNueva.Enabled =
+            cboServicio.Enabled =
+            txtCiudadDestinoNueva.Enabled = viajeProgramado;
+
+
             txtCodigo.Enabled = true;
-            txtTipoDeServicio.Enabled = true;
-            txtPrecioEncomienda.Enabled = true;
-            txtPrecioPasaje.Enabled = true;
-            txtCiudadDestino.Enabled = true;
-            txtCiudadOrigen.Enabled = true;
-            txtPrecioEncomiendaNueva.Enabled = true;
-            txtPrecioPasajeNuevo.Enabled = true;
-            txtCiudadOrigenNueva.Enabled = false;
-            txtCiudadDestinoNueva.Enabled = false;
-
-
-            botonSelOrigen.Enabled = true;
-            botonSelDestino.Enabled = true;
             botonLimpiar.Enabled = true;
             botonGuardar.Enabled = true;
             
             
         }
+
+        private Boolean tieneViajeProgramado(int idRuta)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeProgramadoRuta(@IdRuta)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@IdRuta", idRuta);
+
+            return (Boolean)command.ExecuteScalar();
+        }
+
+
 
         public void seSelecciono(string ciudad)
         {

@@ -188,6 +188,12 @@
     <Compile Include="Compra\Form5.Designer.cs">
       <DependentUpon>Form5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Compra\Form6.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Compra\Form6.Designer.cs">
+      <DependentUpon>Form6.cs</DependentUpon>
+    </Compile>
     <Compile Include="SQLManager.cs" />
     <Compile Include="Validacion.cs" />
     <Compile Include="Compra\Form1.cs">
@@ -329,6 +335,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Compra\Form5.resx">
       <DependentUpon>Form5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Compra\Form6.resx">
+      <DependentUpon>Form6.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
