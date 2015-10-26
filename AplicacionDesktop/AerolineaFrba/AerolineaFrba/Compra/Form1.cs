@@ -19,6 +19,8 @@ namespace AerolineaFrba.Compra
 
         public string viaje;
         public string matricula;
+        public string origen;
+        public string destino;
 
         public Form1()
         {
@@ -161,6 +163,8 @@ namespace AerolineaFrba.Compra
         {
             this.viaje = dg.SelectedRows[0].Cells["VIAJE_COD"].Value.ToString();
             this.matricula = dg.SelectedRows[0].Cells["AERO_MATRI"].Value.ToString();
+            this.origen = txtCiudadOrigen.Text;
+            this.destino = txtCiudadDestino.Text;
 
             (((formularioSiguiente as Compra.Form3).formularioSiguiente as Compra.Form4).butacas as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
         }

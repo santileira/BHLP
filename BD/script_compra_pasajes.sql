@@ -1,3 +1,38 @@
+-------------------------------Importe de una encomienda-----------------------------
+CREATE FUNCTION [ABSTRACCIONX4].importeEncomienda(@kilos numeric(7,2), @origen varchar(80), @destino varchar(80))
+RETURNS table
+
+AS		
+	return(
+			select (r.RUTA_PRECIO_BASE_KG * @kilos) IMPORTE
+				from ABSTRACCIONX4.RUTAS_AEREAS r, ABSTRACCIONX4.SERVICIOS s
+				where r.SERV_COD = s.SERV_COD and
+				r.CIU_COD_O = (select c1.CIU_COD	
+								from ABSTRACCIONX4.CIUDADES c1
+								where @origen = c1.CIU_DESC) and
+				r.CIU_COD_D = (select c2.CIU_COD	
+								from ABSTRACCIONX4.CIUDADES c2
+								where @destino = c2.CIU_DESC)
+			)
+GO
+-------------------------------Importe de un pasaje-----------------------------
+CREATE FUNCTION [ABSTRACCIONX4].importePasaje(@origen varchar(80), @destino varchar(80))
+RETURNS table
+
+AS		
+	return(
+			select (r.RUTA_PRECIO_BASE_PASAJE * (1 + s.SERV_PORC / 100)) IMPORTE
+				from ABSTRACCIONX4.RUTAS_AEREAS r, ABSTRACCIONX4.SERVICIOS s
+				where r.SERV_COD = s.SERV_COD and
+				r.CIU_COD_O = (select c1.CIU_COD	
+								from ABSTRACCIONX4.CIUDADES c1
+								where @origen = c1.CIU_DESC) and
+				r.CIU_COD_D = (select c2.CIU_COD	
+								from ABSTRACCIONX4.CIUDADES c2
+								where @destino = c2.CIU_DESC)
+			)
+GO
+
 -------------------------------Buscar cliente para un cierto dni y apellido-----------------------------
 CREATE FUNCTION [ABSTRACCIONX4].buscarCliente(@dni numeric(10,0), @ape varchar(60))
 RETURNS table

@@ -49,7 +49,11 @@
             this.txtKilos = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dgCliente = new System.Windows.Forms.DataGridView();
+            this.dgCliente2 = new System.Windows.Forms.DataGridView();
+            this.dgImporte = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgCliente2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgImporte)).BeginInit();
             this.SuspendLayout();
             // 
             // dp
@@ -245,11 +249,47 @@
             this.dgCliente.TabIndex = 93;
             this.dgCliente.Visible = false;
             // 
+            // dgCliente2
+            // 
+            this.dgCliente2.AllowUserToAddRows = false;
+            this.dgCliente2.AllowUserToDeleteRows = false;
+            this.dgCliente2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgCliente2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgCliente2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgCliente2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgCliente2.Location = new System.Drawing.Point(6, 93);
+            this.dgCliente2.MultiSelect = false;
+            this.dgCliente2.Name = "dgCliente2";
+            this.dgCliente2.ReadOnly = true;
+            this.dgCliente2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgCliente2.Size = new System.Drawing.Size(12, 68);
+            this.dgCliente2.TabIndex = 94;
+            this.dgCliente2.Visible = false;
+            // 
+            // dgImporte
+            // 
+            this.dgImporte.AllowUserToAddRows = false;
+            this.dgImporte.AllowUserToDeleteRows = false;
+            this.dgImporte.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgImporte.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgImporte.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgImporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgImporte.Location = new System.Drawing.Point(6, 170);
+            this.dgImporte.MultiSelect = false;
+            this.dgImporte.Name = "dgImporte";
+            this.dgImporte.ReadOnly = true;
+            this.dgImporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgImporte.Size = new System.Drawing.Size(12, 68);
+            this.dgImporte.TabIndex = 97;
+            this.dgImporte.Visible = false;
+            // 
             // Form5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(349, 378);
+            this.Controls.Add(this.dgImporte);
+            this.Controls.Add(this.dgCliente2);
             this.Controls.Add(this.dgCliente);
             this.Controls.Add(this.txtKilos);
             this.Controls.Add(this.label2);
@@ -276,6 +316,8 @@
             this.Text = "Servicio de Encomiendas";
             this.Load += new System.EventHandler(this.Form5_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgCliente2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgImporte)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -304,5 +346,7 @@
         private System.Windows.Forms.TextBox txtKilos;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgCliente;
+        private System.Windows.Forms.DataGridView dgCliente2;
+        private System.Windows.Forms.DataGridView dgImporte;
     }
 }

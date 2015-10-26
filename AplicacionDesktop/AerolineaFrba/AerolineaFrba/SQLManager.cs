@@ -104,5 +104,23 @@ namespace AerolineaFrba
             command.Parameters.AddWithValue(nombreVariable, dateTime);
             return this;
         }
+
+        public static void ejecutarQuery(string query, DataGridView unDg)
+        {
+            unDg.DataSource = null;
+
+            SqlConnection conexion = Program.conexion();
+            DataTable t = new DataTable("Busqueda");
+            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
+            //Llenar el Dataset
+            DataSet ds = new DataSet();
+            a.Fill(ds, "Busqueda");
+            //Ligar el datagrid con la fuente de datos
+
+            unDg.DataSource = ds;
+            unDg.DataMember = "Busqueda";
+
+            conexion.Close();
+        }
     }
 }

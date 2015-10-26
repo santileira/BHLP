@@ -50,9 +50,13 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dp = new System.Windows.Forms.DateTimePicker();
+            this.dgCliente2 = new System.Windows.Forms.DataGridView();
+            this.dgImporte = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgButacas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgKilos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgCliente2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgImporte)).BeginInit();
             this.SuspendLayout();
             // 
             // button6
@@ -275,11 +279,47 @@
             this.dp.TabIndex = 70;
             this.dp.ValueChanged += new System.EventHandler(this.dp_ValueChanged);
             // 
+            // dgCliente2
+            // 
+            this.dgCliente2.AllowUserToAddRows = false;
+            this.dgCliente2.AllowUserToDeleteRows = false;
+            this.dgCliente2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgCliente2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgCliente2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgCliente2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgCliente2.Location = new System.Drawing.Point(5, 157);
+            this.dgCliente2.MultiSelect = false;
+            this.dgCliente2.Name = "dgCliente2";
+            this.dgCliente2.ReadOnly = true;
+            this.dgCliente2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgCliente2.Size = new System.Drawing.Size(12, 68);
+            this.dgCliente2.TabIndex = 95;
+            this.dgCliente2.Visible = false;
+            // 
+            // dgImporte
+            // 
+            this.dgImporte.AllowUserToAddRows = false;
+            this.dgImporte.AllowUserToDeleteRows = false;
+            this.dgImporte.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgImporte.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgImporte.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgImporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgImporte.Location = new System.Drawing.Point(6, 238);
+            this.dgImporte.MultiSelect = false;
+            this.dgImporte.Name = "dgImporte";
+            this.dgImporte.ReadOnly = true;
+            this.dgImporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgImporte.Size = new System.Drawing.Size(12, 68);
+            this.dgImporte.TabIndex = 96;
+            this.dgImporte.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 522);
+            this.Controls.Add(this.dgImporte);
+            this.Controls.Add(this.dgCliente2);
             this.Controls.Add(this.dp);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -309,6 +349,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgButacas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgKilos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgCliente2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgImporte)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -338,5 +380,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DateTimePicker dp;
+        private System.Windows.Forms.DataGridView dgCliente2;
+        private System.Windows.Forms.DataGridView dgImporte;
     }
 }

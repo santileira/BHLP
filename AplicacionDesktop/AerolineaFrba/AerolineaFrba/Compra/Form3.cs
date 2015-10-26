@@ -56,8 +56,7 @@ namespace AerolineaFrba.Compra
 
             if (chkPasajes.Checked)
             {
-                huboErrores = Validacion.esVacio(txtButacas, "Butacas", true);
-                huboErrores = !Validacion.numeroCorrecto(txtButacas, "Butacas", false);
+                huboErrores = Validacion.esVacio(txtButacas, "Butacas", true) || !Validacion.numeroCorrecto(txtButacas, "Butacas", false);
 
                 if (int.TryParse(txtButacas.Text, out but))
                 {
@@ -71,8 +70,7 @@ namespace AerolineaFrba.Compra
 
             if (chkEncomiendas.Checked)
             {
-                huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true);
-                huboErrores2 = !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
+                huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true) && !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
 
                 if (Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true))
                 {
@@ -91,39 +89,23 @@ namespace AerolineaFrba.Compra
 
             if (chkPasajes.Checked && !huboErrores)
             {
-                (this.formularioSiguiente as Compra.Form4).cantidadButacas = but;
-                (this.formularioSiguiente as Compra.Form4).cantidadKilos = kg;
+                ((this.formularioSiguiente as Compra.Form4).butacas as Compra.Form2).cantidadButacas = but;
+                (this.formularioSiguiente as Compra.Form4).activarCompraPasajes();
             }
+            else
+                (this.formularioSiguiente as Compra.Form4).desactivarCompraPasajes();
 
             if(chkEncomiendas.Checked && !huboErrores2)
             {
-                ((this.formularioSiguiente as Compra.Form4).butacas as Compra.Form2).cantidadButacas = but;
                 ((this.formularioSiguiente as Compra.Form4).servicioDeEncomiendas as Compra.Form5).cantidadKilos = kg;
+                (this.formularioSiguiente as Compra.Form4).activarCompraEncomienda();
             }
+            else
+                (this.formularioSiguiente as Compra.Form4).desactivarCompraEncomienda();
 
-            if(chkPasajes.Checked)
+            if (!huboErrores && !huboErrores2)
             {
-                if (!huboErrores)
-                {
-                    if (!chkEncomiendas.Checked)
-                    {
-                        (this.formularioSiguiente as Compra.Form4).inicio();
-                        this.cambiarVisibilidades(this.formularioSiguiente);
-                    }
-                    else if (!huboErrores2)
-                    {
-                        (this.formularioSiguiente as Compra.Form4).inicio();
-                        this.cambiarVisibilidades(this.formularioSiguiente);
-                    }
-                }
-            }
-            else if (chkEncomiendas.Checked)
-            {
-                if (!huboErrores2)
-                {
-                    (this.formularioSiguiente as Compra.Form4).inicio();
-                    this.cambiarVisibilidades(this.formularioSiguiente);
-                }
+                this.cambiarVisibilidades(this.formularioSiguiente);
             }
         }
 

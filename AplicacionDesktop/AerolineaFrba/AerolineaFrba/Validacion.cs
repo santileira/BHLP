@@ -166,11 +166,16 @@ namespace AerolineaFrba
             {
                 if ((debeSerDecimal && !esDecimal(txtBox)) || (!debeSerDecimal && !esNumero(txtBox)))
                 {
-
                     MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
                     return false;
                 }
             }
+            else
+            {
+                MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
+                return false;
+            }
+
             return true;
         }
 

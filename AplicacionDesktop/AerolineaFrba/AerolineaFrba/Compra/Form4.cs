@@ -30,24 +30,34 @@ namespace AerolineaFrba.Compra
         {
         }
 
-        public void inicio()
+        public void activarCompraPasajes()
         {
-            if ((this.butacas as Compra.Form2).cantidadButacas == 0)
-            {
-                button4.Enabled = false;
-                button1.Enabled = false;
-            }
+            button4.Enabled = true;
+            button1.Enabled = true;
+        }
 
-            if ((this.servicioDeEncomiendas as Compra.Form5).cantidadKilos == 0)
-            {
-                button5.Enabled = false;
-                button2.Enabled = false;
-            }
+        public void activarCompraEncomienda()
+        {
+            button2.Enabled = true;
+            button5.Enabled = true;
+        }
+
+
+        public void desactivarCompraPasajes()
+        {
+            button4.Enabled = false;
+            button1.Enabled = false;
+        }
+
+        public void desactivarCompraEncomienda()
+        {
+            button2.Enabled = false;
+            button5.Enabled = false;
         }
 
         public void crearColumnas()
         {
-            dgPasajes.ColumnCount = 11;
+            dgPasajes.ColumnCount = 14;
             dgPasajes.ColumnHeadersVisible = true;
 
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
@@ -58,13 +68,17 @@ namespace AerolineaFrba.Compra
             this.agregarCampos(dgPasajes);
             dgPasajes.Columns[8].Name = "BUTACA";
             dgPasajes.Columns[9].Name = "TIPO";
-            dgPasajes.Columns[10].Name = "ACTUALIZAR";
+            dgPasajes.Columns[10].Name = "IMPORTE";
+            dgPasajes.Columns[11].Name = "ACTUALIZAR";
+            dgPasajes.Columns[12].Name = "VIAJE_COD";
+            dgPasajes.Columns[13].Name = "MATRICULA";
+            
             dgPasajes.Columns["CLI_COD"].Visible = false;
             dgPasajes.Columns["ACTUALIZAR"].Visible = false;
+            dgPasajes.Columns["VIAJE_COD"].Visible = false;
+            dgPasajes.Columns["MATRICULA"].Visible = false;
 
-
-
-            dgEncomiendas.ColumnCount = 10;
+            dgEncomiendas.ColumnCount = 13;
             dgEncomiendas.ColumnHeadersVisible = true;
 
             DataGridViewCellStyle columnHeaderStyle2 = new DataGridViewCellStyle();
@@ -74,40 +88,45 @@ namespace AerolineaFrba.Compra
 
             this.agregarCampos(dgEncomiendas);
             dgEncomiendas.Columns[8].Name = "KILOS";
-            dgEncomiendas.Columns[9].Name = "ACTUALIZAR";
+            dgEncomiendas.Columns[9].Name = "IMPORTE";
+            dgEncomiendas.Columns[10].Name = "ACTUALIZAR";
+            dgEncomiendas.Columns[11].Name = "VIAJE_COD";
+            dgEncomiendas.Columns[12].Name = "MATRICULA";
+
             dgEncomiendas.Columns["CLI_COD"].Visible = false;
             dgEncomiendas.Columns["ACTUALIZAR"].Visible = false;
-
+            dgEncomiendas.Columns["VIAJE_COD"].Visible = false;
+            dgEncomiendas.Columns["MATRICULA"].Visible = false;
         }
 
         private void agregarCampos(DataGridView unDg)
         {
             unDg.Columns[0].Name = "CLI_COD";
-            unDg.Columns[1].Name = "DNI";
-            unDg.Columns[2].Name = "NOMBRE";
-            unDg.Columns[3].Name = "APELLIDO";
-            unDg.Columns[4].Name = "DIRECCION";
-            unDg.Columns[5].Name = "TELEFONO";
-            unDg.Columns[6].Name = "MAIL";
-            unDg.Columns[7].Name = "FECHA DE NACIMIENTO";
+            unDg.Columns[1].Name = "CLI_DNI";
+            unDg.Columns[2].Name = "CLI_NOMBRE";
+            unDg.Columns[3].Name = "CLI_APELLIDO";
+            unDg.Columns[4].Name = "CLI_DIRECCION";
+            unDg.Columns[5].Name = "CLI_TELEFONO";
+            unDg.Columns[6].Name = "CLI_MAIL";
+            unDg.Columns[7].Name = "CLI_FECHA_NAC";
         }
 
-        public void agregarPasaje(DataGridViewRow registroCliente, string numero_butaca, string tipo_butaca, Boolean actualizarTabla)
+        public void agregarPasaje(DataGridViewRow registroCliente, string numero_butaca, string tipo_butaca, string importe, Boolean actualizarTabla, string viaje_cod, string matricula)
         {
             dgPasajes.Rows.Add(registroCliente.Cells["CLI_COD"].Value.ToString(), registroCliente.Cells["CLI_DNI"].Value.ToString(),
                 registroCliente.Cells["CLI_NOMBRE"].Value.ToString(), registroCliente.Cells["CLI_APELLIDO"].Value.ToString(),
                 registroCliente.Cells["CLI_DIRECCION"].Value.ToString(), registroCliente.Cells["CLI_TELEFONO"].Value.ToString(), 
                 registroCliente.Cells["CLI_MAIL"].Value.ToString(), registroCliente.Cells["CLI_FECHA_NAC"].Value.ToString(), 
-                numero_butaca, tipo_butaca, actualizarTabla);
+                numero_butaca, tipo_butaca, importe, actualizarTabla, viaje_cod, matricula);
         }
 
-        public void agregarEncomienda(DataGridViewRow registroEncomienda, string kilos, Boolean actualizarTabla)
+        public void agregarEncomienda(DataGridViewRow registroEncomienda, string kilos, string importe, Boolean actualizarTabla, string viaje_cod, string matricula)
         {
             dgEncomiendas.Rows.Add(registroEncomienda.Cells["CLI_COD"].Value.ToString(), registroEncomienda.Cells["CLI_DNI"].Value.ToString(),
                 registroEncomienda.Cells["CLI_NOMBRE"].Value.ToString(), registroEncomienda.Cells["CLI_APELLIDO"].Value.ToString(),
                 registroEncomienda.Cells["CLI_DIRECCION"].Value.ToString(), registroEncomienda.Cells["CLI_TELEFONO"].Value.ToString(),
                 registroEncomienda.Cells["CLI_MAIL"].Value.ToString(), registroEncomienda.Cells["CLI_FECHA_NAC"].Value.ToString(),
-                kilos, actualizarTabla);
+                kilos, importe, actualizarTabla, viaje_cod, matricula);
         }
 
         private void button6_Click(object sender, EventArgs e)

@@ -69,31 +69,15 @@ namespace AerolineaFrba.Compra
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
-
+        
         public void seSelecciono(DataGridViewRow registro)
         {
-            this.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dgButacas);
-            this.ejecutarQuery("select * from [ABSTRACCIONX4].kilosDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dgKilos);
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dgButacas);
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].kilosDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dgKilos);
 
             string kilos = dgKilos.Rows[0].Cells["Kilos"].Value.ToString();
 
             (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).completarCantidades(dgButacas.RowCount, kilos);
-        }
-
-        private void ejecutarQuery(string query, DataGridView unDg)
-        {           
-            SqlConnection conexion = Program.conexion();
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-
-            unDg.DataSource = ds;
-            unDg.DataMember = "Busqueda";
-       
-            conexion.Close();
         }
         
         private void button6_Click(object sender, EventArgs e)
@@ -109,7 +93,7 @@ namespace AerolineaFrba.Compra
             txtTel.Enabled = true;
             txtMail.Enabled = true;
 
-            this.ejecutarQuery("select * from [ABSTRACCIONX4].buscarCliente('" + txtDni.Text + "', '" + txtApe.Text + "')", dgCliente);
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarCliente('" + txtDni.Text + "', '" + txtApe.Text + "')", dgCliente);
 
             if (dgCliente.RowCount == 1)
             {
@@ -125,17 +109,7 @@ namespace AerolineaFrba.Compra
             }
             else
             {
-                MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
-
-                dgCliente.Rows[0].Cells["CLI_DIRECCION"].Value = txtDire.Text;
-                dgCliente.Rows[0].Cells["CLI_FECHA_NAC"].Value = dp.Value;
-                dgCliente.Rows[0].Cells["CLI_NOMBRE"].Value = txtNom.Text;
-                dgCliente.Rows[0].Cells["CLI_TELEFONO"].Value = txtTel.Text;
-                dgCliente.Rows[0].Cells["CLI_MAIL"].Value = txtMail.Text;
-                dgCliente.Rows[0].Cells["CLI_COD"].Value = 0;
-                dgCliente.Rows[0].Cells["CLI_DNI"].Value = txtDni.Text;
-                dgCliente.Rows[0].Cells["CLI_APELLIDO"].Value = txtApe.Text;      
-            
+                MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);   
             }
         }
 
@@ -157,22 +131,7 @@ namespace AerolineaFrba.Compra
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Boolean huboError = false;
-
-            huboError = Validacion.esVacio(txtDni, "DNI", true);
-            huboError = Validacion.esVacio(txtTel, "Telefono", true);
-            huboError = Validacion.esVacio(txtDire, "Direccion", true);
-            huboError = Validacion.esVacio(txtMail, "Mail", true);
-            huboError = Validacion.esVacio(txtNom, "Nombre", true);
-            huboError = Validacion.esVacio(txtApe, "Apellido", true);
-             
-            huboError = !Validacion.numeroCorrecto(txtDni, "DNI", false);
-            huboError = !Validacion.numeroCorrecto(txtTel, "Telefono", false);
-
-            huboError = !Validacion.esTexto(txtDire, "Direccion", true);
-            huboError = !Validacion.esTexto(txtMail, "Mail", true);
-            huboError = !Validacion.esTexto(txtNom, "Nombre", true);
-            huboError = !Validacion.esTexto(txtApe, "Apellido", true);
+            Boolean huboError = this.hacerValidacionesDeTipo();
 
             if (dp.Value.Year > DateTime.Now.Year && dp.Value.Month > DateTime.Now.Month && dp.Value.Day > DateTime.Now.Day)
             {
@@ -192,22 +151,76 @@ namespace AerolineaFrba.Compra
                     huboError = true;
                     MessageBox.Show("La butaca seleccionada ya se encuentra ocupada", "Error en los datos", MessageBoxButtons.OK);
                 }
+   
             }
 
             if(!huboError)
             {
                 MessageBox.Show("Se ha guardado el pasaje", "Pasaje confirmado", MessageBoxButtons.OK);
 
+                string viaje_cod = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).viaje;
+                string matricula = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).matricula;
+
+                if (!this.encontroCliente)
+                {
+                    dgCliente2.ColumnCount = 13;
+                    this.agregarCampos(dgCliente2);
+
+                    dgCliente2.Rows.Add("0", txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text,
+                        txtMail.Text, dp.Value.ToString());
+                }
+
                 dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor = Color.Gray;
                 dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Style.BackColor = Color.Gray;
 
-                (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), actualizarTabla);
+                if (this.encontroCliente)
+                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, viaje_cod, matricula);
+                else
+                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, viaje_cod, matricula);
 
                 this.cantidadButacas -= 1;
                 this.inicio();
             }
-                
+        }
 
+        private string calcularImporte()
+        {
+            string origen = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).origen;
+            string destino = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).destino;
+
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importePasaje('" + origen + "', '" + destino + "')", dgImporte);
+
+            return dgImporte.Rows[0].Cells["IMPORTE"].Value.ToString();
+        }
+        
+        private void agregarCampos(DataGridView unDg)
+        {
+            unDg.Columns[0].Name = "CLI_COD";
+            unDg.Columns[1].Name = "CLI_DNI";
+            unDg.Columns[2].Name = "CLI_NOMBRE";
+            unDg.Columns[3].Name = "CLI_APELLIDO";
+            unDg.Columns[4].Name = "CLI_DIRECCION";
+            unDg.Columns[5].Name = "CLI_TELEFONO";
+            unDg.Columns[6].Name = "CLI_MAIL";
+            unDg.Columns[7].Name = "CLI_FECHA_NAC";
+        }
+
+        private Boolean hacerValidacionesDeTipo()
+        {
+            Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
+            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
+            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
+            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
+
+            return validacion;
         }
 
         public void liberarButaca(string but)
