@@ -93,6 +93,8 @@ namespace AerolineaFrba
             butacas.anterior = cargaDeDatos;
             cargaDeDatos.servicioDeEncomiendas = servicioDeEncomiendas;
             servicioDeEncomiendas.anterior = cargaDeDatos;
+
+            cargaDeDatos.crearColumnas();
             
             this.cambiarVisibilidades(compra);
         }

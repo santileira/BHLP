@@ -273,12 +273,13 @@
             this.dp.Name = "dp";
             this.dp.Size = new System.Drawing.Size(136, 20);
             this.dp.TabIndex = 70;
+            this.dp.ValueChanged += new System.EventHandler(this.dp_ValueChanged);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 522);
+            this.ClientSize = new System.Drawing.Size(364, 522);
             this.Controls.Add(this.dp);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);

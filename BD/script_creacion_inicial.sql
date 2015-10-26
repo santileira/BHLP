@@ -22,7 +22,6 @@ where AERO_MATRI = 'SANTI'*/
 -- Descripción:	Creación de Tablas
 -- =============================================================================================
 
-
 --Rol: Si el estado es 0, se encuentra inactivo, si es 1 activo.
 
 --TIENE INSERT
@@ -620,7 +619,6 @@ GO
 
 -- PARA PROBAR REGISTRO LLEGADA DESTINO - INSERT INTO [ABSTRACCIONX4].[VIAJES] values(GETDATE(),NULL,(GETDATE() + 1),'ZBV-508',12)
 --SELECT * FROM [ABSTRACCIONX4].[VIAJES] 
-
 -- Inserta los clientes en la tabla clientes
 
 INSERT INTO [ABSTRACCIONX4].[CLIENTES]

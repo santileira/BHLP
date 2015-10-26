@@ -17,6 +17,9 @@ namespace AerolineaFrba.Compra
         public Boolean primeraVez = true;
         public Form formularioSiguiente;
 
+        public string viaje;
+        public string matricula;
+
         public Form1()
         {
             InitializeComponent();
@@ -25,8 +28,6 @@ namespace AerolineaFrba.Compra
         private void Form1_Load(object sender, EventArgs e)
         {
             this.inicio();
-
-
         }
 
         public void completarCantidades(int butacas, string kilos)
@@ -158,6 +159,9 @@ namespace AerolineaFrba.Compra
 
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            this.viaje = dg.SelectedRows[0].Cells["VIAJE_COD"].Value.ToString();
+            this.matricula = dg.SelectedRows[0].Cells["AERO_MATRI"].Value.ToString();
+
             (((formularioSiguiente as Compra.Form3).formularioSiguiente as Compra.Form4).butacas as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
         }
 
