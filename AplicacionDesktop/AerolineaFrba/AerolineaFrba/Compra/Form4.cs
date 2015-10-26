@@ -15,6 +15,7 @@ namespace AerolineaFrba.Compra
     {
         public Form servicioDeEncomiendas;
         public Form butacas;
+        public Form efectuaCompra;
 
         public Form anterior;
 
@@ -179,7 +180,11 @@ namespace AerolineaFrba.Compra
 
         private void button3_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
 
+=======
+            this.cambiarVisibilidades(this.efectuaCompra);
+>>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
         }
 
     }
