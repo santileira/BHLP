@@ -104,3 +104,23 @@ GO
 
 
 
+--------------------------------actualizarDatosDelCliente-----------------------------------------
+
+CREATE PROCEDURE [ABSTRACCIONX4].actualizarDatosDelCliente
+	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
+AS
+	UPDATE [ABSTRACCIONX4].CLIENTES
+	SET CLI_NOMBRE = @nombre ,CLI_DIRECCION = @direccion ,CLI_MAIL = @mail, CLI_FECHA_NAC = @fechanac, CLI_TELEFONO = @telefono
+	WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape
+GO
+
+--------------------------------ingresarDatosDelCliente--------------------------------------------
+
+CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDelCliente
+	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
+AS
+	INSERT INTO [ABSTRACCIONX4].CLIENTES
+	(CLI_DNI,CLI_APELLIDO,CLI_NOMBRE,CLI_DIRECCION,CLI_MAIL,CLI_FECHA_NAC,CLI_TELEFONO) VALUES(@dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono)
+
+
+GO

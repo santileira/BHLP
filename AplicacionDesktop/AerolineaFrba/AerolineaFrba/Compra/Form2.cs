@@ -163,6 +163,17 @@ namespace AerolineaFrba.Compra
 
                 if (!this.encontroCliente)
                 {
+
+                    new SQLManager().generarSP("ingresarDatosDelCliente")
+                          .agregarIntSP("@dni", txtDni)
+                            .agregarStringSP("@ape", txtApe)
+                              .agregarStringSP("@nombre", txtNom)
+                                .agregarStringSP("@direccion", txtDire)
+                                   .agregarStringSP("@mail", txtMail)
+                                     .agregarFechaSP("@fechanac", dp)
+                                        .agregarIntSP("@telefono", txtTel)
+                                            .ejecutarSP();
+
                     dgCliente2.ColumnCount = 13;
                     this.agregarCampos(dgCliente2);
 
@@ -179,6 +190,22 @@ namespace AerolineaFrba.Compra
                     (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, viaje_cod, matricula);
 
                 this.cantidadButacas -= 1;
+
+                if (this.actualizarTabla)
+                {
+                    new SQLManager().generarSP("actualizarDatosDelCliente")
+                          .agregarIntSP("@dni",txtDni)
+                            .agregarStringSP("@ape",txtApe)
+                              .agregarStringSP("@nombre", txtNom)
+                                .agregarStringSP("@direccion",txtDire)
+                                   .agregarStringSP("@mail",txtMail)
+                                     .agregarFechaSP("@fechanac",dp)
+                                       .agregarIntSP("@telefono",txtTel)
+                                            .ejecutarSP();
+                }
+
+
+
                 this.inicio();
             }
         }
