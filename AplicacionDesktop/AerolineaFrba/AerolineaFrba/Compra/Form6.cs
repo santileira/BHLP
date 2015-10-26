@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-<<<<<<< HEAD
-=======
 using System.Data.SqlClient;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,11 +13,6 @@ namespace AerolineaFrba.Compra
 {
     public partial class Form6 : Form
     {
-<<<<<<< HEAD
-        public Form6()
-        {
-            InitializeComponent();
-=======
         public Form anterior;
 
         public Form6()
@@ -40,7 +32,7 @@ namespace AerolineaFrba.Compra
 
             while (varTarjeta.Read())
             {
-                this.comboBox2.Items.Add(varTarjeta.GetValue(0));
+                this.cboTipoTarjeta.Items.Add(varTarjeta.GetValue(0));
             }
 
             int anioActual = (int)DateTime.Now.Year;            
@@ -48,34 +40,11 @@ namespace AerolineaFrba.Compra
                 cboAnios.Items.Add(anioActual+i);
             }
 
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-<<<<<<< HEAD
-=======
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "Tarjeta de crédito")
+            if (cboFormaPago.SelectedItem.ToString() == "Tarjeta de crédito")
             {
                 groupBox3.Visible = true;
             }
@@ -135,22 +104,12 @@ namespace AerolineaFrba.Compra
 
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlDataReader varCuotas;
             SqlCommand consulta = new SqlCommand();
             consulta.CommandType = CommandType.Text;
-            consulta.CommandText = "SELECT TIPO_CUO FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_DESC='" + comboBox2.SelectedItem.ToString() + "'";
+            consulta.CommandText = "SELECT TIPO_CUO FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_DESC='" + cboTipoTarjeta.SelectedItem.ToString() + "'";
             consulta.Connection = Program.conexion();
             varCuotas = consulta.ExecuteReader();
 
@@ -158,13 +117,17 @@ namespace AerolineaFrba.Compra
 
             if ((bool)varCuotas.GetValue(0))
             {
-                checkBox1.Visible = true;
+                ckPagaCuotas.Visible = true;
             }
             else
             {
-                checkBox1.Visible = false;
+                ckPagaCuotas.Visible = false;
             }
         }
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
+
+        private void Form6_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
