@@ -46,30 +46,18 @@
             this.button6 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-<<<<<<< HEAD
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-=======
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.cboAnios = new System.Windows.Forms.ComboBox();
+            this.cboMeses = new System.Windows.Forms.ComboBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.cboMeses = new System.Windows.Forms.ComboBox();
-            this.cboAnios = new System.Windows.Forms.ComboBox();
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,10 +65,7 @@
             // 
             // dp
             // 
-<<<<<<< HEAD
-=======
             this.dp.Enabled = false;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.dp.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dp.Location = new System.Drawing.Point(184, 199);
             this.dp.Name = "dp";
@@ -89,10 +74,7 @@
             // 
             // txtMail
             // 
-<<<<<<< HEAD
-=======
             this.txtMail.Enabled = false;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.txtMail.Location = new System.Drawing.Point(184, 225);
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
@@ -115,10 +97,7 @@
             this.button1.TabIndex = 103;
             this.button1.Text = "Buscar en la base de datos";
             this.button1.UseVisualStyleBackColor = true;
-<<<<<<< HEAD
-=======
             this.button1.Click += new System.EventHandler(this.button1_Click);
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             // 
             // label5
             // 
@@ -131,10 +110,7 @@
             // 
             // txtTel
             // 
-<<<<<<< HEAD
-=======
             this.txtTel.Enabled = false;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.txtTel.Location = new System.Drawing.Point(184, 173);
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
@@ -151,10 +127,7 @@
             // 
             // txtDire
             // 
-<<<<<<< HEAD
-=======
             this.txtDire.Enabled = false;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.txtDire.Location = new System.Drawing.Point(184, 147);
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
@@ -171,10 +144,7 @@
             // 
             // txtNom
             // 
-<<<<<<< HEAD
-=======
             this.txtNom.Enabled = false;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.txtNom.Location = new System.Drawing.Point(184, 121);
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
@@ -229,10 +199,7 @@
             this.button6.TabIndex = 91;
             this.button6.Text = "Atras";
             this.button6.UseVisualStyleBackColor = true;
-<<<<<<< HEAD
-=======
             this.button6.Click += new System.EventHandler(this.button6_Click);
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             // 
             // groupBox1
             // 
@@ -257,7 +224,6 @@
             this.groupBox1.TabIndex = 108;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos del Comprador";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // groupBox2
             // 
@@ -265,34 +231,14 @@
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Location = new System.Drawing.Point(377, 54);
             this.groupBox2.Name = "groupBox2";
-<<<<<<< HEAD
             this.groupBox2.Size = new System.Drawing.Size(294, 215);
-=======
-            this.groupBox2.Size = new System.Drawing.Size(296, 229);
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.groupBox2.TabIndex = 109;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Forma de Pago";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
-            // 
-<<<<<<< HEAD
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(7, 25);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(281, 21);
-            this.comboBox1.TabIndex = 0;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.textBox3);
-=======
-            // groupBox3
-            // 
             this.groupBox3.Controls.Add(this.cboAnios);
             this.groupBox3.Controls.Add(this.cboMeses);
             this.groupBox3.Controls.Add(this.checkBox1);
@@ -301,30 +247,40 @@
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label2);
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
-            this.groupBox3.Controls.Add(this.textBox2);
-            this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Location = new System.Drawing.Point(7, 63);
             this.groupBox3.Name = "groupBox3";
-<<<<<<< HEAD
-            this.groupBox3.Size = new System.Drawing.Size(281, 130);
+            this.groupBox3.Size = new System.Drawing.Size(281, 166);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Datos de la Tarjeta";
+            this.groupBox3.Visible = false;
             // 
-            // textBox1
+            // label10
             // 
-            this.textBox1.Location = new System.Drawing.Point(123, 28);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
-            this.textBox1.TabIndex = 0;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(8, 84);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(80, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Fecha de Vto. :";
             // 
-            // textBox2
+            // label9
             // 
-            this.textBox2.Location = new System.Drawing.Point(123, 54);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(40, 20);
-            this.textBox2.TabIndex = 1;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 61);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 13);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Código de Seguridad:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Nro. Tarjeta:";
             // 
             // textBox3
             // 
@@ -332,12 +288,46 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(83, 20);
             this.textBox3.TabIndex = 2;
-=======
-            this.groupBox3.Size = new System.Drawing.Size(281, 166);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Datos de la Tarjeta";
-            this.groupBox3.Visible = false;
+            // 
+            // cboAnios
+            // 
+            this.cboAnios.FormattingEnabled = true;
+            this.cboAnios.Location = new System.Drawing.Point(162, 79);
+            this.cboAnios.Name = "cboAnios";
+            this.cboAnios.Size = new System.Drawing.Size(47, 21);
+            this.cboAnios.TabIndex = 11;
+            // 
+            // cboMeses
+            // 
+            this.cboMeses.FormattingEnabled = true;
+            this.cboMeses.Items.AddRange(new object[] {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12});
+            this.cboMeses.Location = new System.Drawing.Point(123, 79);
+            this.cboMeses.Name = "cboMeses";
+            this.cboMeses.Size = new System.Drawing.Size(40, 21);
+            this.cboMeses.TabIndex = 10;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(123, 138);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(116, 17);
+            this.checkBox1.TabIndex = 9;
+            this.checkBox1.Text = "¿Pagar en cuotas?";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
             // 
             // label11
             // 
@@ -356,71 +346,6 @@
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
             this.comboBox2.TabIndex = 6;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 83);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Fecha de Vto. :";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 57);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(109, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "Código de Seguridad:";
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-<<<<<<< HEAD
-            this.label2.Location = new System.Drawing.Point(6, 31);
-=======
-            this.label2.Location = new System.Drawing.Point(8, 31);
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Nro. Tarjeta:";
-            // 
-<<<<<<< HEAD
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 61);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(109, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "Código de Seguridad:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 84);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(80, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Fecha de Vto. :";
-=======
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(123, 54);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(86, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(123, 28);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
-            this.textBox1.TabIndex = 0;
             // 
             // comboBox1
             // 
@@ -442,58 +367,13 @@
             this.button2.TabIndex = 110;
             this.button2.Text = "Confirmar Compra";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(123, 138);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(116, 17);
-            this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "¿Pagar en cuotas?";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Visible = false;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // cboMeses
-            // 
-            this.cboMeses.FormattingEnabled = true;
-            this.cboMeses.Location = new System.Drawing.Point(123, 79);
-            this.cboMeses.Name = "cboMeses";
-            this.cboMeses.Size = new System.Drawing.Size(40, 21);
-            this.cboMeses.TabIndex = 10;
-            this.cboMeses.Items.Add(1);
-            this.cboMeses.Items.Add(2);
-            this.cboMeses.Items.Add(3);
-            this.cboMeses.Items.Add(4);
-            this.cboMeses.Items.Add(5);
-            this.cboMeses.Items.Add(6);
-            this.cboMeses.Items.Add(7);
-            this.cboMeses.Items.Add(8);
-            this.cboMeses.Items.Add(9);
-            this.cboMeses.Items.Add(10);
-            this.cboMeses.Items.Add(11);
-            this.cboMeses.Items.Add(12);
-            // 
-            // cboAnios
-            // 
-            this.cboAnios.FormattingEnabled = true;
-            this.cboAnios.Location = new System.Drawing.Point(162, 79);
-            this.cboAnios.Name = "cboAnios";
-            this.cboAnios.Size = new System.Drawing.Size(47, 21);
-            this.cboAnios.TabIndex = 11;            
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 345);
-<<<<<<< HEAD
-=======
             this.Controls.Add(this.button2);
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button6);
@@ -533,11 +413,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label2;
-<<<<<<< HEAD
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-=======
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label11;
@@ -546,6 +422,5 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox cboAnios;
         private System.Windows.Forms.ComboBox cboMeses;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
     }
 }

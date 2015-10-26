@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-<<<<<<< HEAD
-=======
 using System.Data.SqlClient;
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,11 +13,6 @@ namespace AerolineaFrba.Compra
 {
     public partial class Form6 : Form
     {
-<<<<<<< HEAD
-        public Form6()
-        {
-            InitializeComponent();
-=======
         public Form anterior;
 
         public Form6()
@@ -48,29 +40,6 @@ namespace AerolineaFrba.Compra
                 cboAnios.Items.Add(anioActual+i);
             }
 
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-<<<<<<< HEAD
-=======
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,16 +104,6 @@ namespace AerolineaFrba.Compra
 
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             SqlDataReader varCuotas;
@@ -165,6 +124,5 @@ namespace AerolineaFrba.Compra
                 checkBox1.Visible = false;
             }
         }
->>>>>>> c570554ea0370af58b591a9e85548bb92b32e500
     }
 }
