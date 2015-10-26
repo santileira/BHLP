@@ -273,6 +273,7 @@
             this.dp.Name = "dp";
             this.dp.Size = new System.Drawing.Size(136, 20);
             this.dp.TabIndex = 70;
+            this.dp.ValueChanged += new System.EventHandler(this.dp_ValueChanged);
             // 
             // Form2
             // 

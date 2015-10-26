@@ -74,27 +74,56 @@ namespace AerolineaFrba.Compra
                 huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true);
                 huboErrores2 = !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
 
-                if (double.TryParse(txtKilos.Text, out kg))
+                if (Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true))
                 {
+                    double.TryParse(txtKilos.Text, out kg);
+                    
                     if (kg > this.cantidadKilosDisponibles)
                     {
                         MessageBox.Show("La cantidad de kilos solicitados supera a a cantidad de kilos disponibles", "Error en el pesaje de la encomienda", MessageBoxButtons.OK);
-                        huboErrores = true;
+                        huboErrores2 = true;
+                    }
+                    
+                }
+                else
+                    huboErrores2 = true;
+            }
+
+            if (chkPasajes.Checked && !huboErrores)
+            {
+                (this.formularioSiguiente as Compra.Form4).cantidadButacas = but;
+                (this.formularioSiguiente as Compra.Form4).cantidadKilos = kg;
+            }
+
+            if(chkEncomiendas.Checked && !huboErrores2)
+            {
+                ((this.formularioSiguiente as Compra.Form4).butacas as Compra.Form2).cantidadButacas = but;
+                ((this.formularioSiguiente as Compra.Form4).servicioDeEncomiendas as Compra.Form5).cantidadKilos = kg;
+            }
+
+            if(chkPasajes.Checked)
+            {
+                if (!huboErrores)
+                {
+                    if (!chkEncomiendas.Checked)
+                    {
+                        (this.formularioSiguiente as Compra.Form4).inicio();
+                        this.cambiarVisibilidades(this.formularioSiguiente);
+                    }
+                    else if (!huboErrores2)
+                    {
+                        (this.formularioSiguiente as Compra.Form4).inicio();
+                        this.cambiarVisibilidades(this.formularioSiguiente);
                     }
                 }
             }
-
-            if ((chkPasajes.Checked && !huboErrores) || (chkEncomiendas.Checked && !huboErrores2))
+            else if (chkEncomiendas.Checked)
             {
-
-                (this.formularioSiguiente as Compra.Form4).cantidadButacas = but;
-                (this.formularioSiguiente as Compra.Form4).cantidadKilos = kg;
-
-                ((this.formularioSiguiente as Compra.Form4).butacas as Compra.Form2).cantidadButacas = but;
-                ((this.formularioSiguiente as Compra.Form4).servicioDeEncomiendas as Compra.Form5).cantidadKilos = kg;
-
-                (this.formularioSiguiente as Compra.Form4).inicio();
-                this.cambiarVisibilidades(this.formularioSiguiente);
+                if (!huboErrores2)
+                {
+                    (this.formularioSiguiente as Compra.Form4).inicio();
+                    this.cambiarVisibilidades(this.formularioSiguiente);
+                }
             }
         }
 

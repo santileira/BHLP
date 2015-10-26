@@ -54,7 +54,7 @@ namespace AerolineaFrba.Compra
             encontroCliente = false;
             actualizarTabla = false;
 
-            dgCliente.CurrentCell = null;
+            dgButacas.CurrentCell = null;
 
             dp.Value = DateTime.Now;
 
@@ -180,10 +180,18 @@ namespace AerolineaFrba.Compra
                 MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);
             }
 
-            if (dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor == Color.Gray)
+            if (dgButacas.CurrentCell == null)
             {
                 huboError = true;
-                MessageBox.Show("La butaca seleccionada ya se encuentra ocupada", "Error en los datos", MessageBoxButtons.OK);
+                MessageBox.Show("No ha seleccionado ninguna butaca disponible", "Error en los datos", MessageBoxButtons.OK);
+            }
+            else
+            {
+                if (dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor == Color.Gray)
+                {
+                    huboError = true;
+                    MessageBox.Show("La butaca seleccionada ya se encuentra ocupada", "Error en los datos", MessageBoxButtons.OK);
+                }
             }
 
             if(!huboError)
@@ -251,5 +259,11 @@ namespace AerolineaFrba.Compra
             if (encontroCliente)
                 actualizarTabla = true;
         }
+
+        private void dp_ValueChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
     }
 }
