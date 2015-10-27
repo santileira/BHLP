@@ -103,12 +103,12 @@
             this.dgKilos.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgKilos.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgKilos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgKilos.Location = new System.Drawing.Point(6, 2);
+            this.dgKilos.Location = new System.Drawing.Point(452, 58);
             this.dgKilos.MultiSelect = false;
             this.dgKilos.Name = "dgKilos";
             this.dgKilos.ReadOnly = true;
             this.dgKilos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgKilos.Size = new System.Drawing.Size(12, 68);
+            this.dgKilos.Size = new System.Drawing.Size(10, 68);
             this.dgKilos.TabIndex = 51;
             this.dgKilos.Visible = false;
             // 
@@ -224,12 +224,12 @@
             this.dgCliente.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgCliente.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgCliente.Location = new System.Drawing.Point(5, 80);
+            this.dgCliente.Location = new System.Drawing.Point(451, 136);
             this.dgCliente.MultiSelect = false;
             this.dgCliente.Name = "dgCliente";
             this.dgCliente.ReadOnly = true;
             this.dgCliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgCliente.Size = new System.Drawing.Size(12, 68);
+            this.dgCliente.Size = new System.Drawing.Size(10, 68);
             this.dgCliente.TabIndex = 65;
             this.dgCliente.Visible = false;
             // 
@@ -287,12 +287,12 @@
             this.dgCliente2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgCliente2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgCliente2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgCliente2.Location = new System.Drawing.Point(5, 157);
+            this.dgCliente2.Location = new System.Drawing.Point(451, 213);
             this.dgCliente2.MultiSelect = false;
             this.dgCliente2.Name = "dgCliente2";
             this.dgCliente2.ReadOnly = true;
             this.dgCliente2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgCliente2.Size = new System.Drawing.Size(12, 68);
+            this.dgCliente2.Size = new System.Drawing.Size(10, 68);
             this.dgCliente2.TabIndex = 95;
             this.dgCliente2.Visible = false;
             // 
@@ -304,12 +304,12 @@
             this.dgImporte.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgImporte.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgImporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgImporte.Location = new System.Drawing.Point(6, 238);
+            this.dgImporte.Location = new System.Drawing.Point(452, 293);
             this.dgImporte.MultiSelect = false;
             this.dgImporte.Name = "dgImporte";
             this.dgImporte.ReadOnly = true;
             this.dgImporte.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgImporte.Size = new System.Drawing.Size(12, 68);
+            this.dgImporte.Size = new System.Drawing.Size(10, 68);
             this.dgImporte.TabIndex = 96;
             this.dgImporte.Visible = false;
             // 
@@ -317,7 +317,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 522);
+            this.ClientSize = new System.Drawing.Size(365, 522);
             this.Controls.Add(this.dgImporte);
             this.Controls.Add(this.dgCliente2);
             this.Controls.Add(this.dp);

@@ -397,8 +397,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
             reader.Read();
 
-            MessageBox.Show(matriculaAveronaveBaja, "Error en los datos ingresados", MessageBoxButtons.OK);
-
             txtModelo.Text = reader.GetValue(0).ToString();
             cboFabricante.Items.Add(reader.GetValue(1).ToString());
             cboServicio.Items.Add(reader.GetValue(2).ToString());

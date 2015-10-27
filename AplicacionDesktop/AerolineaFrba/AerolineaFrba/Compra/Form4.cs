@@ -15,6 +15,7 @@ namespace AerolineaFrba.Compra
     {
         public Form servicioDeEncomiendas;
         public Form butacas;
+        public Form efectuaCompra;
 
         public Form anterior;
 
@@ -173,6 +174,13 @@ namespace AerolineaFrba.Compra
                 (this.servicioDeEncomiendas as Compra.Form5).liberarEspacio(dgEncomiendas.SelectedRows[0].Cells["KILOS"].Value.ToString());
                 dgEncomiendas.Rows.Remove(dgEncomiendas.SelectedRows[0]);
             }
+        }
+
+        // Efectuar Compra
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(this.efectuaCompra);
         }
 
     }

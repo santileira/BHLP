@@ -37,7 +37,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
             this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE ";
-            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_ESTADO = '1'";
+            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(RUTA_ID) = 0";
         }
 
         private string buscarCiudad(string cod)

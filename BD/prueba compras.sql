@@ -41,8 +41,11 @@ from ABSTRACCIONX4.AERONAVES a
 where a.AERO_MATRI = 'BZD-177'
 
 
+select *
+from abstraccionx4.pasajes
 
-
+select *
+from abstraccionx4.CLIENTES
 
 select a.AERO_CANT_BUTACAS
 					from ABSTRACCIONX4.AERONAVES a
@@ -172,8 +175,7 @@ select ((select a.AERO_CANT_BUTACAS
 
 
 select distinct top 20 v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE Fecha_Llegada, 
-				c1.CIU_DESC Origen, c2.CIU_DESC Destino, s.SERV_DESC, [ABSTRACCIONX4].butacasDisponibles(v.VIAJE_COD, v.AERO_MATRI, 1) Butacas_Pasillo_Disponibles, 
-					[ABSTRACCIONX4].butacasDisponibles(v.VIAJE_COD, v.AERO_MATRI, 0) Butacas_Ventanilla_Disponibles, [ABSTRACCIONX4].kilosDisponibles(v.VIAJE_COD, v.AERO_MATRI) Kilos_Disponibles
+				c1.CIU_DESC Origen, c2.CIU_DESC Destino, s.SERV_DESC
 			from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r1, ABSTRACCIONX4.RUTAS_AEREAS r2,
 				ABSTRACCIONX4.CIUDADES c1, ABSTRACCIONX4.CIUDADES c2,ABSTRACCIONX4.SERVICIOS s
 			where v.RUTA_ID = r1.RUTA_ID and
@@ -181,3 +183,41 @@ select distinct top 20 v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE
 				r1.CIU_COD_O = c1.CIU_COD and
 				r2.CIU_COD_D = c2.CIU_COD and
 				r1.SERV_COD = s.SERV_COD
+
+
+
+
+select distinct c.CLI_COD, c.CLI_DNI, c.CLI_NOMBRE, c.CLI_APELLIDO, c.CLI_DIRECCION, c.CLI_TELEFONO, c.CLI_MAIL, c.CLI_FECHA_NAC
+				from ABSTRACCIONX4.CLIENTES c
+				where c.CLI_COD = 1298 and
+				(select case 
+						when 1298 not in (select distinct t.CLI_COD
+												from (select distinct p.CLI_COD, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE
+														from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.PASAJES p
+														where v.VIAJE_COD = p.VIAJE_COD and p.CLI_COD = 1298) t
+												where 
+												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_SALIDA, '2017-30-01 20:01:00.000', '2017-30-01 22:01:00.000') = 1) or
+												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_LLEGADAE, '2017-30-01 20:01:00.000', '2017-30-01 22:01:00.000') = 1) or
+												([ABSTRACCIONX4].datetime_is_between('2017-30-01 20:01:00.000', t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1) or
+												([ABSTRACCIONX4].datetime_is_between('2017-30-01 22:01:00.000', t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1)
+												)
+						then 1
+						else 0
+					end) = 1
+
+select distinct p.CLI_COD, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE
+from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.PASAJES p
+where v.VIAJE_COD = p.VIAJE_COD and p.CLI_COD = 1298 and
+[ABSTRACCIONX4].datetime_is_between('2016-22-09', v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE) = 0
+
+select *
+from abstraccionx4.pasajes p
+where p.CLI_COD = 1298
+
+select *
+from ABSTRACCIONX4.VIAJES v
+where v.VIAJE_COD = 8469
+
+select *
+from ABSTRACCIONX4.CLIENTES c
+where c.CLI_COD = 1298

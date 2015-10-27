@@ -1,3 +1,31 @@
+-------------------------------Aeronaves disponibles para un vuelo-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].pasajero_disponible
+
+ (@cli_cod int, @viaje_cod int, @fecha_salida datetime, @fecha_llegada_estimada datetime)
+
+RETURNS table
+
+AS
+	return (select distinct c.CLI_COD, c.CLI_DNI, c.CLI_NOMBRE, c.CLI_APELLIDO, c.CLI_DIRECCION, c.CLI_TELEFONO, c.CLI_MAIL, c.CLI_FECHA_NAC
+				from ABSTRACCIONX4.CLIENTES c
+				where c.CLI_COD = @cli_cod and
+				(select case 
+						when @cli_cod not in (select distinct t.CLI_COD
+												from (select distinct p.CLI_COD, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE
+														from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.PASAJES p
+														where v.VIAJE_COD = p.VIAJE_COD and p.CLI_COD = @viaje_cod) t
+												where 
+												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_SALIDA, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_LLEGADAE, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_salida, t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1)
+												)
+						then 1
+						else 0
+					end) = 1
+			)
+GO
+
 -------------------------------Importe de una encomienda-----------------------------
 CREATE FUNCTION [ABSTRACCIONX4].importeEncomienda(@kilos numeric(7,2), @origen varchar(80), @destino varchar(80))
 RETURNS table
@@ -103,4 +131,25 @@ AS
 GO
 
 
+
+--------------------------------actualizarDatosDelCliente-----------------------------------------
+
+CREATE PROCEDURE [ABSTRACCIONX4].actualizarDatosDelCliente
+	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
+AS
+	UPDATE [ABSTRACCIONX4].CLIENTES
+	SET CLI_NOMBRE = @nombre ,CLI_DIRECCION = @direccion ,CLI_MAIL = @mail, CLI_FECHA_NAC = @fechanac, CLI_TELEFONO = @telefono
+	WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape
+GO
+
+--------------------------------ingresarDatosDelCliente--------------------------------------------
+
+CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDelCliente
+	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
+AS
+	INSERT INTO [ABSTRACCIONX4].CLIENTES
+	(CLI_DNI,CLI_APELLIDO,CLI_NOMBRE,CLI_DIRECCION,CLI_MAIL,CLI_FECHA_NAC,CLI_TELEFONO) VALUES(@dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono)
+
+
+GO
 

@@ -83,6 +83,8 @@ namespace AerolineaFrba
             Compra.Form2 butacas = new Compra.Form2();
             Compra.Form5 servicioDeEncomiendas = new Compra.Form5();
 
+            Compra.Form6 efectuaCompra = new Compra.Form6();
+
             compra.formularioSiguiente = ingresarCantidades;
             ingresarCantidades.anterior = compra;
 
@@ -94,7 +96,12 @@ namespace AerolineaFrba
             cargaDeDatos.servicioDeEncomiendas = servicioDeEncomiendas;
             servicioDeEncomiendas.anterior = cargaDeDatos;
 
+            cargaDeDatos.efectuaCompra = efectuaCompra;
+            efectuaCompra.anterior = cargaDeDatos;
+
             cargaDeDatos.crearColumnas();
+            
+
             
             this.cambiarVisibilidades(compra);
         }

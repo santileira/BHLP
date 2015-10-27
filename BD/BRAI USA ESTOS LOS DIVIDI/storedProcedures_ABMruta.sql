@@ -62,6 +62,21 @@ AS
 	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta
 GO
 
+-------------------------------Tiene Viaje Programado-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].TieneViajeProgramado (@IdRuta INT)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Tiene INT
+	SELECT @Tiene = COUNT(*) FROM [ABSTRACCIONX4].VIAJES V WHERE V.RUTA_ID = @IdRuta
+	IF(@Tiene > 0)
+	RETURN 1
+	ELSE
+	RETURN 0
+END
+GO
+
+
 -------------------------------Alta Ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@IdRuta INT,
