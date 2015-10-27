@@ -54,6 +54,14 @@ GO
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRuta
 	@IdRuta INT
 AS
+	IF [ABSTRACCIONX4].EstaSiendoUsada(@IdRuta) = 1
+	BEGIN
+		DECLARE @Error varchar(255)
+		SET @Error = 'No puede darse de baja a la ruta, tiene un viaje en este momento'
+		RAISERROR(@Error, 16, 1)
+		RETURN
+	END
+	
 	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
 		SET RUTA_ESTADO = 0
 		WHERE RUTA_ID=@IdRuta
@@ -69,10 +77,27 @@ AS
 BEGIN
 	DECLARE @Tiene INT
 	SELECT @Tiene = COUNT(*) FROM [ABSTRACCIONX4].VIAJES V WHERE V.RUTA_ID = @IdRuta
+	
+	IF(@Tiene > 0)
+		RETURN 1
+	RETURN 0
+END
+GO
+
+-------------------------------Esta Siendo Usada-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].EstaSiendoUsada (@IdRuta INT)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Tiene INT
+	SELECT @Tiene = COUNT(*) 
+		FROM [ABSTRACCIONX4].VIAJES V 
+		WHERE V.RUTA_ID = @IdRuta AND
+			  [ABSTRACCIONX4].datetime_is_between(GETDATE(),VIAJE_FECHA_SALIDA,VIAJE_FECHA_LLEGADAE) = 1
+	
 	IF(@Tiene > 0)
 	RETURN 1
-	ELSE
-	RETURN 0
+		RETURN 0
 END
 GO
 

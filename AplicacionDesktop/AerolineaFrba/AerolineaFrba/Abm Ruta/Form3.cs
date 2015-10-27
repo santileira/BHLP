@@ -308,20 +308,19 @@ namespace AerolineaFrba.Abm_Ruta
             return MessageBox.Show("¿Está seguro que quiere dar de baja " + tipoDeBaja + " este registro?", "Advertencia", MessageBoxButtons.YesNo);
         }
 
-        private Object darDeBajaRuta(int idRuta)
+        private void darDeBajaRuta(int idRuta)
         {
-            SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("BajaRuta").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
-           
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRuta]";
-            command.CommandTimeout = 0;
+            SQLManager sqlManager = new SQLManager().generarSP("BajaRuta")
+                                                    .agregarIntSP("@IdRuta", idRuta);
 
-            command.Parameters.AddWithValue("@IdRuta", idRuta);
-
-            return command.ExecuteScalar();*/
+            try
+            {
+                sqlManager.ejecutarSP();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error al dar de baja", MessageBoxButtons.OK);
+            }
         }
 
         private void ejecutarCommand(string cadenaComando)
