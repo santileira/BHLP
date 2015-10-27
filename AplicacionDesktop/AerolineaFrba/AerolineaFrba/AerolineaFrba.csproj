@@ -226,11 +226,11 @@
     <Compile Include="FormIngreso.Designer.cs">
       <DependentUpon>FormIngreso.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormLoginAdministrador.cs">
+    <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormLoginAdministrador.Designer.cs">
-      <DependentUpon>FormLoginAdministrador.cs</DependentUpon>
+    <Compile Include="FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="Generacion Viaje\Form1.cs">
       <SubType>Form</SubType>
@@ -345,8 +345,8 @@
     <EmbeddedResource Include="FormIngreso.resx">
       <DependentUpon>FormIngreso.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormLoginAdministrador.resx">
-      <DependentUpon>FormLoginAdministrador.cs</DependentUpon>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generacion Viaje\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

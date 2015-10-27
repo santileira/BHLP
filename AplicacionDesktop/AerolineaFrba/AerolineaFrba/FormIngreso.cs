@@ -37,7 +37,7 @@ namespace AerolineaFrba
             Form formularioSiguiente;
             if (comboRoles.Text == "Administrador")
             {
-                formularioSiguiente = new FormLoginAdministrador();
+                formularioSiguiente = new FormLogin();
                 formularioSiguiente.Visible = true;
                 this.Visible = false;
             }

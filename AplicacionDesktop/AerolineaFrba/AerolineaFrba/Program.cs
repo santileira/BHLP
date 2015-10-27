@@ -24,7 +24,7 @@ namespace AerolineaFrba
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Menu());
+            Application.Run(new FormLogin());
         }
 
         public static SqlConnection conexion()
