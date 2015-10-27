@@ -59,7 +59,7 @@ BEGIN
 	return (select case 
 						when @matricula not in (select distinct AERO_MATRI
 												from ABSTRACCIONX4.VIAJES v
-												where
+												where 
 												([ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_SALIDA, @fecha_salida, @fecha_llegada_estimada) = 1) or
 												([ABSTRACCIONX4].datetime_is_between(v.VIAJE_FECHA_LLEGADAE, @fecha_salida, @fecha_llegada_estimada) = 1) or
 												([ABSTRACCIONX4].datetime_is_between(@fecha_salida, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE) = 1) or
