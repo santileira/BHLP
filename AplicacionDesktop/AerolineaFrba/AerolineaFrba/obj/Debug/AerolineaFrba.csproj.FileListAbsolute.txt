@@ -254,3 +254,9 @@ C:\Users\Santiago\Desktop\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj
 C:\Users\Santiago\Desktop\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.csproj.GenerateResource.Cache
 C:\Users\ezequiel\Documents\UTN - FRBA - INGENIERIA EN SISTEMAS\3° Año\Gestion de Datos\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form6.resources
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form6.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form2.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form3.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form4.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form5.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Compra.Form6.resources
+C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Devolucion.dgEncomiendas.resources
