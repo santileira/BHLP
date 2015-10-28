@@ -193,6 +193,7 @@
             this.txtButacasActual.ReadOnly = true;
             this.txtButacasActual.Size = new System.Drawing.Size(157, 20);
             this.txtButacasActual.TabIndex = 39;
+            this.txtButacasActual.TextChanged += new System.EventHandler(this.txtButacasActual_TextChanged);
             // 
             // label6
             // 

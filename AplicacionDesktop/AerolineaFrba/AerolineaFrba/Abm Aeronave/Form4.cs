@@ -344,6 +344,11 @@ namespace AerolineaFrba.Abm_Aeronave
             reader.Close();
         }
 
+        private void txtButacasActual_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         
     }
 }

@@ -180,7 +180,10 @@ namespace AerolineaFrba.Compra
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.cambiarVisibilidades(this.efectuaCompra);
+            (this.efectuaCompra as Compra.Form6).pasajes = dgPasajes;
+            (this.efectuaCompra as Compra.Form6).encomiendas = dgEncomiendas;
+
+            this.cambiarVisibilidades(efectuaCompra);
         }
 
     }

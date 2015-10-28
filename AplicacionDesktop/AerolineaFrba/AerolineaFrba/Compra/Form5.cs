@@ -177,6 +177,17 @@ namespace AerolineaFrba.Compra
 
                 if (!this.encontroCliente)
                 {
+
+                    new SQLManager().generarSP("ingresarDatosDelCliente")
+                          .agregarIntSP("@dni", txtDni)
+                            .agregarStringSP("@ape", txtApe)
+                              .agregarStringSP("@nombre", txtNom)
+                                .agregarStringSP("@direccion", txtDire)
+                                   .agregarStringSP("@mail", txtMail)
+                                     .agregarFechaSP("@fechanac", dp)
+                                        .agregarIntSP("@telefono", txtTel)
+                                            .ejecutarSP();
+
                     dgCliente2.ColumnCount = 13;
                     this.agregarCampos(dgCliente2);
 
@@ -193,6 +204,22 @@ namespace AerolineaFrba.Compra
                     (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla, viaje_cod, matricula);
 
                 this.cantidadKilos -= kg;
+
+                if (this.actualizarTabla)
+                {
+                    new SQLManager().generarSP("actualizarDatosDelCliente")
+                          .agregarIntSP("@dni", txtDni)
+                            .agregarStringSP("@ape", txtApe)
+                              .agregarStringSP("@nombre", txtNom)
+                                .agregarStringSP("@direccion", txtDire)
+                                   .agregarStringSP("@mail", txtMail)
+                                     .agregarFechaSP("@fechanac", dp)
+                                       .agregarIntSP("@telefono", txtTel)
+                                            .ejecutarSP();
+                }
+
+
+
                 this.inicio();
             }
         }
