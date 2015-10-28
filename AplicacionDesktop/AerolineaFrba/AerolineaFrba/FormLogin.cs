@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -49,7 +50,7 @@ namespace AerolineaFrba
         {
             txtPassword.Text = "";
             txtUsuario.Text = "";
-            cboRoles.Text = "";
+            cboRoles.SelectedIndex = -1;
         }
 
         private void cargarComboRoles()
@@ -57,15 +58,17 @@ namespace AerolineaFrba
             cboRoles.Items.Clear();
 
             SqlDataReader reader;
-            SqlCommand consultaServicios = new SqlCommand();
-            consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
-            consultaServicios.Connection = Program.conexion();
+            SqlCommand consultaRoles = new SqlCommand();
+            consultaRoles.CommandType = CommandType.Text;
+            consultaRoles.CommandText = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].ROLES_USUARIOS RU JOIN [ABSTRACCIONX4].ROLES R ON (RU.ROL_COD = R.ROL_COD) WHERE USERNAME = 'INVITADO'";
+            consultaRoles.Connection = Program.conexion();
 
-            reader = consultaServicios.ExecuteReader();
+            MessageBox.Show("El campo  no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+
+            reader = consultaRoles.ExecuteReader();
 
             while (reader.Read())
-                this.cboServicio.Items.Add(reader.GetValue(0));
+                cboRoles.Items.Add(reader.GetValue(0));
 
             reader.Close();
         }
