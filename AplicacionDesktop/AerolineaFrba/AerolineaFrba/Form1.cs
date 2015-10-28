@@ -98,6 +98,7 @@ namespace AerolineaFrba
 
             cargaDeDatos.efectuaCompra = efectuaCompra;
             efectuaCompra.anterior = cargaDeDatos;
+            
 
             cargaDeDatos.crearColumnas();
             

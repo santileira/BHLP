@@ -153,3 +153,63 @@ AS
 
 GO
 
+--------------------------------ingresarDatosDeCompra (PREGUNTAR)------------------------------------------------
+
+create PROCEDURE [ABSTRACCIONX4].ingresarDatosDeCompra
+	@codigoPNR int,
+	@tarjetaNro numeric(16,0),
+	@cliCod int
+AS
+	BEGIN TRY
+		INSERT INTO ABSTRACCIONX4.COMPRAS
+			(COMP_PNR,TARJ_NRO,CLI_COD)
+			VALUES (@codigoPNR,@tarjetaNro,@cliCod)
+	END TRY
+	BEGIN CATCH
+	END CATCH
+
+
+GO
+
+--------------------------------ingresarDatosDePasajes------------------------------------------------
+
+create PROCEDURE [ABSTRACCIONX4].ingresarDatosDePasajes
+	@cliCod int,
+	@viajeCod int,
+	@pasajePrecio numeric(7,2),
+	@pasajeFechaCompra datetime,
+	@butNro smallint,
+	@aeroMatri varchar(8)
+AS
+	BEGIN TRY
+		INSERT INTO ABSTRACCIONX4.PASAJES
+			(CLI_COD,VIAJE_COD,PASAJE_PRECIO,PASAJE_FECHA_COMPRA,BUT_NRO,AERO_MATRI)
+			VALUES (@cliCod,@viajeCod,@pasajePrecio,@pasajeFechaCompra,@butNro,@aeroMatri)
+	END TRY
+	BEGIN CATCH
+	END CATCH
+
+
+GO
+
+
+--------------------------------ingresarDatosDeEncomiendas------------------------------------------------
+
+create PROCEDURE [ABSTRACCIONX4].ingresarDatosDeEncomiendas
+	@cliCod int,
+	@viajeCod int,
+	@encomiendaPrecio numeric(7,2),
+	@encomiendaFechaCompra datetime,
+	@encomiendaPesoKG numeric(6,2),
+	@aeroMatri varchar(8)
+AS
+	BEGIN TRY
+		INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
+			(CLI_COD,VIAJE_COD,ENCOMIENDA_PRECIO,ENCOMIENDA_FECHA_COMPRA,ENCOMIENDA_PESO_KG,AERO_MATRI)
+			VALUES (@cliCod,@viajeCod,@encomiendaPrecio,@encomiendaFechaCompra,@encomiendaPesoKG,@aeroMatri)
+	END TRY
+	BEGIN CATCH
+	END CATCH
+
+
+GO

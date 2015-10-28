@@ -14,6 +14,10 @@ namespace AerolineaFrba.Compra
     public partial class Form6 : Form
     {
         public Form anterior;
+        public DataGridView pasajes;
+        public DataGridView encomiendas;
+        private bool encontroCliente;
+        private bool actualizarTabla;
 
         public Form6()
         {
@@ -89,11 +93,13 @@ namespace AerolineaFrba.Compra
 
             if (reader.HasRows)
             {
-                txtNom.Text = reader.GetValue(0).ToString();
-                txtDire.Text = reader.GetValue(1).ToString();
-                txtTel.Text = reader.GetValue(2).ToString();
-                txtMail.Text = reader.GetValue(3).ToString();
-                dp.Value = (DateTime)reader.GetValue(4);
+                encontroCliente = true;
+
+                txtNom.Text = reader.GetValue(2).ToString();
+                txtDire.Text = reader.GetValue(4).ToString();
+                txtTel.Text = reader.GetValue(5).ToString();
+                txtMail.Text = reader.GetValue(6).ToString();
+                dp.Value = (DateTime)reader.GetValue(7);
 
             }
             else
@@ -129,5 +135,172 @@ namespace AerolineaFrba.Compra
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            if (sePuedeEfectuarLaCompra())
+            {
+
+                if (!encontroCliente)
+                {
+                    new SQLManager().generarSP("ingresarDatosDelCliente")
+                          .agregarIntSP("@dni", txtDni)
+                            .agregarStringSP("@ape", txtApe)
+                              .agregarStringSP("@nombre", txtNom)
+                                .agregarStringSP("@direccion", txtDire)
+                                   .agregarStringSP("@mail", txtMail)
+                                     .agregarFechaSP("@fechanac", dp)
+                                        .agregarIntSP("@telefono", txtTel)
+                                            .ejecutarSP();
+                }
+
+                if (actualizarTabla)
+                {
+                    new SQLManager().generarSP("actualizarDatosDelCliente")
+                         .agregarIntSP("@dni", txtDni)
+                           .agregarStringSP("@ape", txtApe)
+                             .agregarStringSP("@nombre", txtNom)
+                               .agregarStringSP("@direccion", txtDire)
+                                  .agregarStringSP("@mail", txtMail)
+                                    .agregarFechaSP("@fechanac", dp)
+                                      .agregarIntSP("@telefono", txtTel)
+                                           .ejecutarSP();
+                }
+
+                string codigoPNR = CreatePNR(10);
+                cargarDatosDeCompra(codigoPNR);
+                cargarDatosDePasajes(codigoPNR);
+                cargarDatosDeEncomiendas(codigoPNR);
+
+                MessageBox.Show("Se realizo la compra con éxito", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+
+                Form formularioSiguiente = new Menu();
+                this.cambiarVisibilidades(formularioSiguiente);
+            }
+            else
+            {
+                MessageBox.Show("No es posible efectuar la compra", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+            }
+
+            
+        }
+
+        private bool sePuedeEfectuarLaCompra()
+        {
+            return true;
+        }
+
+        private void cargarDatosDePasajes(string codigoPNR)
+        {
+
+            int cliCod;
+            int viajeCod;
+            decimal pasajePrecio;
+            int butNro;
+
+            foreach (DataGridViewRow row in pasajes.Rows)
+            {
+              
+                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
+                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out pasajePrecio);
+                int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
+
+                new SQLManager().generarSP("ingresarDatosDePasajes")
+                          .agregarIntSP("@cliCod", cliCod)
+                            .agregarIntSP("@viajeCod", viajeCod)
+                              .agregarDecimalSP("@pasajePrecio", pasajePrecio)
+                                .agregarFechaSP("@pasajeFechaCompra", DateTime.Now)
+                                   .agregarIntSP("@butNro", butNro)
+                                     .agregarStringSP("@aeroMatri", row.Cells["MATRICULA"].Value.ToString())
+                                           .ejecutarSP();
+
+            }
+        }
+
+        private void cargarDatosDeEncomiendas(string codigoPNR)
+        {
+            int cliCod;
+            int viajeCod;
+            decimal encomiendaPrecio;
+            decimal encomiendaPesoKG;
+
+            foreach (DataGridViewRow row in encomiendas.Rows)
+            {
+
+                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
+                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out encomiendaPrecio);
+                decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out encomiendaPesoKG);
+
+                new SQLManager().generarSP("ingresarDatosDeEncomiendas")
+                          .agregarIntSP("@cliCod", cliCod)
+                            .agregarIntSP("@viajeCod", viajeCod)
+                              .agregarDecimalSP("@encomiendaPrecio", encomiendaPrecio)
+                                .agregarFechaSP("@encomiendaFechaCompra", DateTime.Now)
+                                   .agregarDecimalSP("@encomiendaPesoKG", encomiendaPesoKG)
+                                     .agregarStringSP("@aeroMatri", row.Cells["MATRICULA"].Value.ToString())
+                                           .ejecutarSP();
+
+            }
+        }
+
+        private void cargarDatosDeCompra(string codigoPNR)
+        {
+            /*
+            new SQLManager().generarSP("ingresarDatosDeCompra") */
+        }
+
+
+        public string CreatePNR(int length)
+        {
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
+        }
+
+
+        private void txtNom_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtDire_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtTel_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtNac_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void txtMail_TextChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
+        private void hayQueActualizarTabla()
+        {
+            if (encontroCliente)
+                actualizarTabla = true;
+        }
+
+        private void dp_ValueChanged(object sender, EventArgs e)
+        {
+            this.hayQueActualizarTabla();
+        }
+
     }
 }
