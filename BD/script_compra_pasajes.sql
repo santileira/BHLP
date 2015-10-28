@@ -86,7 +86,8 @@ AS
 			where AERO_MATRI = @matricula) - (select sum(e.ENCOMIENDA_PESO_KG)
 												from ABSTRACCIONX4.ENCOMIENDAS e
 												where e.AERO_MATRI = @matricula and
-												e.VIAJE_COD = @viaje_cod)) Kilos
+												e.VIAJE_COD = @viaje_cod and
+												e.ENCOMIENDA_CANCELADO = 0)) Kilos
 				)
 		
 GO
@@ -104,6 +105,7 @@ AS
 								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
 								where p.BUT_NRO = b.BUT_NRO and
 								p.AERO_MATRI = b.AERO_MATRI and
+								p.PASAJE_CANCELADO = 0 and
 								p.AERO_MATRI = @matricula and p.VIAJE_COD = @viaje_cod)
 			)
 GO
