@@ -38,8 +38,8 @@
             this.radioInvitado = new System.Windows.Forms.RadioButton();
             this.radioAdministrador = new System.Windows.Forms.RadioButton();
             this.gbInvitado = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.cboRoles = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.gbAdministrador.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gbInvitado.SuspendLayout();
@@ -62,6 +62,7 @@
             // 
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(101, 62);
+            this.txtPassword.MaxLength = 20;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '•';
             this.txtPassword.Size = new System.Drawing.Size(121, 20);
@@ -79,6 +80,7 @@
             // txtUsuario
             // 
             this.txtUsuario.Location = new System.Drawing.Point(101, 29);
+            this.txtUsuario.MaxLength = 20;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(121, 20);
             this.txtUsuario.TabIndex = 1;
@@ -100,6 +102,7 @@
             this.botonIngresar.TabIndex = 5;
             this.botonIngresar.Text = "Ingresar";
             this.botonIngresar.UseVisualStyleBackColor = true;
+            this.botonIngresar.Click += new System.EventHandler(this.botonIngresar_Click);
             // 
             // groupBox2
             // 
@@ -146,15 +149,6 @@
             this.gbInvitado.TabStop = false;
             this.gbInvitado.Text = "Login Invitado";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Rol";
-            // 
             // cboRoles
             // 
             this.cboRoles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -163,6 +157,15 @@
             this.cboRoles.Name = "cboRoles";
             this.cboRoles.Size = new System.Drawing.Size(121, 21);
             this.cboRoles.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Rol";
             // 
             // FormLogin
             // 

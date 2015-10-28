@@ -63,14 +63,91 @@ namespace AerolineaFrba
             consultaRoles.CommandText = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].ROLES_USUARIOS RU JOIN [ABSTRACCIONX4].ROLES R ON (RU.ROL_COD = R.ROL_COD) WHERE USERNAME = 'INVITADO'";
             consultaRoles.Connection = Program.conexion();
 
-            MessageBox.Show("El campo  no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-
             reader = consultaRoles.ExecuteReader();
 
             while (reader.Read())
                 cboRoles.Items.Add(reader.GetValue(0));
 
             reader.Close();
+        }
+
+        private void botonIngresar_Click(object sender, EventArgs e)
+        {
+            if (radioAdministrador.Checked)
+            {
+                ingresarComoAdministrador();
+            }
+            else
+            {
+                ingresarComoInvitado();
+            }
+        }
+
+        
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
+
+        private void ingresarComoAdministrador()
+        {
+            Boolean huboErrores = false;
+
+            if (validarTipos())
+                huboErrores = true;
+
+            if (validarLongitudes())
+                huboErrores = true;
+            
+            
+            if (!huboErrores)
+            {
+                cambiarVisibilidades(new Principal("ADMINISTRADOR"));
+            } 
+            
+        }
+
+        
+
+        private void ingresarComoInvitado()
+        {
+            if (cboRoles.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe elegir algún rol para poder ingresar como invitado", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            cambiarVisibilidades(new Principal(cboRoles.SelectedItem.ToString()));
+        }
+
+        private bool validarLongitudes()
+        {
+            Boolean huboErrores = false;
+            
+            if (txtUsuario.TextLength == 0)
+            {
+                MessageBox.Show("Debe completar el campo usuario", "Error", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+            if (txtPassword.TextLength == 0)
+            {
+                MessageBox.Show("Debe completar el campo contraseña", "Error", MessageBoxButtons.OK);
+                huboErrores = true;
+            }
+
+            return huboErrores;
+        }
+
+        private bool validarTipos()
+        {
+            if (!Validacion.esTexto(txtUsuario) && txtUsuario.TextLength > 0)
+            {
+                MessageBox.Show("El nombre de usuario debe ser un texto", "Error", MessageBoxButtons.OK);
+                return true;
+            }
+            return false;
         }
 
     }

@@ -60,8 +60,6 @@ namespace AerolineaFrba.Abm_Ruta
                 try
                 {
                     darDeAltaRuta();
-                    
-
                 }
                 catch
                 {
