@@ -107,5 +107,17 @@ namespace AerolineaFrba
             this.cambiarVisibilidades(compra);
         }
 
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Devolucion.dgEncomiendas devolucion = new Devolucion.dgEncomiendas();
+            devolucion.inicio();
+            cambiarVisibilidades(devolucion);
+        }
+
+        private void Menu_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
