@@ -35,6 +35,9 @@
             this.dgPasaje = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
             this.dgEncomienda = new System.Windows.Forms.DataGridView();
+            this.Devolver = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Cancelar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).BeginInit();
             this.SuspendLayout();
@@ -82,6 +85,8 @@
             this.dgPasaje.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgPasaje.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgPasaje.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgPasaje.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Cancelar});
             this.dgPasaje.EnableHeadersVisualStyles = false;
             this.dgPasaje.Location = new System.Drawing.Point(34, 118);
             this.dgPasaje.MultiSelect = false;
@@ -90,6 +95,7 @@
             this.dgPasaje.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgPasaje.Size = new System.Drawing.Size(802, 144);
             this.dgPasaje.TabIndex = 4;
+            this.dgPasaje.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPasaje_CellContentClick);
             // 
             // label3
             // 
@@ -107,6 +113,8 @@
             this.dgEncomienda.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgEncomienda.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgEncomienda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgEncomienda.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Devolver});
             this.dgEncomienda.EnableHeadersVisualStyles = false;
             this.dgEncomienda.Location = new System.Drawing.Point(34, 319);
             this.dgEncomienda.MultiSelect = false;
@@ -115,12 +123,40 @@
             this.dgEncomienda.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgEncomienda.Size = new System.Drawing.Size(802, 144);
             this.dgEncomienda.TabIndex = 6;
+            this.dgEncomienda.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgEncomienda_CellContentClick);
+            // 
+            // Devolver
+            // 
+            this.Devolver.HeaderText = "Devolver";
+            this.Devolver.Name = "Devolver";
+            this.Devolver.ReadOnly = true;
+            this.Devolver.Text = "Devolver";
+            this.Devolver.UseColumnTextForButtonValue = true;
+            // 
+            // Cancelar
+            // 
+            this.Cancelar.HeaderText = "Cancelar";
+            this.Cancelar.Name = "Cancelar";
+            this.Cancelar.ReadOnly = true;
+            this.Cancelar.Text = "Cancelar";
+            this.Cancelar.UseColumnTextForButtonValue = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(34, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Atrás";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dgEncomiendas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(870, 531);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.dgEncomienda);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dgPasaje);
@@ -146,5 +182,8 @@
         private System.Windows.Forms.DataGridView dgPasaje;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgEncomienda;
+        private System.Windows.Forms.DataGridViewButtonColumn Cancelar;
+        private System.Windows.Forms.DataGridViewButtonColumn Devolver;
+        private System.Windows.Forms.Button button1;
     }
 }
