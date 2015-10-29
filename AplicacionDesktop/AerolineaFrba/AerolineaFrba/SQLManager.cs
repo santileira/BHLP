@@ -76,6 +76,12 @@ namespace AerolineaFrba
             return this;
         }
 
+        public SQLManager agregarTableSP(string nombreVariable, DataTable tabla)
+        {
+            command.Parameters.AddWithValue(nombreVariable, tabla);
+            return this;
+        }
+
         private static DataTable crearDataTable(IEnumerable<Object> lista)
         {
             DataTable table = new DataTable();

@@ -215,3 +215,38 @@ AS
 
 
 GO
+
+
+-------------------- ingresar Datos ----------------------------
+
+CREATE TYPE TablePasajesType AS TABLE 
+
+(CLI_COD varchar(15),
+CLI_DNI varchar(15)
+);
+GO
+
+
+CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatos
+	@TablaPasajes TablePasajesType READONLY
+AS
+	BEGIN
+		DECLARE @sarasa int 
+		SET @sarasa = (SELECT COUNT(*) FROM @TablaPasajes)
+		INSERT INTO [ABSTRACCIONX4].PRUEBA (PRUEBA_DNI) VALUES(@sarasa)
+		/*DECLARE cursorPasajes CURSOR FOR SELECT CLI_COD FROM @TablaPasajes
+		DECLARE @CLI_DNI varchar(10)
+
+		OPEN cursorPasajes
+		FETCH NEXT FROM cursorPasajes INTO @CLI_DNI
+		WHILE(@@FETCH_STATUS=0)
+		BEGIN
+			INSERT INTO [ABSTRACCIONX4].PRUEBA (PRUEBA_DNI_STRING) VALUES(@CLI_DNI) 
+			FETCH NEXT FROM cursorPasajes INTO @CLI_DNI
+		END*/
+	END
+
+
+GO
+
+SELECT * FROM ABSTRACCIONX4.PRUEBA

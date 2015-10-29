@@ -181,6 +181,7 @@ namespace AerolineaFrba.Compra
             {
                 (formularioSiguiente as Compra.Form3).cantidadButacasDisponibles = Convert.ToInt32(lblButacas.Text);
                 (formularioSiguiente as Compra.Form3).cantidadKilosDisponibles = Convert.ToDouble(lblKilos.Text);
+                
                 this.cambiarVisibilidades(formularioSiguiente);
             }
         }
