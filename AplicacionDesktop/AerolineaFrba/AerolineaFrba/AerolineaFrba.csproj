@@ -194,6 +194,7 @@
     <Compile Include="Compra\Form6.Designer.cs">
       <DependentUpon>Form6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Constructores.cs" />
     <Compile Include="Devolucion\Form2.cs">
       <SubType>Form</SubType>
     </Compile>

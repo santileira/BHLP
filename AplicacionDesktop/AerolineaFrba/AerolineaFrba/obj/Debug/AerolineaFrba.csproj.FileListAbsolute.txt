@@ -264,3 +264,4 @@ C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFr
 C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.FormLogin.resources
 C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Principal.resources
 C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Devolucion.Form2.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Devolucion.Form2.resources
