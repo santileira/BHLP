@@ -35,8 +35,6 @@ namespace AerolineaFrba
             {
                 agregarAMenu(funcionalidad);
             }
-
-            
         }
 
         private void cargarDiccionarioFuncionalidades()
@@ -45,16 +43,24 @@ namespace AerolineaFrba
             diccionarioFunc.Add("ABM Rol", agregarABM);
             diccionarioFunc.Add("ABM Aeronave", agregarABM);
             diccionarioFunc.Add("ABM Ruta", agregarABM);
-            diccionarioFunc.Add("Generar Viaje", agregarFuncionalidadUnica);
+            diccionarioFunc.Add("Generación Viaje", agregarAFuncViajes);
+            diccionarioFunc.Add("Registro Llegada Destino", agregarAFuncViajes);
+            diccionarioFunc.Add("Canje Millas", agregarAFuncMillas);
+            diccionarioFunc.Add("Consulta Millas", agregarAFuncMillas);
+            diccionarioFunc.Add("Compra", agregarAFuncOperacion);
+            diccionarioFunc.Add("Devolución", agregarAFuncOperacion);
+            diccionarioFunc.Add("Registro de Usuario", agregarFuncionalidadUnica);
+            diccionarioFunc.Add("Listado Estadístico", agregarFuncionalidadUnica);
         }
 
         private void agregarAMenu(string funcionalidad)
         {
             Action<string> operacion;
 
-            diccionarioFunc.TryGetValue(funcionalidad, out operacion);
-
-            operacion.Invoke(funcionalidad);
+            if (diccionarioFunc.TryGetValue(funcionalidad, out operacion))
+            {
+                operacion.Invoke(funcionalidad);
+            }
         }
 
         private void agregarABM(string nombre)
@@ -63,7 +69,7 @@ namespace AerolineaFrba
             
             ToolStripButton botonAlta = new ToolStripButton("Alta");
             ToolStripButton botonBaja = new ToolStripButton("Baja");
-            ToolStripButton botonModificacion = new ToolStripButton("Modificacion");
+            ToolStripButton botonModificacion = new ToolStripButton("Modificación");
 
             botonAlta.Width = botonBaja.Width = botonModificacion.Width = 80;
 
@@ -77,6 +83,37 @@ namespace AerolineaFrba
         private void agregarFuncionalidadUnica(string nombre)
         {
             menu.Items.Add(new ToolStripButton(nombre));
+        }
+
+        private void agregarAFuncViajes(string nombre)
+        {
+            crearYAgregarADesplegable("Viajes",nombre,120);
+        }
+
+        private void agregarAFuncMillas(string nombre)
+        {
+            crearYAgregarADesplegable("Millas", nombre.Replace(" Millas",""),60);
+        }
+
+        private void agregarAFuncOperacion(string nombre)
+        {
+            crearYAgregarADesplegable("Operación", nombre,80);
+        }
+
+        private void crearYAgregarADesplegable(string desplegable, string funcionalidad,int longitudBoton)
+        {
+            if (menu.Items.Find(desplegable,false).Length==0)
+            {
+                ToolStripMenuItem menuDesplegable = new ToolStripMenuItem(desplegable);
+                menuDesplegable.Name = desplegable;
+                menu.Items.Add(menuDesplegable);
+            }
+
+            ToolStripButton boton = new ToolStripButton(funcionalidad);
+            boton.Width = longitudBoton;
+            boton.Click += new System.EventHandler(botonABM_Click);
+
+            ((ToolStripMenuItem)menu.Items.Find(desplegable, false)[0]).DropDownItems.Add(boton);
         }
 
         private List<string> listaFuncionalidades()
@@ -98,6 +135,11 @@ namespace AerolineaFrba
             reader.Close();
 
             return funcionalidades;
+        }
+
+        private void botonABM_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }
