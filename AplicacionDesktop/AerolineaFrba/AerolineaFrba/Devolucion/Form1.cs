@@ -183,6 +183,7 @@ namespace AerolineaFrba.Devolucion
             {
                     Form2 form = new Form2();
                     form.ShowDialog();
+                    
                     motivo = form.Motivo;
                     this.cancelarPasajesYEncomiendas();
                     cambiarVisibilidades(new Menu());
