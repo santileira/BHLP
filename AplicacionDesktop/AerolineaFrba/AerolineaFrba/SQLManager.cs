@@ -76,12 +76,33 @@ namespace AerolineaFrba
             return this;
         }
 
+<<<<<<< HEAD
+        public SQLManager agregarListaSP(string nombreVariable, List<String> codigos)
+        {
+            command.Parameters.AddWithValue(nombreVariable, crearDataTable(codigos));
+            return this;
+        }
+
+        private static DataTable crearDataTable(IEnumerable<String> lista)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("elemento", typeof(string));
+            foreach (string elemento in lista)
+            {
+                table.Rows.Add(elemento.ToString());
+            }
+            return table;
+        }
+
+
+=======
         public SQLManager agregarTableSP(string nombreVariable, DataTable tabla)
         {
             command.Parameters.AddWithValue(nombreVariable, tabla);
             return this;
         }
 
+>>>>>>> ccc39e46c4eebfc770ffd635d193176bea98cbe6
         private static DataTable crearDataTable(IEnumerable<Object> lista)
         {
             DataTable table = new DataTable();

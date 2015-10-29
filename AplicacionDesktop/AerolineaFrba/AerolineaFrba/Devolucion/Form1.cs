@@ -14,6 +14,10 @@ namespace AerolineaFrba.Devolucion
 {
     public partial class dgEncomiendas : Form
     {
+        List<String> pasajes;
+        List<String> encomiendas;
+        String motivo;
+        
         public dgEncomiendas()
         {
             InitializeComponent();
@@ -30,12 +34,13 @@ namespace AerolineaFrba.Devolucion
             this.txtCodigo.Text = "";
             this.Cancelar.Visible = false;
             this.Devolver.Visible = false;
-
+            pasajes = new List<String>();
+            encomiendas = new List<String>();
         }
 
         private void llenarPasajes(string codigo)
         {
-            string query = "SELECT * FROM [ABSTRACCIONX4].PASAJES WHERE COMP_COD = [ABSTRACCIONX4].ObtenerCodigo(" + codigo + ")";
+            string query = "SELECT * FROM [ABSTRACCIONX4].LlenarPasajes(" + codigo + ")";
 
             SqlConnection conexion = Program.conexion();
 
@@ -53,7 +58,7 @@ namespace AerolineaFrba.Devolucion
 
         private void llenarEncomiendas(string codigo)
         {
-            string query = "SELECT * FROM [ABSTRACCIONX4].ENCOMIENDAS WHERE COMP_COD = [ABSTRACCIONX4].ObtenerCodigo(" + codigo + ")";
+            string query = "SELECT * FROM [ABSTRACCIONX4].LlenarEncomiendas(" + codigo + ")";
 
             SqlConnection conexion = Program.conexion();
 
@@ -76,6 +81,8 @@ namespace AerolineaFrba.Devolucion
                 this.llenarPasajes(txtCodigo.Text);
                 this.llenarEncomiendas(txtCodigo.Text);
                 this.Cancelar.Visible = this.Devolver.Visible = true;
+                this.txtCodigo.Enabled =  this.btBuscar.Enabled = false;
+               
             }
         }
               
@@ -86,7 +93,15 @@ namespace AerolineaFrba.Devolucion
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.cambiarVisibilidades(new Menu());
+            if (pasajes.Count() != 0 || encomiendas.Count() != 0)
+            {
+                DialogResult resultado = MessageBox.Show("¿Está seguro que quiere ir para atrás, no se realizará la devolución?", "Advertencia", MessageBoxButtons.YesNo);
+                if (apretoSi(resultado))
+                {
+                    this.cambiarVisibilidades(new Menu());
+                }
+            }
+            else this.cambiarVisibilidades(new Menu());
         }
 
         private void cambiarVisibilidades(Form proximo)
@@ -103,16 +118,19 @@ namespace AerolineaFrba.Devolucion
                 if (e.ColumnIndex == 0)
                 {
                     DialogResult resultado = mostrarMensaje("e pasaje");
-                    //int idRuta = Convert.ToInt32(darValorDadoIndex(e.RowIndex,"RUTA_ID"));
+                  
                     if (apretoSi(resultado))
                     {
-                        //darDeBajaRuta(idRuta);
-                        /*darDeBajaPasajes(idRuta);
-                        darDeBajaEncomienda(idRuta);*/
-                        //ejecutarQuery();
+                        pasajes.Add(darValorDadoIndex(e.RowIndex , dgPasaje , "PASAJE_COD"));
+                        dgPasaje.Rows.RemoveAt(e.RowIndex);
                     }
                 }
             }
+        }
+
+        private String darValorDadoIndex(int indice , DataGridView dg , string columna)
+        {
+            return dg.Rows[indice].Cells[columna].Value.ToString();
         }
 
         private DialogResult mostrarMensaje(string tipo)
@@ -134,13 +152,11 @@ namespace AerolineaFrba.Devolucion
                 if (e.ColumnIndex == 0)
                 {
                     DialogResult resultado = mostrarMensaje("a encomienda");
-                    //int idRuta = Convert.ToInt32(darValorDadoIndex(e.RowIndex,"RUTA_ID"));
+                   
                     if (apretoSi(resultado))
                     {
-                        //darDeBajaRuta(idRuta);
-                        /*darDeBajaPasajes(idRuta);
-                        darDeBajaEncomienda(idRuta);*/
-                        //ejecutarQuery();
+                        encomiendas.Add(darValorDadoIndex(e.RowIndex, dgEncomienda, "ENCOMIENDA_COD"));
+                        dgEncomienda.Rows.RemoveAt(e.RowIndex);
                     }
                 }
             }
@@ -153,6 +169,36 @@ namespace AerolineaFrba.Devolucion
             huboErrores = Validacion.esNumero(txtCodigo , "código de compra" , true);
 
             return huboErrores;
+        }
+
+        private void dgEncomiendas_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btFinalizar_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show("¿Está seguro que quiere finalizar las devoluciones?", "Advertencia", MessageBoxButtons.YesNo);
+            if(apretoSi(resultado))
+            {
+                    Form2 form = new Form2();
+                    form.ShowDialog();
+                    motivo = form.Motivo;
+                    this.cancelarPasajesYEncomiendas();
+                    cambiarVisibilidades(new Menu());
+            }    
+        }
+
+        private Object cancelarPasajesYEncomiendas()
+        {
+            SQLManager sqlManager = new SQLManager();
+            return sqlManager.generarSP("CancelarPasajesYEncomiendas").
+                   agregarStringSP("@Codigo", txtCodigo.Text).
+                   agregarListaSP("@Pasajes", pasajes).
+                   agregarListaSP("@Encomiendas", encomiendas).
+                   agregarFechaSP("@FechaDevolucion" , System.DateTime.Today).
+                   agregarStringSP("@Motivo" , motivo).
+                   ejecutarSP();
         }
     }
 }
