@@ -182,12 +182,16 @@ namespace AerolineaFrba.Devolucion
             if(apretoSi(resultado))
             {
                     Form2 form = new Form2();
-                    form.ShowDialog();
-                    
+                    form.ShowDialog();    
                     motivo = form.Motivo;
                     this.cancelarPasajesYEncomiendas();
                     cambiarVisibilidades(new Menu());
             }    
+        }
+
+        private void dineroOtarjeta()
+        {
+            
         }
 
         private Object cancelarPasajesYEncomiendas()
@@ -197,7 +201,7 @@ namespace AerolineaFrba.Devolucion
                    agregarStringSP("@Codigo", txtCodigo.Text).
                    agregarListaSP("@Pasajes", pasajes).
                    agregarListaSP("@Encomiendas", encomiendas).
-                   agregarFechaSP("@FechaDevolucion" , System.DateTime.Today).
+                   agregarFechaSP("@FechaDevolucion" , System.DateTime.Now).
                    agregarStringSP("@Motivo" , motivo).
                    ejecutarSP();
         }

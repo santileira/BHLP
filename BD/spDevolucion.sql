@@ -92,6 +92,7 @@ GO
 
 
 
+
 --------------------------------Llenar Pasajes--------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].LlenarPasajes(@Codigo INT)
@@ -172,7 +173,7 @@ BEGIN
 		UPDATE [ABSTRACCIONX4].ENCOMIENDAS
 		SET DEVOLUC_COD = @CodigoDev , ENCOMIENDA_CANCELADO = 1
 		WHERE COMP_PNR = @Codigo AND
-		@Cod = ENCOMIENDA_COD AND 
+		@Cod1 = ENCOMIENDA_COD AND 
 		[ABSTRACCIONX4].EstaEnViajeEncomienda(ENCOMIENDA_COD) = 0 AND
 		ENCOMIENDA_CANCELADO = 0
 
