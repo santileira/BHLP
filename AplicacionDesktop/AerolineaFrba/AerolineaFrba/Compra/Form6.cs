@@ -141,7 +141,7 @@ namespace AerolineaFrba.Compra
 
             if (sePuedeEfectuarLaCompra())
             {
-
+                /*
                 if (!encontroCliente)
                 {
                     new SQLManager().generarSP("ingresarDatosDelCliente")
@@ -167,7 +167,7 @@ namespace AerolineaFrba.Compra
                                       .agregarIntSP("@telefono", txtTel)
                                            .ejecutarSP();
                 }
-
+                */
                 string codigoPNR = CreatePNR(10);
                 cargarDatosDeCompra(codigoPNR);
                 cargarDatosDePasajes(codigoPNR);
@@ -193,7 +193,23 @@ namespace AerolineaFrba.Compra
 
         private void cargarDatosDePasajes(string codigoPNR)
         {
+            DataTable dt = new DataTable();
+            dt = pasajes.DataSource as DataTable;
 
+            /*dt.Columns.Add("CLI_COD", typeof(string));
+
+            dt.Columns.Add("CLI_DNI", typeof(int));*/
+
+            MessageBox.Show(((DataTable)pasajes.DataSource).Columns[0].Caption, "Co", MessageBoxButtons.OK);
+                MessageBox.Show(dt.Columns[0].Caption, "Co", MessageBoxButtons.OK);
+           
+            
+   
+            
+            new SQLManager().generarSP("ingresarDatos")
+                             .agregarTableSP("@TablaPasajes", dt)
+                                .ejecutarSP();
+            /*
             int cliCod;
             int viajeCod;
             decimal pasajePrecio;
@@ -216,11 +232,11 @@ namespace AerolineaFrba.Compra
                                      .agregarStringSP("@aeroMatri", row.Cells["MATRICULA"].Value.ToString())
                                            .ejecutarSP();
 
-            }
+            }*/
         }
 
         private void cargarDatosDeEncomiendas(string codigoPNR)
-        {
+        {/*
             int cliCod;
             int viajeCod;
             decimal encomiendaPrecio;
@@ -234,7 +250,9 @@ namespace AerolineaFrba.Compra
                 decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out encomiendaPrecio);
                 decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out encomiendaPesoKG);
 
-                new SQLManager().generarSP("ingresarDatosDeEncomiendas")
+                
+
+                new SQLManager().generarSP("ingresarDatosDeEncomiendas")                    
                           .agregarIntSP("@cliCod", cliCod)
                             .agregarIntSP("@viajeCod", viajeCod)
                               .agregarDecimalSP("@encomiendaPrecio", encomiendaPrecio)
@@ -242,8 +260,8 @@ namespace AerolineaFrba.Compra
                                    .agregarDecimalSP("@encomiendaPesoKG", encomiendaPesoKG)
                                      .agregarStringSP("@aeroMatri", row.Cells["MATRICULA"].Value.ToString())
                                            .ejecutarSP();
-
-            }
+            
+            }*/
         }
 
         private void cargarDatosDeCompra(string codigoPNR)

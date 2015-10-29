@@ -76,6 +76,7 @@ namespace AerolineaFrba
             return this;
         }
 
+<<<<<<< HEAD
         public SQLManager agregarListaSP(string nombreVariable, List<String> codigos)
         {
             command.Parameters.AddWithValue(nombreVariable, crearDataTable(codigos));
@@ -94,6 +95,14 @@ namespace AerolineaFrba
         }
 
 
+=======
+        public SQLManager agregarTableSP(string nombreVariable, DataTable tabla)
+        {
+            command.Parameters.AddWithValue(nombreVariable, tabla);
+            return this;
+        }
+
+>>>>>>> ccc39e46c4eebfc770ffd635d193176bea98cbe6
         private static DataTable crearDataTable(IEnumerable<Object> lista)
         {
             DataTable table = new DataTable();

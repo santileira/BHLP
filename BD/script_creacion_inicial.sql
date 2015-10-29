@@ -132,6 +132,7 @@ CREATE TABLE [ABSTRACCIONX4].[CLIENTES](
 	[CLI_TELEFONO] [int] NOT NULL,
 	[CLI_MAIL] [varchar] (60) NULL,
 	[CLI_FECHA_NAC] [datetime] NOT NULL,
+	[CLI_MILLAS_ACUMULADAS] [int] DEFAULT 0, 
  CONSTRAINT [PK_CLIENTES] PRIMARY KEY CLUSTERED 
 (
 	[CLI_COD] 
@@ -495,7 +496,17 @@ REFERENCES [ABSTRACCIONX4].[CLIENTES] ([CLI_COD])
 GO
 
 
+CREATE TABLE [ABSTRACCIONX4].[PRUEBA](
+	[PRUEBA_COD] [tinyint] IDENTITY,
+	[PRUEBA_DNI] [int] NULL,
+	[PRUEBA_DNI_STRING] [varchar] (15) NULL, 
+ CONSTRAINT [PK_PRUEBA] PRIMARY KEY CLUSTERED 
+(
+	[PRUEBA_COD] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 
+GO
 
 
 -- =============================================================================================
@@ -618,10 +629,11 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 		CLI_DIRECCION ,
 		CLI_TELEFONO ,
 		CLI_MAIL ,
-		CLI_FECHA_NAC
+		CLI_FECHA_NAC,
+		CLI_MILLAS_ACUMULADAS
 	)
 
-	SELECT DISTINCT Cli_Dni, Cli_Nombre, Cli_Apellido, Cli_Dir, Cli_Telefono, Cli_Mail, Cli_Fecha_Nac FROM gd_esquema.Maestra
+	SELECT DISTINCT Cli_Dni, Cli_Nombre, Cli_Apellido, Cli_Dir, Cli_Telefono, Cli_Mail, Cli_Fecha_Nac,0 FROM gd_esquema.Maestra
 
 GO
 
@@ -731,6 +743,4 @@ FROM
 		) ID_RUTA
 FROM gd_esquema.Maestra m 
 WHERE Pasaje_Precio > 0) T 
-
-
 
