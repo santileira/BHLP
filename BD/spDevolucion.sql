@@ -141,8 +141,45 @@ CREATE PROCEDURE [ABSTRACCIONX4].CancelarPasajesYEncomiendas
 AS
 BEGIN
 	DECLARE @CodigoDev INT
+	DECLARE @Cod INT
+	DECLARE @Cod1 INT
 	INSERT INTO [ABSTRACCIONX4].DEVOLUCIONES (DEVOLUC_FECHA , DEVOLUC_MOTIVO)
 	VALUES (@FechaDevolucion , @Motivo)
+	SET @CodigoDev = @@IDENTITY
+	DECLARE cursorPasajes CURSOR FOR SELECT * FROM @Pasajes
+	OPEN cursorPasajes
+	FETCH cursorPasajes INTO @Cod 
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+		UPDATE [ABSTRACCIONX4].LlenarPasajes(@Codigo)
+		SET DEVOLUCION_COD = @CodigoDev , PASAJE_CANCELADO = 1
+		WHERE COMP_COD = @Codigo AND
+		@Cod = PASAJE_COD AND 
+		[ABSTRACCIONX4].EstaEnViajeEncomienda(PASAJE_COD) = 0 AND
+		PASAJE_CANCELADO = 0
+
+		FETCH cursorPasajes INTO @Cod
+	END
+	CLOSE cursorPasajes
+	DEALLOCATE cursorPasajes
+
+
+	DECLARE cursorEncomiendas CURSOR FOR SELECT * FROM @Encomiendas
+	OPEN cursorEncomiendas
+	FETCH cursorEncomiendas INTO @Cod1 
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+		UPDATE [ABSTRACCIONX4].ENCOMIENDAS
+		SET DEVOLUCION_COD = @CodigoDev , ENCOMIENDA_CANCELADO = 1
+		WHERE COMP_COD = @Codigo AND
+		@Cod = ENCOMIENDA_COD AND 
+		[ABSTRACCIONX4].EstaEnViajeEncomienda(ENCOMIENDA_COD) = 0 AND
+		ENCOMIENDA_CANCELADO = 0
+
+		FETCH cursorEncomiendas INTO @Cod1
+	END
+	CLOSE cursorEncomiendas
+	DEALLOCATE cursorEncomiendas
 END
 GO
 
