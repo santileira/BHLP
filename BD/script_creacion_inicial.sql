@@ -356,7 +356,6 @@ REFERENCES [ABSTRACCIONX4].[AERONAVES] ([AERO_MATRI])
 GO
 
 
-SELECT * FROM [gd_esquema].Maestra where Pasaje_Codigo != 0
 -- Tabla Pasajes
 
 CREATE TABLE [ABSTRACCIONX4].[PASAJES](
