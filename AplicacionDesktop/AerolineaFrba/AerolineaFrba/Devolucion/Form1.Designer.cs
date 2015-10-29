@@ -33,11 +33,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btBuscar = new System.Windows.Forms.Button();
             this.dgPasaje = new System.Windows.Forms.DataGridView();
+            this.Cancelar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.dgEncomienda = new System.Windows.Forms.DataGridView();
-            this.Devolver = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Cancelar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.button1 = new System.Windows.Forms.Button();
+            this.Devolver = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btFinalizar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).BeginInit();
             this.SuspendLayout();
@@ -97,6 +98,14 @@
             this.dgPasaje.TabIndex = 4;
             this.dgPasaje.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPasaje_CellContentClick);
             // 
+            // Cancelar
+            // 
+            this.Cancelar.HeaderText = "Cancelar";
+            this.Cancelar.Name = "Cancelar";
+            this.Cancelar.ReadOnly = true;
+            this.Cancelar.Text = "Cancelar";
+            this.Cancelar.UseColumnTextForButtonValue = true;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -125,22 +134,6 @@
             this.dgEncomienda.TabIndex = 6;
             this.dgEncomienda.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgEncomienda_CellContentClick);
             // 
-            // Devolver
-            // 
-            this.Devolver.HeaderText = "Devolver";
-            this.Devolver.Name = "Devolver";
-            this.Devolver.ReadOnly = true;
-            this.Devolver.Text = "Devolver";
-            this.Devolver.UseColumnTextForButtonValue = true;
-            // 
-            // Cancelar
-            // 
-            this.Cancelar.HeaderText = "Cancelar";
-            this.Cancelar.Name = "Cancelar";
-            this.Cancelar.ReadOnly = true;
-            this.Cancelar.Text = "Cancelar";
-            this.Cancelar.UseColumnTextForButtonValue = true;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(34, 12);
@@ -151,11 +144,30 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // Devolver
+            // 
+            this.Devolver.HeaderText = "Cancelar";
+            this.Devolver.Name = "Devolver";
+            this.Devolver.ReadOnly = true;
+            this.Devolver.Text = "Cancelar";
+            this.Devolver.UseColumnTextForButtonValue = true;
+            // 
+            // btFinalizar
+            // 
+            this.btFinalizar.Location = new System.Drawing.Point(721, 487);
+            this.btFinalizar.Name = "btFinalizar";
+            this.btFinalizar.Size = new System.Drawing.Size(115, 32);
+            this.btFinalizar.TabIndex = 8;
+            this.btFinalizar.Text = "Finalizar";
+            this.btFinalizar.UseVisualStyleBackColor = true;
+            this.btFinalizar.Click += new System.EventHandler(this.btFinalizar_Click);
+            // 
             // dgEncomiendas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(870, 531);
+            this.Controls.Add(this.btFinalizar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dgEncomienda);
             this.Controls.Add(this.label3);
@@ -166,6 +178,7 @@
             this.Controls.Add(this.label1);
             this.Name = "dgEncomiendas";
             this.Text = "Cancelación";
+            this.Load += new System.EventHandler(this.dgEncomiendas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).EndInit();
             this.ResumeLayout(false);
@@ -183,7 +196,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgEncomienda;
         private System.Windows.Forms.DataGridViewButtonColumn Cancelar;
-        private System.Windows.Forms.DataGridViewButtonColumn Devolver;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewButtonColumn Devolver;
+        private System.Windows.Forms.Button btFinalizar;
     }
 }
