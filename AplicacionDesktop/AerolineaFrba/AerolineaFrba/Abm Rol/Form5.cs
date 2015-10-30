@@ -13,7 +13,7 @@ namespace AerolineaFrba.Abm_Rol
 {
     public partial class Listado : Form
     {
-        public const string QUERY_BASE = "SELECT ROL_NOMBRE ,ROL_ESTADO FROM [ABSTRACCIONX4].[ROLES]";
+        public const string QUERY_BASE = "SELECT ROL_NOMBRE 'Nombre' ,ROL_ESTADO 'Estado' FROM [ABSTRACCIONX4].[ROLES]";
         public Form anterior;
         public Listado listado;
         public Form siguiente;
@@ -86,7 +86,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean sePusoFiltro()
         {
-            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || Validacion.estaSeleccionado(cboFiltro3) || !Validacion.estaCheckeadoCheck(chkEstadoIgnorar));          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || !Validacion.estaCheckeadoCheck(chkEstadoIgnorar));          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -98,13 +98,13 @@ namespace AerolineaFrba.Abm_Rol
         {
             Boolean huboErrores = false;
 
-            if (!this.esTexto(txtFiltro1))
+            if (!Validacion.esTexto(txtFiltro1))
             {
                 MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if (!this.esTexto(txtFiltro2))
+            if (!Validacion.esTexto(txtFiltro2))
             {
                 MessageBox.Show("El filtro por igualdad de palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
@@ -113,7 +113,7 @@ namespace AerolineaFrba.Abm_Rol
             return !huboErrores;
 
         }
-
+        /*
         private Boolean esTexto(TextBox txt)
         {
             if (txt.Text.Length == 0)
@@ -125,7 +125,7 @@ namespace AerolineaFrba.Abm_Rol
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
-        }
+        }*/
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
         {
@@ -170,12 +170,7 @@ namespace AerolineaFrba.Abm_Rol
             optEstadoBaja.Checked = false;
 
             txtFiltro1.Text = "";
-            txtFiltro2.Text = "";
-            txtFiltro4.Text = "";
-
-            
-            cboFiltro3.SelectedIndex = -1;
-            
+            txtFiltro2.Text = ""; 
         }
 
         private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
@@ -227,8 +222,8 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarSeleccion(ref string rolSeleccionado,ref Boolean estadoRol, List<Object> listaFuncionalidades)
         {
-            rolSeleccionado = dg.SelectedRows[0].Cells["ROL_NOMBRE"].Value.ToString();
-            estadoRol = (Boolean)(dg.SelectedRows[0].Cells["ROL_ESTADO"].Value);
+            rolSeleccionado = dg.SelectedRows[0].Cells["Nombre"].Value.ToString();
+            estadoRol = (Boolean)(dg.SelectedRows[0].Cells["Estado"].Value);
 
 
             string query = "SELECT FUNC_DESC FROM [ABSTRACCIONX4].ROLES r JOIN [ABSTRACCIONX4].FUNCIONES_ROLES fr ON (r.ROL_COD = fr.ROL_COD) JOIN [ABSTRACCIONX4].FUNCIONALIDADES f ON (f.FUNC_COD = fr.FUNC_COD) WHERE r.ROL_NOMBRE = '" + rolSeleccionado + "'";
@@ -260,28 +255,28 @@ namespace AerolineaFrba.Abm_Rol
             if (primeraConsulta)
             {
                 DataGridViewColumn columnaHabilitada = new DataGridViewTextBoxColumn();
-                columnaHabilitada.Name = "HABILITADO";
-                columnaHabilitada.HeaderText = "HABILITADO";
+                columnaHabilitada.Name = "Habilitado";
+                columnaHabilitada.HeaderText = "Habilitado";
                 columnaHabilitada.ReadOnly = true;
 
-                dg.Columns.Insert(dg.Columns["ROL_ESTADO"].Index, columnaHabilitada);
+                dg.Columns.Insert(dg.Columns["Estado"].Index, columnaHabilitada);
 
             }
 
             foreach (DataGridViewRow fila in dg.Rows)
             {
-                Boolean valor = (Boolean)(fila.Cells["ROL_ESTADO"].Value);
+                Boolean valor = (Boolean)(fila.Cells["Estado"].Value);
                 if (valor)
                 {
-                    fila.Cells["HABILITADO"].Value = "SI";
+                    fila.Cells["Habilitado"].Value = "SI";
                 }
                 else
                 {
-                    fila.Cells["HABILITADO"].Value = "NO";
+                    fila.Cells["Habilitado"].Value = "NO";
                 }
             }
 
-            dg.Columns["ROL_ESTADO"].Visible = false;
+            dg.Columns["Estado"].Visible = false;
 
         }
     }

@@ -20,7 +20,7 @@ namespace AerolineaFrba
             }
             else
             {//esta hecho asi porque si es vacio no tiene sentido que entre para validar que sea texto ya que no hay nada
-                if (!Validacion.esTexto(txtBox))
+                if(!Validacion.esTexto(txtBox))
                 {
                     MessageBox.Show("El campo " + nombreCampo + " debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                     huboErrores = true;
@@ -88,6 +88,8 @@ namespace AerolineaFrba
                     MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
                     return false;
                 }
+                if(!esVacio(txtBox))
+                return false;
             }
             return true;//return regexTexto.IsMatch(txtBox.Text);
         }
