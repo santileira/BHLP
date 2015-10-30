@@ -76,6 +76,7 @@ namespace AerolineaFrba.Canje_Millas
             {
                 this.agregarALista();
                 dgListadoProductos.SelectedRows[0].Selected = false;
+                button1.Enabled = false;
             }
             else
             {
@@ -138,6 +139,7 @@ namespace AerolineaFrba.Canje_Millas
             txtProdSeleccionado.Clear();
 
             puntosDisp.Text = millasDispFijas.ToString();
+            millasDisponibles = millasDispFijas;
 
             foreach (DataGridViewRow row in dgListadoProductos.Rows)
             {
