@@ -126,8 +126,8 @@ namespace AerolineaFrba
             canjeMillas.anterior = consultaMillas;
             this.cambiarVisibilidades(consultaMillas);
         }
-
-        private void button11_Click(object sender, EventArgs e)
+        
+        private void button11_Click_1(object sender, EventArgs e)
         {
             formularioSiguiente = new Listado_Estadistico.Form1();
             this.cambiarVisibilidades(formularioSiguiente);
