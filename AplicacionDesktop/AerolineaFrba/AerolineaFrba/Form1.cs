@@ -119,5 +119,15 @@ namespace AerolineaFrba
 
         }
 
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1();
+            Canje_Millas.Form1 canjeMillas = new Canje_Millas.Form1();
+
+            consultaMillas.canjeMillas = canjeMillas;
+            canjeMillas.anterior = consultaMillas;
+            this.cambiarVisibilidades(consultaMillas);
+        }
+
     }
 }
