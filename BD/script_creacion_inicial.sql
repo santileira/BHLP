@@ -312,6 +312,7 @@ CREATE TABLE [ABSTRACCIONX4].[VIAJES](
 	[VIAJE_FECHA_LLEGADAE] [datetime] NOT NULL,
 	[AERO_MATRI] [varchar] (8) NOT NULL,
 	[RUTA_ID] [int] NOT NULL,
+	[CANT_BUT_OCUPADAS] [smallint] DEFAULT 0
 	CONSTRAINT [UK_VIAJES] UNIQUE (VIAJE_FECHA_SALIDA , VIAJE_FECHA_LLEGADA , AERO_MATRI , RUTA_ID),
 	CONSTRAINT [CK_FECHA] CHECK (VIAJE_FECHA_LLEGADA > VIAJE_FECHA_SALIDA),
 	CONSTRAINT [CK_FECHAE] CHECK (VIAJE_FECHA_LLEGADAE > VIAJE_FECHA_SALIDA),
@@ -533,7 +534,7 @@ GO
 --Inserta las ciudades en la tabla de ciudades
 
 INSERT INTO [ABSTRACCIONX4].[CIUDADES] (CIU_DESC)
-SELECT DISTINCT RUTA_CIUDAD_ORIGEN FROM gd_esquema.Maestra
+SELECT DISTINCT SUBSTRING(Ruta_Ciudad_Origen,2,100) FROM gd_esquema.Maestra
 GO
 
 --SELECT * FROM [ABSTRACCIONX4].[CIUDADES]
@@ -605,8 +606,8 @@ INSERT INTO [ABSTRACCIONX4].[RUTAS_AEREAS]
 
 SELECT	Ruta_Codigo,
 		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_DESC = Tipo_Servicio),
-		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Origen),
-		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = Ruta_Ciudad_Destino),
+		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = SUBSTRING(Ruta_Ciudad_Origen,2,100)),
+		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = SUBSTRING(Ruta_Ciudad_Destino,2,100)),
 		MAX(Ruta_Precio_BaseKG) as Precio_BaseKG,
 		MAX(Ruta_Precio_BasePasaje) as Precio_BasePasaje,
 		1 
@@ -614,9 +615,8 @@ SELECT	Ruta_Codigo,
 	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino,Tipo_Servicio
 GO
 
---SELECT * FROM [ABSTRACCIONX4].[RUTAS_AEREAS] 
 
--- Inserta los viajes en la tabla viajes 
+-- Inserta los viajes en la tabla viajes (el insert de las butacas disponibles se hace al final)
 
 INSERT INTO[ABSTRACCIONX4].[VIAJES]
 
@@ -704,8 +704,8 @@ FROM
 				JOIN [ABSTRACCIONX4].CIUDADES c1 ON (c1.CIU_COD = r.CIU_COD_O)
 				JOIN [ABSTRACCIONX4].CIUDADES c2 ON (c2.CIU_COD = r.CIU_COD_D)
 			WHERE r.RUTA_COD = m.Ruta_Codigo 
-					AND c1.CIU_DESC = m.Ruta_Ciudad_Origen 
-					AND c2.CIU_DESC = m.Ruta_Ciudad_Destino
+					AND c1.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Origen,2,100) 
+					AND c2.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Destino,2,100) 
 		) ID_RUTA
 FROM gd_esquema.Maestra m
 WHERE Paquete_Precio > 0) T
@@ -776,8 +776,8 @@ FROM
 				JOIN [ABSTRACCIONX4].CIUDADES c1 ON (c1.CIU_COD = r.CIU_COD_O)
 				JOIN [ABSTRACCIONX4].CIUDADES c2 ON (c2.CIU_COD = r.CIU_COD_D)
 			WHERE r.RUTA_COD = m.Ruta_Codigo 
-					AND c1.CIU_DESC = m.Ruta_Ciudad_Origen 
-					AND c2.CIU_DESC = m.Ruta_Ciudad_Destino
+					AND c1.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Origen,2,100) 
+					AND c2.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Destino,2,100)
 		) ID_RUTA
 FROM gd_esquema.Maestra m 
 WHERE Pasaje_Precio > 0) T 
@@ -785,3 +785,13 @@ WHERE Pasaje_Precio > 0) T
 GO
 SET IDENTITY_INSERT [ABSTRACCIONX4].[PASAJES] OFF
 
+
+
+-- Actualiza el valor de las butacas disponibles en viajes realizados 
+
+UPDATE [ABSTRACCIONX4].[VIAJES]
+	SET CANT_BUT_OCUPADAS = (SELECT COUNT(*) 
+								FROM [ABSTRACCIONX4].PASAJES
+								WHERE PASAJE_CANCELADO = 0 AND
+									VIAJE_COD = v.VIAJE_COD)
+	FROM [ABSTRACCIONX4].VIAJES v 
