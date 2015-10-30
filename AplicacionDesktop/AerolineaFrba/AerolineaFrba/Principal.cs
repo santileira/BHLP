@@ -15,7 +15,7 @@ namespace AerolineaFrba
     {
         private string rolElegido;
         Dictionary<string, Action<string>> diccionarioFunc;
-        Dictionary<string, Action<Form>> diccionarioFormularios;
+        Dictionary<string, Func<Form>> diccionarioFormularios;
 
 
         public Principal(string rolElegido)
@@ -57,10 +57,24 @@ namespace AerolineaFrba
 
         private void cargarDiccionarioFormularios()
         {
-            diccionarioFormularios = new Dictionary<string, Action<Form>>();
+            diccionarioFormularios = new Dictionary<string, Func<Form>>();
+            diccionarioFormularios.Add("ABM Rol Alta", Constructores.ABMRolAlta);
+            diccionarioFormularios.Add("ABM Rol Baja", Constructores.ABMRolBaja);
+            diccionarioFormularios.Add("ABM Rol Modificación", Constructores.ABMRolModificacion);
             diccionarioFormularios.Add("ABM Aeronave Alta", Constructores.ABMAeronaveAlta);
             diccionarioFormularios.Add("ABM Aeronave Baja", Constructores.ABMAeronaveBaja);
             diccionarioFormularios.Add("ABM Aeronave Modificación", Constructores.ABMAeronaveModifiaccion);
+            diccionarioFormularios.Add("ABM Ruta Alta", Constructores.ABMRutaAlta);
+            diccionarioFormularios.Add("ABM Ruta Baja", Constructores.ABMRutaBaja);
+            diccionarioFormularios.Add("ABM Ruta Modificación", Constructores.ABMRutaModificacion);
+            diccionarioFormularios.Add("Generación Viaje", Constructores.GeneracionViaje);
+            diccionarioFormularios.Add("Registro Llegada Destino", Constructores.RegistroLlegadaDestino);
+            diccionarioFormularios.Add("Canje", Constructores.CanjeMillas);
+            diccionarioFormularios.Add("Consulta", Constructores.ConsultaMillas);
+            diccionarioFormularios.Add("Compra", Constructores.Compra);
+            diccionarioFormularios.Add("Devolución", Constructores.Devolucion);
+            diccionarioFormularios.Add("Registro de Usuario", Constructores.RegistroUsuario);
+            diccionarioFormularios.Add("Listado Estadístico", Constructores.ListadoEstadístico);
         }
 
         private void agregarAMenu(string funcionalidad)
@@ -168,11 +182,18 @@ namespace AerolineaFrba
 
         private void boton_Click(object sender, EventArgs e)
         {
-            Action<Form> metodo;
+            Func<Form> metodo;
             if(diccionarioFormularios.TryGetValue(((ToolStripButton)sender).Name,out metodo))
             {
-                metodo.Invoke(this);
+                mostrarForm(metodo.Invoke());
+
             }
+        }
+
+        public void mostrarForm(Form formulario)
+        {
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
     }
