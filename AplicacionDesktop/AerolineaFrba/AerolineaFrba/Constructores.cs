@@ -197,7 +197,7 @@ namespace AerolineaFrba
 
         public static Form RegistroUsuario()
         {
-            throw new Exception("EN CONSTRUCCIÓN");
+            return new Registro_de_Usuario.Form1();
         }
 
 

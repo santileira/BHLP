@@ -22,9 +22,38 @@ namespace AerolineaFrba.Registro_de_Usuario
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void botonRegistrar_Click(object sender, EventArgs e)
         {
-
+            if (datosCorrectos())
+            {
+                MessageBox.Show("OK", "Error en los datos de entrada", MessageBoxButtons.OK);
+            }
         }
+
+        private Boolean datosCorrectos()
+        {
+            return Validacion.textNombre(txtUsuario, "usuario") && validarLongitudContrasenias() && validarContraseniasIguales();
+        }
+
+        private bool validarLongitudContrasenias()
+        {
+            if (txtUsuario.TextLength == 0 || txtPassword.TextLength == 0 || txtPassword2.TextLength == 0)
+            {
+                MessageBox.Show("Debe ccompletar todos los campos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
+        }
+
+        private Boolean validarContraseniasIguales()
+        {
+            if (!txtPassword.Text.Equals(txtPassword2.Text))
+            {
+                MessageBox.Show("La contraseña no coincide", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+            return true;
+        }
+
     }
 }
