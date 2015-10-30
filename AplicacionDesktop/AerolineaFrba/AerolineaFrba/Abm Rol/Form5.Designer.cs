@@ -33,12 +33,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.optEstadoBaja = new System.Windows.Forms.RadioButton();
             this.optEstadoAlta = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
-            this.txtFiltro4 = new System.Windows.Forms.TextBox();
-            this.cboFiltro3 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -57,12 +52,7 @@
             // 
             this.groupBox1.Controls.Add(this.chkEstadoIgnorar);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
-            this.groupBox1.Controls.Add(this.txtFiltro4);
-            this.groupBox1.Controls.Add(this.cboFiltro3);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -76,7 +66,7 @@
             // chkEstadoIgnorar
             // 
             this.chkEstadoIgnorar.AutoSize = true;
-            this.chkEstadoIgnorar.Location = new System.Drawing.Point(173, 115);
+            this.chkEstadoIgnorar.Location = new System.Drawing.Point(193, 80);
             this.chkEstadoIgnorar.Name = "chkEstadoIgnorar";
             this.chkEstadoIgnorar.Size = new System.Drawing.Size(154, 17);
             this.chkEstadoIgnorar.TabIndex = 15;
@@ -88,7 +78,7 @@
             // 
             this.groupBox2.Controls.Add(this.optEstadoBaja);
             this.groupBox2.Controls.Add(this.optEstadoAlta);
-            this.groupBox2.Location = new System.Drawing.Point(9, 86);
+            this.groupBox2.Location = new System.Drawing.Point(9, 71);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(140, 84);
             this.groupBox2.TabIndex = 14;
@@ -117,61 +107,18 @@
             this.optEstadoAlta.Text = "Estado ALTA";
             this.optEstadoAlta.UseVisualStyleBackColor = true;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(488, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 20);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Seleccionar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // txtFiltro1
             // 
             this.txtFiltro1.Location = new System.Drawing.Point(159, 20);
+            this.txtFiltro1.MaxLength = 30;
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(90, 20);
             this.txtFiltro1.TabIndex = 16;
             // 
-            // txtFiltro4
-            // 
-            this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(387, 58);
-            this.txtFiltro4.Name = "txtFiltro4";
-            this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
-            this.txtFiltro4.TabIndex = 7;
-            // 
-            // cboFiltro3
-            // 
-            this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(387, 24);
-            this.cboFiltro3.Name = "cboFiltro3";
-            this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
-            this.cboFiltro3.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(336, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Filtro 4";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(336, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Filtro 3";
-            // 
             // txtFiltro2
             // 
-            this.txtFiltro2.Location = new System.Drawing.Point(160, 58);
+            this.txtFiltro2.Location = new System.Drawing.Point(470, 19);
+            this.txtFiltro2.MaxLength = 30;
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
@@ -179,7 +126,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 66);
+            this.label2.Location = new System.Drawing.Point(316, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 1;
@@ -292,11 +239,6 @@
         private System.Windows.Forms.TextBox txtFiltro1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtFiltro4;
-        private System.Windows.Forms.ComboBox cboFiltro3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label lblErrores;

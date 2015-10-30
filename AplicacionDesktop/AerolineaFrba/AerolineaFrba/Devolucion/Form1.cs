@@ -36,50 +36,24 @@ namespace AerolineaFrba.Devolucion
             this.Devolver.Visible = false;
             pasajes = new List<String>();
             encomiendas = new List<String>();
+            this.btFinalizar.Visible = false;
         }
 
-        private void llenarPasajes(string codigo)
+        private void llenarDg(DataGridView dg , string funcion)
         {
-            string query = "SELECT * FROM [ABSTRACCIONX4].LlenarPasajes(" + codigo + ")";
+            string query = "SELECT * FROM [ABSTRACCIONX4]." + funcion;
 
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dgPasaje.DataSource = ds;
-            dgPasaje.DataMember = "Busqueda";
-
-            conexion.Close();
+            SQLManager.ejecutarQuery(query, dg);
         }
 
-        private void llenarEncomiendas(string codigo)
-        {
-            string query = "SELECT * FROM [ABSTRACCIONX4].LlenarEncomiendas(" + codigo + ")";
-
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dgEncomienda.DataSource = ds;
-            dgEncomienda.DataMember = "Busqueda";
-
-            conexion.Close();
-        }
+        
 
         private void btBuscar_Click(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
             {
-                this.llenarPasajes(txtCodigo.Text);
-                this.llenarEncomiendas(txtCodigo.Text);
+                this.llenarDg(dgPasaje , "LlenarPasajes(" + txtCodigo.Text + ")");
+                this.llenarDg(dgEncomienda , "LlenarEncomiendas(" + txtCodigo.Text + ")");
                 this.Cancelar.Visible = this.Devolver.Visible = true;
                 this.txtCodigo.Enabled =  this.btBuscar.Enabled = false;
                
@@ -121,8 +95,9 @@ namespace AerolineaFrba.Devolucion
                   
                     if (apretoSi(resultado))
                     {
-                        pasajes.Add(darValorDadoIndex(e.RowIndex , dgPasaje , "PASAJE_COD"));
+                        pasajes.Add(darValorDadoIndex(e.RowIndex , dgPasaje , "Código"));
                         dgPasaje.Rows.RemoveAt(e.RowIndex);
+                        this.btFinalizar.Visible = true;
                     }
                 }
             }
@@ -155,8 +130,9 @@ namespace AerolineaFrba.Devolucion
                    
                     if (apretoSi(resultado))
                     {
-                        encomiendas.Add(darValorDadoIndex(e.RowIndex, dgEncomienda, "ENCOMIENDA_COD"));
+                        encomiendas.Add(darValorDadoIndex(e.RowIndex, dgEncomienda, "Código"));
                         dgEncomienda.Rows.RemoveAt(e.RowIndex);
+                        this.btFinalizar.Visible = true;
                     }
                 }
             }
