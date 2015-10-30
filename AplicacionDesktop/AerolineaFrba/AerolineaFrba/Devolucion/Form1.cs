@@ -36,24 +36,14 @@ namespace AerolineaFrba.Devolucion
             this.Devolver.Visible = false;
             pasajes = new List<String>();
             encomiendas = new List<String>();
+            this.btFinalizar.Visible = false;
         }
 
         private void llenarDg(DataGridView dg , string funcion)
         {
             string query = "SELECT * FROM [ABSTRACCIONX4]." + funcion;
 
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();
+            SQLManager.ejecutarQuery(query, dg);
         }
 
         
@@ -107,6 +97,7 @@ namespace AerolineaFrba.Devolucion
                     {
                         pasajes.Add(darValorDadoIndex(e.RowIndex , dgPasaje , "Código"));
                         dgPasaje.Rows.RemoveAt(e.RowIndex);
+                        this.btFinalizar.Visible = true;
                     }
                 }
             }
@@ -141,6 +132,7 @@ namespace AerolineaFrba.Devolucion
                     {
                         encomiendas.Add(darValorDadoIndex(e.RowIndex, dgEncomienda, "Código"));
                         dgEncomienda.Rows.RemoveAt(e.RowIndex);
+                        this.btFinalizar.Visible = true;
                     }
                 }
             }
