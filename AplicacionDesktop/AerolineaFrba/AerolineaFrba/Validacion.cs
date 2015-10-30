@@ -174,7 +174,7 @@ namespace AerolineaFrba
             }
             else
             {
-                MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
+                //MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
                 return false;
             }
 
