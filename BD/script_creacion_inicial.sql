@@ -800,3 +800,41 @@ UPDATE [ABSTRACCIONX4].[VIAJES]
 								WHERE PASAJE_CANCELADO = 0 AND
 									VIAJE_COD = v.VIAJE_COD)
 	FROM [ABSTRACCIONX4].VIAJES v 
+
+
+
+-- Insert de usuario invitado y un administrador
+
+INSERT INTO ABSTRACCIONX4.USUARIOS (USERNAME,PASSWORD)
+	VALUES ('INVITADO',''),('UnAdmin','x')
+
+
+-- Insert de roles
+
+INSERT INTO ABSTRACCIONX4.ROLES (ROL_NOMBRE)
+	VALUES ('ADMINISTRADOR'),('CLIENTE')
+
+
+-- Insert de funcionalidades
+
+INSERT INTO ABSTRACCIONX4.FUNCIONALIDADES (FUNC_DESC)
+	VALUES ('ABM Rol'),
+		   ('ABM Aeronave'),
+		   ('ABM Ruta'),
+		   ('Generación Viaje'),
+		   ('Registro Llegada Destino'),
+		   ('Canje Millas'),
+		   ('Consulta Millas'),
+		   ('Compra'),
+		   ('Devolución'),
+		   ('Registro de Usuario'),
+		   ('Listado Estadístico')
+
+
+-- !!!!!!! ACTUALIZAR AL FINAL !!!!!
+-- Insert de roles por usuarios
+
+INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USERNAME,ROL_COD)
+	SELECT 'INVITADO',ROL_COD 
+		FROM ABSTRACCIONX4.ROLES
+		WHERE ROL_NOMBRE = 'Cliente'

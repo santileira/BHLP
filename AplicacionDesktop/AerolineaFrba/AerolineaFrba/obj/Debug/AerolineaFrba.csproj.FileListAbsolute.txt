@@ -276,3 +276,5 @@ C:\Users\Fran\Desktop\UTN FRBA\GDD\BHLP\AplicacionDesktop\AerolineaFrba\Aeroline
 C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Canje_Millas.Form1.resources
 C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Consulta_Millas.Form1.resources
 C:\Users\Santiago\Desktop\GDD TP\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Listado_Estadistico.Form1.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Canje_Millas.Form1.resources
+C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.Consulta_Millas.Form1.resources

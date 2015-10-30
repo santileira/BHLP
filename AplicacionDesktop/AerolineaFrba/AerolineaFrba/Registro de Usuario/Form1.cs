@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +27,25 @@ namespace AerolineaFrba.Registro_de_Usuario
         {
             if (datosCorrectos())
             {
-                MessageBox.Show("OK", "Error en los datos de entrada", MessageBoxButtons.OK);
+                registrarUsuario();
+            }
+        }
+
+        private void registrarUsuario()
+        {
+            SQLManager manager = new SQLManager().generarSP("RegistrarUsuario")
+                                                 .agregarStringSP("@Usuario", txtUsuario)
+                                                 .agregarStringSP("@Contrasenia", encriptarSegunSHA256(txtPassword.Text));
+
+            try
+            {
+                manager.ejecutarSP();
+                MessageBox.Show("El usuario " + txtUsuario.Text + " ha sido registrado de forma correcta", "Registro exitoso", MessageBoxButtons.OK);
+                this.Close();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "Error en el registro", MessageBoxButtons.OK);
             }
         }
 
@@ -54,6 +73,24 @@ namespace AerolineaFrba.Registro_de_Usuario
             }
             return true;
         }
+
+        private string encriptarSegunSHA256(string cadena)
+        {
+            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
+
+            byte[] bytesEntrada = Encoding.UTF8.GetBytes(cadena);
+            byte[] bytesEncriptados = provider.ComputeHash(bytesEntrada);
+
+            StringBuilder cadenaEncriptada = new StringBuilder();
+
+            for(int i = 0; i < bytesEncriptados.Length; i++)
+            {
+                cadenaEncriptada.Append(bytesEncriptados[i].ToString("x2").ToLower());
+            }
+
+
+            return cadenaEncriptada.ToString();
+        }  
 
     }
 }
