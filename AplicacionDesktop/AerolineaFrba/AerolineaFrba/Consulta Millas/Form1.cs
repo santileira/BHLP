@@ -66,23 +66,6 @@ namespace AerolineaFrba.Consulta_Millas
         private void button1_Click(object sender, EventArgs e)
         {
             this.llenarHistorialDeMillas();
-            /*
-            int cantidad = 0;
-            int rowsCount = dgHistorial.RowCount;
-            int i = 0;
-            foreach (DataGridViewRow row in dgHistorial.Rows)
-            {
-
-                if (i < rowsCount - 1)
-                {
-                    cantidad = cantidad + (int)row.Cells[5].Value;
-                }
-
-                i = i + 1;
-            }*/
-            
-            //cantTotalMillas.Text = dgHistorial.SelectedRows[0].Cells[6].Value.ToString();
-
         }
 
         private void button2_Click(object sender, EventArgs e)
