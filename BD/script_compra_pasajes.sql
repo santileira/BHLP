@@ -101,7 +101,7 @@ AS
 			select b.BUT_NRO, b.BUT_TIPO
 			from ABSTRACCIONX4.BUTACAS b
 			where AERO_MATRI = @matricula and
-			b.BUT_NRO not in(select p.BUT_NRO
+			b.BUT_NRO not in(select b.BUT_NRO
 								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
 								where p.BUT_NRO = b.BUT_NRO and
 								p.AERO_MATRI = b.AERO_MATRI and
@@ -110,6 +110,16 @@ AS
 			)
 GO
 
+-------------------------------Butacas pasillo disponibles para una aeronave en un viaje determinado-----------------------------
+CREATE FUNCTION [ABSTRACCIONX4].butacasDisponiblesCantidad(@viaje_cod int, @matricula varchar(8))
+RETURNS int
+
+AS
+begin
+	return(select count(*)
+			from [ABSTRACCIONX4].butacasDisponibles(@viaje_cod, @matricula))
+end
+GO
 
 -------------------------------Filtrar los viajes disponibles para una fecha y ruta------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].buscarViajesDisponibles(@fecha datetime, @origen varchar(80), @destino varchar(80))
@@ -248,5 +258,3 @@ AS
 
 
 GO
-
-SELECT * FROM ABSTRACCIONX4.PRUEBA

@@ -102,8 +102,6 @@ namespace AerolineaFrba
 
             cargaDeDatos.crearColumnas();
             
-
-            
             this.cambiarVisibilidades(compra);
         }
 
@@ -117,6 +115,12 @@ namespace AerolineaFrba
         private void Menu_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            formularioSiguiente = new Listado_Estadistico.Form1();
+            this.cambiarVisibilidades(formularioSiguiente);
         }
 
     }
