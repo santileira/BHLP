@@ -72,16 +72,24 @@ namespace AerolineaFrba.Canje_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (hayStockDisponible())
+            if (validarCampo())
             {
-                this.agregarALista();
-                dgListadoProductos.SelectedRows[0].Selected = false;
-                button1.Enabled = false;
+                if (hayStockDisponible())
+                {
+                    this.agregarALista();
+                    dgListadoProductos.SelectedRows[0].Selected = false;
+                    button1.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("No hay suficientes millas o no hay stock para realizar el canje", "Error", MessageBoxButtons.OK);
+                }
             }
-            else
-            {
-                MessageBox.Show("No hay suficientes millas o no hay stock para realizar el canje", "Error", MessageBoxButtons.OK);
-            }
+        }
+
+        private Boolean validarCampo()
+        {
+            return Validacion.textNombre(txtCantSeleccionada, "Cant. Seleccionada");
         }
 
         private bool hayStockDisponible()
@@ -153,44 +161,52 @@ namespace AerolineaFrba.Canje_Millas
         {
             int puntosDisponibles;
             int.TryParse(puntosDisp.Text, out puntosDisponibles);
+            int totalPuntos = millasDispFijas - millasDisponibles;
 
-            if (puntosDisponibles > 0)
+            if (totalPuntos == 0)
             {
-
-                int cantElementos = listaPremiosSelec.Items.Count;
-                for (int i = 0; i < cantElementos; i++)
-                {
-                    string descripcion = listaPremiosSelec.Items[i].ToString();
-                    int cantSelect;
-                    int.TryParse(listCantSelec.Items[i].ToString(), out cantSelect);
-
-                    new SQLManager().generarSP("reducirStockDePremio")
-                                   .agregarStringSP("@descripcion", descripcion)
-                                     .agregarIntSP("@cantidadSolicitada", cantSelect)
-                                        .ejecutarSP();
-
-                }
-
-                int totalPuntos = millasDispFijas - millasDisponibles;
-
-                MessageBox.Show("Puntos a Gastar: " + totalPuntos, "Data", MessageBoxButtons.OK);
-
-
-                new SQLManager().generarSP("DescontarMillas")
-                             .agregarIntSP("@cantMillas", totalPuntos)
-                               .agregarIntSP("@dni", dni)
-                                 .agregarStringSP("@ape", apellido)
-                                    .ejecutarSP();
-
-                MessageBox.Show("Se efectuó el Canje", "Canje Exitoso", MessageBoxButtons.OK);
-
-                this.cambiarVisibilidades(new Menu());
-
+                MessageBox.Show("Debe seleccionar al menos un producto", "Error", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("No hay suficientes millas para realizar el canje", "Error", MessageBoxButtons.OK);
-                this.cambiarVisibilidades(anterior);
+                if (puntosDisponibles > 0)
+                {
+
+                    int cantElementos = listaPremiosSelec.Items.Count;
+                    for (int i = 0; i < cantElementos; i++)
+                    {
+                        string descripcion = listaPremiosSelec.Items[i].ToString();
+                        int cantSelect;
+                        int.TryParse(listCantSelec.Items[i].ToString(), out cantSelect);
+
+                        new SQLManager().generarSP("reducirStockDePremio")
+                                       .agregarStringSP("@descripcion", descripcion)
+                                         .agregarIntSP("@cantidadSolicitada", cantSelect)
+                                            .ejecutarSP();
+
+                    }
+
+
+                    MessageBox.Show("Puntos a Gastar: " + totalPuntos, "Data", MessageBoxButtons.OK);
+
+
+                    new SQLManager().generarSP("DescontarMillas")
+                                 .agregarIntSP("@cantMillas", totalPuntos)
+                                   .agregarIntSP("@dni", dni)
+                                     .agregarStringSP("@ape", apellido)
+                                        .ejecutarSP();
+
+                    MessageBox.Show("Se efectuó el Canje", "Canje Exitoso", MessageBoxButtons.OK);
+
+                    this.cambiarVisibilidades(new Menu());
+
+                }
+                else
+                {
+                    MessageBox.Show("No hay suficientes millas para realizar el canje", "Error", MessageBoxButtons.OK);
+                    this.cambiarVisibilidades(anterior);
+                }
+
             }
 
 
