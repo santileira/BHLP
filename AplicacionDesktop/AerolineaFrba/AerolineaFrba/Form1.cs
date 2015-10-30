@@ -102,8 +102,6 @@ namespace AerolineaFrba
 
             cargaDeDatos.crearColumnas();
             
-
-            
             this.cambiarVisibilidades(compra);
         }
 
@@ -121,12 +119,17 @@ namespace AerolineaFrba
 
         private void button10_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1();
             Canje_Millas.Form1 canjeMillas = new Canje_Millas.Form1();
 
             consultaMillas.canjeMillas = canjeMillas;
             canjeMillas.anterior = consultaMillas;
             this.cambiarVisibilidades(consultaMillas);
+=======
+            formularioSiguiente = new Listado_Estadistico.Form1();
+            this.cambiarVisibilidades(formularioSiguiente);
+>>>>>>> 48cbb2f39eab527f0a3f808166cd92837188d983
         }
 
     }

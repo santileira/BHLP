@@ -281,7 +281,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Alta";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Alta de aeronave";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);
