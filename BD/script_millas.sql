@@ -5,7 +5,7 @@ RETURNS TABLE
 AS 
 	RETURN(
 		SELECT	P.PASAJE_COD Codigo,
-				'Pasaje' as "Tipo",
+				'Pasaje' as Tipo,
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
 				P.PASAJE_FECHA_COMPRA as "Fecha de Compra",P.PASAJE_PRECIO as Precio,P.PASAJE_MILLAS as "Cant. de Millas"
@@ -26,7 +26,7 @@ RETURNS TABLE
 AS 
 	RETURN(
 		SELECT	E.ENCOMIENDA_COD as Codigo,
-				'Encomienda' as "Tipo",
+				'Encomienda' as Tipo,
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
 				E.ENCOMIENDA_FECHA_COMPRA as "Fecha de Compra",E.ENCOMIENDA_PRECIO as Precio,E.ENCOMIENDA_MILLAS as "Cant. de Millas"
@@ -54,7 +54,7 @@ BEGIN
 	DECLARE @tipo varchar(15)
 	DECLARE @Fecha datetime
 	SET @seguir = 1
-	DECLARE cursorPasajes CURSOR FOR (SELECT Codigo,Tipo,[Cant. de Millas],[Fecha de Compra] FROM ABSTRACCIONX4.obtenerHistorialMillasPasajes(@dni,@ape) UNION SELECT Codigo,Tipo,[Cant. de Millas],[Fecha de Compra] FROM ABSTRACCIONX4.obtenerHistorialMillasEncomiendas(@dni,@ape)) ORDER BY [Fecha de Compra] 
+	DECLARE cursorPasajes CURSOR FOR (SELECT Codigo,Tipo,[Cant. de Millas],[Fecha de Compra] FROM ABSTRACCIONX4.obtenerHistorialMillasPasajes(@dni,@ape) UNION SELECT Codigo,Tipo,[Cant. de Millas],[Fecha de Compra] FROM ABSTRACCIONX4.obtenerHistorialMillasEncomiendas(@dni,@ape)) ORDER BY [Fecha de Compra]
 	OPEN cursorPasajes
 	FETCH NEXT FROM cursorPasajes INTO @Cod,@tipo,@MillasPasaje,@Fecha
 	WHILE(@seguir=1)
@@ -129,5 +129,3 @@ AS
 	
 	END
 GO
-
-

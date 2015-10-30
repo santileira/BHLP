@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.puntosDisp = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.dgListadoProductos = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
             this.txtProdSeleccionado = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtCantSeleccionada = new System.Windows.Forms.TextBox();
@@ -40,8 +42,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.listCantSelec = new System.Windows.Forms.ListBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.puntosDisp = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgListadoProductos)).BeginInit();
             this.SuspendLayout();
@@ -58,6 +58,32 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Lista de Productos";
+            // 
+            // puntosDisp
+            // 
+            this.puntosDisp.AutoSize = true;
+            this.puntosDisp.Location = new System.Drawing.Point(323, 16);
+            this.puntosDisp.Name = "puntosDisp";
+            this.puntosDisp.Size = new System.Drawing.Size(0, 13);
+            this.puntosDisp.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(220, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(97, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Puntos Restantes :";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Seleccione:";
             // 
             // dgListadoProductos
             // 
@@ -94,15 +120,6 @@
             this.txtProdSeleccionado.Name = "txtProdSeleccionado";
             this.txtProdSeleccionado.Size = new System.Drawing.Size(192, 20);
             this.txtProdSeleccionado.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Seleccione:";
             // 
             // label2
             // 
@@ -170,23 +187,6 @@
             this.button4.Text = "Limpiar";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(220, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(97, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Puntos Restantes :";
-            // 
-            // puntosDisp
-            // 
-            this.puntosDisp.AutoSize = true;
-            this.puntosDisp.Location = new System.Drawing.Point(323, 16);
-            this.puntosDisp.Name = "puntosDisp";
-            this.puntosDisp.Size = new System.Drawing.Size(0, 13);
-            this.puntosDisp.TabIndex = 3;
             // 
             // Form1
             // 

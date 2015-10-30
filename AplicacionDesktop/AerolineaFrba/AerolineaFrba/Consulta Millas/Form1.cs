@@ -23,7 +23,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void llenarHistorialDeMillas()
         {
-            string query = "SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,[Cant. de Millas]  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,[Cant. de Millas]  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "') ORDER BY [Fecha de Compra] DESC";
+            string query = "SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,[Cant. de Millas]  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,[Cant. de Millas]  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')";
 
             SqlConnection conexion = Program.conexion();
 
@@ -37,6 +37,24 @@ namespace AerolineaFrba.Consulta_Millas
             dgHistorial.DataMember = "Busqueda";
 
             conexion.Close();
+
+
+
+            SqlDataReader totalMillas;
+
+            SqlCommand consultaTotal = new SqlCommand();
+
+            consultaTotal.CommandType = CommandType.Text;
+
+            consultaTotal.CommandText = "SELECT SUM([Cant. de Millas]) FROM (SELECT * FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION  SELECT * FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')) as Sarasa";
+
+            consultaTotal.Connection = Program.conexion();
+
+            totalMillas = consultaTotal.ExecuteReader();
+
+            totalMillas.Read();
+            cantTotalMillas.Text = totalMillas.GetValue(0).ToString();
+
         }
 
 
@@ -48,7 +66,7 @@ namespace AerolineaFrba.Consulta_Millas
         private void button1_Click(object sender, EventArgs e)
         {
             this.llenarHistorialDeMillas();
-
+            /*
             int cantidad = 0;
             int rowsCount = dgHistorial.RowCount;
             int i = 0;
@@ -61,9 +79,9 @@ namespace AerolineaFrba.Consulta_Millas
                 }
 
                 i = i + 1;
-            }
+            }*/
             
-            cantTotalMillas.Text = cantidad.ToString();
+            //cantTotalMillas.Text = dgHistorial.SelectedRows[0].Cells[6].Value.ToString();
 
         }
 

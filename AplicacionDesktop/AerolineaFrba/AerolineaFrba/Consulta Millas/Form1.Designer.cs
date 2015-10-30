@@ -87,9 +87,17 @@
             // 
             // dgHistorial
             // 
+            this.dgHistorial.AllowUserToAddRows = false;
+            this.dgHistorial.AllowUserToDeleteRows = false;
+            this.dgHistorial.AllowUserToResizeColumns = false;
+            this.dgHistorial.AllowUserToResizeRows = false;
+            this.dgHistorial.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.dgHistorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgHistorial.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.dgHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgHistorial.Location = new System.Drawing.Point(6, 19);
             this.dgHistorial.Name = "dgHistorial";
+            this.dgHistorial.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgHistorial.Size = new System.Drawing.Size(718, 161);
             this.dgHistorial.TabIndex = 61;
             this.dgHistorial.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
