@@ -39,40 +39,72 @@ GO
 -------------------------------Estadistica destino con aeronaves mas vacias-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConAeronaveMasVacia(@semestre tinyint, @anio smallint)
 
-RETURNS @variable_tabla TABLE (Descripcion varchar(80))
+RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad smallint)
 
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-		select top 5 t.Descripcion
-		from (select t2.Descripcion, (select count(*) from [ABSTRACCIONX4].butacasDisponibles(t2.viaje_cod, t2.aero_matri)) Cantidad
-				from (select c.ciu_desc Descripcion, v.viaje_fecha_salida Fecha, v.viaje_cod, v.aero_matri
-						from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c
-						where v.ruta_id = r.ruta_id and
-						r.ciu_cod_d = c.ciu_cod and 
-						year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6) t2
-				group by t2.Descripcion, t2.viaje_cod, t2.aero_matri) t
+		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
+		from (select c.ciu_desc Descripcion, (a.AERO_CANT_BUTACAS - v.CANT_BUT_OCUPADAS) Cantidad
+				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
+				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6
+				and v.ruta_id = r.ruta_id and
+				r.ciu_cod_d = c.ciu_cod and
+				a.AERO_MATRI = v.AERO_MATRI
+						) t
 		group by t.Descripcion
-		order by sum(t.cantidad) desc
+		order by sum(t.Cantidad) desc
 else
 	insert @variable_tabla 
-		select top 5 t.Descripcion
-		from (select t2.Descripcion, (select count(*) from [ABSTRACCIONX4].butacasDisponibles(t2.viaje_cod, t2.aero_matri)) Cantidad
-				from (select c.ciu_desc Descripcion, v.viaje_fecha_salida Fecha, v.viaje_cod, v.aero_matri
-						from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c
-						where v.ruta_id = r.ruta_id and
-						r.ciu_cod_d = c.ciu_cod and 
-						year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12) t2
-				group by t2.Descripcion, t2.viaje_cod, t2.aero_matri) t
+		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
+		from (select c.ciu_desc Descripcion, (a.AERO_CANT_BUTACAS - v.CANT_BUT_OCUPADAS) Cantidad
+				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
+				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12
+				and v.ruta_id = r.ruta_id and
+				r.ciu_cod_d = c.ciu_cod and
+				a.AERO_MATRI = v.AERO_MATRI) t
 		group by t.Descripcion
-		order by sum(t.cantidad) desc
-
+		order by sum(t.Cantidad) desc
+		
 return;
 end
 GO
 
 
+-------------------------------Estadistica clientes con mas puntos acumulados-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].clientesConMasMillas(@semestre tinyint, @anio smallint)
+
+RETURNS @variable_tabla TABLE (Nombre varchar(80), Apellido varchar(80), Cantidad smallint)
+
+AS
+begin
+if(@semestre = 1)
+	insert @variable_tabla 
+		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
+		from
+		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
+			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
+		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
+		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
+		order by (t.MillasEncomiendas + t.MillasPasajes) desc
+else
+	insert @variable_tabla 
+		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
+		from
+		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
+			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
+		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
+		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
+		order by (t.MillasEncomiendas + t.MillasPasajes) desc
+		
+return;
+end
+GO
 -------------------------------Estadistica destinos con mas pasajes cancelados-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesCancelados(@semestre tinyint, @anio smallint)
 
