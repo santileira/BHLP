@@ -20,6 +20,7 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean sePusoAgregarFiltro2 = false;
         Form formularioSiguiente;
         public Listado listado;
+        Boolean seleccionandoOrigen;
         
         public Baja()
         {
@@ -33,11 +34,11 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_ID,RUTA_COD , (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD) TIPO_SERVICIO, ";
-            this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
-            this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
-            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE ";
-            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R WHERE R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(RUTA_ID) = 0";
+            this.query = "SELECT RUTA_ID 'Id' ,RUTA_COD 'Código' , SERV_DESC 'Servicio', ";
+            this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
+            this.query +=this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje' ";
+            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R , [ABSTRACCIONX4].SERVICIOS S WHERE R.RUTA_ESTADO = '1' AND R.SERV_COD = S.SERV_COD AND [ABSTRACCIONX4].EstaSiendoUsada(RUTA_ID) = 0";
         }
 
         private string buscarCiudad(string cod)
@@ -49,18 +50,18 @@ namespace AerolineaFrba.Abm_Ruta
         {
 
 
-            if ((!sePusoAgregarFiltro1 || /*txtFiltros.TextLength != 0*/ !Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro1) && /*cboCamposFiltro1.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro1))
+            if ((!sePusoAgregarFiltro1 ||!Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro1) && Validacion.estaSeleccionado(cboCamposFiltro1))
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if ((!sePusoAgregarFiltro2 || /*txtFiltros.TextLength != 0*/ !Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro2) && /*cboCamposFiltro2.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro2))
+            if ((!sePusoAgregarFiltro2 || !Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro2) && Validacion.estaSeleccionado(cboCamposFiltro2))
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if (Validacion.esVacio(txtFiltro1) && /*cboCamposFiltro1.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro1))
+            if (Validacion.esVacio(txtFiltro1) &&Validacion.estaSeleccionado(cboCamposFiltro1))
                 MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
             
-            if (Validacion.esVacio(txtFiltro2) && /*cboCamposFiltro2.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro2))
+            if (Validacion.esVacio(txtFiltro2) && Validacion.estaSeleccionado(cboCamposFiltro2))
                 MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
             this.ejecutarQuery();
             
@@ -71,7 +72,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean sePusoFiltro()
         {
-            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || Validacion.estaSeleccionado(cboFiltro3)/*cboFiltro3.SelectedIndex != -1*/);          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) );          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -81,8 +82,9 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void ejecutarQuery()
         {
-            sePusoAgregarFiltro1 = false;
-            sePusoAgregarFiltro2 = false;
+
+    
+            /*
             SqlConnection conexion = Program.conexion();
             
             DataTable t = new DataTable("Busqueda");
@@ -93,8 +95,11 @@ namespace AerolineaFrba.Abm_Ruta
             //Ligar el datagrid con la fuente de datos
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
-            
-            conexion.Close();
+           
+            conexion.Close();*/
+            sePusoAgregarFiltro1 = false;
+            sePusoAgregarFiltro2 = false;
+            SQLManager.ejecutarQuery(query, dg);
         }
 
         private void iniciar()
@@ -103,35 +108,31 @@ namespace AerolineaFrba.Abm_Ruta
             this.ejecutarQuery();
             
             txtFiltros.Text = "";
-         
-        
 
+
+            txtDestino.Text = "";
+            txtOrigen.Text = "";
+         
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
-            txtFiltro4.Text = "";
+            txtDestino.Text = "";
             button4.Enabled = false;
             button5.Enabled = false;
             txtFiltro1.Enabled = false;
             txtFiltro2.Enabled = false;
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
-            cboFiltro3.SelectedIndex = -1;
-
+        
             this.huboCondicion = false;
 
-            dg.Columns["RUTA_ID"].Visible = false;
+            dg.Columns["Id"].Visible = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //this.cambiarVisibilidades(this.listado);
-            throw new NotFiniteNumberException();
-        }
-
+        
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
-            if (txtFiltro1.Enabled && !Validacion.esVacio(txtFiltro1)/*txtFiltro1.Text.Length != 0*/)
+            if (txtFiltro1.Enabled && !Validacion.esVacio(txtFiltro1))
             {
                 if (this.concatenarCriterio(txtFiltro1, cboCamposFiltro1, " LIKE '%" + txtFiltro1.Text + "%'"))
                 {
@@ -146,32 +147,29 @@ namespace AerolineaFrba.Abm_Ruta
             }
         }
 
-        private string buscarNombreCampo(ComboBox combo)
+        private string buscarNombreCampo(string combo)
         {
-            if (combo.Text == "ORIGEN")
+            if (combo == "ORIGEN")
                 return this.buscarCiudad("R.CIU_COD_O");
-            else if (combo.Text == "DESTINO")
+            else if (combo == "DESTINO")
                 return this.buscarCiudad("R.CIU_COD_D");
-            else if (combo.Text == "TIPO_SERVICIO")
-                return "SERV_COD";
+            else if (combo == "TIPO_SERVICIO")
+                return "SERV_DESC";
             else
-                return combo.Text;
+                return combo;
         }
-        
+
+     
+
+
         private Boolean concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
             {
                 
-                if (!this.huboCondicion)
-                {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-                }
-                else
-                    this.query += " AND ";
+                this.query += " AND ";
 
-                string campo = this.buscarNombreCampo(combo);
+                string campo = this.buscarNombreCampo(combo.Text);
 
                 this.query += campo + criterio;
 
@@ -192,11 +190,10 @@ namespace AerolineaFrba.Abm_Ruta
             
             if (Validacion.esVacio(txt , "criterio" , true))
             {
-                //MessageBox.Show("El criterio no puede estar en blanco", "Error en el criterio", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if(Validacion.estaSeleccionado(combo , true))
+            if(!Validacion.estaSeleccionado(combo , true))
             {
                 //MessageBox.Show("Debe seleccionar un campo en el desplegable de opciones", "Error en el campo", MessageBoxButtons.OK);
                 huboErrores = true;
@@ -221,22 +218,6 @@ namespace AerolineaFrba.Abm_Ruta
 
             return !huboErrores;
         }
-
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }*/
-
-        /*private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-        }*/
 
         private void button4_Click_1(object sender, EventArgs e)
         {
@@ -265,43 +246,17 @@ namespace AerolineaFrba.Abm_Ruta
                 if (e.ColumnIndex == 0)
                 {
                     DialogResult resultado = mostrarMensaje("lógica");
-                    int idRuta = Convert.ToInt32(darValorDadoIndex(e.RowIndex,"RUTA_ID"));
+                    int idRuta = Convert.ToInt32(darValorDadoIndex(e.RowIndex,"Id"));
                     if (apretoSi(resultado))
                     {
                         darDeBajaRuta(idRuta);
-                        /*darDeBajaPasajes(idRuta);
-                        darDeBajaEncomienda(idRuta);*/
                         ejecutarQuery();
                     }
                 }
-                //BAJA FISICA
-                /*else
-                    if (e.ColumnIndex == 1)
-                    {
-                        DialogResult resultado = mostrarMensaje("física");
-                        if (apretoSi(resultado))
-                        {
-                            string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[RUTAS_AEREAS] WHERE RUTA_COD = '" + darValorDadoIndex(e.RowIndex , "RUTA_COD");
-                            ejecutarCommand(cadenaComando);
-                            ejecutarQuery();
-                        }
-                    }*/
+             
             }
         }
 
-       /* private Object darDeBajaEncomienda(int idRuta)
-        {
-            SQLManager sqlManager = new SQLManager();
-            MessageBox.Show(idRuta.ToString(), "Ruta id", MessageBoxButtons.OK);
-            return sqlManager.generarSP("BorrarEncomiendas").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
-        }
-
-        private Object darDeBajaPasajes(int idRuta)
-        {
-            SQLManager sqlManager = new SQLManager();
-            MessageBox.Show(idRuta.ToString(), "Ruta id", MessageBoxButtons.OK);
-            return sqlManager.generarSP("BorrarPasajes").agregarIntSP("@IdRuta", idRuta).ejecutarSP();
-        }*/
 
         private DialogResult mostrarMensaje(string tipoDeBaja)
         {
@@ -345,7 +300,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void cboCamposFiltro1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (/*cboCamposFiltro1.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro1))
+            if (Validacion.estaSeleccionado(cboCamposFiltro1))
             {
                txtFiltro1.Enabled = true;
                button5.Enabled = true;
@@ -354,7 +309,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void cboCamposFiltro2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (/*cboCamposFiltro2.SelectedIndex != -1*/Validacion.estaSeleccionado(cboCamposFiltro2))
+            if (Validacion.estaSeleccionado(cboCamposFiltro2))
             {
                 txtFiltro2.Enabled = true;
                 button4.Enabled = true;
@@ -372,6 +327,45 @@ namespace AerolineaFrba.Abm_Ruta
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            this.cambiarAListadoCiudades(true);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.cambiarAListadoCiudades(false);
+        }
+
+
+        public void cambiarAListadoCiudades(Boolean boolean )
+        {
+            ListadoCiudades list = new ListadoCiudades(this);
+            this.seleccionandoOrigen = boolean;
+            cambiarVisibilidades(list);
+            list.vieneDeBaja = true;
+            this.Visible = false;
+        }
+
+         public void seSelecciono(string ciudad)
+        {
+            if (seleccionandoOrigen)
+            {
+                txtOrigen.Text = ciudad;
+                string campo = this.buscarNombreCampo("ORIGEN");
+                this.query += " AND " + campo + " = '" + ciudad + "'";
+            
+            }
+            else
+            {
+                txtDestino.Text = ciudad;
+                string campo = this.buscarNombreCampo("DESTINO");
+                this.query += " AND " + campo + " = '" + ciudad + "'";
+            }
+            this.ejecutarQuery();
+        }
+
 
     }
 }

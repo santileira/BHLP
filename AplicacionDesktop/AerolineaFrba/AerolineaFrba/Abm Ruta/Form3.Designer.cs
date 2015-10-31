@@ -31,14 +31,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.txtOrigen = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.cboCamposFiltro2 = new System.Windows.Forms.ComboBox();
             this.cboCamposFiltro1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
-            this.txtFiltro4 = new System.Windows.Forms.TextBox();
-            this.cboFiltro3 = new System.Windows.Forms.ComboBox();
+            this.txtDestino = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
@@ -57,14 +58,15 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button7);
+            this.groupBox1.Controls.Add(this.txtOrigen);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.cboCamposFiltro2);
             this.groupBox1.Controls.Add(this.cboCamposFiltro1);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
-            this.groupBox1.Controls.Add(this.txtFiltro4);
-            this.groupBox1.Controls.Add(this.cboFiltro3);
+            this.groupBox1.Controls.Add(this.txtDestino);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtFiltro2);
@@ -72,10 +74,28 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(22, 33);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(909, 110);
+            this.groupBox1.Size = new System.Drawing.Size(839, 110);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(735, 18);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(79, 20);
+            this.button7.TabIndex = 23;
+            this.button7.Text = "Seleccionar";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // txtOrigen
+            // 
+            this.txtOrigen.Enabled = false;
+            this.txtOrigen.Location = new System.Drawing.Point(634, 19);
+            this.txtOrigen.Name = "txtOrigen";
+            this.txtOrigen.Size = new System.Drawing.Size(87, 20);
+            this.txtOrigen.TabIndex = 22;
             // 
             // button4
             // 
@@ -130,7 +150,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(824, 57);
+            this.button1.Location = new System.Drawing.Point(735, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 20);
             this.button1.TabIndex = 8;
@@ -145,40 +165,31 @@
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
             // 
-            // txtFiltro4
+            // txtDestino
             // 
-            this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(723, 57);
-            this.txtFiltro4.Name = "txtFiltro4";
-            this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
-            this.txtFiltro4.TabIndex = 7;
-            // 
-            // cboFiltro3
-            // 
-            this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(723, 19);
-            this.cboFiltro3.Name = "cboFiltro3";
-            this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
-            this.cboFiltro3.TabIndex = 6;
+            this.txtDestino.Enabled = false;
+            this.txtDestino.Location = new System.Drawing.Point(634, 57);
+            this.txtDestino.Name = "txtDestino";
+            this.txtDestino.Size = new System.Drawing.Size(87, 20);
+            this.txtDestino.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(656, 64);
+            this.label4.Location = new System.Drawing.Point(567, 64);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
+            this.label4.Size = new System.Drawing.Size(43, 13);
             this.label4.TabIndex = 5;
-            this.label4.Text = "Filtro 4";
+            this.label4.Text = "Destino";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(656, 27);
+            this.label3.Location = new System.Drawing.Point(567, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Filtro 3";
+            this.label3.Text = "Origen";
             // 
             // txtFiltro2
             // 
@@ -219,7 +230,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(842, 149);
+            this.button3.Location = new System.Drawing.Point(772, 149);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(89, 21);
             this.button3.TabIndex = 2;
@@ -256,7 +267,7 @@
             this.dg.Location = new System.Drawing.Point(22, 188);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
-            this.dg.Size = new System.Drawing.Size(909, 432);
+            this.dg.Size = new System.Drawing.Size(839, 432);
             this.dg.TabIndex = 3;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
@@ -343,8 +354,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtFiltro4;
-        private System.Windows.Forms.ComboBox cboFiltro3;
+        private System.Windows.Forms.TextBox txtDestino;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
@@ -358,5 +368,7 @@
         private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TextBox txtOrigen;
     }
 }
