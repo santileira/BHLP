@@ -116,12 +116,12 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean validarLongitudes()
         {
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código" , true);
+            algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtCiudadDestino, "ciudad de destino" , true) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtCiudadOrigen, "ciudad de origen" , true) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtPrecioEncomienda, "precio de encomienda" , true ) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtPrecioPasaje, "precio de pasaje" , true) || algunoVacio;
-            algunoVacio =  Validacion.esVacio(cboServicio, "tipo de servicio" , true) || algunoVacio;
-
+            
             return algunoVacio;
         }
 
@@ -150,7 +150,7 @@ namespace AerolineaFrba.Abm_Ruta
             Boolean huboError = !Validacion.numeroCorrecto(txtCodigo, "código",false);
 
             huboError = !Validacion.numeroCorrecto(txtPrecioEncomienda, "precio de encomienda",true) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtPrecioPasaje, "Pprecio de pasaje",true) || huboError;
+            huboError = !Validacion.numeroCorrecto(txtPrecioPasaje, "precio de pasaje",true) || huboError;
 
             return huboError;
         }
