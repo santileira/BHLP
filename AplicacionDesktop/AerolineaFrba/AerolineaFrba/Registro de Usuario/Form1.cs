@@ -35,7 +35,7 @@ namespace AerolineaFrba.Registro_de_Usuario
         {
             SQLManager manager = new SQLManager().generarSP("RegistrarUsuario")
                                                  .agregarStringSP("@Usuario", txtUsuario)
-                                                 .agregarStringSP("@Contrasenia", encriptarSegunSHA256(txtPassword.Text));
+                                                 .agregarStringSP("@Contrasenia", Encriptador.encriptarSegunSHA256(txtPassword.Text));
 
             try
             {
@@ -73,24 +73,6 @@ namespace AerolineaFrba.Registro_de_Usuario
             }
             return true;
         }
-
-        private string encriptarSegunSHA256(string cadena)
-        {
-            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
-
-            byte[] bytesEntrada = Encoding.UTF8.GetBytes(cadena);
-            byte[] bytesEncriptados = provider.ComputeHash(bytesEntrada);
-
-            StringBuilder cadenaEncriptada = new StringBuilder();
-
-            for(int i = 0; i < bytesEncriptados.Length; i++)
-            {
-                cadenaEncriptada.Append(bytesEncriptados[i].ToString("x2").ToLower());
-            }
-
-
-            return cadenaEncriptada.ToString();
-        }  
 
     }
 }

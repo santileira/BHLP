@@ -166,6 +166,11 @@ namespace AerolineaFrba.Abm_Rol
             {
                 if (e.ColumnIndex == 0)
                 {
+                    if(dg.Rows[e.RowIndex].Cells["Nombre"].Value.Equals("ADMINISTRADOR"))
+                    {
+                        MessageBox.Show("No puede darle de baja al rol de Administrador", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
@@ -173,18 +178,6 @@ namespace AerolineaFrba.Abm_Rol
                         ejecutarQuery(query);
                     }
                 }
-                // BAJA FISICA
-               /* else
-                    if (e.ColumnIndex == 1)
-                    {
-                        DialogResult resultado = mostrarMensaje("física");
-                        if (apretoSi(resultado))
-                        {
-                            string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
-                            ejecutarCommand(cadenaComando);
-                            ejecutarQuery(ultimaQuery);
-                        }
-                    }*/
             }
         }
 

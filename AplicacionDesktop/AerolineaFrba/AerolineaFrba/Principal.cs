@@ -14,13 +14,16 @@ namespace AerolineaFrba
     public partial class Principal : Form
     {
         private string rolElegido;
+        string usuario;
         Dictionary<string, Action<string>> diccionarioFunc;
         Dictionary<string, Func<Form>> diccionarioFormularios;
+        FormLogin login;
 
-
-        public Principal(string rolElegido)
+        public Principal(string rolElegido,string usuario,FormLogin login)
         {
+            this.login = login;
             this.rolElegido = rolElegido;
+            this.usuario = usuario;
             InitializeComponent();
         }
 
@@ -37,6 +40,20 @@ namespace AerolineaFrba
             {
                 agregarAMenu(funcionalidad);
             }
+            agregarBotonLogout();
+
+            statusLabelUsuario.Text += usuario;
+            statusLabelRol.Text += rolElegido;
+
+        }
+
+        private void agregarBotonLogout()
+        {
+            ToolStripButton boton = generarBoton("Salir",70);
+            boton.Alignment = ToolStripItemAlignment.Right;
+            boton.Margin = new Padding(0, 0, 25, 0);
+            boton.Click += new System.EventHandler(salir_Click);
+            menu.Items.Add(boton);
         }
 
         private void cargarDiccionarioFuncionalidades()
@@ -186,8 +203,14 @@ namespace AerolineaFrba
             if(diccionarioFormularios.TryGetValue(((ToolStripButton)sender).Name,out metodo))
             {
                 mostrarForm(metodo.Invoke());
-
             }
+        }
+
+        private void salir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            login.iniciar();
+            login.Visible = true;
         }
 
         public void mostrarForm(Form formulario)

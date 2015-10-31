@@ -23,7 +23,7 @@ namespace AerolineaFrba
             iniciar();
         }
 
-        private void iniciar()
+        public void iniciar()
         {
             vaciarTextos();
 
@@ -60,7 +60,7 @@ namespace AerolineaFrba
             SqlDataReader reader;
             SqlCommand consultaRoles = new SqlCommand();
             consultaRoles.CommandType = CommandType.Text;
-            consultaRoles.CommandText = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].ROLES_USUARIOS RU JOIN [ABSTRACCIONX4].ROLES R ON (RU.ROL_COD = R.ROL_COD) WHERE USERNAME = 'INVITADO'";
+            consultaRoles.CommandText = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].ROLES_USUARIOS RU JOIN [ABSTRACCIONX4].ROLES R ON (RU.ROL_COD = R.ROL_COD) WHERE USERNAME = 'INVITADO' AND ROL_ESTADO = 1";
             consultaRoles.Connection = Program.conexion();
 
             reader = consultaRoles.ExecuteReader();
@@ -93,6 +93,14 @@ namespace AerolineaFrba
 
         private void ingresarComoAdministrador()
         {
+            if (datosCorrectos())
+            {
+                intentarLoguearse();
+            }
+        }
+
+        private bool datosCorrectos()
+        {
             Boolean huboErrores = false;
 
             if (validarTipos())
@@ -100,15 +108,26 @@ namespace AerolineaFrba
 
             if (validarLongitudes())
                 huboErrores = true;
-            
-            
-            if (!huboErrores)
-            {
-                cambiarVisibilidades(new Principal("ADMINISTRADOR"));
-            } 
-            
+
+            return !huboErrores;
         }
 
+        private void intentarLoguearse()
+        {
+            SQLManager manager = new SQLManager().generarSP("LoginAdministrador")
+                                                 .agregarStringSP("@Usuario", txtUsuario)
+                                                 .agregarStringSP("@ContraseniaIngresada", Encriptador.encriptarSegunSHA256(txtPassword.Text));
+
+            try
+            {
+                manager.ejecutarSP();
+                cambiarVisibilidades(new Principal("ADMINISTRADOR",txtUsuario.Text,this));
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
+            }
+        }
         
 
         private void ingresarComoInvitado()
@@ -119,7 +138,7 @@ namespace AerolineaFrba
                 return;
             }
 
-            cambiarVisibilidades(new Principal(cboRoles.SelectedItem.ToString()));
+            cambiarVisibilidades(new Principal(cboRoles.SelectedItem.ToString(),"Invitado",this));
         }
 
         private bool validarLongitudes()
