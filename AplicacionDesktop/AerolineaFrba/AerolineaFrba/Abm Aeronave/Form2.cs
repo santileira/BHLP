@@ -124,21 +124,6 @@ namespace AerolineaFrba.Abm_Aeronave
             agregarStringSP("@TipoDeServicio", cboServicio).agregarIntSP("@CantidadPasillo", txtButacas).agregarIntSP("@CantidadVentanilla" , txtVenta).
             agregarDecimalSP("@CantidadKG", cantidadKilogramos()).agregarFechaSP("@FechaAlta", dateTimePicker1).
             agregarStringSP("@CiudadPrincipal" , cboCiudades.Text).ejecutarSP();
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaAeronave]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@Modelo", txtModelo.Text);
-            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
-            command.Parameters.AddWithValue("@Fabricante", cboFabricante.Text);
-            command.Parameters.AddWithValue("@TipoDeServicio", cboServicio.Text);
-            command.Parameters.AddWithValue("@CantidadButacas", Convert.ToInt16(txtButacas.Text));
-            command.Parameters.AddWithValue("@CantidadKG", cantidadKilogramos());
-            command.Parameters.AddWithValue("@FechaAlta", Convert.ToDateTime(dateTimePicker1.Text));
-
-            return command.ExecuteScalar();*/
         }
 
         private Decimal cantidadKilogramos()
@@ -152,98 +137,71 @@ namespace AerolineaFrba.Abm_Aeronave
 
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
+            huboErrores = this.validarLimitesNumericos() || huboErrores;
             huboErrores = this.validarFecha() || huboErrores;
             huboErrores = this.validarLimitesBaja() || huboErrores;
 
             return !huboErrores;
         }
 
+
         private bool validarFecha()
         {
-
             return !Validacion.fechaPosteriorALaDeHoy(dateTimePicker1);
-            /*if (dateTimePicker1.Value.CompareTo(System.DateTime.Today) < 0)
-            {
-                MessageBox.Show("La fecha ingresada debe ser posterior a la fecha de hoy", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return true;
-            }
-            return false;*/
         }
 
-        /*private Boolean validarLongitudes()
-        {
-            Boolean algunoVacio = !this.seCompleto(txtModelo, "Modelo");
-            algunoVacio =  !this.seCompleto(txtMatricula, "Matricula") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = !this.seCompleto(cboServicio, "Tipo de Servicio") || algunoVacio;
-            algunoVacio =  !this.seCompleto(txtButacas, "Cantidad de butacas") || algunoVacio;
-            algunoVacio = !this.seCompleto(txtKilos, "Cantidad de kilos") || algunoVacio;
-            
-
-            return algunoVacio;
-        }*/
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = Validacion.esVacio(txtModelo, "Modelo" , true);
-            algunoVacio = Validacion.esVacio(txtMatricula, "Matricula", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas pasillo", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtVenta, "Cantidad de butacas ventanilla", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos", true) || algunoVacio;
+            Boolean algunoVacio = algunoVacio = Validacion.esVacio(txtMatricula, "matrícula", true);
+            algunoVacio = Validacion.esVacio(txtModelo, "modelo", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboFabricante, "fabricante") || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboCiudades, "ciudad en la que se encuentra", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtButacas, "cantidad de butacas pasillo", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtVenta, "cantidad de butacas ventanilla", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtKilos, "cantidad de kilos", true) || algunoVacio;
 
             return algunoVacio;
         }
-
-       /* private Boolean seCompleto(TextBox txt, string campo)
-        {
-            if (txt.TextLength == 0)
-            {
-                MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            else
-                return true;
-        }
-        */
-
-       /* private Boolean seCompleto(ComboBox cbo, string campo)
-        {
-            if (cbo.SelectedIndex == -1)
-            {
-                MessageBox.Show("El combo " + campo + " debe tener algún elemento seleccionado", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            else
-                return true;
-        }*/
-
-        /*private Boolean validarTipos()
-        {
-            Boolean huboError = false;
-
-            huboError = !esTexto(txtModelo,"modelo") || huboError;
-            huboError = !esTexto(txtMatricula, "matrícula") || huboError;
-            huboError = !esNumero(txtButacas, "cantidad de butacas",true) || huboError;
-            huboError = !esNumero(txtKilos, "cantidad de Kg",false) || huboError;
-
-            return huboError;
-        }*/
 
         private Boolean validarTipos()
         {
             Boolean huboError = false;
 
-            huboError = !Validacion.esTexto(txtModelo, "modelo", true) || huboError;
             huboError = !Validacion.esTexto(txtMatricula, "matrícula", true) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas pasillo", false) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtVenta, "cantidad de butacas ventanilla", false) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtKilos, "cantidad de Kg", true) || huboError;
+            huboError = !Validacion.esTexto(txtModelo, "modelo", true) || huboError;
+            huboError = !Validacion.esNumero(txtButacas, "cantidad de butacas pasillo", true) || huboError;
+            huboError = !Validacion.esNumero(txtVenta, "cantidad de butacas ventanilla", true) || huboError;
+            huboError = !Validacion.esDecimal(txtKilos, "cantidad de Kg", true) || huboError;
 
             return huboError;
         }
 
+        private bool validarLimitesNumericos()
+        {
+            int limiteInfPasillo, limiteInfVentanilla;
+            decimal limiteInfKG;
+            if (llamadoDesdeBaja)
+            {
+                limiteInfPasillo = limiteButacasPasillo;
+                limiteInfVentanilla = limiteButacasVentanilla;
+                limiteInfKG = limiteKG;
+            }
+            else
+            {
+                limiteInfPasillo = limiteInfVentanilla = 1;
+                limiteInfKG = 0;
+            }
+
+            Boolean huboErrores = false;
+
+            huboErrores = Validacion.estaEntreLimites(txtButacas, limiteInfPasillo, 999, false, "cantidad de butacas pasillo") || huboErrores;
+            huboErrores = Validacion.estaEntreLimites(txtVenta, limiteInfVentanilla, 999, false, "cantidad de butacas ventanilla") || huboErrores;
+            huboErrores = Validacion.estaEntreLimites(txtKilos, limiteInfKG, 999, true, "cantidad de kilos") || huboErrores;
+
+            return !huboErrores;
+        }
 
         private bool validarLimitesBaja()
         {
@@ -254,24 +212,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
             Boolean huboError = false;
 
-            if (Convert.ToInt16(txtButacas.Text) < limiteButacasPasillo)
-            {
-                MessageBox.Show("La cantidad de butacas pasillo debe ser al menos " + limiteButacasPasillo.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
-                huboError =  true;
-            }
-
-            if (Convert.ToInt16(txtVenta.Text) < limiteButacasVentanilla)
-            {
-                MessageBox.Show("La cantidad de butacas ventanilla debe ser al menos " + limiteButacasVentanilla.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
-                huboError =  true;
-            }
-
-            if (Convert.ToDecimal(txtKilos.Text) < limiteKG)
-            {
-                MessageBox.Show("La cantidad de kilogramos debe ser al menos " + limiteKG.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
-                huboError = true;
-            }
-
             if (dateTimePicker1.Value.CompareTo(limiteFecha) > 0)
             {
                 MessageBox.Show("La fecha de alta debe ser anterior a " + limiteFecha.ToString(), "Error en los datos ingresados", MessageBoxButtons.OK);
@@ -280,45 +220,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
             return huboError;
         }
-       /* private Boolean esTexto(TextBox txt,string campo)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            if (txt.TextLength != 0 && !regexTexto.IsMatch(txt.Text))
-            {
-                MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                return false;            
-            }
-            return true;
-        }
-        */
-        /*private Boolean esNumero(TextBox txt, string campo,bool debeSerEntero)
-        {
-            int n;
-            decimal d;
-            if (txt.TextLength != 0)
-            {
-                if (debeSerEntero)
-                {
-                    if (!int.TryParse(txt.Text, out n))
-                    {
-                        MessageBox.Show("El campo " + campo + " debe ser un número entero", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (!decimal.TryParse(txt.Text, out d))
-                    {
-                        MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                        return false;
-                    }
-                }
-                
-            }
-            return true;
-        }*/
 
         private void button6_Click(object sender, EventArgs e)
         {

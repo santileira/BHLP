@@ -102,6 +102,7 @@
             // txtVenta
             // 
             this.txtVenta.Location = new System.Drawing.Point(174, 323);
+            this.txtVenta.MaxLength = 3;
             this.txtVenta.Name = "txtVenta";
             this.txtVenta.Size = new System.Drawing.Size(157, 20);
             this.txtVenta.TabIndex = 35;
@@ -152,6 +153,7 @@
             // txtButacas
             // 
             this.txtButacas.Location = new System.Drawing.Point(174, 277);
+            this.txtButacas.MaxLength = 3;
             this.txtButacas.Name = "txtButacas";
             this.txtButacas.Size = new System.Drawing.Size(157, 20);
             this.txtButacas.TabIndex = 11;
@@ -168,6 +170,7 @@
             // txtKilos
             // 
             this.txtKilos.Location = new System.Drawing.Point(174, 372);
+            this.txtKilos.MaxLength = 6;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(157, 20);
             this.txtKilos.TabIndex = 9;

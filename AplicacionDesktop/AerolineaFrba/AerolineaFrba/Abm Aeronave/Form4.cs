@@ -187,21 +187,6 @@ namespace AerolineaFrba.Abm_Aeronave
             agregarStringSP("@Fabricante", cboFabricante).agregarStringSP("@TipoDeServicio", cboServicio).
             agregarIntSP("@CantidadPasillo", txtButacas).agregarIntSP("@CantidadVentanilla", txtVenta1).
             agregarDecimalSP("@CantidadKG", cantidadKilogramos()).ejecutarSP();
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarAeronave]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@MatriculaActual", txtMatriculaActual.Text);
-            command.Parameters.AddWithValue("@Modelo", txtModelo.Text);
-            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
-            command.Parameters.AddWithValue("@Fabricante", cboFabricante.Text);
-            command.Parameters.AddWithValue("@TipoDeServicio", cboServicio.Text);
-            command.Parameters.AddWithValue("@CantidadButacas", Convert.ToInt16(txtButacas.Text));
-            command.Parameters.AddWithValue("@CantidadKG", cantidadKilogramos());
-
-            return command.ExecuteScalar();*/
         }
 
         private Decimal cantidadKilogramos()
@@ -212,101 +197,50 @@ namespace AerolineaFrba.Abm_Aeronave
         private bool datosCorrectos()
         {
             Boolean huboErrores = false;
+
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
+            huboErrores = this.validarLimitesNumericos() || huboErrores;
 
             return !huboErrores;
         }
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = Validacion.esVacio(txtModelo, "Modelo");
-            algunoVacio = Validacion.esVacio(txtMatricula, "Matricula") || algunoVacio;
-            algunoVacio = Validacion.esVacio(cboServicio, "Tipo de Servicio") || algunoVacio;
-            algunoVacio = Validacion.esVacio(cboFabricante, "Fabricante") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtButacas, "Cantidad de butacas pasillo") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtVenta1, "Cantidad de butacas ventanilla") || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtKilos, "Cantidad de kilos") || algunoVacio;
+            Boolean algunoVacio = algunoVacio = Validacion.esVacio(txtMatricula, "matrícula", true);
+            algunoVacio = Validacion.esVacio(txtModelo, "modelo", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboFabricante, "fabricante") || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtButacas, "cantidad de butacas pasillo", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtVenta, "cantidad de butacas ventanilla", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtKilos, "cantidad de kilos", true) || algunoVacio;
 
             return algunoVacio;
         }
-        /*
-        private Boolean seCompleto(TextBox txt, string campo)
-        {
-            if (txt.TextLength == 0)
-            {
-                MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            else
-                return true;
-        }
-        */
-
-       /* private Boolean seCompleto(ComboBox cbo, string campo)
-        {
-            if (cbo.Text.Equals(""))
-            {
-                MessageBox.Show("El combo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            else
-                return true;
-        }*/
 
         private Boolean validarTipos()
         {
             Boolean huboError = false;
 
-            huboError = !Validacion.esTexto(txtModelo, "modelo" , true) || huboError;
-            huboError = !Validacion.esTexto(txtMatricula, "matrícula" , true) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtButacas, "cantidad de butacas pasillo", false) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtVenta1, "cantidad de butacas ventanilla", false) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtKilos, "cantidad de Kg", true) || huboError;
+            huboError = !Validacion.esTexto(txtMatricula, "matrícula", true) || huboError;
+            huboError = !Validacion.esTexto(txtModelo, "modelo", true) || huboError;
+            huboError = !Validacion.esNumero(txtButacas, "cantidad de butacas pasillo", true) || huboError;
+            huboError = !Validacion.esNumero(txtVenta, "cantidad de butacas ventanilla", true) || huboError;
+            huboError = !Validacion.esDecimal(txtKilos, "cantidad de kilos", true) || huboError;
 
             return huboError;
         }
 
-
-       /* private Boolean esTexto(TextBox txt, string campo)
+        private bool validarLimitesNumericos()
         {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
+            Boolean huboErrores = false;
 
-            if (txt.TextLength != 0 && !regexTexto.IsMatch(txt.Text))
-            {
-                MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            return true;
-        }*/
+            huboErrores = Validacion.estaEntreLimites(txtButacas, 1, 999, false, "cantidad de butacas pasillo") || huboErrores;
+            huboErrores = Validacion.estaEntreLimites(txtVenta, 1, 999, false, "cantidad de butacas ventanilla") || huboErrores;
+            huboErrores = Validacion.estaEntreLimites(txtKilos, 0, 999, true, "cantidad de Kg") || huboErrores;
 
-       /* private Boolean esNumero(TextBox txt, string campo, bool debeSerEntero)
-        {
-            int n;
-            decimal d;
-            if (txt.TextLength != 0)
-            {
-                if (debeSerEntero)
-                {
-                    if (!int.TryParse(txt.Text, out n))
-                    {
-                        MessageBox.Show("El campo " + campo + " debe ser un número entero", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (!decimal.TryParse(txt.Text, out d))
-                    {
-                        MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los tipos de entrada", MessageBoxButtons.OK);
-                        return false;
-                    }
-                }
-
-            }
-            return true;
-        }*/
+            return !huboErrores;
+        }
 
         private void cargarComboServicio()
         {
