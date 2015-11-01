@@ -102,7 +102,7 @@ END
 GO
 
 
--------------------------------Alta Ruta-------------------------------
+-------------------------------Modificacion ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@IdRuta INT,
 	@Codigo INT,
