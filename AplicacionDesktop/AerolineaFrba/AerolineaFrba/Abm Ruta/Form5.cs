@@ -46,10 +46,10 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_ID, SERV_COD, RUTA_COD CODIGO_DE_RUTA,  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  TIPO_SERVICIO, ";
-            this.query += this.buscarCiudad("R.CIU_COD_O") + " ORIGEN, ";
-            this.query +=this.buscarCiudad("R.CIU_COD_D") + " DESTINO, ";
-            this.query += "RUTA_PRECIO_BASE_KG, RUTA_PRECIO_BASE_PASAJE, RUTA_ESTADO ";
+            this.query = "SELECT RUTA_ID 'Id' , SERV_COD 'Código Servicio' , RUTA_COD 'Código Ruta',  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  'Descripción', ";
+            this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
+            this.query +=this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo' , RUTA_PRECIO_BASE_PASAJE 'Precio Base Pasaje' , RUTA_ESTADO 'Estado' ";
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
 
             if (this.loActivoGenerarViajes && this.serv_cod != null)
@@ -74,9 +74,9 @@ namespace AerolineaFrba.Abm_Ruta
                     this.query += " AND ";
 
                 if (optEstadoAlta.Checked)
-                    this.query += "RUTA_ESTADO = 1"; 
+                    this.query += "Estado = 1"; 
                 else
-                    this.query += "RUTA_ESTADO = 0";
+                    this.query += "Estado = 0";
 
                 this.primeraVez = false;
             }
@@ -132,8 +132,8 @@ namespace AerolineaFrba.Abm_Ruta
 
             primeraConsulta = false;
 
-            dg.Columns["RUTA_ID"].Visible = false;
-            dg.Columns["SERV_COD"].Visible = false;
+            dg.Columns["Id"].Visible = false;
+            dg.Columns["Código Servicio"].Visible = false;
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
@@ -141,28 +141,28 @@ namespace AerolineaFrba.Abm_Ruta
             if (primeraConsulta)
             {
                 DataGridViewColumn columnaHabilitada = new DataGridViewTextBoxColumn();
-                columnaHabilitada.Name = "HABILITADA";
-                columnaHabilitada.HeaderText = "HABILITADA";
+                columnaHabilitada.Name = "Habilitada";
+                columnaHabilitada.HeaderText = "Habilitada";
                 columnaHabilitada.ReadOnly = true;
 
-                dg.Columns.Insert(dg.Columns["RUTA_ESTADO"].Index, columnaHabilitada);
+                dg.Columns.Insert(dg.Columns["Estado"].Index, columnaHabilitada);
 
             }
 
             foreach (DataGridViewRow fila in dg.Rows)
             {
-                Boolean valor = (Boolean)(fila.Cells["RUTA_ESTADO"].Value);
+                Boolean valor = (Boolean)(fila.Cells["Estado"].Value);
                 if (valor)
                 {
-                    fila.Cells["HABILITADA"].Value = "SI";
+                    fila.Cells["Habilitada"].Value = "SI";
                 }
                 else
                 {
-                    fila.Cells["HABILITADA"].Value = "NO";
+                    fila.Cells["Habilitada"].Value = "NO";
                 }
             }
 
-            dg.Columns["RUTA_ESTADO"].Visible = false;
+            dg.Columns["Estado"].Visible = false;
     
         }
 
@@ -192,7 +192,7 @@ namespace AerolineaFrba.Abm_Ruta
 
             this.huboCondicion = false;
 
-            dg.Columns["RUTA_ID"].Visible = false;
+            dg.Columns["Id"].Visible = false;
         }
 
         private void chkEstadoIgnorar_CheckedChanged(object sender, EventArgs e)
