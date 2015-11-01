@@ -62,6 +62,7 @@ namespace AerolineaFrba.Listado_Estadistico
         private void button1_Click_1(object sender, EventArgs e)
         {
             Boolean huboError = !Validacion.numeroCorrecto(txtAnio, "Año", false);
+            huboError = Validacion.esVacio(txtAnio, "Año", true) || huboError;
 
             if (!huboError)
             {

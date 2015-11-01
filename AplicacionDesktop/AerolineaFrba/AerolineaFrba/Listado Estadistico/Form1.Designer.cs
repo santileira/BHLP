@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.cboEstadistica = new System.Windows.Forms.ComboBox();
@@ -38,7 +39,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cboSemestre = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -58,15 +58,26 @@
             this.groupBox1.Controls.Add(this.cboSemestre);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(667, 430);
+            this.groupBox1.Size = new System.Drawing.Size(805, 430);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(38, 31);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(96, 18);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Seleccione";
+            // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Calibri", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(519, 214);
+            this.button2.Location = new System.Drawing.Point(659, 214);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(126, 32);
             this.button2.TabIndex = 16;
@@ -81,7 +92,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 32);
             this.button1.TabIndex = 15;
-            this.button1.Text = "Calcular Estadistica";
+            this.button1.Text = "Calcular Estadística";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
@@ -92,14 +103,14 @@
             this.cboEstadistica.ForeColor = System.Drawing.Color.White;
             this.cboEstadistica.FormattingEnabled = true;
             this.cboEstadistica.Items.AddRange(new object[] {
-            "Top 5 de los destinos con mas pasajes comprados",
-            "Top 5 de los destinos con aeronaves mas vacias",
-            "Top 5 de los clientes con mas puntos acumulados a la fecha",
+            "Top 5 de los destinos con más pasajes comprados",
+            "Top 5 de los destinos con aeronaves más vacías",
+            "Top 5 de los clientes con más puntos acumulados a la fecha",
             "Top 5 de los destinos con pasajes cancelados",
-            "Top 5 de las aeronaves con mayor cantidad de dias fuera de servicio"});
+            "Top 5 de las aeronaves con mayor cantidad de días fuera de servicio"});
             this.cboEstadistica.Location = new System.Drawing.Point(179, 163);
             this.cboEstadistica.Name = "cboEstadistica";
-            this.cboEstadistica.Size = new System.Drawing.Size(466, 26);
+            this.cboEstadistica.Size = new System.Drawing.Size(606, 26);
             this.cboEstadistica.TabIndex = 14;
             // 
             // label3
@@ -131,7 +142,7 @@
             this.dg.ReadOnly = true;
             this.dg.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg.Size = new System.Drawing.Size(466, 147);
+            this.dg.Size = new System.Drawing.Size(606, 147);
             this.dg.TabIndex = 12;
             this.dg.VirtualMode = true;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
@@ -144,7 +155,7 @@
             this.txtAnio.Location = new System.Drawing.Point(179, 117);
             this.txtAnio.MaxLength = 2500;
             this.txtAnio.Name = "txtAnio";
-            this.txtAnio.Size = new System.Drawing.Size(466, 31);
+            this.txtAnio.Size = new System.Drawing.Size(606, 31);
             this.txtAnio.TabIndex = 11;
             // 
             // label2
@@ -180,26 +191,15 @@
             "2° Semestre"});
             this.cboSemestre.Location = new System.Drawing.Point(179, 71);
             this.cboSemestre.Name = "cboSemestre";
-            this.cboSemestre.Size = new System.Drawing.Size(466, 26);
+            this.cboSemestre.Size = new System.Drawing.Size(606, 26);
             this.cboSemestre.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(38, 31);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 18);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Seleccione";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(701, 454);
+            this.ClientSize = new System.Drawing.Size(829, 454);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
