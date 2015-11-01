@@ -201,6 +201,7 @@
     <Compile Include="Devolucion\Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Encriptador.cs" />
     <Compile Include="Principal.cs">
       <SubType>Form</SubType>
     </Compile>

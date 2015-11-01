@@ -60,16 +60,14 @@ namespace AerolineaFrba.Abm_Rol
                 ultimaQuery = querySelect;
                 txtFiltro1.Text = "";
                 txtFiltro2.Text = "";
-                txtFiltro4.Text = "";
-
-                cboFiltro3.SelectedIndex = -1;
+            
             }
             
         }
 
         private Boolean sePusoFiltro()
         {
-            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2) || !Validacion.estaSeleccionado(cboFiltro3));          
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2));          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -124,7 +122,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarQuery(string query)
         {
-            SqlConnection conexion = Program.conexion();
+            /*SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
             SqlDataAdapter a = new SqlDataAdapter(query, conexion);
@@ -137,7 +135,8 @@ namespace AerolineaFrba.Abm_Rol
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
-            conexion.Close();
+            conexion.Close();*/
+            SQLManager.ejecutarQuery(query, dg);
 
             
         }
@@ -151,9 +150,7 @@ namespace AerolineaFrba.Abm_Rol
            
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
-            txtFiltro4.Text = "";
-            
-            cboFiltro3.SelectedIndex = -1;
+         
             
         }
 
@@ -169,6 +166,11 @@ namespace AerolineaFrba.Abm_Rol
             {
                 if (e.ColumnIndex == 0)
                 {
+                    if(dg.Rows[e.RowIndex].Cells["Nombre"].Value.Equals("ADMINISTRADOR"))
+                    {
+                        MessageBox.Show("No puede darle de baja al rol de Administrador", "Error", MessageBoxButtons.OK);
+                        return;
+                    }
                     DialogResult resultado = mostrarMensaje("lógica");
                     if (apretoSi(resultado))
                     {
@@ -176,18 +178,6 @@ namespace AerolineaFrba.Abm_Rol
                         ejecutarQuery(query);
                     }
                 }
-                // BAJA FISICA
-               /* else
-                    if (e.ColumnIndex == 1)
-                    {
-                        DialogResult resultado = mostrarMensaje("física");
-                        if (apretoSi(resultado))
-                        {
-                            string cadenaComando = "DELETE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_NOMBRE = '" + darValorDadoIndex(e.RowIndex);
-                            ejecutarCommand(cadenaComando);
-                            ejecutarQuery(ultimaQuery);
-                        }
-                    }*/
             }
         }
 
@@ -229,12 +219,12 @@ namespace AerolineaFrba.Abm_Rol
 
         private string darValorDadoIndex(int index)
         {
-            return dg.Rows[index].Cells["ROL_NOMBRE"].Value.ToString();
+            return dg.Rows[index].Cells["Nombre"].Value.ToString();
         }
 
         private void generarQueryInicial()
         {
-            query = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_ESTADO = '1'";
+            query = "SELECT ROL_NOMBRE AS 'Nombre' FROM [ABSTRACCIONX4].[ROLES] WHERE ROL_ESTADO = '1'";
         }
 
         private void button4_Click(object sender, EventArgs e)

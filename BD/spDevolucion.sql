@@ -72,15 +72,14 @@ CREATE FUNCTION [ABSTRACCIONX4].LlenarEncomiendas(@Codigo INT)
 RETURNS TABLE 
 AS
 
-	RETURN(SELECT	[ENCOMIENDA_COD],
-					[COMP_PNR],
-					[CLI_COD],
-					[VIAJE_COD],
-					[ENCOMIENDA_PRECIO],
-					[ENCOMIENDA_FECHA_COMPRA],
-					[ENCOMIENDA_PESO_KG],
-					[AERO_MATRI] ,
-					[ENCOMIENDA_CANCELADO] 
+	RETURN(SELECT	[ENCOMIENDA_COD] AS 'Código',
+					[COMP_PNR] AS 'Código Compra',
+					[CLI_COD]  AS 'Cliente',
+					[VIAJE_COD] AS 'Viaje' ,
+					[ENCOMIENDA_PRECIO] AS 'Precio' ,
+					[ENCOMIENDA_FECHA_COMPRA] AS 'Fecha Compra',
+					[ENCOMIENDA_PESO_KG] AS 'Peso' ,
+					[AERO_MATRI] AS 'Aeronave'  
 			FROM ABSTRACCIONX4.ENCOMIENDAS
 			WHERE COMP_PNR = @Codigo AND
 			[ABSTRACCIONX4].EstaEnViajeEncomienda(ENCOMIENDA_COD) = 0 AND
@@ -107,15 +106,14 @@ RETURNS TABLE /*([PASAJE_COD] INT,
 	           [PASAJE_CANCELADO] BIT)*/
 AS
 
-	RETURN(SELECT	[PASAJE_COD],
-					[COMP_PNR],
-					[CLI_COD],
-					[VIAJE_COD],
-					[PASAJE_PRECIO],
-					[PASAJE_FECHA_COMPRA],
-					[BUT_NRO],
-					[AERO_MATRI] ,
-					[PASAJE_CANCELADO] 
+	RETURN(SELECT	[PASAJE_COD] AS 'Código',
+					[COMP_PNR] AS 'Código Compra' ,
+					[CLI_COD] AS 'Cliente',
+					[VIAJE_COD] AS 'Viaje' ,
+					[PASAJE_PRECIO] AS 'Precio' ,
+					[PASAJE_FECHA_COMPRA] AS 'Fecha Compra',
+					[BUT_NRO] AS 'Butaca',
+					[AERO_MATRI] AS 'Aeronave' 
 			FROM ABSTRACCIONX4.PASAJES 
 			WHERE COMP_PNR = @Codigo AND
 			[ABSTRACCIONX4].EstaEnViajePasaje(PASAJE_COD) = 0 AND

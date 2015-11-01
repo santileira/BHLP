@@ -20,7 +20,7 @@ namespace AerolineaFrba
             }
             else
             {//esta hecho asi porque si es vacio no tiene sentido que entre para validar que sea texto ya que no hay nada
-                if (!Validacion.esTexto(txtBox))
+                if(!Validacion.esTexto(txtBox))
                 {
                     MessageBox.Show("El campo " + nombreCampo + " debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                     huboErrores = true;
@@ -88,6 +88,8 @@ namespace AerolineaFrba
                     MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
                     return false;
                 }
+                if(!esVacio(txtBox))
+                return false;
             }
             return true;//return regexTexto.IsMatch(txtBox.Text);
         }
@@ -172,7 +174,7 @@ namespace AerolineaFrba
             }
             else
             {
-                MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
+                //MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
                 return false;
             }
 
@@ -188,5 +190,50 @@ namespace AerolineaFrba
             }
             return true;
         }
+
+
+        //Eventos de validacion de tipos de campos
+
+        public static void controlIngresoNumeroDecimal(object sender, KeyPressEventArgs e)
+        {
+            string cadena = ((TextBox)sender).Text;
+            char caracter = e.KeyChar;
+
+            if (caracter == (char)(Keys.Back))
+                return;
+
+            if (caracter.ToString() == ",")
+            {
+                if (cantidadEnCadena(cadena, ',') != 0)
+                {
+                    e.Handled = true;
+                }
+                return;
+            }
+
+            if (!Char.IsDigit(caracter))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static int cantidadEnCadena(string cadena, char caracter)
+        {
+            return cadena.Count((car) => car == caracter);
+        }
+
+        public static void controlIngresoNumeroEntero(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        public static Boolean estaEntreLimites(decimal numero, decimal limiteInferior, decimal limiteSuperior)
+        {
+            return numero >= limiteInferior && numero < limiteSuperior;
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,20 +27,43 @@ namespace AerolineaFrba.Registro_de_Usuario
         {
             if (datosCorrectos())
             {
-                MessageBox.Show("OK", "Error en los datos de entrada", MessageBoxButtons.OK);
+                registrarUsuario();
+            }
+        }
+
+        private void registrarUsuario()
+        {
+            SQLManager manager = new SQLManager().generarSP("RegistrarUsuario")
+                                                 .agregarStringSP("@Usuario", txtUsuario)
+                                                 .agregarStringSP("@Contrasenia", Encriptador.encriptarSegunSHA256(txtPassword.Text));
+
+            try
+            {
+                manager.ejecutarSP();
+                MessageBox.Show("El usuario " + txtUsuario.Text + " ha sido registrado de forma correcta", "Registro exitoso", MessageBoxButtons.OK);
+                this.Close();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "Error en el registro", MessageBoxButtons.OK);
             }
         }
 
         private Boolean datosCorrectos()
         {
-            return Validacion.textNombre(txtUsuario, "usuario") && validarLongitudContrasenias() && validarContraseniasIguales();
-        }
+            Boolean huboError = false;
+            
+            huboError = Validacion.textNombre(txtUsuario, "usuario") || huboError;
+            huboError = !validarLongitudContrasenias() || huboError;
+            huboError = !validarContraseniasIguales() || huboError;
 
+            return !huboError;
+        }
         private bool validarLongitudContrasenias()
         {
-            if (txtUsuario.TextLength == 0 || txtPassword.TextLength == 0 || txtPassword2.TextLength == 0)
+            if (txtUsuario.TextLength < 4  || txtPassword.TextLength < 4  || txtPassword2.TextLength < 4)
             {
-                MessageBox.Show("Debe ccompletar todos los campos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                MessageBox.Show("El usuario y/o la contraseña debe tener al menos 4 caracteres", "Error en los datos de entrada", MessageBoxButtons.OK);
                 return false;
             }
             return true;

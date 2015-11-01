@@ -29,12 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
-            this.txtFiltro4 = new System.Windows.Forms.TextBox();
-            this.cboFiltro3 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -50,31 +45,16 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
-            this.groupBox1.Controls.Add(this.txtFiltro4);
-            this.groupBox1.Controls.Add(this.cboFiltro3);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(24, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(578, 97);
+            this.groupBox1.Size = new System.Drawing.Size(578, 68);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(488, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 20);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Seleccionar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtFiltro1
             // 
@@ -83,44 +63,9 @@
             this.txtFiltro1.Size = new System.Drawing.Size(90, 20);
             this.txtFiltro1.TabIndex = 16;
             // 
-            // txtFiltro4
-            // 
-            this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(387, 58);
-            this.txtFiltro4.Name = "txtFiltro4";
-            this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
-            this.txtFiltro4.TabIndex = 7;
-            // 
-            // cboFiltro3
-            // 
-            this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(387, 24);
-            this.cboFiltro3.Name = "cboFiltro3";
-            this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
-            this.cboFiltro3.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(336, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Filtro 4";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(336, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Filtro 3";
-            // 
             // txtFiltro2
             // 
-            this.txtFiltro2.Location = new System.Drawing.Point(160, 58);
+            this.txtFiltro2.Location = new System.Drawing.Point(476, 19);
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
@@ -128,7 +73,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 66);
+            this.label2.Location = new System.Drawing.Point(322, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 1;
@@ -145,7 +90,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(24, 127);
+            this.button2.Location = new System.Drawing.Point(24, 107);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 21);
             this.button2.TabIndex = 1;
@@ -155,7 +100,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(359, 127);
+            this.button3.Location = new System.Drawing.Point(359, 107);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 21);
             this.button3.TabIndex = 2;
@@ -170,7 +115,7 @@
             this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(24, 154);
+            this.dg.Location = new System.Drawing.Point(24, 146);
             this.dg.MultiSelect = false;
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
@@ -199,7 +144,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(490, 127);
+            this.button4.Location = new System.Drawing.Point(490, 107);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(108, 21);
             this.button4.TabIndex = 9;
@@ -239,11 +184,6 @@
         private System.Windows.Forms.TextBox txtFiltro1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtFiltro4;
-        private System.Windows.Forms.ComboBox cboFiltro3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dg;

@@ -103,19 +103,6 @@ END
 
 GO
 
-
---------------------------------Reducir Cantidad de Stock en un Premio ----------------------
-
-ALTER PROCEDURE [ABSTRACCIONX4].reducirStockDePremio
-	@descripcion varchar(100),
-	@cantidadSolicitada int
-AS
-BEGIN
-	UPDATE [ABSTRACCIONX4].PREMIOS
-	SET PREMIO_STOCK = PREMIO_STOCK - @cantidadSolicitada
-	WHERE PREMIO_DETALLE = @descripcion
-END
-
 --------------------------------Obtener Puntos de un Premio ----------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].obtenerPuntosDePremio(@descripcion varchar(100))
@@ -129,3 +116,15 @@ AS
 	
 	END
 GO
+
+--------------------------------Reducir Cantidad de Stock en un Premio ----------------------
+
+ALTER PROCEDURE [ABSTRACCIONX4].reducirStockDePremio
+	@descripcion varchar(100),
+	@cantidadSolicitada int
+AS
+BEGIN
+	UPDATE [ABSTRACCIONX4].PREMIOS
+	SET PREMIO_STOCK = PREMIO_STOCK - @cantidadSolicitada
+	WHERE PREMIO_DETALLE = @descripcion
+END

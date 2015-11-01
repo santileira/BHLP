@@ -205,7 +205,7 @@ namespace AerolineaFrba
 
         public static Form ListadoEstadístico()
         {
-            throw new Exception("EN CONSTRUCCIÓN");
+            return new Listado_Estadistico.Form1();
         }
         
 

@@ -13,12 +13,13 @@ namespace AerolineaFrba.Abm_Ruta
 {
     public partial class ListadoCiudades : Form
     {
-        const string QUERY_BASE = "SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES]";
+        const string QUERY_BASE = "SELECT CIU_DESC 'Descripcion' FROM [ABSTRACCIONX4].[CIUDADES]";
         public Form anterior;
         public bool vieneDeAlta = false;
         public bool vieneDeArribo = false;
         public bool vieneDeModificacion = false;
         public bool vieneDeCompras = false;
+        public bool vieneDeBaja = false;
         //public Listado listado;
 
         public ListadoCiudades(Form formAnterior)
@@ -47,13 +48,13 @@ namespace AerolineaFrba.Abm_Ruta
 
                 queryselect = queryselect + " WHERE ";
 
-                if (txtFiltro1.TextLength != 0)
+                if (!Validacion.esVacio(txtFiltro1))
                 {
                     string condicion = "CIU_DESC" + " LIKE '%" + txtFiltro1.Text + "%'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
                 }
 
-                if (txtFiltro2.TextLength != 0)
+                if (!Validacion.esVacio(txtFiltro2))
                 {
                     string condicion = "CIU_DESC LIKE '_" + txtFiltro2.Text + "'";
                     this.generarQuery(ref huboCondicion, ref queryselect, condicion);
@@ -70,7 +71,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);
+            return (!Validacion.esVacio(txtFiltro1) || !Validacion.esVacio(txtFiltro2));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -82,13 +83,13 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
-            if (!this.esTexto(txtFiltro1))
+            if (!Validacion.esTexto(txtFiltro1))
             {
                 MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if (!this.esTexto(txtFiltro2))
+            if (!Validacion.esTexto(txtFiltro2))
             {
                 MessageBox.Show("El filtro por igualdad de palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
@@ -98,6 +99,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         }
 
+        /*
         private Boolean esTexto(TextBox txt)
         {
             if (txt.Text.Length == 0)
@@ -109,7 +111,7 @@ namespace AerolineaFrba.Abm_Ruta
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
 
             return regexTexto.IsMatch(txt.Text);
-        }
+        }*/
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
         {
@@ -124,7 +126,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void ejecutarConsulta(string query)
         {
-            SqlCommand command = new SqlCommand();
+            SQLManager.ejecutarQuery(query, dg);
+            /*SqlCommand command = new SqlCommand();
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -136,7 +139,7 @@ namespace AerolineaFrba.Abm_Ruta
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
-            conexion.Close();
+            conexion.Close();*/
         }
 
   
@@ -148,11 +151,6 @@ namespace AerolineaFrba.Abm_Ruta
 
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
-            txtFiltro4.Text = "";
-
-            
-            cboFiltro3.SelectedIndex = -1;
-            
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -201,13 +199,18 @@ namespace AerolineaFrba.Abm_Ruta
                 (anterior as Compra.Form1).seSelecciono(this.ciudadSeleccionada());
             }
 
+            if (vieneDeBaja)
+            {
+                (anterior as Baja).seSelecciono(this.ciudadSeleccionada());
+            }
+
 
         }
 
 
         private string ciudadSeleccionada()
         {
-            return dg.SelectedRows[0].Cells["CIU_DESC"].Value.ToString();
+            return dg.SelectedRows[0].Cells["Descripcion"].Value.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)

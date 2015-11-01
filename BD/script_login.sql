@@ -1,45 +1,54 @@
--- INSERTS DE PRUEBA
--- 
-
-INSERT INTO [ABSTRACCIONX4].USUARIOS (USERNAME,PASSWORD) VALUES ('INVITADO', ' ')
-INSERT INTO [ABSTRACCIONX4].USUARIOS (USERNAME,PASSWORD) VALUES ('ADMINISTRADOR', 'ABCDEFGH')
-
-INSERT INTO [ABSTRACCIONX4].ROLES (ROL_NOMBRE) VALUES ('Cliente')
-INSERT INTO [ABSTRACCIONX4].ROLES (ROL_NOMBRE) VALUES ('Aministrador')
-INSERT INTO [ABSTRACCIONX4].ROLES (ROL_NOMBRE) VALUES ('ABM Manager')
-INSERT INTO [ABSTRACCIONX4].ROLES (ROL_NOMBRE) VALUES ('Vendedor')
-
-INSERT INTO [ABSTRACCIONX4].ROLES_USUARIOS (USERNAME,ROL_COD) VALUES ('INVITADO',10)
-INSERT INTO [ABSTRACCIONX4].ROLES_USUARIOS (USERNAME,ROL_COD) VALUES ('INVITADO',12)
-INSERT INTO [ABSTRACCIONX4].ROLES_USUARIOS (USERNAME,ROL_COD) VALUES ('INVITADO',13)
-INSERT INTO [ABSTRACCIONX4].ROLES_USUARIOS (USERNAME,ROL_COD) VALUES ('ADMINISTRADOR',11)
-
-
-SELECT * FROM ABSTRACCIONX4.ROLES_USUARIOS
-
-
-GO
-
--------------------------------Trigger de insert en usuario que encripta el password-------------------------------
-/*CREATE TRIGGER insertUsuario
-ON [ABSTRACCIONX4].USUARIOS
-INSTEAD OF INSERT
+CREATE PROCEDURE [ABSTRACCIONX4].LoginAdministrador
+(@Usuario VARCHAR(20), @ContraseniaIngresada VARCHAR(70))
 AS
 BEGIN
-	DECLARE @Usuario VARCHAR(20)
-	DECLARE @Password VARCHAR(70)
+	DECLARE @Contrasenia VARCHAR(70),
+			@CantidadIntentos TINYINT,
+			@ExisteUsuario BIT
+
+	SELECT @ExisteUsuario = COUNT(*) 
+		FROM ABSTRACCIONX4.USUARIOS
+		WHERE USERNAME = @Usuario
 	
-	SELECT @Usuario = USERNAME, @Password = PASSWORD
-		FROM [ABSTRACCIONX4].USUARIOS
 
-	IF @Usuario = 'INVITADO'
+	IF @ExisteUsuario = 0
+	BEGIN
+		RAISERROR('El nombre de usuario ingresado no existe.', 16, 1)
 		RETURN
+	END
 
+	SELECT @Contrasenia = PASSWORD, @CantidadIntentos = CANT_INTENTOS
+		FROM ABSTRACCIONX4.USUARIOS
+		WHERE USERNAME = @Usuario
 
+	IF @CantidadIntentos = 3
+	BEGIN
+		RAISERROR('Ha ingresado la contraseña 3 veces de forma incorrecta. Contáctese con un administrador para reestablecer su cuenta.', 16, 1)
+		RETURN
+	END
+
+	IF @ContraseniaIngresada <> @Contrasenia
+	BEGIN
+		RAISERROR('Contraseña incorrecta.', 16, 1)
+		
+		UPDATE ABSTRACCIONX4.USUARIOS 
+			SET CANT_INTENTOS = CANT_INTENTOS + 1
+			WHERE USERNAME = @Usuario
+
+		SELECT @CantidadIntentos = CANT_INTENTOS
+			FROM ABSTRACCIONX4.USUARIOS
+			WHERE USERNAME = @Usuario
+		
+		IF @CantidadIntentos = 3
+		BEGIN
+			RAISERROR('Ha ingresado la contraseña 3 veces de forma incorrecta. Contáctese con un administrador para reestablecer su cuenta.', 16, 1)
+		END
+		RETURN
+	END
+
+	UPDATE ABSTRACCIONX4.USUARIOS 
+		SET CANT_INTENTOS = 0
+		WHERE USERNAME = @Usuario
 END
 
-GO*/
-
-insert into ABSTRACCIONX4.FUNCIONALIDADES (FUNC_DESC) values ('ABM Rol')
-insert into ABSTRACCIONX4.FUNCIONALIDADES (FUNC_DESC) values ('ABM Aeronave')
-insert into ABSTRACCIONX4.FUNCIONALIDADES (FUNC_DESC) values ('ABM Ruta')
+GO
