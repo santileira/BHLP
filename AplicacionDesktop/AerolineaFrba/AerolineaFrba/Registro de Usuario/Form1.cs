@@ -51,14 +51,19 @@ namespace AerolineaFrba.Registro_de_Usuario
 
         private Boolean datosCorrectos()
         {
-            return Validacion.textNombre(txtUsuario, "usuario") && validarLongitudContrasenias() && validarContraseniasIguales();
-        }
+            Boolean huboError = false;
+            
+            huboError = Validacion.textNombre(txtUsuario, "usuario") || huboError;
+            huboError = !validarLongitudContrasenias() || huboError;
+            huboError = !validarContraseniasIguales() || huboError;
 
+            return !huboError;
+        }
         private bool validarLongitudContrasenias()
         {
-            if (txtUsuario.TextLength == 0 || txtPassword.TextLength == 0 || txtPassword2.TextLength == 0)
+            if (txtUsuario.TextLength < 4  || txtPassword.TextLength < 4  || txtPassword2.TextLength < 4)
             {
-                MessageBox.Show("Debe ccompletar todos los campos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                MessageBox.Show("El usuario y/o la contraseña debe tener al menos 4 caracteres", "Error en los datos de entrada", MessageBoxButtons.OK);
                 return false;
             }
             return true;

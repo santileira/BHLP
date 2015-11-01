@@ -190,5 +190,50 @@ namespace AerolineaFrba
             }
             return true;
         }
+
+
+        //Eventos de validacion de tipos de campos
+
+        public static void controlIngresoNumeroDecimal(object sender, KeyPressEventArgs e)
+        {
+            string cadena = ((TextBox)sender).Text;
+            char caracter = e.KeyChar;
+
+            if (caracter == (char)(Keys.Back))
+                return;
+
+            if (caracter.ToString() == ",")
+            {
+                if (cantidadEnCadena(cadena, ',') != 0)
+                {
+                    e.Handled = true;
+                }
+                return;
+            }
+
+            if (!Char.IsDigit(caracter))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static int cantidadEnCadena(string cadena, char caracter)
+        {
+            return cadena.Count((car) => car == caracter);
+        }
+
+        public static void controlIngresoNumeroEntero(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        public static Boolean estaEntreLimites(decimal numero, decimal limiteInferior, decimal limiteSuperior)
+        {
+            return numero >= limiteInferior && numero < limiteSuperior;
+        }
+
     }
 }
