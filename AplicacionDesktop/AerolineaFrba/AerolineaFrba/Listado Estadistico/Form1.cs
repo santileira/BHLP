@@ -26,12 +26,14 @@ namespace AerolineaFrba.Listado_Estadistico
         {
             cboSemestre.SelectedIndex = 0;
             cboEstadistica.SelectedIndex = 0;
+            txtAnio.Text = "";
             dg.Visible = false;
             
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
             columnHeaderStyle.BackColor = Color.Beige;
             columnHeaderStyle.Font = new Font("Calibri", 12, FontStyle.Bold);
             dg.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+            dg.CurrentCell = null;
 
         }
 
@@ -64,13 +66,31 @@ namespace AerolineaFrba.Listado_Estadistico
             if (!huboError)
             {
                 SQLManager.ejecutarQuery("select * from " + this.estadisticaSeleccionada() + "(" + this.semestreSeleccionado() + ", '" + txtAnio.Text + "')", dg);
-                dg.Visible = true;
+                dg.CurrentCell = null;
+
+                if (dg.RowCount == 0)
+                {
+                    MessageBox.Show("No se encontraron registros para armar el TOP 5", "Estadistica vacia", MessageBoxButtons.OK);
+                    dg.Visible = false;
+                }
+                else
+                    dg.Visible = true;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             this.inicio();
+        }
+
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
