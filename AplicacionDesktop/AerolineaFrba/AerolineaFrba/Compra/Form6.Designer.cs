@@ -294,19 +294,8 @@
             9,
             10,
             11,
-            12,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12});
+            12
+            });
             this.cboMeses.Location = new System.Drawing.Point(123, 79);
             this.cboMeses.Name = "cboMeses";
             this.cboMeses.Size = new System.Drawing.Size(40, 21);

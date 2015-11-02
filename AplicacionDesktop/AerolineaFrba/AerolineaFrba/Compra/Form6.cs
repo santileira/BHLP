@@ -18,6 +18,7 @@ namespace AerolineaFrba.Compra
         public DataGridView encomiendas;
         private bool encontroCliente;
         private bool actualizarTabla;
+        private bool tarjetaNueva;
 
         public Form6()
         {
@@ -141,37 +142,9 @@ namespace AerolineaFrba.Compra
 
             if (sePuedeEfectuarLaCompra())
             {
-                /*
-                if (!encontroCliente)
-                {
-                    new SQLManager().generarSP("ingresarDatosDelCliente")
-                          .agregarIntSP("@dni", txtDni)
-                            .agregarStringSP("@ape", txtApe)
-                              .agregarStringSP("@nombre", txtNom)
-                                .agregarStringSP("@direccion", txtDire)
-                                   .agregarStringSP("@mail", txtMail)
-                                     .agregarFechaSP("@fechanac", dp)
-                                        .agregarIntSP("@telefono", txtTel)
-                                            .ejecutarSP();
-                }
-
-                if (actualizarTabla)
-                {
-                    new SQLManager().generarSP("actualizarDatosDelCliente")
-                         .agregarIntSP("@dni", txtDni)
-                           .agregarStringSP("@ape", txtApe)
-                             .agregarStringSP("@nombre", txtNom)
-                               .agregarStringSP("@direccion", txtDire)
-                                  .agregarStringSP("@mail", txtMail)
-                                    .agregarFechaSP("@fechanac", dp)
-                                      .agregarIntSP("@telefono", txtTel)
-                                           .ejecutarSP();
-                }
-                */
+                
                 string codigoPNR = CreatePNR(10);
                 cargarDatosDeCompra(codigoPNR);
-                cargarDatosDePasajes(codigoPNR);
-                cargarDatosDeEncomiendas(codigoPNR);
 
                 MessageBox.Show("Se realizo la compra con éxito", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
 
@@ -188,87 +161,85 @@ namespace AerolineaFrba.Compra
 
         private bool sePuedeEfectuarLaCompra()
         {
+            tarjetaNueva = true;
             return true;
-        }
-
-        private void cargarDatosDePasajes(string codigoPNR)
-        {
-            DataTable dt = new DataTable();
-            dt = pasajes.DataSource as DataTable;
-
-            /*dt.Columns.Add("CLI_COD", typeof(string));
-
-            dt.Columns.Add("CLI_DNI", typeof(int));*/
-
-            MessageBox.Show(((DataTable)pasajes.DataSource).Columns[0].Caption, "Co", MessageBoxButtons.OK);
-                MessageBox.Show(dt.Columns[0].Caption, "Co", MessageBoxButtons.OK);
-           
-            
-   
-            
-            new SQLManager().generarSP("ingresarDatos")
-                             .agregarTableSP("@TablaPasajes", dt)
-                                .ejecutarSP();
-            /*
-            int cliCod;
-            int viajeCod;
-            decimal pasajePrecio;
-            int butNro;
-
-            foreach (DataGridViewRow row in pasajes.Rows)
-            {
-              
-                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
-                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
-                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out pasajePrecio);
-                int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
-
-                new SQLManager().generarSP("ingresarDatosDePasajes")
-                          .agregarIntSP("@cliCod", cliCod)
-                            .agregarIntSP("@viajeCod", viajeCod)
-                              .agregarDecimalSP("@pasajePrecio", pasajePrecio)
-                                .agregarFechaSP("@pasajeFechaCompra", DateTime.Now)
-                                   .agregarIntSP("@butNro", butNro)
-                                     .agregarStringSP("@aeroMatri", row.Cells["MATRICULA"].Value.ToString())
-                                           .ejecutarSP();
-
-            }*/
-        }
-
-        private void cargarDatosDeEncomiendas(string codigoPNR)
-        {/*
-            int cliCod;
-            int viajeCod;
-            decimal encomiendaPrecio;
-            decimal encomiendaPesoKG;
-
-            foreach (DataGridViewRow row in encomiendas.Rows)
-            {
-
-                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
-                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
-                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out encomiendaPrecio);
-                decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out encomiendaPesoKG);
-
-                
-
-                new SQLManager().generarSP("ingresarDatosDeEncomiendas")                    
-                          .agregarIntSP("@cliCod", cliCod)
-                            .agregarIntSP("@viajeCod", viajeCod)
-                              .agregarDecimalSP("@encomiendaPrecio", encomiendaPrecio)
-                                .agregarFechaSP("@encomiendaFechaCompra", DateTime.Now)
-                                   .agregarDecimalSP("@encomiendaPesoKG", encomiendaPesoKG)
-                                     .agregarStringSP("@aeroMatri", row.Cells["MATRICULA"].Value.ToString())
-                                           .ejecutarSP();
-            
-            }*/
         }
 
         private void cargarDatosDeCompra(string codigoPNR)
         {
-            /*
-            new SQLManager().generarSP("ingresarDatosDeCompra") */
-        }
+            int cliCod;
+            int viajeCod;
+            decimal precio;
+            decimal peso;
+            int butNro;
+
+            DataTable tablaPasajes = new DataTable();
+
+            tablaPasajes.Columns.Add("CLI_COD", typeof(int));
+            tablaPasajes.Columns.Add("VIAJE_COD", typeof(int));
+            tablaPasajes.Columns.Add("IMPORTE", typeof(decimal));
+            tablaPasajes.Columns.Add("BUTACA", typeof(int));
+            tablaPasajes.Columns.Add("MATRICULA", typeof(string));
+
+            
+
+            foreach (DataGridViewRow row in pasajes.Rows)
+            {
+                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
+                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
+                int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
+
+                tablaPasajes.Rows.Add(cliCod, viajeCod, precio, butNro, row.Cells["MATRICULA"].Value.ToString());
+            }
+
+            
+            DataTable tablaEncomiendas = new DataTable();
+
+            tablaEncomiendas.Columns.Add("CLI_COD", typeof(int));
+            tablaEncomiendas.Columns.Add("VIAJE_COD", typeof(int));
+            tablaEncomiendas.Columns.Add("IMPORTE", typeof(int));
+            tablaEncomiendas.Columns.Add("KILOS", typeof(int));
+            tablaEncomiendas.Columns.Add("MATRICULA", typeof(string));
+
+            foreach (DataGridViewRow row in encomiendas.Rows)
+            {
+                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
+                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
+                decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out peso);
+
+                tablaEncomiendas.Rows.Add(cliCod, viajeCod, precio, peso, row.Cells["MATRICULA"].Value.ToString());
+            }
+
+            int vencMes;
+            int vencAnio;
+            int.TryParse(cboMeses.Text, out vencMes);
+            int.TryParse(cboAnios.Text, out vencAnio);
+                        
+            new SQLManager().generarSP("ingresarDatosDeCompra")
+                             .agregarTableSP("@TablaPasajes", tablaPasajes)
+                             .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                             .agregarIntSP("@dni", txtDni)
+                             .agregarStringSP("@ape", txtApe)
+                             .agregarStringSP("@nombre", txtNom)
+                             .agregarStringSP("@direccion", txtDire)
+                             .agregarStringSP("@mail", txtMail)
+                             .agregarFechaSP("@fechanac", dp)
+                             .agregarIntSP("@telefono", txtTel)
+                             .agregarBooleanoSP("@encontroComprador",encontroCliente)
+                             .agregarBooleanoSP("@actualizarComprador",actualizarTabla)
+                             .agregarStringSP("@codigoPNR",codigoPNR)
+                             .agregarStringSP("@formaDePago",cboFormaPago)
+                             .agregarIntSP("@nroTarjeta",txtNroTarjeta)
+                             .agregarIntSP("@codSeg",txtCodSeg)
+                             .agregarIntSP("@vencMes",vencMes)
+                             .agregarIntSP("@vencAnio",vencAnio)
+                             .agregarStringSP("@tipoTarjeta",cboTipoTarjeta)
+                             .agregarBooleanoSP("@agregarTarjeta",tarjetaNueva)
+                             .ejecutarSP();
+           
+        }              
 
 
         public string CreatePNR(int length)
