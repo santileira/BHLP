@@ -49,6 +49,9 @@ namespace AerolineaFrba
             return !huboErrores;
         }
         
+
+        //****** VALIDACIONES NUMERICAS *******//
+
         public static Boolean esNumero(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
             int numero;
@@ -120,6 +123,9 @@ namespace AerolineaFrba
             return true;
         }
 
+
+        //********** VALIDACIONES DE TEXTO ******//
+
         public static Boolean esTexto(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
             String textPattern = "[A-Za-z]";
@@ -138,8 +144,80 @@ namespace AerolineaFrba
                 if(!esVacio(txtBox))
                 return false;
             }
-            return true;//return regexTexto.IsMatch(txtBox.Text);
+            return true;
         }
+
+        public static Boolean esSoloTexto(TextBox txtBox, string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
+        {
+            string cadena = txtBox.Text;
+
+            if (cadena == "")
+                return true;
+
+            if (cadena.All((car)=>Char.IsLetter(car)))
+            {
+                return true;
+            }
+            else
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static Boolean esTextoAlfanumerico(TextBox txtBox, Boolean primeroLetra,string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
+        {
+            string cadena = txtBox.Text;
+            Boolean huboErrores = false;
+
+            if (cadena == "")
+                return true;
+
+            if(primeroLetra)
+            {
+                if (huboErrores = !Char.IsLetter(cadena[0]))
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe comenzar con una letra.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+            }
+                
+            if (!cadena.All((car) => Char.IsLetterOrDigit(car)))
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras o números.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    
+                }
+                return false;
+            }
+            return !huboErrores;
+        }
+
+        public static Boolean esMatricula(MaskedTextBox txtBox, Boolean mostrarMensaje = false)
+        {
+            string cadena = txtBox.Text;
+            if (cantidadEnCadena(cadena, '-') > 1)
+            {
+                MessageBox.Show("La matrícula debe estar compuesta por 3 letras seguida de 3 dígitos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+
+            if (!(cadena.Take(3).All((car) => Char.IsLetter(car)) && cadena.Substring(4).All((car) => Char.IsDigit(car))))
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("La matrícula debe estar compuesta por 3 letras seguida de 3 dígitos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+                return false;
+            }
+            return true;
+        }
+
+        //******* VALIDACIONES DE CAMPOS VACIOS ******//
 
         public static Boolean esVacio(TextBox txtBox, string nombreCampo = "Opcional", bool mostrarMensaje = false)
         {
@@ -280,7 +358,7 @@ namespace AerolineaFrba
             }
         }
 
-        //Validación de limites
+        //******* VALIDACION DE LIMITES ********//
 
         public static Boolean estaEntreLimites(TextBox txt, decimal limiteInferior, decimal limiteSuperior,Boolean numeroDecimal,string nombreCampo)
         {

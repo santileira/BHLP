@@ -157,7 +157,13 @@ namespace AerolineaFrba
 
         public static Form ConsultaMillas()
         {
-            throw new Exception("EN CONSTRUCCIÓN");
+            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1();
+            Canje_Millas.Form1 canjeMillas = new Canje_Millas.Form1();
+
+            consultaMillas.canjeMillas = canjeMillas;
+            canjeMillas.anterior = consultaMillas;
+
+            return consultaMillas;
         }
 
         public static Form CanjeMillas()

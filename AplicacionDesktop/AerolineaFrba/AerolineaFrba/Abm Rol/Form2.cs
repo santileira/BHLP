@@ -44,38 +44,12 @@ namespace AerolineaFrba.Abm_Rol
             if (this.datosCorrectos())
             {
                 MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
-                //string cadenaComando = "insert into [ABSTRACCIONX4].[ROLES] (ROL_ESTADO, ROL_NOMBRE) values (1, '" + txtNombre.Text + "')";
-                //this.ejecutarCommand(cadenaComando);
 
                 darDeAltaRol();
                 
-                //string nombreRol = txtNombre.Text;
-                /*foreach(String funcion in lstFuncionalidadesActuales.Items)
-                {
-                  darDeAltaFuncionalidad(funcion , nombreRol);
-                }*/
             }
         }
 
-        /*private void darDeAltaFuncionalidad(string funcion , string rol)
-        {
-            SQLManager sqlManager = new SQLManager();
-            sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion" , funcion).
-            agregarStringSP("@Rol", rol).ejecutarSP();
-
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
-            command.CommandTimeout = 0;
-
-
-            command.Parameters.AddWithValue("@Funcion", funcion);
-            command.Parameters.AddWithValue("@Rol", rol);
-
-            command.ExecuteScalar();
-            
-        }*/
 
         private Object darDeAltaRol()
         {
@@ -84,19 +58,6 @@ namespace AerolineaFrba.Abm_Rol
                    agregarStringSP("@Nombre", txtNombre.Text).
                    agregarListaSP("@Funcionalidades", funcionalidadesActuales()).
                    ejecutarSP();
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaRolV2]";
-            command.CommandTimeout = 0;
-            
-
-            command.Parameters.AddWithValue("@Nombre", nombre);
-            SqlParameter parametroFuncionalidades = new SqlParameter("@Funcionalidades", CreateDataTable(funcionalidades));
-            parametroFuncionalidades.SqlDbType = SqlDbType.Structured;
-            command.Parameters.Add(parametroFuncionalidades);
-           
-            return command.ExecuteScalar();*/
         }
 
         private List<Object> funcionalidadesActuales()
@@ -112,25 +73,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            //return !this.validarTextNombre();
-            return Validacion.textNombre(txtNombre , "nombre de Rol");
+            Boolean huboError = Validacion.esVacio(txtNombre, "nombre de rol", true);
+            huboError = !Validacion.esSoloTexto(txtNombre, "nombre de rol", true) || huboError;
+
+            return !huboError;
         }
-
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }
-
-        private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-        }*/
 
         private void Alta_Load(object sender, EventArgs e)
         {

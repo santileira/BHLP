@@ -43,7 +43,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtMatricula = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,11 +50,13 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
+            this.mkMatricula = new System.Windows.Forms.MaskedTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.mkMatricula);
             this.groupBox1.Controls.Add(this.cboCiudades);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txtVenta);
@@ -70,7 +71,6 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtMatricula);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtModelo);
             this.groupBox1.Controls.Add(this.label1);
@@ -202,13 +202,6 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Fabricante *";
             // 
-            // txtMatricula
-            // 
-            this.txtMatricula.Location = new System.Drawing.Point(175, 39);
-            this.txtMatricula.Name = "txtMatricula";
-            this.txtMatricula.Size = new System.Drawing.Size(157, 20);
-            this.txtMatricula.TabIndex = 3;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -273,6 +266,14 @@
             this.label8.TabIndex = 34;
             this.label8.Text = "(*) Obligatorios";
             // 
+            // mkMatricula
+            // 
+            this.mkMatricula.Location = new System.Drawing.Point(175, 39);
+            this.mkMatricula.Mask = "AAA-AAA";
+            this.mkMatricula.Name = "mkMatricula";
+            this.mkMatricula.Size = new System.Drawing.Size(70, 20);
+            this.mkMatricula.TabIndex = 38;
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,7 +304,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtMatricula;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtModelo;
         private System.Windows.Forms.Label label1;
@@ -319,5 +319,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cboCiudades;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.MaskedTextBox mkMatricula;
     }
 }

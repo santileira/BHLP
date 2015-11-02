@@ -63,7 +63,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void inicio()
         {
-            txtMatricula.Text = "";
+            mkMatricula.Text = "";
             txtButacas.Text = "";
             txtVenta.Text = "";
             txtKilos.Text = "";
@@ -110,7 +110,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 }
                 catch
                 {
-                    MessageBox.Show("La matrícula " + txtMatricula.Text + " ya existe. Ingrese otra", "Error", MessageBoxButtons.OK);
+                    MessageBox.Show("La matrícula " + mkMatricula.Text + " ya existe. Ingrese otra", "Error", MessageBoxButtons.OK);
                     return;
                 }
             }
@@ -119,11 +119,16 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Object darDeAltaAeronave()
         {
-            return new SQLManager().generarSP("AltaAeronave").agregarStringSP("@Modelo", txtModelo).
-            agregarStringSP("@Matricula", txtMatricula).agregarStringSP("@Fabricante", cboFabricante).
-            agregarStringSP("@TipoDeServicio", cboServicio).agregarIntSP("@CantidadPasillo", txtButacas).agregarIntSP("@CantidadVentanilla" , txtVenta).
-            agregarDecimalSP("@CantidadKG", cantidadKilogramos()).agregarFechaSP("@FechaAlta", dateTimePicker1).
-            agregarStringSP("@CiudadPrincipal" , cboCiudades.Text).ejecutarSP();
+            return new SQLManager().generarSP("AltaAeronave").agregarStringSP("@Modelo", txtModelo)
+                                                             .agregarStringSP("@Matricula", mkMatricula.Text.ToUpper())
+                                                             .agregarStringSP("@Fabricante", cboFabricante)
+                                                             .agregarStringSP("@TipoDeServicio", cboServicio)
+                                                             .agregarIntSP("@CantidadPasillo", txtButacas)
+                                                             .agregarIntSP("@CantidadVentanilla" , txtVenta)
+                                                             .agregarDecimalSP("@CantidadKG", cantidadKilogramos())
+                                                             .agregarFechaSP("@FechaAlta", dateTimePicker1)
+                                                             .agregarStringSP("@CiudadPrincipal" , cboCiudades.Text)
+                                                             .ejecutarSP();
         }
 
         private Decimal cantidadKilogramos()
@@ -153,7 +158,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = algunoVacio = Validacion.esVacio(txtMatricula, "matrícula", true);
+            Boolean algunoVacio = false;//Validacion.esVacio(txtMatricula, "matrícula", true);
             algunoVacio = Validacion.esVacio(txtModelo, "modelo", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(cboFabricante, "fabricante") || algunoVacio;
             algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
@@ -169,8 +174,8 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             Boolean huboError = false;
 
-            huboError = !Validacion.esTexto(txtMatricula, "matrícula", true) || huboError;
-            huboError = !Validacion.esTexto(txtModelo, "modelo", true) || huboError;
+            huboError = !Validacion.esMatricula(mkMatricula, true) || huboError;
+            huboError = !Validacion.esTextoAlfanumerico(txtModelo, false, "modelo", true) || huboError;
             huboError = !Validacion.esNumero(txtButacas, "cantidad de butacas pasillo", true) || huboError;
             huboError = !Validacion.esNumero(txtVenta, "cantidad de butacas ventanilla", true) || huboError;
             huboError = !Validacion.esDecimal(txtKilos, "cantidad de Kg", true) || huboError;

@@ -65,7 +65,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.llenarHistorialDeMillas();
+            this.llenarHistorialDeMillas(); 
         }
 
         private void button2_Click(object sender, EventArgs e)
