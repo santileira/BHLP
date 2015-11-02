@@ -60,6 +60,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(23, 59);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(545, 157);
@@ -77,6 +78,7 @@
             // 
             // button3
             // 
+            this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(285, 114);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 20);
@@ -95,6 +97,7 @@
             // 
             // button2
             // 
+            this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.Location = new System.Drawing.Point(285, 75);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 20);
@@ -152,11 +155,11 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(23, 222);
+            this.button4.Location = new System.Drawing.Point(234, 222);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 38);
             this.button4.TabIndex = 44;
-            this.button4.Text = "Limpiar";
+            this.button4.Text = "Limpiar pantalla";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -165,7 +168,7 @@
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(23, 285);
@@ -179,9 +182,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(23, 12);
+            this.button6.Location = new System.Drawing.Point(23, 222);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
+            this.button6.Size = new System.Drawing.Size(110, 38);
             this.button6.TabIndex = 46;
             this.button6.Text = "Atras";
             this.button6.UseVisualStyleBackColor = true;
@@ -189,7 +192,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(458, 498);
+            this.button5.Location = new System.Drawing.Point(458, 512);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(110, 38);
             this.button5.TabIndex = 47;
@@ -200,6 +203,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(42, 448);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(135, 13);
@@ -209,6 +213,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(42, 474);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(146, 13);
@@ -218,6 +223,7 @@
             // lblKilos
             // 
             this.lblKilos.AutoSize = true;
+            this.lblKilos.ForeColor = System.Drawing.Color.White;
             this.lblKilos.Location = new System.Drawing.Point(194, 474);
             this.lblKilos.Name = "lblKilos";
             this.lblKilos.Size = new System.Drawing.Size(0, 13);
@@ -226,6 +232,7 @@
             // lblButacas
             // 
             this.lblButacas.AutoSize = true;
+            this.lblButacas.ForeColor = System.Drawing.Color.White;
             this.lblButacas.Location = new System.Drawing.Point(194, 448);
             this.lblButacas.Name = "lblButacas";
             this.lblButacas.Size = new System.Drawing.Size(0, 13);
@@ -235,7 +242,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 607);
+            this.BackColor = System.Drawing.Color.SlateGray;
+            this.ClientSize = new System.Drawing.Size(600, 562);
             this.Controls.Add(this.lblKilos);
             this.Controls.Add(this.lblButacas);
             this.Controls.Add(this.label5);

@@ -31,13 +31,13 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkPasajes = new System.Windows.Forms.CheckBox();
             this.txtButacas = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkEncomiendas = new System.Windows.Forms.CheckBox();
             this.txtKilos = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.chkPasajes = new System.Windows.Forms.CheckBox();
-            this.chkEncomiendas = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -75,6 +75,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Comprar Pasajes";
             // 
+            // chkPasajes
+            // 
+            this.chkPasajes.AutoSize = true;
+            this.chkPasajes.Location = new System.Drawing.Point(9, 30);
+            this.chkPasajes.Name = "chkPasajes";
+            this.chkPasajes.Size = new System.Drawing.Size(64, 17);
+            this.chkPasajes.TabIndex = 57;
+            this.chkPasajes.Text = "Habilitar";
+            this.chkPasajes.UseVisualStyleBackColor = true;
+            this.chkPasajes.CheckedChanged += new System.EventHandler(this.chkPasajes_CheckedChanged);
+            // 
             // txtButacas
             // 
             this.txtButacas.Enabled = false;
@@ -104,6 +115,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Solicitar envio de encomienda";
             // 
+            // chkEncomiendas
+            // 
+            this.chkEncomiendas.AutoSize = true;
+            this.chkEncomiendas.Location = new System.Drawing.Point(9, 33);
+            this.chkEncomiendas.Name = "chkEncomiendas";
+            this.chkEncomiendas.Size = new System.Drawing.Size(64, 17);
+            this.chkEncomiendas.TabIndex = 58;
+            this.chkEncomiendas.Text = "Habilitar";
+            this.chkEncomiendas.UseVisualStyleBackColor = true;
+            this.chkEncomiendas.CheckedChanged += new System.EventHandler(this.chkEncomiendas_CheckedChanged);
+            // 
             // txtKilos
             // 
             this.txtKilos.Enabled = false;
@@ -121,28 +143,6 @@
             this.label3.TabIndex = 53;
             this.label3.Text = "Ingrese la cantidad de Kilos:";
             // 
-            // chkPasajes
-            // 
-            this.chkPasajes.AutoSize = true;
-            this.chkPasajes.Location = new System.Drawing.Point(9, 30);
-            this.chkPasajes.Name = "chkPasajes";
-            this.chkPasajes.Size = new System.Drawing.Size(64, 17);
-            this.chkPasajes.TabIndex = 57;
-            this.chkPasajes.Text = "Habilitar";
-            this.chkPasajes.UseVisualStyleBackColor = true;
-            this.chkPasajes.CheckedChanged += new System.EventHandler(this.chkPasajes_CheckedChanged);
-            // 
-            // chkEncomiendas
-            // 
-            this.chkEncomiendas.AutoSize = true;
-            this.chkEncomiendas.Location = new System.Drawing.Point(9, 33);
-            this.chkEncomiendas.Name = "chkEncomiendas";
-            this.chkEncomiendas.Size = new System.Drawing.Size(64, 17);
-            this.chkEncomiendas.TabIndex = 58;
-            this.chkEncomiendas.Text = "Habilitar";
-            this.chkEncomiendas.UseVisualStyleBackColor = true;
-            this.chkEncomiendas.CheckedChanged += new System.EventHandler(this.chkEncomiendas_CheckedChanged);
-            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(12, 271);
@@ -157,6 +157,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(342, 369);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox2);

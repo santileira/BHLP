@@ -74,7 +74,7 @@
             this.dgButacas.AllowUserToAddRows = false;
             this.dgButacas.AllowUserToDeleteRows = false;
             this.dgButacas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgButacas.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgButacas.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgButacas.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgButacas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgButacas.Location = new System.Drawing.Point(26, 326);
@@ -317,6 +317,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(365, 522);
             this.Controls.Add(this.dgImporte);
             this.Controls.Add(this.dgCliente2);

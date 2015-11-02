@@ -58,7 +58,7 @@
             this.groupBox1.Controls.Add(this.cboSemestre);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(805, 430);
+            this.groupBox1.Size = new System.Drawing.Size(615, 430);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -66,18 +66,18 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(38, 31);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 18);
+            this.label4.Size = new System.Drawing.Size(60, 13);
             this.label4.TabIndex = 17;
             this.label4.Text = "Seleccione";
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("Calibri", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(659, 214);
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(457, 214);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(126, 32);
             this.button2.TabIndex = 16;
@@ -87,7 +87,7 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Calibri", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(179, 214);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 32);
@@ -98,9 +98,9 @@
             // 
             // cboEstadistica
             // 
-            this.cboEstadistica.BackColor = System.Drawing.Color.SteelBlue;
-            this.cboEstadistica.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboEstadistica.ForeColor = System.Drawing.Color.White;
+            this.cboEstadistica.BackColor = System.Drawing.Color.White;
+            this.cboEstadistica.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboEstadistica.ForeColor = System.Drawing.Color.Black;
             this.cboEstadistica.FormattingEnabled = true;
             this.cboEstadistica.Items.AddRange(new object[] {
             "Top 5 de los destinos con más pasajes comprados",
@@ -110,17 +110,17 @@
             "Top 5 de las aeronaves con mayor cantidad de días fuera de servicio"});
             this.cboEstadistica.Location = new System.Drawing.Point(179, 163);
             this.cboEstadistica.Name = "cboEstadistica";
-            this.cboEstadistica.Size = new System.Drawing.Size(606, 26);
+            this.cboEstadistica.Size = new System.Drawing.Size(404, 21);
             this.cboEstadistica.TabIndex = 14;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(38, 167);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(138, 18);
+            this.label3.Size = new System.Drawing.Size(85, 13);
             this.label3.TabIndex = 13;
             this.label3.Text = "Una estadística:";
             // 
@@ -142,56 +142,56 @@
             this.dg.ReadOnly = true;
             this.dg.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg.Size = new System.Drawing.Size(606, 147);
+            this.dg.Size = new System.Drawing.Size(404, 147);
             this.dg.TabIndex = 12;
             this.dg.VirtualMode = true;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
             // 
             // txtAnio
             // 
-            this.txtAnio.BackColor = System.Drawing.Color.SteelBlue;
-            this.txtAnio.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAnio.ForeColor = System.Drawing.Color.White;
+            this.txtAnio.BackColor = System.Drawing.Color.White;
+            this.txtAnio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAnio.ForeColor = System.Drawing.Color.Black;
             this.txtAnio.Location = new System.Drawing.Point(179, 117);
             this.txtAnio.MaxLength = 2500;
             this.txtAnio.Name = "txtAnio";
-            this.txtAnio.Size = new System.Drawing.Size(606, 31);
+            this.txtAnio.Size = new System.Drawing.Size(134, 20);
             this.txtAnio.TabIndex = 11;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(38, 121);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 18);
+            this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 10;
             this.label2.Text = "Un año:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(38, 75);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(116, 18);
+            this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Un semestre:";
             // 
             // cboSemestre
             // 
-            this.cboSemestre.BackColor = System.Drawing.Color.SteelBlue;
-            this.cboSemestre.Font = new System.Drawing.Font("Lucida Sans Unicode", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboSemestre.ForeColor = System.Drawing.Color.White;
+            this.cboSemestre.BackColor = System.Drawing.Color.White;
+            this.cboSemestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboSemestre.ForeColor = System.Drawing.Color.Black;
             this.cboSemestre.FormattingEnabled = true;
             this.cboSemestre.Items.AddRange(new object[] {
             "1° Semestre",
             "2° Semestre"});
             this.cboSemestre.Location = new System.Drawing.Point(179, 71);
             this.cboSemestre.Name = "cboSemestre";
-            this.cboSemestre.Size = new System.Drawing.Size(606, 26);
+            this.cboSemestre.Size = new System.Drawing.Size(134, 21);
             this.cboSemestre.TabIndex = 8;
             // 
             // Form1
@@ -199,7 +199,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(829, 454);
+            this.ClientSize = new System.Drawing.Size(653, 454);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

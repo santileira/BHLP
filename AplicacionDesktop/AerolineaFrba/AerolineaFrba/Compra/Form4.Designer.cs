@@ -55,7 +55,7 @@
             this.dgPasajes.AllowUserToAddRows = false;
             this.dgPasajes.AllowUserToDeleteRows = false;
             this.dgPasajes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgPasajes.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgPasajes.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgPasajes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgPasajes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgPasajes.Location = new System.Drawing.Point(32, 129);
@@ -81,7 +81,7 @@
             this.dgEncomiendas.AllowUserToAddRows = false;
             this.dgEncomiendas.AllowUserToDeleteRows = false;
             this.dgEncomiendas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgEncomiendas.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgEncomiendas.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgEncomiendas.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgEncomiendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgEncomiendas.Location = new System.Drawing.Point(32, 348);
@@ -136,6 +136,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(736, 593);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
