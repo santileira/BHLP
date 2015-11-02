@@ -49,11 +49,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtModeloActual = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtMatricula = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
+            this.mkMatricula = new System.Windows.Forms.MaskedTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,6 +89,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.mkMatricula);
             this.groupBox1.Controls.Add(this.txtVenta1);
             this.groupBox1.Controls.Add(this.txtVenta);
             this.groupBox1.Controls.Add(this.label7);
@@ -106,7 +107,6 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtModeloActual);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtMatricula);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtModelo);
             this.groupBox1.Controls.Add(this.label1);
@@ -263,14 +263,6 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Fabricante";
             // 
-            // txtMatricula
-            // 
-            this.txtMatricula.Enabled = false;
-            this.txtMatricula.Location = new System.Drawing.Point(348, 47);
-            this.txtMatricula.Name = "txtMatricula";
-            this.txtMatricula.Size = new System.Drawing.Size(157, 20);
-            this.txtMatricula.TabIndex = 3;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -307,6 +299,14 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // mkMatricula
+            // 
+            this.mkMatricula.Location = new System.Drawing.Point(348, 47);
+            this.mkMatricula.Mask = "AAA-AAA";
+            this.mkMatricula.Name = "mkMatricula";
+            this.mkMatricula.Size = new System.Drawing.Size(70, 20);
+            this.mkMatricula.TabIndex = 45;
+            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -341,7 +341,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtMatricula;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtModelo;
         private System.Windows.Forms.Label label1;
@@ -355,5 +354,6 @@
         private System.Windows.Forms.TextBox txtVenta1;
         private System.Windows.Forms.TextBox txtVenta;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.MaskedTextBox mkMatricula;
     }
 }
