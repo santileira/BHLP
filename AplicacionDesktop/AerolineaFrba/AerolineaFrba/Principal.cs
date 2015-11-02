@@ -18,12 +18,14 @@ namespace AerolineaFrba
         Dictionary<string, Action<string>> diccionarioFunc;
         Dictionary<string, Func<Form>> diccionarioFormularios;
         FormLogin login;
+        Boolean cerrarAplicacion;
 
         public Principal(string rolElegido,string usuario,FormLogin login)
         {
             this.login = login;
             this.rolElegido = rolElegido;
             this.usuario = usuario;
+            cerrarAplicacion = true;
             InitializeComponent();
         }
 
@@ -208,6 +210,7 @@ namespace AerolineaFrba
 
         private void salir_Click(object sender, EventArgs e)
         {
+            cerrarAplicacion = false;
             this.Close();
             login.iniciar();
             login.Visible = true;
@@ -217,6 +220,12 @@ namespace AerolineaFrba
         {
             formulario.MdiParent = this;
             formulario.Show();
+        }
+
+        private void Principal_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(cerrarAplicacion)
+                login.Close();
         }
 
     }

@@ -49,10 +49,18 @@ namespace AerolineaFrba
             return !huboErrores;
         }
         
+
+        //****** VALIDACIONES NUMERICAS *******//
+
         public static Boolean esNumero(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
             int numero;
-            if (int.TryParse(txtBox.Text, out numero))
+            string cadena = txtBox.Text;
+
+            if (cadena == "")
+                return true;
+
+            if (int.TryParse(cadena, out numero))
             {
                 return true;
             }
@@ -60,18 +68,63 @@ namespace AerolineaFrba
             {
                 if (mostrarMensaje)
                 {
-                    MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);
+                    MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número entero", "Error en los datos de entrada", MessageBoxButtons.OK);
                 }
                 return false;
             }
             
         }
 
-        public static Boolean esDecimal(TextBox txtBox)
+        public static Boolean esDecimal(TextBox txtBox, string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
         {
-            decimal unDecimal;
-            return decimal.TryParse(txtBox.Text, out unDecimal);
+            string cadena = txtBox.Text;
+            decimal numero;
+
+            if (cadena == "")
+                return true;
+
+            if(!comaYPuntoCorrectos(cadena))
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+                return false;
+            }
+
+            cadena.Replace('.', ',');
+
+            if (Decimal.TryParse(cadena, out numero))
+            {
+                return true;
+            }
+            else
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+                return false;
+            }
+
         }
+
+        private static bool comaYPuntoCorrectos(string cadena)
+        {
+            if (cantidadEnCadena(cadena, '.') > 1)
+                return false;
+
+            if (cantidadEnCadena(cadena, ',') > 1)
+                return false;
+            
+            if (cadena.Contains('.') && cadena.Contains(','))
+                return false;
+            
+            return true;
+        }
+
+
+        //********** VALIDACIONES DE TEXTO ******//
 
         public static Boolean esTexto(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
@@ -91,10 +144,82 @@ namespace AerolineaFrba
                 if(!esVacio(txtBox))
                 return false;
             }
-            return true;//return regexTexto.IsMatch(txtBox.Text);
+            return true;
         }
 
-        public static Boolean esVacio(TextBox txtBox ,string nombreCampo = "Pelotudo no queres mostrar el mensaje" , bool mostrarMensaje = false)
+        public static Boolean esSoloTexto(TextBox txtBox, string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
+        {
+            string cadena = txtBox.Text;
+
+            if (cadena == "")
+                return true;
+
+            if (cadena.All((car)=>Char.IsLetter(car)))
+            {
+                return true;
+            }
+            else
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static Boolean esTextoAlfanumerico(TextBox txtBox, Boolean primeroLetra,string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
+        {
+            string cadena = txtBox.Text;
+            Boolean huboErrores = false;
+
+            if (cadena == "")
+                return true;
+
+            if(primeroLetra)
+            {
+                if (huboErrores = !Char.IsLetter(cadena[0]))
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe comenzar con una letra.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+            }
+                
+            if (!cadena.All((car) => Char.IsLetterOrDigit(car)))
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras o números.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    
+                }
+                return false;
+            }
+            return !huboErrores;
+        }
+
+        public static Boolean esMatricula(MaskedTextBox txtBox, Boolean mostrarMensaje = false)
+        {
+            string cadena = txtBox.Text;
+            if (cantidadEnCadena(cadena, '-') > 1)
+            {
+                MessageBox.Show("La matrícula debe estar compuesta por 3 letras seguida de 3 dígitos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+
+            if (!(cadena.Take(3).All((car) => Char.IsLetter(car)) && cadena.Substring(4).All((car) => Char.IsDigit(car))))
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("La matrícula debe estar compuesta por 3 letras seguida de 3 dígitos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+                return false;
+            }
+            return true;
+        }
+
+        //******* VALIDACIONES DE CAMPOS VACIOS ******//
+
+        public static Boolean esVacio(TextBox txtBox, string nombreCampo = "Opcional", bool mostrarMensaje = false)
         {
             Boolean vacio = false;
             if (txtBox.TextLength == 0)
@@ -109,7 +234,7 @@ namespace AerolineaFrba
             return vacio;
         }
 
-        public static Boolean esVacio(ComboBox cboBox, string nombreCampo = "Pelotudo no queres mostrar el mensaje", bool mostrarMensaje = false)
+        public static Boolean esVacio(ComboBox cboBox, string nombreCampo = "Opcional", bool mostrarMensaje = false)
         {
             Boolean vacio = false;
             if (cboBox.Text.Length == 0)
@@ -190,5 +315,80 @@ namespace AerolineaFrba
             }
             return true;
         }
+
+
+        //Eventos de validacion de tipos de campos
+
+        public static void controlIngresoNumeroDecimal(object sender, KeyPressEventArgs e)
+        {
+            string cadena = ((TextBox)sender).Text;
+            char caracter = e.KeyChar;
+
+            if (caracter == (char)(Keys.Back))
+                return;
+
+            if (caracter.ToString() == ",")
+            {
+                if (cantidadEnCadena(cadena, ',') != 0)
+                {
+                    e.Handled = true;
+                }
+                return;
+            }
+
+            if (!Char.IsDigit(caracter))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static int cantidadEnCadena(string cadena, char caracter)
+        {
+            return cadena.Count((car) => car == caracter);
+        }
+
+        public static void controlIngresoNumeroEntero(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)(Keys.Back))
+                return;
+
+            if (!Char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        //******* VALIDACION DE LIMITES ********//
+
+        public static Boolean estaEntreLimites(TextBox txt, decimal limiteInferior, decimal limiteSuperior,Boolean numeroDecimal,string nombreCampo)
+        {
+            string cadena = txt.Text;
+
+            if (cadena == "")
+                return true;
+
+            if (numeroDecimal)
+            {
+                if (!esDecimal(txt))
+                    return true;
+            }
+            else
+            {
+                if (!esNumero(txt))
+                    return true;
+            }
+
+
+            decimal numero = Convert.ToDecimal(txt.Text);
+
+            if (numero < limiteInferior || numero > limiteSuperior)
+            {
+                MessageBox.Show("El valor del campo " + nombreCampo + " debe estar entre " + limiteInferior.ToString() + " y " + limiteSuperior.ToString(), "Error en los datos de entrada", MessageBoxButtons.OK);
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

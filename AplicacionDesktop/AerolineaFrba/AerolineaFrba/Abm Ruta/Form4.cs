@@ -33,14 +33,14 @@ namespace AerolineaFrba.Abm_Ruta
         {
             cargarComboServicio();
 
-            idRuta = Convert.ToInt32(registro.Cells["RUTA_ID"].Value);
-            
-            txtCodigo.Text = registro.Cells["CODIGO_DE_RUTA"].Value.ToString();
-            cboServicio.Text = txtTipoDeServicio.Text = registro.Cells["TIPO_SERVICIO"].Value.ToString();
-            txtCiudadOrigenNueva.Text = txtCiudadOrigen.Text = registro.Cells["ORIGEN"].Value.ToString();
-            txtCiudadDestinoNueva.Text = txtCiudadDestino.Text = registro.Cells["DESTINO"].Value.ToString();
-            txtPrecioEncomiendaNueva.Text = txtPrecioEncomienda.Text = registro.Cells["RUTA_PRECIO_BASE_KG"].Value.ToString();
-            txtPrecioPasajeNuevo.Text = txtPrecioPasaje.Text = registro.Cells["RUTA_PRECIO_BASE_PASAJE"].Value.ToString();
+            idRuta = Convert.ToInt32(registro.Cells["Id"].Value);
+
+            txtCodigo.Text = registro.Cells["Código Ruta"].Value.ToString();
+            cboServicio.Text = txtTipoDeServicio.Text = registro.Cells["Descripción"].Value.ToString();
+            txtCiudadOrigenNueva.Text = txtCiudadOrigen.Text = registro.Cells["Origen"].Value.ToString();
+            txtCiudadDestinoNueva.Text = txtCiudadDestino.Text = registro.Cells["Destino"].Value.ToString();
+            txtPrecioEncomiendaNueva.Text = txtPrecioEncomienda.Text = registro.Cells["Precio Base Por Kilogramo"].Value.ToString();
+            txtPrecioPasajeNuevo.Text = txtPrecioPasaje.Text = registro.Cells["Precio Base Pasaje"].Value.ToString();
 
             Boolean viajeProgramado = !tieneViajeProgramado(idRuta);
 
@@ -70,7 +70,7 @@ namespace AerolineaFrba.Abm_Ruta
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeProgramadoRuta(@IdRuta)";
+            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeProgramado(@IdRuta)";
             command.CommandTimeout = 0;
 
             command.Parameters.AddWithValue("@IdRuta", idRuta);
@@ -184,26 +184,15 @@ namespace AerolineaFrba.Abm_Ruta
         private Object modificarRuta()
         {
             SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("ModificarRuta").agregarIntSP("@IdRuta", idRuta).agregarIntSP("@Codigo", txtCodigo).
-            agregarStringSP("@Servicio", cboServicio). agregarStringSP("@CiudadOrigen", txtCiudadOrigenNueva).
-            agregarStringSP("@CiudadDestino", txtCiudadDestinoNueva).agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text)).
-            agregarDecimalSP("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text)).ejecutarSP();
+            return sqlManager.generarSP("ModificarRuta").agregarIntSP("@IdRuta", idRuta)
+                                                        .agregarIntSP("@Codigo", txtCodigo)
+                                                        .agregarStringSP("@Servicio", cboServicio)
+                                                        .agregarStringSP("@CiudadOrigen", txtCiudadOrigenNueva)
+                                                        .agregarStringSP("@CiudadDestino", txtCiudadDestinoNueva)
+                                                        .agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text))
+                                                        .agregarDecimalSP("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text))
+                                                        .ejecutarSP();
             
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRuta]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@IdRuta", idRuta);
-            command.Parameters.AddWithValue("@Codigo", Convert.ToInt32(txtCodigo.Text));
-            command.Parameters.AddWithValue("@Servicio", cboServicio.Text);
-            command.Parameters.AddWithValue("@CiudadOrigen", txtCiudadOrigenNueva.Text);
-            command.Parameters.AddWithValue("@CiudadDestino", txtCiudadDestinoNueva.Text);
-            command.Parameters.AddWithValue("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text));
-            command.Parameters.AddWithValue("@PrecioeEncomienda", enDecimal(txtPrecioEncomiendaNueva.Text));
-
-            return command.ExecuteScalar();*/
         }
 
         private Decimal enDecimal(string numero)
@@ -217,7 +206,8 @@ namespace AerolineaFrba.Abm_Ruta
 
             huboErrores = this.validarLongitudes() || huboErrores;
             huboErrores = this.validarTipos() || huboErrores;
-            huboErrores = Validacion.igualdadCiudades(txtCiudadDestino, txtCiudadOrigen) || huboErrores;
+            huboErrores = this.validarLimitesNumericos() || huboErrores;
+            huboErrores = Validacion.igualdadCiudades(txtCiudadOrigenNueva, txtCiudadDestinoNueva) || huboErrores;
 
             return !huboErrores;
         }
@@ -226,101 +216,36 @@ namespace AerolineaFrba.Abm_Ruta
         {
 
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código", true);
-            algunoVacio = Validacion.esVacio(txtCiudadDestino, "ciudad de destino", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtCiudadOrigen, "ciudad de origen", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtPrecioEncomienda, "precio de encomienda", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(txtPrecioPasaje, "precio de pasaje", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtCiudadOrigenNueva, "ciudad de origen", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtCiudadDestinoNueva, "ciudad de destino", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtPrecioPasajeNuevo, "precio de pasaje", true) || algunoVacio;
+            algunoVacio = Validacion.esVacio(txtPrecioEncomiendaNueva, "precio de encomienda", true) || algunoVacio;
 
             return algunoVacio;
         }
 
-        /*private Boolean seCompleto(TextBox txt, string campo)
-        {
-            if (txt.TextLength == 0)
-            {
-                MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            return true;
-        }*/
-
-       /* private Boolean seCompleto(ComboBox cbo, string campo)
-        {
-            if (cbo.SelectedIndex == -1)
-            {
-                MessageBox.Show("El campo " + campo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
-                return false;
-            }
-            return true;
-        }*/
-
         private Boolean validarTipos()
         {
-            Boolean huboError = !Validacion.numeroCorrecto(txtCodigo, "código", false);
+            Boolean huboErrores = false;
 
-            huboError = !Validacion.numeroCorrecto(txtPrecioEncomienda, "precio de encomienda", true) || huboError;
-            huboError = !Validacion.numeroCorrecto(txtPrecioPasaje, "Pprecio de pasaje", true) || huboError;
+            huboErrores = Validacion.esNumero(txtCodigo, "código", true) || huboErrores;
+            huboErrores = Validacion.esDecimal(txtPrecioPasajeNuevo, "precio de pasaje", true) || huboErrores;
+            huboErrores = Validacion.esDecimal(txtPrecioEncomiendaNueva, "precio de encomienda", true) || huboErrores;
 
-            return huboError;
+            return huboErrores;
         }
-        
-        /*private Boolean textoCorrecto(TextBox txt, string campo)
+
+        private bool validarLimitesNumericos()
         {
-            if (txt.TextLength != 0 && !this.esTexto(txt))
-            {
-                MessageBox.Show("El campo " + campo + " debe ser un texto", "Error en los datos ingresados", MessageBoxButtons.OK);
-                return false;
-            }
-            return true;
-        }*/
+            Boolean huboErrores = false;
 
-        /*private Boolean numeroCorrecto(TextBox txt, string campo, bool debeSerDecimal)
-        {
-            if (txt.TextLength != 0)
-            {
-                if ((debeSerDecimal && !esDecimal(txt)) || (!debeSerDecimal && !esNumero(txt)))
-                {
+            huboErrores = Validacion.estaEntreLimites(txtCodigo, 1, 999999999, false, "código") || huboErrores;
+            huboErrores = Validacion.estaEntreLimites(txtPrecioPasajeNuevo, 0.01m, 999, true, "precio de pasaje") || huboErrores;
+            huboErrores = Validacion.estaEntreLimites(txtPrecioEncomiendaNueva, 0.01m, 999, true, "precio de encomienda") || huboErrores;
 
-                    MessageBox.Show("El campo " + campo + " debe ser un número", "Error en los datos ingresados", MessageBoxButtons.OK);
-                    return false;
-                }
-            }
-            return true;
-        }*/
-
-        /*private Boolean validarIgualdadCiudades()
-        {
-            if (txtCiudadDestinoNueva.TextLength * txtCiudadOrigenNueva.TextLength != 0)
-            {
-                if (txtCiudadOrigenNueva.Text == txtCiudadDestinoNueva.Text)
-                {
-                    MessageBox.Show("La ciudad de origen debe ser distinta a la de destino", "Error en los datos ingresados", MessageBoxButtons.OK);
-                    return true;
-                }
-            }
-            return false;
-        }*/
-
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }*/
-
-        /*private Boolean esNumero(TextBox txt)
-        {
-            int numero;
-            return int.TryParse(txt.Text, out numero);
-        }*/
-
-        /*private Boolean esDecimal(TextBox txt)
-        {
-            decimal unDecimal;
-            return decimal.TryParse(txt.Text, out unDecimal);
-        }*/
+            return !huboErrores;
+        }
 
         private void botonSelOrigen_Click(object sender, EventArgs e)
         {

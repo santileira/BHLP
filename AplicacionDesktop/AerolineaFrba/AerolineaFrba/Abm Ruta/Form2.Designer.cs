@@ -68,7 +68,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Ruta";
-            
             // 
             // label5
             // 
@@ -95,6 +94,7 @@
             // txtPrecioEncomienda
             // 
             this.txtPrecioEncomienda.Location = new System.Drawing.Point(95, 68);
+            this.txtPrecioEncomienda.MaxLength = 6;
             this.txtPrecioEncomienda.Name = "txtPrecioEncomienda";
             this.txtPrecioEncomienda.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioEncomienda.TabIndex = 7;
@@ -111,6 +111,7 @@
             // txtPrecioPasaje
             // 
             this.txtPrecioPasaje.Location = new System.Drawing.Point(95, 31);
+            this.txtPrecioPasaje.MaxLength = 6;
             this.txtPrecioPasaje.Name = "txtPrecioPasaje";
             this.txtPrecioPasaje.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioPasaje.TabIndex = 5;
@@ -227,6 +228,7 @@
             // txtCodigo
             // 
             this.txtCodigo.Location = new System.Drawing.Point(95, 31);
+            this.txtCodigo.MaxLength = 9;
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(117, 20);
             this.txtCodigo.TabIndex = 5;

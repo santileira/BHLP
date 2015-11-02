@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.mkMatricula = new System.Windows.Forms.MaskedTextBox();
             this.cboCiudades = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtVenta = new System.Windows.Forms.TextBox();
@@ -43,7 +44,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtMatricula = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,6 +56,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.mkMatricula);
             this.groupBox1.Controls.Add(this.cboCiudades);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txtVenta);
@@ -70,16 +71,24 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtMatricula);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtModelo);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(13, 38);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(368, 490);
+            this.groupBox1.Size = new System.Drawing.Size(368, 464);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
+            // 
+            // mkMatricula
+            // 
+            this.mkMatricula.Location = new System.Drawing.Point(175, 39);
+            this.mkMatricula.Mask = "AAA-AAA";
+            this.mkMatricula.Name = "mkMatricula";
+            this.mkMatricula.Size = new System.Drawing.Size(70, 20);
+            this.mkMatricula.TabIndex = 38;
             // 
             // cboCiudades
             // 
@@ -102,6 +111,7 @@
             // txtVenta
             // 
             this.txtVenta.Location = new System.Drawing.Point(174, 323);
+            this.txtVenta.MaxLength = 3;
             this.txtVenta.Name = "txtVenta";
             this.txtVenta.Size = new System.Drawing.Size(157, 20);
             this.txtVenta.TabIndex = 35;
@@ -152,6 +162,7 @@
             // txtButacas
             // 
             this.txtButacas.Location = new System.Drawing.Point(174, 277);
+            this.txtButacas.MaxLength = 3;
             this.txtButacas.Name = "txtButacas";
             this.txtButacas.Size = new System.Drawing.Size(157, 20);
             this.txtButacas.TabIndex = 11;
@@ -168,6 +179,7 @@
             // txtKilos
             // 
             this.txtKilos.Location = new System.Drawing.Point(174, 372);
+            this.txtKilos.MaxLength = 6;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(157, 20);
             this.txtKilos.TabIndex = 9;
@@ -199,13 +211,6 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Fabricante *";
             // 
-            // txtMatricula
-            // 
-            this.txtMatricula.Location = new System.Drawing.Point(175, 39);
-            this.txtMatricula.Name = "txtMatricula";
-            this.txtMatricula.Size = new System.Drawing.Size(157, 20);
-            this.txtMatricula.TabIndex = 3;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -233,7 +238,8 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(269, 573);
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.Location = new System.Drawing.Point(268, 545);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 1;
@@ -243,7 +249,8 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(14, 573);
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(13, 545);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 35);
             this.button3.TabIndex = 2;
@@ -253,6 +260,7 @@
             // 
             // button6
             // 
+            this.button6.ForeColor = System.Drawing.Color.Black;
             this.button6.Location = new System.Drawing.Point(14, 11);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(78, 21);
@@ -264,7 +272,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(28, 546);
+            this.label8.Location = new System.Drawing.Point(27, 518);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(75, 13);
             this.label8.TabIndex = 34;
@@ -274,12 +282,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 620);
+            this.BackColor = System.Drawing.Color.SlateGray;
+            this.ClientSize = new System.Drawing.Size(396, 589);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
+            this.ForeColor = System.Drawing.Color.White;
             this.Name = "Alta";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Alta de aeronave";
@@ -300,7 +310,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtMatricula;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtModelo;
         private System.Windows.Forms.Label label1;
@@ -316,5 +325,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cboCiudades;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.MaskedTextBox mkMatricula;
     }
 }

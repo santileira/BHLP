@@ -45,9 +45,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 12);
+            this.button6.Location = new System.Drawing.Point(12, 246);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
+            this.button6.Size = new System.Drawing.Size(85, 38);
             this.button6.TabIndex = 52;
             this.button6.Text = "Atras";
             this.button6.UseVisualStyleBackColor = true;
@@ -55,9 +55,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(205, 271);
+            this.button5.Location = new System.Drawing.Point(230, 246);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(110, 38);
+            this.button5.Size = new System.Drawing.Size(85, 38);
             this.button5.TabIndex = 53;
             this.button5.Text = "Siguiente";
             this.button5.UseVisualStyleBackColor = true;
@@ -68,7 +68,8 @@
             this.groupBox1.Controls.Add(this.chkPasajes);
             this.groupBox1.Controls.Add(this.txtButacas);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 49);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(12, 24);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(303, 99);
             this.groupBox1.TabIndex = 54;
@@ -108,7 +109,8 @@
             this.groupBox2.Controls.Add(this.chkEncomiendas);
             this.groupBox2.Controls.Add(this.txtKilos);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(12, 154);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(12, 129);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(303, 99);
             this.groupBox2.TabIndex = 55;
@@ -145,9 +147,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 271);
+            this.button4.Location = new System.Drawing.Point(123, 246);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(110, 38);
+            this.button4.Size = new System.Drawing.Size(85, 38);
             this.button4.TabIndex = 56;
             this.button4.Text = "Limpiar";
             this.button4.UseVisualStyleBackColor = true;
@@ -158,7 +160,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(342, 369);
+            this.ClientSize = new System.Drawing.Size(331, 316);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);

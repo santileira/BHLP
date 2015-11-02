@@ -92,6 +92,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(184, 77);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(134, 38);
@@ -194,9 +195,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(23, 12);
+            this.button6.Location = new System.Drawing.Point(366, 277);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
+            this.button6.Size = new System.Drawing.Size(92, 38);
             this.button6.TabIndex = 91;
             this.button6.Text = "Atras";
             this.button6.UseVisualStyleBackColor = true;
@@ -219,9 +220,10 @@
             this.groupBox1.Controls.Add(this.txtTel);
             this.groupBox1.Controls.Add(this.txtDire);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Location = new System.Drawing.Point(23, 54);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(12, 21);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(338, 273);
+            this.groupBox1.Size = new System.Drawing.Size(338, 294);
             this.groupBox1.TabIndex = 108;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos del Comprador";
@@ -230,9 +232,10 @@
             // 
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.cboFormaPago);
-            this.groupBox2.Location = new System.Drawing.Point(377, 54);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(366, 21);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(294, 229);
+            this.groupBox2.Size = new System.Drawing.Size(294, 245);
             this.groupBox2.TabIndex = 109;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Forma de Pago";
@@ -283,18 +286,6 @@
             // 
             this.cboMeses.FormattingEnabled = true;
             this.cboMeses.Items.AddRange(new object[] {
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
             1,
             2,
             3,
@@ -382,9 +373,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(444, 289);
+            this.button2.Location = new System.Drawing.Point(568, 277);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(171, 38);
+            this.button2.Size = new System.Drawing.Size(92, 38);
             this.button2.TabIndex = 110;
             this.button2.Text = "Confirmar Compra";
             this.button2.UseVisualStyleBackColor = true;
@@ -395,13 +386,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(694, 345);
+            this.ClientSize = new System.Drawing.Size(677, 330);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button6);
             this.Name = "Form6";
-            this.Text = "Form6";
+            this.Text = "Efectuar compra";
             this.Load += new System.EventHandler(this.Form6_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

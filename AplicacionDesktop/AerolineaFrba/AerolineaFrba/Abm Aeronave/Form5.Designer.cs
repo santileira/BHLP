@@ -67,6 +67,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 52);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(802, 150);
@@ -76,6 +77,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(501, 101);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 21);
@@ -112,6 +114,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button4
             // 
+            this.button4.ForeColor = System.Drawing.Color.Black;
             this.button4.Location = new System.Drawing.Point(501, 65);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 21);
@@ -122,6 +125,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button5
             // 
+            this.button5.ForeColor = System.Drawing.Color.Black;
             this.button5.Location = new System.Drawing.Point(501, 29);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(89, 21);
@@ -184,7 +188,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.button2.Location = new System.Drawing.Point(12, 208);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 21);
+            this.button2.Size = new System.Drawing.Size(108, 29);
             this.button2.TabIndex = 1;
             this.button2.Text = "Limpiar";
             this.button2.UseVisualStyleBackColor = true;
@@ -192,9 +196,9 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(603, 208);
+            this.button3.Location = new System.Drawing.Point(713, 208);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(101, 21);
+            this.button3.Size = new System.Drawing.Size(101, 29);
             this.button3.TabIndex = 2;
             this.button3.Text = "Buscar";
             this.button3.UseVisualStyleBackColor = true;
@@ -204,7 +208,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
-            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.EnableHeadersVisualStyles = false;
@@ -215,7 +219,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dg.Size = new System.Drawing.Size(802, 252);
             this.dg.TabIndex = 3;
-
             // 
             // lblErrores
             // 
@@ -237,7 +240,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(710, 208);
+            this.button7.Location = new System.Drawing.Point(710, 12);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(104, 20);
             this.button7.TabIndex = 6;
@@ -249,6 +252,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(867, 507);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);

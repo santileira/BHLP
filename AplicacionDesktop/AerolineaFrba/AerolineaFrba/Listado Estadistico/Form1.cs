@@ -93,5 +93,16 @@ namespace AerolineaFrba.Listado_Estadistico
         {
 
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(new Menu());
+        }
+
+        private void cambiarVisibilidades(Form formularioSiguiente)
+        {
+            formularioSiguiente.Visible = true;
+            this.Visible = false;
+        }
     }
 }

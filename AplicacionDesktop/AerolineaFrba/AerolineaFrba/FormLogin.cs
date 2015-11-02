@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -103,11 +104,8 @@ namespace AerolineaFrba
         {
             Boolean huboErrores = false;
 
-            if (validarTipos())
-                huboErrores = true;
-
-            if (validarLongitudes())
-                huboErrores = true;
+            huboErrores = validarTipos() || huboErrores;
+            huboErrores = validarLongitudes() || huboErrores;
 
             return !huboErrores;
         }
@@ -132,11 +130,8 @@ namespace AerolineaFrba
 
         private void ingresarComoInvitado()
         {
-            if (cboRoles.SelectedIndex == -1)
-            {
-                MessageBox.Show("Debe elegir algún rol para poder ingresar como invitado", "Error", MessageBoxButtons.OK);
+            if (Validacion.esVacio(cboRoles, "rol", true))
                 return;
-            }
 
             cambiarVisibilidades(new Principal(cboRoles.SelectedItem.ToString(),"Invitado",this));
         }
@@ -144,29 +139,16 @@ namespace AerolineaFrba
         private bool validarLongitudes()
         {
             Boolean huboErrores = false;
-            
-            if (txtUsuario.TextLength == 0)
-            {
-                MessageBox.Show("Debe completar el campo usuario", "Error", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-            if (txtPassword.TextLength == 0)
-            {
-                MessageBox.Show("Debe completar el campo contraseña", "Error", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
+
+            huboErrores = Validacion.esVacio(txtUsuario, "usuario", true) || huboErrores;
+            huboErrores = Validacion.esVacio(txtPassword, "contraseña", true) || huboErrores;
 
             return huboErrores;
         }
 
         private bool validarTipos()
         {
-            if (!Validacion.esTexto(txtUsuario) && txtUsuario.TextLength > 0)
-            {
-                MessageBox.Show("El nombre de usuario debe ser un texto", "Error", MessageBoxButtons.OK);
-                return true;
-            }
-            return false;
+            return !Validacion.esSoloTexto(txtUsuario, "usuario", true);
         }
 
     }

@@ -69,6 +69,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 52);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(802, 150);
@@ -78,6 +79,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(501, 101);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 21);
@@ -115,6 +117,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button4
             // 
+            this.button4.ForeColor = System.Drawing.Color.Black;
             this.button4.Location = new System.Drawing.Point(501, 65);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 21);
@@ -125,6 +128,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button5
             // 
+            this.button5.ForeColor = System.Drawing.Color.Black;
             this.button5.Location = new System.Drawing.Point(501, 29);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(89, 21);
@@ -209,7 +213,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
-            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -254,7 +258,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.button6.Location = new System.Drawing.Point(12, 12);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
+            this.button6.Size = new System.Drawing.Size(77, 22);
             this.button6.TabIndex = 5;
             this.button6.Text = "Atrás";
             this.button6.UseVisualStyleBackColor = true;
@@ -262,7 +266,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // txtFiltros
             // 
-            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFiltros.Location = new System.Drawing.Point(847, 55);
@@ -275,6 +279,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(1245, 507);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.button6);

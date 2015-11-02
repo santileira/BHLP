@@ -67,13 +67,6 @@ namespace AerolineaFrba.Abm_Rol
                 {
                     modificarRol();
 
-                    //darDeBajaFuncionalidades(nombreNuevo);
-                   
-                    /*foreach (String funcion in lstFuncionalidadesActuales.Items)
-                    {
-                        darDeAltaFuncionalidad(funcion, nombreNuevo);
-                    }*/
-
                     (listado as Listado).iniciar();
                     this.cambiarVisibilidades(this.listado);
 
@@ -81,42 +74,6 @@ namespace AerolineaFrba.Abm_Rol
 
             }
         }
-
-        /*private Object darDeBajaFuncionalidades(string nombreNuevo)
-        {
-            SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("BajaFuncionalidades").agregarStringSP("@NombreRol", nombreNuevo).ejecutarSP();
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaFuncionalidades]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@NombreRol", nombreNuevo);
-
-            return command.ExecuteScalar();
-
-        }*/
-
-        /*private Object darDeAltaFuncionalidad(string funcion, string rol)
-        {
-            SQLManager sqlManager = new SQLManager();
-            return sqlManager.generarSP("AltaFuncionalidad").agregarStringSP("@Funcion", funcion).
-            agregarStringSP("@Rol", rol).ejecutarSP();
-            
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[AltaFuncionalidad]";
-            command.CommandTimeout = 0;
-
-
-            command.Parameters.AddWithValue("@Funcion", funcion);
-            command.Parameters.AddWithValue("@Rol", rol);
-
-            return command.ExecuteScalar();
-
-        }*/
 
         private void modificarRol()
         {
@@ -126,17 +83,6 @@ namespace AerolineaFrba.Abm_Rol
                             .agregarListaSP("@Funcionalidades", funcionalidadesActuales())
                             .agregarBooleanoSP("@Estado",checkHabilitado.Enabled?checkHabilitado.Checked:true)
                             .ejecutarSP();
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[ModificarRol]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@NombreOriginal", nombreOriginal);
-            command.Parameters.AddWithValue("@NombreNuevo", nombreNuevo);
-            command.Parameters.AddWithValue("@Estado",checkHabilitado.Enabled?checkHabilitado.Checked:true);
-
-            return command.ExecuteScalar();*/
         }
 
         private List<Object> funcionalidadesActuales()
@@ -156,28 +102,11 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            /*Boolean huboErroresEnText = this.validarTextNombre();
-      
-            return !(huboErroresEnText);*/
-            return Validacion.textNombre(txtNombre , "nombre de Rol");
+            Boolean huboError = Validacion.esVacio(txtNombre, "nombre de rol", true);
+            huboError = !Validacion.esSoloTexto(txtNombre, "nombre de rol", true) || huboError;
+
+            return !huboError;
         }
-
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }
-
-        private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-            
-        }*/
 
         private void Alta_Load(object sender, EventArgs e)
         {
@@ -212,51 +141,6 @@ namespace AerolineaFrba.Abm_Rol
 
             }
         }
-
-        /*private void ejecutarCommand(string cadenaComando)
-        {
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = cadenaComando;
-            try
-            {
-                command.ExecuteReader().Close();
-                MessageBox.Show("Se dio de alta correctamente al rol " + txtNombre.Text, "Alta de roles", MessageBoxButtons.OK);
-            }
-            catch (System.Data.SqlClient.SqlException e)
-            {
-                MessageBox.Show("Ocurrio un error al intentar dar de alta. Verifique que el rol ingresado no se encuentre ya cargado", "Error en el Alta del nuevo rol", MessageBoxButtons.OK);
-            }
-        }*/
-
-        /*private Boolean validarTextNombre()
-        {
-            Boolean huboErrores = false;
-            
-            if (txtNombre.TextLength == 0)
-            {
-                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-             
-            }
-            else
-            {           
-                if (txtNombre.TextLength > 60)
-                {
-                    MessageBox.Show("El nombre debe tener a lo sumo 60 caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                    huboErrores = true;
-                }
-
-                if (!this.esTexto(txtNombre))
-                {
-                    MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                    huboErrores = true;
-                }
-            }
-            
-            return huboErrores;
-        }*/
 
         private void button4_Click(object sender, EventArgs e)
         {

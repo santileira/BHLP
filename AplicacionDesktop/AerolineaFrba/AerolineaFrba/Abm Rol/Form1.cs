@@ -55,12 +55,6 @@ namespace AerolineaFrba.Abm_Rol
             this.cambiarVisibilidades(listado);
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            /*formularioSiguiente = new Listado();
-            this.cambiarVisibilidades(formularioSiguiente);*/
-            throw new Exception("Hay que sacar este boton de mierda");
-        }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
