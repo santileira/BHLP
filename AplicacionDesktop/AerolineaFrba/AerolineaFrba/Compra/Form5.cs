@@ -178,16 +178,6 @@ namespace AerolineaFrba.Compra
                 if (!this.encontroCliente)
                 {
 
-                    new SQLManager().generarSP("ingresarDatosDelCliente")
-                          .agregarIntSP("@dni", txtDni)
-                            .agregarStringSP("@ape", txtApe)
-                              .agregarStringSP("@nombre", txtNom)
-                                .agregarStringSP("@direccion", txtDire)
-                                   .agregarStringSP("@mail", txtMail)
-                                     .agregarFechaSP("@fechanac", dp)
-                                        .agregarIntSP("@telefono", txtTel)
-                                            .ejecutarSP();
-
                     dgCliente2.ColumnCount = 13;
                     this.agregarCampos(dgCliente2);
 
@@ -199,26 +189,11 @@ namespace AerolineaFrba.Compra
                 string matricula = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).matricula;
 
                 if(this.encontroCliente)
-                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla, viaje_cod, matricula);
+                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
                 else
-                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla, viaje_cod, matricula);
+                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
 
                 this.cantidadKilos -= kg;
-
-                if (this.actualizarTabla)
-                {
-                    new SQLManager().generarSP("actualizarDatosDelCliente")
-                          .agregarIntSP("@dni", txtDni)
-                            .agregarStringSP("@ape", txtApe)
-                              .agregarStringSP("@nombre", txtNom)
-                                .agregarStringSP("@direccion", txtDire)
-                                   .agregarStringSP("@mail", txtMail)
-                                     .agregarFechaSP("@fechanac", dp)
-                                       .agregarIntSP("@telefono", txtTel)
-                                            .ejecutarSP();
-                }
-
-
 
                 this.inicio();
             }
