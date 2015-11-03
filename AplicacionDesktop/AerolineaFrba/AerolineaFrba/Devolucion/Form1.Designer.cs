@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -56,6 +60,7 @@
             // txtCodigo
             // 
             this.txtCodigo.Location = new System.Drawing.Point(445, 41);
+            this.txtCodigo.MaxLength = 12;
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(100, 20);
             this.txtCodigo.TabIndex = 1;
@@ -73,6 +78,7 @@
             // 
             // btBuscar
             // 
+            this.btBuscar.ForeColor = System.Drawing.Color.Black;
             this.btBuscar.Location = new System.Drawing.Point(569, 39);
             this.btBuscar.Name = "btBuscar";
             this.btBuscar.Size = new System.Drawing.Size(75, 23);
@@ -90,11 +96,30 @@
             this.dgPasaje.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgPasaje.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Cancelar});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgPasaje.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgPasaje.EnableHeadersVisualStyles = false;
             this.dgPasaje.Location = new System.Drawing.Point(34, 118);
             this.dgPasaje.MultiSelect = false;
             this.dgPasaje.Name = "dgPasaje";
             this.dgPasaje.ReadOnly = true;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgPasaje.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgPasaje.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgPasaje.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgPasaje.Size = new System.Drawing.Size(802, 144);
             this.dgPasaje.TabIndex = 4;
@@ -132,6 +157,9 @@
             this.dgEncomienda.MultiSelect = false;
             this.dgEncomienda.Name = "dgEncomienda";
             this.dgEncomienda.ReadOnly = true;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgEncomienda.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgEncomienda.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgEncomienda.Size = new System.Drawing.Size(802, 144);
             this.dgEncomienda.TabIndex = 6;
@@ -147,6 +175,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(34, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -184,7 +213,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "dgEncomiendas";
             this.Text = "Cancelación";
-            this.Load += new System.EventHandler(this.dgEncomiendas_Load);
+        
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).EndInit();
             this.ResumeLayout(false);

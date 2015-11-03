@@ -79,5 +79,10 @@ namespace AerolineaFrba.Registro_de_Usuario
             return true;
         }
 
+        private void txtUsuario_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
