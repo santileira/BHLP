@@ -297,5 +297,10 @@ namespace AerolineaFrba.Compra
             this.hayQueActualizarTabla();
         }
 
+        private void txtDni_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

@@ -191,5 +191,15 @@ namespace AerolineaFrba.Compra
             }
         }
 
+        private void dgPasajes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgEncomiendas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

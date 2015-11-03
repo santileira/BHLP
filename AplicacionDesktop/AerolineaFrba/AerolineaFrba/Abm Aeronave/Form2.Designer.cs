@@ -89,6 +89,7 @@
             this.mkMatricula.Name = "mkMatricula";
             this.mkMatricula.Size = new System.Drawing.Size(70, 20);
             this.mkMatricula.TabIndex = 38;
+            this.mkMatricula.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.mkMatricula_MaskInputRejected);
             // 
             // cboCiudades
             // 

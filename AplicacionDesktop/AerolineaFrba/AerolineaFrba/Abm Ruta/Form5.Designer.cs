@@ -78,7 +78,7 @@
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(22, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(909, 194);
+            this.groupBox1.Size = new System.Drawing.Size(794, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -273,7 +273,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(720, 227);
+            this.button3.Location = new System.Drawing.Point(609, 227);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 2;
@@ -294,7 +294,7 @@
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg.Size = new System.Drawing.Size(909, 432);
+            this.dg.Size = new System.Drawing.Size(700, 432);
             this.dg.TabIndex = 3;
             // 
             // lblErrores
@@ -310,7 +310,7 @@
             this.txtFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFiltros.Location = new System.Drawing.Point(955, 24);
+            this.txtFiltros.Location = new System.Drawing.Point(840, 27);
             this.txtFiltros.Multiline = true;
             this.txtFiltros.Name = "txtFiltros";
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
@@ -330,7 +330,7 @@
             // botonSeleccionar
             // 
             this.botonSeleccionar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonSeleccionar.Location = new System.Drawing.Point(852, 227);
+            this.botonSeleccionar.Location = new System.Drawing.Point(741, 227);
             this.botonSeleccionar.Name = "botonSeleccionar";
             this.botonSeleccionar.Size = new System.Drawing.Size(79, 23);
             this.botonSeleccionar.TabIndex = 7;
@@ -343,7 +343,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(1354, 708);
+            this.ClientSize = new System.Drawing.Size(1241, 708);
             this.Controls.Add(this.botonSeleccionar);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);

@@ -329,6 +329,7 @@
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 72;
+            this.txtDni.TextChanged += new System.EventHandler(this.txtDni_TextChanged_1);
             // 
             // label1
             // 

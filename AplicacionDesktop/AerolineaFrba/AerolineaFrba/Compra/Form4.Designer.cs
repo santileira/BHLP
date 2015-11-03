@@ -31,16 +31,16 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.dgPasajes = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.dgEncomiendas = new System.Windows.Forms.DataGridView();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPasajes)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomiendas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,19 +77,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Listado de pasajes seleccionados";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.dgEncomiendas);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(12, 259);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 241);
-            this.groupBox2.TabIndex = 60;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Listado de encomiendas seleccionadas";
-            // 
             // button4
             // 
             this.button4.ForeColor = System.Drawing.Color.Black;
@@ -116,6 +103,7 @@
             this.dgPasajes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgPasajes.Size = new System.Drawing.Size(616, 117);
             this.dgPasajes.TabIndex = 59;
+            this.dgPasajes.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPasajes_CellContentClick);
             // 
             // button1
             // 
@@ -127,6 +115,19 @@
             this.button1.Text = "Cargar Pasaje";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button5);
+            this.groupBox2.Controls.Add(this.dgEncomiendas);
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(12, 259);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(645, 241);
+            this.groupBox2.TabIndex = 60;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Listado de encomiendas seleccionadas";
             // 
             // button5
             // 
@@ -154,6 +155,7 @@
             this.dgEncomiendas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgEncomiendas.Size = new System.Drawing.Size(616, 117);
             this.dgEncomiendas.TabIndex = 60;
+            this.dgEncomiendas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgEncomiendas_CellContentClick);
             // 
             // button2
             // 
@@ -181,8 +183,8 @@
             this.Text = "Carga de datos";
             this.Load += new System.EventHandler(this.Form4_Load);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgPasajes)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomiendas)).EndInit();
             this.ResumeLayout(false);
 
