@@ -72,6 +72,7 @@
             this.dp.Name = "dp";
             this.dp.Size = new System.Drawing.Size(136, 20);
             this.dp.TabIndex = 106;
+            this.dp.ValueChanged += new System.EventHandler(this.dp_ValueChanged);
             // 
             // txtMail
             // 
@@ -80,6 +81,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 105;
+            this.txtMail.TextChanged += new System.EventHandler(this.txtMail_TextChanged);
             // 
             // label8
             // 
@@ -117,6 +119,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 101;
+            this.txtTel.TextChanged += new System.EventHandler(this.txtTel_TextChanged);
             // 
             // label6
             // 
@@ -134,6 +137,7 @@
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 99;
+            this.txtDire.TextChanged += new System.EventHandler(this.txtDire_TextChanged);
             // 
             // label7
             // 
@@ -151,6 +155,7 @@
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 97;
+            this.txtNom.TextChanged += new System.EventHandler(this.txtNom_TextChanged);
             // 
             // label4
             // 
@@ -252,6 +257,7 @@
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(7, 63);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(281, 166);

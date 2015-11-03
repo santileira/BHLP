@@ -72,6 +72,7 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(22, 33);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(839, 110);
@@ -81,6 +82,7 @@
             // 
             // button7
             // 
+            this.button7.ForeColor = System.Drawing.Color.Black;
             this.button7.Location = new System.Drawing.Point(735, 18);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(79, 20);
@@ -99,6 +101,7 @@
             // 
             // button4
             // 
+            this.button4.ForeColor = System.Drawing.Color.Black;
             this.button4.Location = new System.Drawing.Point(435, 58);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 21);
@@ -109,6 +112,7 @@
             // 
             // button5
             // 
+            this.button5.ForeColor = System.Drawing.Color.Black;
             this.button5.Location = new System.Drawing.Point(435, 23);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(89, 21);
@@ -150,6 +154,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(735, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 20);
@@ -243,7 +248,7 @@
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -317,6 +322,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(1354, 668);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);

@@ -189,7 +189,12 @@ namespace AerolineaFrba.Compra
                 string matricula = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).matricula;
 
                 if(this.encontroCliente)
-                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
+                    if (this.actualizarTabla)
+                    {
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, txtKilos.Text, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                    }else{
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                    }
                 else
                     (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
 
@@ -249,5 +254,7 @@ namespace AerolineaFrba.Compra
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
+
+       
     }
 }

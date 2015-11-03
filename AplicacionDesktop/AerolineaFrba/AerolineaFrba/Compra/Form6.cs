@@ -153,7 +153,7 @@ namespace AerolineaFrba.Compra
             }
             else
             {
-                MessageBox.Show("No es posible efectuar la compra", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                MessageBox.Show("Los datos de la tarjeta son inválidos", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
             }
 
             
@@ -161,8 +161,69 @@ namespace AerolineaFrba.Compra
 
         private bool sePuedeEfectuarLaCompra()
         {
-            tarjetaNueva = true;
+            int nroTarjeta;
+            int.TryParse(txtNroTarjeta.Text, out nroTarjeta);
+
+            SqlDataReader reader;
+            SqlCommand query = new SqlCommand();
+            query.CommandType = CommandType.Text;
+            query.CommandText = "SELECT * FROM [ABSTRACCIONX4].[TARJETAS] WHERE TARJ_NRO = " + nroTarjeta + "";
+            query.Connection = Program.conexion();
+
+            reader = query.ExecuteReader();
+            reader.Read();
+
+            if (reader.HasRows)
+            {
+                if (this.esTarjetaValida())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            if (cboFormaPago.Text.Equals("Tarjeta de crédito"))
+            {
+                tarjetaNueva = true;
+            }else
+            {
+                tarjetaNueva = false;
+            }
+
             return true;
+        }
+
+        private bool esTarjetaValida()
+        {
+            
+            int nroTarjeta;
+            int vtoMes;
+            int vtoAnios;
+            int codSeg;
+
+            int.TryParse(txtNroTarjeta.Text, out nroTarjeta);
+            int.TryParse(cboMeses.Text, out vtoMes);
+            int.TryParse(cboAnios.Text, out vtoAnios);
+            int.TryParse(txtCodSeg.Text, out codSeg);
+
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.datosValidosDeTarjeta(@tarjNro , @tarjVtoMes, @tarjVtoAnio, @tarjCodSeg, @tarjTipo)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@tarjNro", nroTarjeta);
+            command.Parameters.AddWithValue("@tarjVtoMes", vtoMes);
+            command.Parameters.AddWithValue("@tarjVtoAnio", vtoAnios);
+            command.Parameters.AddWithValue("@tarjCodSeg", codSeg);
+            command.Parameters.AddWithValue("@tarjTipo", cboTipoTarjeta.Text);
+
+            return (bool)command.ExecuteScalar();
         }
 
         private void cargarDatosDeCompra(string codigoPNR)
@@ -175,6 +236,12 @@ namespace AerolineaFrba.Compra
             decimal precio;
             decimal peso;
             int butNro;
+            int encontrado;
+            int actualizar;
+            int dniTxt;
+
+
+            int.TryParse(txtDni.Text, out dniTxt);
 
             DataTable tablaPasajes = new DataTable();
             
@@ -192,6 +259,7 @@ namespace AerolineaFrba.Compra
             tablaPasajes.Columns.Add("MATRICULA", typeof(string));
             tablaPasajes.Columns.Add("ENCONTRADO", typeof(bool));
             tablaPasajes.Columns.Add("ACTUALIZAR", typeof(bool));
+            tablaPasajes.Columns.Add("ES_COMPRADOR", typeof(int));
                        
 
             foreach (DataGridViewRow row in pasajes.Rows)
@@ -203,6 +271,34 @@ namespace AerolineaFrba.Compra
                 DateTime.TryParse(row.Cells["CLI_FECHA_NAC"].Value.ToString(), out fechaNac);
                 decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
                 int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
+                int esComprador;
+
+                if ((bool)row.Cells["ENCONTRADO"].Value)
+                {
+                    encontrado = 1;
+                }
+                else
+                {
+                    encontrado = 0;
+                }
+
+                if ((bool)row.Cells["ACTUALIZAR"].Value)
+                {
+                    actualizar = 1;
+                }
+                else
+                {
+                    actualizar = 0;
+                }
+
+                if (dni == dniTxt)
+                {
+                    esComprador = 1;
+                }
+                else
+                {
+                    esComprador = 0;
+                }
 
                 tablaPasajes.Rows.Add(cliCod,dni,
                     row.Cells["CLI_NOMBRE"].Value.ToString(),
@@ -211,9 +307,9 @@ namespace AerolineaFrba.Compra
                     tel,
                     row.Cells["CLI_MAIL"].Value.ToString(),
                     fechaNac,viajeCod, precio, butNro, 
-                    row.Cells["MATRICULA"].Value.ToString(), 
-                    row.Cells["ENCONTRADO"].Value,
-                    row.Cells["ACTUALIZAR"].Value);
+                    row.Cells["MATRICULA"].Value.ToString(),
+                    encontrado, actualizar, esComprador);
+
             }
 
             
@@ -233,6 +329,7 @@ namespace AerolineaFrba.Compra
             tablaEncomiendas.Columns.Add("MATRICULA", typeof(string));
             tablaEncomiendas.Columns.Add("ENCONTRADO", typeof(bool));
             tablaEncomiendas.Columns.Add("ACTUALIZAR", typeof(bool));
+            tablaEncomiendas.Columns.Add("ES_COMPRADOR", typeof(int));
 
             foreach (DataGridViewRow row in encomiendas.Rows)
             {
@@ -243,6 +340,34 @@ namespace AerolineaFrba.Compra
                 DateTime.TryParse(row.Cells["CLI_FECHA_NAC"].Value.ToString(), out fechaNac);
                 decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
                 decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out peso);
+                int esComprador;
+
+                if ((bool)row.Cells["ENCONTRADO"].Value)
+                {
+                    encontrado = 1;
+                }
+                else
+                {
+                    encontrado = 0;
+                }
+
+                if ((bool)row.Cells["ACTUALIZAR"].Value)
+                {
+                    actualizar = 1;
+                }
+                else
+                {
+                    actualizar = 0;
+                }
+
+                if (dni == dniTxt)
+                {
+                    esComprador = 1;
+                }
+                else
+                {
+                    esComprador = 0;
+                }
 
                 tablaEncomiendas.Rows.Add(cliCod,dni,
                     row.Cells["CLI_NOMBRE"].Value.ToString(),
@@ -250,38 +375,68 @@ namespace AerolineaFrba.Compra
                     row.Cells["CLI_DIRECCION"].Value.ToString(),
                     tel,
                     row.Cells["CLI_MAIL"].Value.ToString(),
-                    fechaNac,viajeCod, precio, peso, 
+                    fechaNac,viajeCod, precio, peso,
                     row.Cells["MATRICULA"].Value.ToString(),
-                    row.Cells["ENCONTRADO"].Value,
-                    row.Cells["ACTUALIZAR"].Value);
+                    encontrado, actualizar, esComprador);
+
+
             }
 
             int vencMes;
             int vencAnio;
             int.TryParse(cboMeses.Text, out vencMes);
             int.TryParse(cboAnios.Text, out vencAnio);
-                        
-            new SQLManager().generarSP("ingresarDatosDeCompra")
-                             .agregarTableSP("@TablaPasajes", tablaPasajes)
-                             .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
-                             .agregarIntSP("@dni", txtDni)
-                             .agregarStringSP("@ape", txtApe)
-                             .agregarStringSP("@nombre", txtNom)
-                             .agregarStringSP("@direccion", txtDire)
-                             .agregarStringSP("@mail", txtMail)
-                             .agregarFechaSP("@fechanac", dp)
-                             .agregarIntSP("@telefono", txtTel)
-                             .agregarBooleanoSP("@encontroComprador",encontroCliente)
-                             .agregarBooleanoSP("@actualizarComprador",actualizarTabla)
-                             .agregarStringSP("@codigoPNR",codigoPNR)
-                             .agregarStringSP("@formaDePago",cboFormaPago)
-                             .agregarIntSP("@nroTarjeta",txtNroTarjeta)
-                             .agregarIntSP("@codSeg",txtCodSeg)
-                             .agregarIntSP("@vencMes",vencMes)
-                             .agregarIntSP("@vencAnio",vencAnio)
-                             .agregarStringSP("@tipoTarjeta",cboTipoTarjeta)
-                             .agregarBooleanoSP("@agregarTarjeta",tarjetaNueva)
-                             .ejecutarSP();
+
+            if (tarjetaNueva)
+            {
+
+                new SQLManager().generarSP("ingresarDatosDeCompra")
+                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
+                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@dni", txtDni)
+                                 .agregarStringSP("@ape", txtApe)
+                                 .agregarStringSP("@nombre", txtNom)
+                                 .agregarStringSP("@direccion", txtDire)
+                                 .agregarStringSP("@mail", txtMail)
+                                 .agregarFechaSP("@fechanac", dp)
+                                 .agregarIntSP("@telefono", txtTel)
+                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
+                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
+                                 .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarStringSP("@formaDePago", cboFormaPago)
+                                 .agregarIntSP("@nroTarjeta", txtNroTarjeta)
+                                 .agregarIntSP("@codSeg", txtCodSeg)
+                                 .agregarIntSP("@vencMes", vencMes)
+                                 .agregarIntSP("@vencAnio", vencAnio)
+                                 .agregarStringSP("@tipoTarjeta", cboTipoTarjeta)
+                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
+                                 .ejecutarSP();
+
+            }
+            else
+            {
+                new SQLManager().generarSP("ingresarDatosDeCompra")
+                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
+                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@dni", txtDni)
+                                 .agregarStringSP("@ape", txtApe)
+                                 .agregarStringSP("@nombre", txtNom)
+                                 .agregarStringSP("@direccion", txtDire)
+                                 .agregarStringSP("@mail", txtMail)
+                                 .agregarFechaSP("@fechanac", dp)
+                                 .agregarIntSP("@telefono", txtTel)
+                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
+                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
+                                 .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarStringSP("@formaDePago", cboFormaPago)
+                                 .agregarIntSP("@nroTarjeta", 0)
+                                 .agregarIntSP("@codSeg", 0)
+                                 .agregarIntSP("@vencMes", 0)
+                                 .agregarIntSP("@vencAnio", 0)
+                                 .agregarStringSP("@tipoTarjeta", "nada")
+                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
+                                 .ejecutarSP();
+            }
            
         }              
 
@@ -334,6 +489,8 @@ namespace AerolineaFrba.Compra
         {
             this.hayQueActualizarTabla();
         }
+
+
 
     }
 }

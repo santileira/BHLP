@@ -98,6 +98,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(252, 29);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 20);
@@ -108,6 +109,7 @@
             // 
             // button2
             // 
+            this.button2.ForeColor = System.Drawing.Color.Black;
             this.button2.Location = new System.Drawing.Point(252, 68);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 20);
@@ -118,6 +120,7 @@
             // 
             // button3
             // 
+            this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(252, 107);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 20);
@@ -128,6 +131,7 @@
             // 
             // button4
             // 
+            this.button4.ForeColor = System.Drawing.Color.Black;
             this.button4.Location = new System.Drawing.Point(133, 153);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(100, 23);
@@ -158,6 +162,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 41);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(365, 195);
@@ -169,6 +174,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(389, 248);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button5);

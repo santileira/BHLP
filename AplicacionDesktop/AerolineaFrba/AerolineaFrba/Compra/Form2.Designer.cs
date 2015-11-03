@@ -218,6 +218,7 @@
             this.dp.Name = "dp";
             this.dp.Size = new System.Drawing.Size(136, 20);
             this.dp.TabIndex = 85;
+            this.dp.ValueChanged += new System.EventHandler(this.dp_ValueChanged);
             // 
             // txtMail
             // 
@@ -225,6 +226,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 84;
+            this.txtMail.TextChanged += new System.EventHandler(this.txtMail_TextChanged);
             // 
             // label8
             // 
@@ -238,12 +240,14 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(177, 73);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(134, 38);
             this.button1.TabIndex = 82;
             this.button1.Text = "Buscar en la base de datos";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label5
             // 
@@ -261,6 +265,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 80;
+            this.txtTel.TextChanged += new System.EventHandler(this.txtTel_TextChanged);
             // 
             // label6
             // 
@@ -278,6 +283,7 @@
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 78;
+            this.txtDire.TextChanged += new System.EventHandler(this.txtDire_TextChanged);
             // 
             // label7
             // 
@@ -295,6 +301,7 @@
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 76;
+            this.txtNom.TextChanged += new System.EventHandler(this.txtNom_TextChanged);
             // 
             // label4
             // 
@@ -308,10 +315,12 @@
             // 
             // txtApe
             // 
+            this.txtApe.Enabled = false;
             this.txtApe.Location = new System.Drawing.Point(177, 47);
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 74;
+            this.txtApe.TextChanged += new System.EventHandler(this.txtApe_TextChanged);
             // 
             // label3
             // 
@@ -329,6 +338,7 @@
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 72;
+            this.txtDni.TextChanged += new System.EventHandler(this.txtDni_TextChanged);
             // 
             // label1
             // 

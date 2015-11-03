@@ -114,16 +114,6 @@ namespace AerolineaFrba.Compra
         }
 
 
-        private void txtDni_TextChanged(object sender, EventArgs e)
-        {
-            txtApe.Enabled = true;
-        }
-
-        private void txtApe_TextChanged(object sender, EventArgs e)
-        {
-            button1.Enabled = true;
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             this.inicio();
@@ -192,7 +182,13 @@ namespace AerolineaFrba.Compra
                 dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Style.BackColor = Color.Gray;
 
                 if (this.encontroCliente)
-                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
+
+                    if(this.actualizarTabla)
+                    {
+                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(),txtDni.Text,txtNom.Text,txtApe.Text,txtDire.Text,txtTel.Text,txtMail.Text,dp.Text, dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                    }else{
+                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                    }
                 else
                     (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
 
@@ -296,6 +292,19 @@ namespace AerolineaFrba.Compra
         {
             this.hayQueActualizarTabla();
         }
+
+        private void txtDni_TextChanged(object sender, EventArgs e)
+        {
+            txtApe.Enabled = true;
+        }
+
+        private void txtApe_TextChanged(object sender, EventArgs e)
+        {
+            button1.Enabled = true;
+        }
+
+        
+
 
     }
 }

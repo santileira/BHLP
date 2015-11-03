@@ -189,6 +189,7 @@
             this.dp.Name = "dp";
             this.dp.Size = new System.Drawing.Size(136, 20);
             this.dp.TabIndex = 107;
+            this.dp.ValueChanged += new System.EventHandler(this.dp_ValueChanged);
             // 
             // txtMail
             // 
@@ -196,6 +197,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 106;
+            this.txtMail.TextChanged += new System.EventHandler(this.txtMail_TextChanged);
             // 
             // label8
             // 
@@ -214,6 +216,7 @@
             this.button1.TabIndex = 104;
             this.button1.Text = "Buscar en la base de datos";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label5
             // 
@@ -230,6 +233,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 102;
+            this.txtTel.TextChanged += new System.EventHandler(this.txtTel_TextChanged);
             // 
             // label6
             // 
@@ -246,6 +250,7 @@
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 100;
+            this.txtDire.TextChanged += new System.EventHandler(this.txtDire_TextChanged);
             // 
             // label7
             // 
@@ -262,6 +267,7 @@
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 98;
+            this.txtNom.TextChanged += new System.EventHandler(this.txtNom_TextChanged);
             // 
             // label4
             // 
@@ -278,6 +284,7 @@
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 96;
+            this.txtApe.TextChanged += new System.EventHandler(this.txtApe_TextChanged);
             // 
             // label3
             // 
@@ -294,6 +301,7 @@
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 94;
+            this.txtDni.TextChanged += new System.EventHandler(this.txtDni_TextChanged);
             // 
             // label1
             // 

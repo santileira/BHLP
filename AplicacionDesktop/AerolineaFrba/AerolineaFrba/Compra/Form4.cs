@@ -125,6 +125,12 @@ namespace AerolineaFrba.Compra
                 numero_butaca, tipo_butaca, importe, actualizarTabla, viaje_cod, matricula,encontroCliente);
         }
 
+        public void agregarPasaje(string cliCod,string dni, string nom, string ape, string dire, string tel, string mail, string fechaNac, string numero_butaca, string tipo_butaca, string importe, Boolean actualizarTabla, Boolean encontroCliente, string viaje_cod, string matricula)
+        {
+            dgPasajes.Rows.Add(cliCod, dni, nom, ape, dire, tel, mail, fechaNac,
+                numero_butaca, tipo_butaca, importe, actualizarTabla, viaje_cod, matricula, encontroCliente);
+        }
+
         public void agregarEncomienda(DataGridViewRow registroEncomienda, string kilos, string importe, Boolean actualizarTabla,Boolean encontroCliente, string viaje_cod, string matricula)
         {
             dgEncomiendas.Rows.Add(registroEncomienda.Cells["CLI_COD"].Value.ToString(), registroEncomienda.Cells["CLI_DNI"].Value.ToString(),
@@ -132,6 +138,12 @@ namespace AerolineaFrba.Compra
                 registroEncomienda.Cells["CLI_DIRECCION"].Value.ToString(), registroEncomienda.Cells["CLI_TELEFONO"].Value.ToString(),
                 registroEncomienda.Cells["CLI_MAIL"].Value.ToString(), registroEncomienda.Cells["CLI_FECHA_NAC"].Value.ToString(),
                 kilos, importe, actualizarTabla, viaje_cod, matricula,encontroCliente);
+        }
+
+        public void agregarEncomienda(string cliCod, string dni, string nom, string ape, string dire, string tel, string mail, string fechaNac, string kilos, string importe, Boolean actualizarTabla, Boolean encontroCliente, string viaje_cod, string matricula)
+        {
+            dgEncomiendas.Rows.Add(cliCod, dni, nom, ape, dire, tel, mail, fechaNac,
+                kilos, importe, actualizarTabla, viaje_cod, matricula, encontroCliente);
         }
 
         private void button6_Click(object sender, EventArgs e)

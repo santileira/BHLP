@@ -250,7 +250,8 @@ IMPORTE decimal,
 BUTACA int,
 MATRICULA varchar(8),
 ENCONTRADO BIT,
-ACTUALIZAR BIT 
+ACTUALIZAR BIT,
+ES_COMPRADOR int
 );
 GO
 
@@ -269,7 +270,8 @@ IMPORTE decimal,
 PESO decimal,
 MATRICULA varchar(8),
 ENCONTRADO BIT,
-ACTUALIZAR BIT
+ACTUALIZAR BIT,
+ES_COMPRADOR int
 );
 GO
 
@@ -291,13 +293,13 @@ AS
 
 		-------------------------------------
 		--ALTA/ACTUALIZACION DEL COMPRADOR---
-		IF(@encontroComprador=0) --hay que agregar al comprador
+		IF(@encontroComprador = 0) --hay que agregar al comprador
 		BEGIN		
 			EXEC [ABSTRACCIONX4].ingresarDatosDelCliente @dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono
 		END
 		ELSE
 		BEGIN
-			IF(@actualizarComprador=1) -- si existe y se modifico, hay que actualizarlo
+			IF(@actualizarComprador = 1) -- si existe y se modifico, hay que actualizarlo
 				EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono
 		END	
 		-------------------------------------
@@ -305,24 +307,24 @@ AS
 		
 		-------------------------------------
 		--ALTA DE COMPRA---------------------
-		IF(@agregarTarjeta=1)
+		IF(@agregarTarjeta = 1)
 		BEGIN
 			DECLARE @tipo_cod int
 			SET @tipo_cod = (SELECT TIPO_COD FROM ABSTRACCIONX4.TIPOS WHERE TIPO_DESC = @tipoTarjeta)
 			EXEC [ABSTRACCIONX4].altaTarjeta @nroTarjeta,@codSeg,@vencMes,@vencAnio,@tipo_cod
 		END
 
-		DECLARE @codigoCli int
-		SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape)
-		EXEC [ABSTRACCIONX4].ingresarCompra @codigoPNR,@nroTarjeta,@formaDePago,@codigoCli
+		DECLARE @cod_cli int
+		SET @cod_cli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape)
+		EXEC [ABSTRACCIONX4].ingresarCompra @codigoPNR,@nroTarjeta,@formaDePago,@cod_cli
 		-------------------------------------
 		-------------------------------------
 
 
 		--------------------------------------------------
 		--ALTA DE PASAJES/ENCOMIENDAS---------------------
-		DECLARE cursorPasajes CURSOR FOR SELECT CLI_COD,CLI_DNI,CLI_NOMBRE,CLI_APELLIDO,CLI_DIRECCION,CLI_TELEFONO,CLI_MAIL,CLI_FECHA_NAC,VIAJE_COD,IMPORTE,BUTACA,MATRICULA,ENCONTRADO,ACTUALIZAR FROM @TablaPasajes
-		DECLARE cursorEncomiendas CURSOR FOR SELECT CLI_COD,CLI_DNI,CLI_NOMBRE,CLI_APELLIDO,CLI_DIRECCION,CLI_TELEFONO,CLI_MAIL,CLI_FECHA_NAC,VIAJE_COD,IMPORTE,PESO,MATRICULA,ENCONTRADO,ACTUALIZAR FROM @TablaEncomiendas
+		DECLARE cursorPasajes CURSOR FOR SELECT CLI_COD,CLI_DNI,CLI_NOMBRE,CLI_APELLIDO,CLI_DIRECCION,CLI_TELEFONO,CLI_MAIL,CLI_FECHA_NAC,VIAJE_COD,IMPORTE,BUTACA,MATRICULA,ENCONTRADO,ACTUALIZAR,ES_COMPRADOR FROM @TablaPasajes
+		DECLARE cursorEncomiendas CURSOR FOR SELECT CLI_COD,CLI_DNI,CLI_NOMBRE,CLI_APELLIDO,CLI_DIRECCION,CLI_TELEFONO,CLI_MAIL,CLI_FECHA_NAC,VIAJE_COD,IMPORTE,PESO,MATRICULA,ENCONTRADO,ACTUALIZAR,ES_COMPRADOR FROM @TablaEncomiendas
 		DECLARE @cliCod int
 		DECLARE @curDni decimal(10,0)
 		DECLARE @curNom varchar(60)
@@ -339,27 +341,38 @@ AS
 		DECLARE @fechaCompra datetime
 		DECLARE @clienteEncontrado BIT
 		DECLARE @clienteActualizado BIT
+		DECLARE @esComprador int
+		DECLARE @codigoCli int
 		SET @fechaCompra = GETDATE()		
 
 		OPEN cursorPasajes
-		FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado
+		FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		WHILE(@@FETCH_STATUS=0)
 		BEGIN
 
-			IF(@clienteEncontrado=0) --hay que agregar al cliente
+			IF(@clienteEncontrado = 0) --hay que agregar al cliente
 			BEGIN		
+				
+				IF(@esComprador=0)
+				BEGIN	
+					EXEC [ABSTRACCIONX4].ingresarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
 
-				EXEC [ABSTRACCIONX4].ingresarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
+					SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
+				
 
-				SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
-
-				INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, PASAJE_FECHA_COMPRA, BUT_NRO, AERO_MATRI, PASAJE_MILLAS) 
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, PASAJE_FECHA_COMPRA, BUT_NRO, AERO_MATRI, PASAJE_MILLAS) 
 										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@fechaCompra,@but,@matri,@precio/10)
+				END
+				ELSE
+				BEGIN
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, PASAJE_FECHA_COMPRA, BUT_NRO, AERO_MATRI, PASAJE_MILLAS) 
+										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@fechaCompra,@but,@matri,@precio/10)
+				END
 
 			END
 			ELSE
 			BEGIN
-			IF(@clienteActualizado=1) -- si existe y se modifico, hay que actualizarlo
+			IF(@clienteActualizado = 1) -- si existe y se modifico, hay que actualizarlo
 					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
 
 					
@@ -368,28 +381,36 @@ AS
 			END	
 											
 										 
-			FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado
+			FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		END
 		-- cerrar cursor
 
 		OPEN cursorEncomiendas
-		FETCH NEXT FROM cursorEncomiendas INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@peso,@matri,@clienteEncontrado,@clienteActualizado
+		FETCH NEXT FROM cursorEncomiendas INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@peso,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		WHILE(@@FETCH_STATUS=0)
 		BEGIN
-			IF(@clienteEncontrado=0) --hay que agregar al cliente
+			IF(@clienteEncontrado = 0) --hay que agregar al cliente
 			BEGIN		
 
-				EXEC [ABSTRACCIONX4].ingresarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
+				IF(@esComprador=0)
+				BEGIN
 
-				SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
+					EXEC [ABSTRACCIONX4].ingresarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
+
+					SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
 				
-				INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_FECHA_COMPRA, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_FECHA_COMPRA, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
 										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@fechaCompra,@peso,@matri,@precio/10) 
-
+				END
+				ELSE
+				BEGIN
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_FECHA_COMPRA, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
+										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@fechaCompra,@peso,@matri,@precio/10) 
+				END
 			END
 			ELSE
 			BEGIN
-			IF(@clienteActualizado=1) -- si existe y se modifico, hay que actualizarlo
+			IF(@clienteActualizado = 1) -- si existe y se modifico, hay que actualizarlo
 					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel					
 					
 					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_FECHA_COMPRA, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
@@ -397,7 +418,7 @@ AS
 			END	
 
 			
-			FETCH NEXT FROM cursorEncomiendas INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@peso,@matri,@clienteEncontrado,@clienteActualizado
+			FETCH NEXT FROM cursorEncomiendas INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@peso,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		END
 		--cerrar cursor
 
@@ -405,7 +426,6 @@ AS
 		------------------
 		COMMIT TRANSACTION
 		------------------
-
 
 	END TRY
 	BEGIN CATCH
@@ -438,11 +458,32 @@ AS
 	BEGIN
 		INSERT INTO ABSTRACCIONX4.TARJETAS
 				(TARJ_NRO,TARJ_CODSEG,TARJ_VTO,TIPO_COD)
-				VALUES (@nroTarjeta,@codSeg,@vencMes ,@tipo_cod)
+				VALUES (@nroTarjeta,@codSeg,CAST(@vencMes AS VARCHAR)+ '/' + CAST(@vencAnio AS VARCHAR) ,@tipo_cod)
 	END 
 GO
 
+----------------------------------Datos de tarjeta Válidos -------------------------------------
 
-SELECT * FROM ABSTRACCIONX4.CLIENTES
-SELECT * FROM ABSTRACCIONX4.COMPRAS
-SELECT * FROM ABSTRACCIONX4.PASAJES
+CREATE FUNCTION  [ABSTRACCIONX4].datosValidosDeTarjeta(@tarjNro numeric(16,0), @tarjVtoMes int, @tarjVtoAnio int, @tarjCodSeg int, @tarjTipo varchar(20))
+RETURNS BIT
+AS 
+	BEGIN
+	DECLARE @tipoCod int,@tipoDesc varchar(20),@nro numeric(16,0), @vto varchar(30), @codSeg int, @fechaVenc varchar(15)
+
+	SELECT @vto = TARJ_VTO, @codSeg = TARJ_CODSEG, @tipoCod = TIPO_COD FROM [ABSTRACCIONX4].TARJETAS WHERE TARJ_NRO = @tarjNro	
+	SELECT @tipoDesc=TIPO_DESC FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_COD = @tipoCod 
+
+	SET @fechaVenc = CAST(@tarjVtoMes AS VARCHAR)+ '/' + CAST(@tarjVtoAnio AS VARCHAR)
+		
+	BEGIN
+		IF(@tipoDesc = @tarjTipo AND @vto = @fechaVenc  AND @codSeg = @tarjCodSeg)
+		BEGIN
+		RETURN 1
+		END
+	END	
+	
+	RETURN 0
+	
+	END
+GO
+

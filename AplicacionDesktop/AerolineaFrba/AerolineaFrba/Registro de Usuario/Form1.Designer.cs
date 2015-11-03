@@ -47,6 +47,7 @@
             this.gbAdministrador.Controls.Add(this.label2);
             this.gbAdministrador.Controls.Add(this.txtUsuario);
             this.gbAdministrador.Controls.Add(this.label1);
+            this.gbAdministrador.ForeColor = System.Drawing.Color.White;
             this.gbAdministrador.Location = new System.Drawing.Point(27, 22);
             this.gbAdministrador.Name = "gbAdministrador";
             this.gbAdministrador.Size = new System.Drawing.Size(314, 127);
@@ -123,6 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(377, 201);
             this.Controls.Add(this.botonRegistrar);
             this.Controls.Add(this.gbAdministrador);
