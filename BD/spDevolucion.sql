@@ -1,6 +1,6 @@
 --------------------------------Obtener Codigo--------------------------------
 
-CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigo(@PNR INT)
+CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigo(@PNR VARCHAR(12))
 RETURNS INT
 AS
 BEGIN
@@ -68,7 +68,7 @@ GO
 
 --------------------------------Llenar Encomiendas--------------------------------
 
-CREATE FUNCTION [ABSTRACCIONX4].LlenarEncomiendas(@Codigo INT)
+CREATE FUNCTION [ABSTRACCIONX4].LlenarEncomiendas(@Codigo VARCHAR(12))
 RETURNS TABLE 
 AS
 
@@ -94,7 +94,7 @@ GO
 
 --------------------------------Llenar Pasajes--------------------------------
 
-CREATE FUNCTION [ABSTRACCIONX4].LlenarPasajes(@Codigo INT)
+CREATE FUNCTION [ABSTRACCIONX4].LlenarPasajes(@Codigo VARCHAR(12))
 RETURNS TABLE /*([PASAJE_COD] INT,
 			   [COMP_COD] INT,
 			   [CLI_COD] INT,
@@ -132,7 +132,7 @@ GO
 --------------------------------Cancelar Pasajes y Encomiendas--------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].CancelarPasajesYEncomiendas
-	@Codigo INT,
+	@Codigo VARCHAR(12),
 	@Pasajes Lista1 readonly,
 	@Encomiendas Lista1 readonly,
 	@FechaDevolucion DATETIME,

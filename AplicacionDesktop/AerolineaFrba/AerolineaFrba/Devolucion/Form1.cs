@@ -52,8 +52,8 @@ namespace AerolineaFrba.Devolucion
         {
             if (this.datosCorrectos())
             {
-                this.llenarDg(dgPasaje , "LlenarPasajes(" + txtCodigo.Text + ")");
-                this.llenarDg(dgEncomienda , "LlenarEncomiendas(" + txtCodigo.Text + ")");
+                this.llenarDg(dgPasaje , "LlenarPasajes('" + txtCodigo.Text + "')");
+                this.llenarDg(dgEncomienda , "LlenarEncomiendas('" + txtCodigo.Text + "')");
                 this.Cancelar.Visible = this.Devolver.Visible = true;
                 this.txtCodigo.Enabled =  this.btBuscar.Enabled = false;
                
@@ -142,15 +142,12 @@ namespace AerolineaFrba.Devolucion
         {
             Boolean huboErrores = false;
 
-            huboErrores = Validacion.esNumero(txtCodigo , "código de compra" , true);
+            huboErrores = Validacion.esTexto(txtCodigo , "código de compra" , true);
 
             return huboErrores;
         }
 
-        private void dgEncomiendas_Load(object sender, EventArgs e)
-        {
-
-        }
+     
 
         private void btFinalizar_Click(object sender, EventArgs e)
         {
