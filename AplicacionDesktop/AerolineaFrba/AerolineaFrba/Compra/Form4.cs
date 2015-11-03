@@ -145,13 +145,30 @@ namespace AerolineaFrba.Compra
             this.Visible = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        // Efectuar Compra
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            (this.efectuaCompra as Compra.Form6).pasajes = dgPasajes;
+            (this.efectuaCompra as Compra.Form6).encomiendas = dgEncomiendas;
+
+            this.cambiarVisibilidades(efectuaCompra);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
         {
             (this.butacas as Compra.Form2).inicio();
             this.cambiarVisibilidades(this.butacas);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            (this.servicioDeEncomiendas as Compra.Form5).inicio();
+            this.cambiarVisibilidades(this.servicioDeEncomiendas);
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
         {
             if (dgPasajes.RowCount == 0)
                 MessageBox.Show("No se puede cancelar ningun pasaje porque aun no se ha confirmado ninguno", "Error en la cancelacion de pasajes", MessageBoxButtons.OK);
@@ -163,13 +180,7 @@ namespace AerolineaFrba.Compra
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            (this.servicioDeEncomiendas as Compra.Form5).inicio();
-            this.cambiarVisibilidades(this.servicioDeEncomiendas);
-        }
-
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click_1(object sender, EventArgs e)
         {
             if (dgEncomiendas.RowCount == 0)
                 MessageBox.Show("No se puede cancelar ninguna encomienda porque aun no se ha confirmado ninguna", "Error en la cancelacion de pasajes", MessageBoxButtons.OK);
@@ -178,16 +189,6 @@ namespace AerolineaFrba.Compra
                 (this.servicioDeEncomiendas as Compra.Form5).liberarEspacio(dgEncomiendas.SelectedRows[0].Cells["KILOS"].Value.ToString());
                 dgEncomiendas.Rows.Remove(dgEncomiendas.SelectedRows[0]);
             }
-        }
-
-        // Efectuar Compra
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            (this.efectuaCompra as Compra.Form6).pasajes = dgPasajes;
-            (this.efectuaCompra as Compra.Form6).encomiendas = dgEncomiendas;
-
-            this.cambiarVisibilidades(efectuaCompra);
         }
 
     }

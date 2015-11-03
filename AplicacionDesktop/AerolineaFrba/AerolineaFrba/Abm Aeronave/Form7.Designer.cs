@@ -44,7 +44,7 @@
             // 
             // botonSuplantar
             // 
-            this.botonSuplantar.Location = new System.Drawing.Point(224, 95);
+            this.botonSuplantar.Location = new System.Drawing.Point(228, 76);
             this.botonSuplantar.Name = "botonSuplantar";
             this.botonSuplantar.Size = new System.Drawing.Size(75, 23);
             this.botonSuplantar.TabIndex = 1;
@@ -54,7 +54,7 @@
             // 
             // botonCancelar
             // 
-            this.botonCancelar.Location = new System.Drawing.Point(18, 95);
+            this.botonCancelar.Location = new System.Drawing.Point(22, 76);
             this.botonCancelar.Name = "botonCancelar";
             this.botonCancelar.Size = new System.Drawing.Size(75, 23);
             this.botonCancelar.TabIndex = 2;
@@ -65,7 +65,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 53);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(19, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(284, 26);
             this.label1.TabIndex = 3;
@@ -76,6 +77,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(343, 136);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.botonCancelar);

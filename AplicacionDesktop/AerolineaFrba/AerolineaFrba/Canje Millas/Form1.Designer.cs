@@ -52,6 +52,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.dgListadoProductos);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(403, 198);
@@ -91,7 +92,7 @@
             this.dgListadoProductos.AllowUserToDeleteRows = false;
             this.dgListadoProductos.AllowUserToResizeColumns = false;
             this.dgListadoProductos.AllowUserToResizeRows = false;
-            this.dgListadoProductos.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dgListadoProductos.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgListadoProductos.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgListadoProductos.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.dgListadoProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -124,6 +125,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(55, 220);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(119, 13);
@@ -133,6 +135,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(55, 251);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 13);
@@ -148,8 +151,9 @@
             // 
             // listaPremiosSelec
             // 
-            this.listaPremiosSelec.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.listaPremiosSelec.BackColor = System.Drawing.Color.SlateGray;
             this.listaPremiosSelec.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listaPremiosSelec.ForeColor = System.Drawing.Color.White;
             this.listaPremiosSelec.FormattingEnabled = true;
             this.listaPremiosSelec.Location = new System.Drawing.Point(39, 288);
             this.listaPremiosSelec.Name = "listaPremiosSelec";
@@ -159,9 +163,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(227, 377);
+            this.button2.Location = new System.Drawing.Point(328, 377);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(145, 31);
+            this.button2.Size = new System.Drawing.Size(88, 31);
             this.button2.TabIndex = 8;
             this.button2.Text = "Efectuar Canje";
             this.button2.UseVisualStyleBackColor = true;
@@ -169,8 +173,9 @@
             // 
             // listCantSelec
             // 
-            this.listCantSelec.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.listCantSelec.BackColor = System.Drawing.Color.SlateGray;
             this.listCantSelec.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listCantSelec.ForeColor = System.Drawing.Color.White;
             this.listCantSelec.FormattingEnabled = true;
             this.listCantSelec.Location = new System.Drawing.Point(283, 288);
             this.listCantSelec.Name = "listCantSelec";
@@ -180,9 +185,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(146, 377);
+            this.button4.Location = new System.Drawing.Point(13, 377);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 31);
+            this.button4.Size = new System.Drawing.Size(88, 31);
             this.button4.TabIndex = 11;
             this.button4.Text = "Limpiar";
             this.button4.UseVisualStyleBackColor = true;
@@ -192,6 +197,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(421, 420);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.listCantSelec);

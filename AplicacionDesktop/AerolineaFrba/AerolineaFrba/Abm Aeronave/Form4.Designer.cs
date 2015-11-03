@@ -32,6 +32,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.mkMatricula = new System.Windows.Forms.MaskedTextBox();
             this.txtVenta1 = new System.Windows.Forms.TextBox();
             this.txtVenta = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -53,13 +54,12 @@
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
-            this.mkMatricula = new System.Windows.Forms.MaskedTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(37, 12);
+            this.button6.Location = new System.Drawing.Point(12, 12);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(78, 21);
             this.button6.TabIndex = 8;
@@ -69,7 +69,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(36, 474);
+            this.button3.Location = new System.Drawing.Point(11, 474);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 35);
             this.button3.TabIndex = 11;
@@ -79,7 +79,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(538, 474);
+            this.button2.Location = new System.Drawing.Point(513, 474);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 10;
@@ -110,12 +110,21 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtModelo);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(36, 48);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(11, 48);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(614, 420);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Aeronave";
+            // 
+            // mkMatricula
+            // 
+            this.mkMatricula.Location = new System.Drawing.Point(348, 47);
+            this.mkMatricula.Mask = "AAA-AAA";
+            this.mkMatricula.Name = "mkMatricula";
+            this.mkMatricula.Size = new System.Drawing.Size(70, 20);
+            this.mkMatricula.TabIndex = 45;
             // 
             // txtVenta1
             // 
@@ -291,7 +300,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(572, 11);
+            this.button5.Location = new System.Drawing.Point(547, 11);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 22);
             this.button5.TabIndex = 43;
@@ -299,19 +308,12 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // mkMatricula
-            // 
-            this.mkMatricula.Location = new System.Drawing.Point(348, 47);
-            this.mkMatricula.Mask = "AAA-AAA";
-            this.mkMatricula.Name = "mkMatricula";
-            this.mkMatricula.Size = new System.Drawing.Size(70, 20);
-            this.mkMatricula.TabIndex = 45;
-            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(674, 557);
+            this.BackColor = System.Drawing.Color.SlateGray;
+            this.ClientSize = new System.Drawing.Size(648, 528);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
