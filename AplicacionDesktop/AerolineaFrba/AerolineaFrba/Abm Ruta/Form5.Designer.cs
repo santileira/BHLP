@@ -75,16 +75,17 @@
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(22, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(909, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
-
             // 
             // button4
             // 
+            this.button4.ForeColor = System.Drawing.Color.Black;
             this.button4.Location = new System.Drawing.Point(435, 59);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 21);
@@ -95,6 +96,7 @@
             // 
             // button5
             // 
+            this.button5.ForeColor = System.Drawing.Color.Black;
             this.button5.Location = new System.Drawing.Point(435, 23);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(89, 21);
@@ -149,6 +151,7 @@
             // 
             this.groupBox2.Controls.Add(this.optEstadoBaja);
             this.groupBox2.Controls.Add(this.optEstadoAlta);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(15, 104);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(166, 84);
@@ -180,6 +183,7 @@
             // 
             // button1
             // 
+            this.button1.ForeColor = System.Drawing.Color.Black;
             this.button1.Location = new System.Drawing.Point(698, 57);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 20);
@@ -282,7 +286,7 @@
             this.dg.AllowUserToAddRows = false;
             this.dg.AllowUserToDeleteRows = false;
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dg.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Location = new System.Drawing.Point(22, 256);
@@ -303,7 +307,7 @@
             // 
             // txtFiltros
             // 
-            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFiltros.Location = new System.Drawing.Point(955, 24);
@@ -338,6 +342,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(1354, 708);
             this.Controls.Add(this.botonSeleccionar);
             this.Controls.Add(this.button6);

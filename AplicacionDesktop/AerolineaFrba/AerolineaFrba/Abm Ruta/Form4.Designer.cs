@@ -108,6 +108,7 @@
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.txtPrecioPasaje);
             this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(503, 57);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(356, 112);
@@ -173,6 +174,7 @@
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.txtCiudadOrigenNueva);
             this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(37, 188);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(477, 107);
@@ -198,6 +200,7 @@
             // 
             // botonSelDestino
             // 
+            this.botonSelDestino.ForeColor = System.Drawing.Color.Black;
             this.botonSelDestino.Location = new System.Drawing.Point(383, 62);
             this.botonSelDestino.Name = "botonSelDestino";
             this.botonSelDestino.Size = new System.Drawing.Size(88, 25);
@@ -208,6 +211,7 @@
             // 
             // botonSelOrigen
             // 
+            this.botonSelOrigen.ForeColor = System.Drawing.Color.Black;
             this.botonSelOrigen.Location = new System.Drawing.Point(383, 25);
             this.botonSelOrigen.Name = "botonSelOrigen";
             this.botonSelOrigen.Size = new System.Drawing.Size(88, 25);
@@ -257,6 +261,7 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
             this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(37, 57);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(398, 112);
@@ -319,6 +324,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(891, 379);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox4);

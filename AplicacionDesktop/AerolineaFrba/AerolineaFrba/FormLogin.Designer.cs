@@ -51,6 +51,7 @@
             this.gbAdministrador.Controls.Add(this.label2);
             this.gbAdministrador.Controls.Add(this.txtUsuario);
             this.gbAdministrador.Controls.Add(this.label1);
+            this.gbAdministrador.ForeColor = System.Drawing.Color.White;
             this.gbAdministrador.Location = new System.Drawing.Point(22, 12);
             this.gbAdministrador.Name = "gbAdministrador";
             this.gbAdministrador.Size = new System.Drawing.Size(248, 96);
@@ -108,6 +109,7 @@
             // 
             this.groupBox2.Controls.Add(this.radioInvitado);
             this.groupBox2.Controls.Add(this.radioAdministrador);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(22, 114);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(235, 58);
@@ -142,6 +144,7 @@
             // 
             this.gbInvitado.Controls.Add(this.cboRoles);
             this.gbInvitado.Controls.Add(this.label3);
+            this.gbInvitado.ForeColor = System.Drawing.Color.White;
             this.gbInvitado.Location = new System.Drawing.Point(288, 12);
             this.gbInvitado.Name = "gbInvitado";
             this.gbInvitado.Size = new System.Drawing.Size(209, 96);
@@ -171,6 +174,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(559, 193);
             this.Controls.Add(this.gbInvitado);
             this.Controls.Add(this.groupBox2);

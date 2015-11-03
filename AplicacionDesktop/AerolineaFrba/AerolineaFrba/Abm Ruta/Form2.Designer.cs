@@ -62,6 +62,7 @@
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(13, 38);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(584, 303);
@@ -142,6 +143,7 @@
             // 
             // botonSelDestino
             // 
+            this.botonSelDestino.ForeColor = System.Drawing.Color.Black;
             this.botonSelDestino.Location = new System.Drawing.Point(237, 65);
             this.botonSelDestino.Name = "botonSelDestino";
             this.botonSelDestino.Size = new System.Drawing.Size(88, 25);
@@ -152,6 +154,7 @@
             // 
             // botonSelOrigen
             // 
+            this.botonSelOrigen.ForeColor = System.Drawing.Color.Black;
             this.botonSelOrigen.Location = new System.Drawing.Point(237, 28);
             this.botonSelOrigen.Name = "botonSelOrigen";
             this.botonSelOrigen.Size = new System.Drawing.Size(88, 25);
@@ -276,6 +279,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(627, 408);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button6);

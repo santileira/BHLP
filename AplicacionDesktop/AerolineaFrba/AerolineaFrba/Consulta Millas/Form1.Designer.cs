@@ -53,6 +53,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(177, 58);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(47, 13);
@@ -69,6 +70,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(177, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
@@ -91,7 +93,7 @@
             this.dgHistorial.AllowUserToDeleteRows = false;
             this.dgHistorial.AllowUserToResizeColumns = false;
             this.dgHistorial.AllowUserToResizeRows = false;
-            this.dgHistorial.BackgroundColor = System.Drawing.SystemColors.ControlLight;
+            this.dgHistorial.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgHistorial.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgHistorial.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.dgHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -115,6 +117,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(522, 192);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(124, 13);
@@ -126,6 +129,7 @@
             this.groupBox1.Controls.Add(this.dgHistorial);
             this.groupBox1.Controls.Add(this.cantTotalMillas);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 105);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(730, 217);
@@ -155,6 +159,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(754, 376);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);

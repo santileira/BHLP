@@ -54,6 +54,7 @@
             this.groupBox1.Controls.Add(this.lstFuncionalidadesTotales);
             this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(18, 26);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(587, 280);
@@ -63,6 +64,7 @@
             // 
             // button6
             // 
+            this.button6.ForeColor = System.Drawing.Color.Black;
             this.button6.Location = new System.Drawing.Point(191, 120);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(116, 31);
@@ -82,6 +84,8 @@
             // 
             // lstFuncionalidadesActuales
             // 
+            this.lstFuncionalidadesActuales.BackColor = System.Drawing.Color.SlateGray;
+            this.lstFuncionalidadesActuales.ForeColor = System.Drawing.Color.White;
             this.lstFuncionalidadesActuales.FormattingEnabled = true;
             this.lstFuncionalidadesActuales.Location = new System.Drawing.Point(350, 120);
             this.lstFuncionalidadesActuales.Name = "lstFuncionalidadesActuales";
@@ -90,6 +94,7 @@
             // 
             // button3
             // 
+            this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(228, 223);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(116, 31);
@@ -109,6 +114,8 @@
             // 
             // lstFuncionalidadesTotales
             // 
+            this.lstFuncionalidadesTotales.BackColor = System.Drawing.Color.SlateGray;
+            this.lstFuncionalidadesTotales.ForeColor = System.Drawing.Color.White;
             this.lstFuncionalidadesTotales.FormattingEnabled = true;
             this.lstFuncionalidadesTotales.Location = new System.Drawing.Point(29, 120);
             this.lstFuncionalidadesTotales.Name = "lstFuncionalidadesTotales";
@@ -166,6 +173,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(15, 319);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 13);
@@ -177,6 +185,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(625, 392);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button4);
