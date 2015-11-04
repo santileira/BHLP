@@ -153,7 +153,7 @@ namespace AerolineaFrba.Compra
                 string cli_cod = dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString();
                 
 
-                SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].pasajero_disponible('" + cli_cod + "', '" + viaje_cod + "', '" + fechaSalida + "', '" + fechaLlegada + "')", dgCliente);
+                SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].pasajero_disponible('" + cli_cod + "', '" + fechaSalida + "', '" + fechaLlegada + "')", dgCliente);
 
                 if (dgCliente.RowCount == 0)
                 {

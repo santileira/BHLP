@@ -185,8 +185,6 @@ select distinct top 20 v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE
 				r1.SERV_COD = s.SERV_COD
 
 
-
-
 select distinct c.CLI_COD, c.CLI_DNI, c.CLI_NOMBRE, c.CLI_APELLIDO, c.CLI_DIRECCION, c.CLI_TELEFONO, c.CLI_MAIL, c.CLI_FECHA_NAC
 				from ABSTRACCIONX4.CLIENTES c
 				where c.CLI_COD = 1298 and
@@ -194,12 +192,12 @@ select distinct c.CLI_COD, c.CLI_DNI, c.CLI_NOMBRE, c.CLI_APELLIDO, c.CLI_DIRECC
 						when 1298 not in (select distinct t.CLI_COD
 												from (select distinct p.CLI_COD, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE
 														from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.PASAJES p
-														where v.VIAJE_COD = p.VIAJE_COD and p.CLI_COD = 1298) t
+														where v.VIAJE_COD = p.VIAJE_COD) t
 												where 
-												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_SALIDA, '2017-30-01 20:01:00.000', '2017-30-01 22:01:00.000') = 1) or
-												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_LLEGADAE, '2017-30-01 20:01:00.000', '2017-30-01 22:01:00.000') = 1) or
-												([ABSTRACCIONX4].datetime_is_between('2017-30-01 20:01:00.000', t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1) or
-												([ABSTRACCIONX4].datetime_is_between('2017-30-01 22:01:00.000', t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1)
+												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_SALIDA, '2016-02-02 01:01:00.000', '2016-02-02 15:01:00.000') = 1) or
+												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_LLEGADAE, '2016-02-02 01:01:00.000', '2016-02-02 15:01:00.000') = 1) or
+												([ABSTRACCIONX4].datetime_is_between('2016-02-02 01:01:00.000', t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1) or
+												([ABSTRACCIONX4].datetime_is_between('2016-02-02 15:01:00.000', t.VIAJE_FECHA_SALIDA, t.VIAJE_FECHA_LLEGADAE) = 1)
 												)
 						then 1
 						else 0

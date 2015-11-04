@@ -1,7 +1,7 @@
 -------------------------------Aeronaves disponibles para un vuelo-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].pasajero_disponible
 
- (@cli_cod int, @viaje_cod int, @fecha_salida datetime, @fecha_llegada_estimada datetime)
+ (@cli_cod int, @fecha_salida datetime, @fecha_llegada_estimada datetime)
 
 RETURNS table
 
@@ -13,7 +13,7 @@ AS
 						when @cli_cod not in (select distinct t.CLI_COD
 												from (select distinct p.CLI_COD, v.VIAJE_FECHA_SALIDA, v.VIAJE_FECHA_LLEGADAE
 														from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.PASAJES p
-														where v.VIAJE_COD = p.VIAJE_COD and p.CLI_COD = @viaje_cod) t
+														where v.VIAJE_COD = p.VIAJE_COD) t
 												where 
 												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_SALIDA, @fecha_salida, @fecha_llegada_estimada) = 1) or
 												([ABSTRACCIONX4].datetime_is_between(t.VIAJE_FECHA_LLEGADAE, @fecha_salida, @fecha_llegada_estimada) = 1) or
