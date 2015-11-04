@@ -162,6 +162,13 @@ namespace AerolineaFrba.Compra
                 }
             }
 
+            if ((this.anterior as Compra.Form4).seRegistroPasajeDelCliente(txtDni.Text, txtApe.Text))
+            {
+                MessageBox.Show("Ya se selecciono un pasaje para el cliente en este vuelo", "Error en los datos", MessageBoxButtons.OK);
+                huboError = true;
+            }
+
+
             if(!huboError)
             {
                 MessageBox.Show("Se ha guardado el pasaje", "Pasaje confirmado", MessageBoxButtons.OK);

@@ -171,6 +171,12 @@ namespace AerolineaFrba.Compra
             else
                 huboError = true;
 
+            if ((this.anterior as Compra.Form4).seRegistroEncomiendaDelCliente(txtDni.Text, txtApe.Text))
+            {
+                MessageBox.Show("Ya se selecciono una encomienda para el cliente en este vuelo", "Error en los datos", MessageBoxButtons.OK);
+                huboError = true;
+            }
+
             if (!huboError)
             {
                 MessageBox.Show("Se ha guardado la encomienda", "Encomienda confirmada", MessageBoxButtons.OK);

@@ -31,6 +31,32 @@ namespace AerolineaFrba.Compra
         {
         }
 
+        public Boolean seRegistroPasajeDelCliente(String dni, String apellido)
+        {
+            foreach (DataGridViewRow row in dgPasajes.Rows)
+            {
+                if (row.Cells["CLI_DNI"].Value.ToString() == dni && row.Cells["CLI_APELLIDO"].Value.ToString() == apellido)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public Boolean seRegistroEncomiendaDelCliente(String dni, String apellido)
+        {
+            foreach (DataGridViewRow row in dgEncomiendas.Rows)
+            {
+                if (row.Cells["CLI_DNI"].Value.ToString() == dni && row.Cells["CLI_APELLIDO"].Value.ToString() == apellido)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void activarCompraPasajes()
         {
             button4.Enabled = true;
