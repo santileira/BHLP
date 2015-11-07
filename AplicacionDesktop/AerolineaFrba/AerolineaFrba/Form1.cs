@@ -91,7 +91,7 @@ namespace AerolineaFrba
 
         private void Menu_Load(object sender, EventArgs e)
         {
-
+   
         }
 
         private void button10_Click(object sender, EventArgs e)

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace AerolineaFrba
 {
@@ -33,6 +34,12 @@ namespace AerolineaFrba
             SqlConnection laConexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2015;Persist Security Info=True;User ID=gd;Password=gd2015");
             laConexion.Open();
             return laConexion;
+        }
+
+        public static DateTime fechaHoy()
+        {
+            return DateTime.ParseExact(ConfigurationManager.AppSettings["FechaSistema"], "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
         }
 
 
