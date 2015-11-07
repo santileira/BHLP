@@ -25,12 +25,18 @@ namespace AerolineaFrba
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //CREO LA TABLA CON LA FECHA DEL XML
+            SQLManager manager = new SQLManager();
+            manager.generarSP("crearTablaFecha");
+            manager.agregarFechaSP("@fecha", Program.fechaHoy());
+            manager.ejecutarSP();
+
             Application.Run(new Menu());
         }
 
         public static SqlConnection conexion()
         {
-            
             SqlConnection laConexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2015;Persist Security Info=True;User ID=gd;Password=gd2015");
             laConexion.Open();
             return laConexion;
@@ -38,7 +44,7 @@ namespace AerolineaFrba
 
         public static DateTime fechaHoy()
         {
-            return DateTime.ParseExact(ConfigurationManager.AppSettings["FechaSistema"], "yyyy-MM-dd",
+            return DateTime.ParseExact(ConfigurationManager.AppSettings["FechaSistema"], "yyyy-dd-MM",
                                        System.Globalization.CultureInfo.InvariantCulture);
         }
 
