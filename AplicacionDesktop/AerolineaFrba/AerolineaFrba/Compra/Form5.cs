@@ -64,7 +64,7 @@ namespace AerolineaFrba.Compra
             encontroCliente = false;
             actualizarTabla = false;
 
-            dp.Value = DateTime.Now;
+            dp.Value = Program.fechaHoy();
 
             if (this.cantidadKilos == 0)
                 button2.Enabled = false;
@@ -151,7 +151,7 @@ namespace AerolineaFrba.Compra
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
 
-            if (dp.Value.Year > DateTime.Now.Year && dp.Value.Month > DateTime.Now.Month && dp.Value.Day > DateTime.Now.Day)
+            if (dp.Value.Year > Program.fechaHoy().Year && dp.Value.Month > Program.fechaHoy().Month && dp.Value.Day > Program.fechaHoy().Day)
             {
                 huboError = true;
                 MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);

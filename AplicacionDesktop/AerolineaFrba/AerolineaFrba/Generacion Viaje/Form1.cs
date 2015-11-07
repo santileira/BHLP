@@ -39,8 +39,8 @@ namespace AerolineaFrba.Generacion_Viaje
             dateTimePicker2.Format = DateTimePickerFormat.Custom;
             dateTimePicker2.CustomFormat = "dd/MM/yyyy - HH:mm";
 
-            dateTimePicker1.Value = DateTime.Now;
-            dateTimePicker2.Value = DateTime.Now;
+            dateTimePicker1.Value = Program.fechaHoy();
+            dateTimePicker2.Value = Program.fechaHoy();
 
             txtMatricula.Text = "";
             txtRuta.Text = "";
@@ -67,9 +67,9 @@ namespace AerolineaFrba.Generacion_Viaje
         {
             if (this.fechasErroneas())
                 MessageBox.Show("Verifique que las fechas de salida y llegada ingresadas sean correctas", "Error en los datos de entrada", MessageBoxButtons.OK);
-            else if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+            else if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
                 MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
-            else if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
+            else if (DateTime.Compare(Program.fechaHoy(), dateTimePicker2.Value) == 1)
                 MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
             else
             {
@@ -128,13 +128,13 @@ namespace AerolineaFrba.Generacion_Viaje
                 MessageBox.Show("Las aeronaves tardan como mucho 24 hs en llegar a destino");
             }
 
-            if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+            if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
             {
                 huboError = true;
                 MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy"); 
             }
 
-            if (DateTime.Compare(DateTime.Now, dateTimePicker2.Value) == 1)
+            if (DateTime.Compare(Program.fechaHoy(), dateTimePicker2.Value) == 1)
             {
                 huboError = true;
                 MessageBox.Show("La fecha de llegada no puede ser anterior a la fecha de hoy");

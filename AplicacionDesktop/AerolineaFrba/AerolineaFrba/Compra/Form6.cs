@@ -40,7 +40,7 @@ namespace AerolineaFrba.Compra
                 this.cboTipoTarjeta.Items.Add(varTarjeta.GetValue(0));
             }
 
-            int anioActual = (int)DateTime.Now.Year;            
+            int anioActual = (int)Program.fechaHoy().Year;            
             for(int i=0;i<10;i++){
                 cboAnios.Items.Add(anioActual+i);
             }

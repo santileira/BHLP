@@ -45,7 +45,7 @@ namespace AerolineaFrba.Compra
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd/MM/yyyy";
 
-            dateTimePicker1.Value = DateTime.Now;
+            dateTimePicker1.Value = Program.fechaHoy();
 
             txtCiudadDestino.Text = "";
             txtCiudadOrigen.Text = "";
@@ -107,9 +107,9 @@ namespace AerolineaFrba.Compra
         {
             Boolean huboError = false;
 
-            if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+            if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
             {
-                if (dateTimePicker1.Value.Year != DateTime.Now.Year || dateTimePicker1.Value.Month != DateTime.Now.Month || dateTimePicker1.Value.Day != DateTime.Now.Day)
+                if (dateTimePicker1.Value.Year != Program.fechaHoy().Year || dateTimePicker1.Value.Month != Program.fechaHoy().Month || dateTimePicker1.Value.Day != Program.fechaHoy().Day)
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
                 else
                 {
@@ -145,12 +145,12 @@ namespace AerolineaFrba.Compra
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            if (DateTime.Compare(DateTime.Now, dateTimePicker1.Value) == 1)
+            if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
             {
-                if (dateTimePicker1.Value.Year != DateTime.Now.Year || dateTimePicker1.Value.Month != DateTime.Now.Month || dateTimePicker1.Value.Day != DateTime.Now.Day)
+                if (dateTimePicker1.Value.Year != Program.fechaHoy().Year || dateTimePicker1.Value.Month != Program.fechaHoy().Month || dateTimePicker1.Value.Day != Program.fechaHoy().Day)
                 {
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy", "Error en las fechas", MessageBoxButtons.OK);
-                    dateTimePicker1.Value = DateTime.Now;
+                    dateTimePicker1.Value = Program.fechaHoy();
                 }
             }
 

@@ -343,7 +343,7 @@ AS
 		DECLARE @clienteActualizado BIT
 		DECLARE @esComprador int
 		DECLARE @codigoCli int
-		SET @fechaCompra = GETDATE()		
+		SET @fechaCompra = [ABSTRACCIONX4].obtenerFechaDeHoy()		
 
 		OPEN cursorPasajes
 		FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
