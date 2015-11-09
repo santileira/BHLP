@@ -15,8 +15,7 @@ AS
 GO
 
 --AL PRINCIPIO, CREAR LA TABLA (EN LA MIGRACION)
-CREATE TABLE [ABSTRACCIONX4].[FECHA]([HOY] [datetime])
-
 drop procedure [ABSTRACCIONX4].crearTablaFecha
 drop function [ABSTRACCIONX4].obtenerFechaDeHoy
+
 select [ABSTRACCIONX4].obtenerFechaDeHoy()
