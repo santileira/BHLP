@@ -13,7 +13,7 @@ namespace AerolineaFrba
         //****** AERONAVE ********//
         public static Form ABMAeronaveAlta()
         {
-            return new Abm_Aeronave.Alta(false, null, "", DateTime.Today);
+            return new Abm_Aeronave.Alta(false, null, "", Program.fechaHoy());
         }
 
         public static Form ABMAeronaveBaja()

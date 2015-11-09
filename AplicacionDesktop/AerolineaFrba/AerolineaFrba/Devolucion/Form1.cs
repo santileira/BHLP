@@ -174,9 +174,14 @@ namespace AerolineaFrba.Devolucion
                    agregarStringSP("@Codigo", txtCodigo.Text).
                    agregarListaSP("@Pasajes", pasajes).
                    agregarListaSP("@Encomiendas", encomiendas).
-                   agregarFechaSP("@FechaDevolucion" , System.DateTime.Now).
+                   agregarFechaSP("@FechaDevolucion", Program.fechaHoy()).
                    agregarStringSP("@Motivo" , motivo).
                    ejecutarSP();
+        }
+
+        private void dgEncomiendas_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

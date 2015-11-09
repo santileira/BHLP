@@ -308,7 +308,7 @@ namespace AerolineaFrba
 
         public static Boolean fechaPosteriorALaDeHoy(DateTimePicker dateTimePicker1)
         {
-            if (dateTimePicker1.Value.CompareTo(System.DateTime.Today) < 0)
+            if (dateTimePicker1.Value.CompareTo(Program.fechaHoy()) < 0)
             {
                 MessageBox.Show("La fecha ingresada debe ser posterior a la fecha de hoy", "Error en los datos de entrada", MessageBoxButtons.OK);
                 return false;

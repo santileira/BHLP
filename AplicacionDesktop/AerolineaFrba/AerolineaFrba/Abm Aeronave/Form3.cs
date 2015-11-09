@@ -346,7 +346,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
             catch (Exception e)
             {
-                new Form7(e.Message, matricula, true, fechaBaja, DateTime.Today).ShowDialog();
+                new Form7(e.Message, matricula, true, fechaBaja, Program.fechaHoy()).ShowDialog();
             }
         }
 

@@ -72,13 +72,13 @@ namespace AerolineaFrba.Abm_Aeronave
         private bool validarFecha()
         {
             Boolean huboError = false;
-            if (fechaReinicio.Value.CompareTo(System.DateTime.Today) < 0 && !llamadoDesdeBajaLogica)
+            if (fechaReinicio.Value.CompareTo(Program.fechaHoy()) < 0 && !llamadoDesdeBajaLogica)
             {
                 MessageBox.Show("La fecha reinicio debe ser posterior a la fecha de hoy", "Error en los datos de entrada", MessageBoxButtons.OK);
                 huboError = true;
             }
 
-            if (fechaBaja.Value.CompareTo(System.DateTime.Today) < 0)
+            if (fechaBaja.Value.CompareTo(Program.fechaHoy()) < 0)
             {
                 MessageBox.Show("La fecha de baja debe ser posterior a la fecha de hoy", "Error en los datos de entrada", MessageBoxButtons.OK);
                 huboError = true;

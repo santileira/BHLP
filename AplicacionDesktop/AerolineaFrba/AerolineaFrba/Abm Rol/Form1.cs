@@ -68,6 +68,11 @@ namespace AerolineaFrba.Abm_Rol
             cambiarVisibilidades(formularioSiguiente);
         }
 
+        private void Principal_Load(object sender, EventArgs e)
+        {
+
+        }
+
 
 
     }

@@ -213,7 +213,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "dgEncomiendas";
             this.Text = "Cancelación";
-        
+            this.Load += new System.EventHandler(this.dgEncomiendas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).EndInit();
             this.ResumeLayout(false);

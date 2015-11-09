@@ -39,7 +39,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Alta alta = new Alta(false,this,"",DateTime.Today);
+            Alta alta = new Alta(false,this,"", Program.fechaHoy());
             this.cambiarVisibilidades(alta);
         }
 

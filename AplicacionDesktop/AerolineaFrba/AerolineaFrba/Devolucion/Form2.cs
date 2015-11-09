@@ -27,5 +27,10 @@ namespace AerolineaFrba.Devolucion
                 this.Close();
             } 
        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

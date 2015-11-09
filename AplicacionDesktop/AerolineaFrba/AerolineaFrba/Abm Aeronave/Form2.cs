@@ -67,7 +67,7 @@ namespace AerolineaFrba.Abm_Aeronave
             txtButacas.Text = "";
             txtVenta.Text = "";
             txtKilos.Text = "";
-            dateTimePicker1.Value = DateTime.Today;
+            dateTimePicker1.Value = Program.fechaHoy();
             if (!llamadoDesdeBaja)
             {
                 txtModelo.Text = "";
