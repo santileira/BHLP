@@ -128,3 +128,5 @@ BEGIN
 	SET PREMIO_STOCK = PREMIO_STOCK - @cantidadSolicitada
 	WHERE PREMIO_DETALLE = @descripcion
 END
+
+GO
