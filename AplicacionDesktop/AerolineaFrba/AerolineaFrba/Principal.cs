@@ -66,8 +66,7 @@ namespace AerolineaFrba
             diccionarioFunc.Add("ABM Ruta", agregarABM);
             diccionarioFunc.Add("Generación Viaje", agregarAFuncViajes);
             diccionarioFunc.Add("Registro Llegada Destino", agregarAFuncViajes);
-            diccionarioFunc.Add("Canje Millas", agregarAFuncMillas);
-            diccionarioFunc.Add("Consulta Millas", agregarAFuncMillas);
+            diccionarioFunc.Add("Consulta Millas", agregarFuncionalidadUnica);
             diccionarioFunc.Add("Compra", agregarAFuncOperacion);
             diccionarioFunc.Add("Devolución", agregarAFuncOperacion);
             diccionarioFunc.Add("Registro de Usuario", agregarFuncionalidadUnica);
@@ -88,8 +87,7 @@ namespace AerolineaFrba
             diccionarioFormularios.Add("ABM Ruta Modificación", Constructores.ABMRutaModificacion);
             diccionarioFormularios.Add("Generación Viaje", Constructores.GeneracionViaje);
             diccionarioFormularios.Add("Registro Llegada Destino", Constructores.RegistroLlegadaDestino);
-            diccionarioFormularios.Add("Canje", Constructores.CanjeMillas);
-            diccionarioFormularios.Add("Consulta", Constructores.ConsultaMillas);
+            diccionarioFormularios.Add("Consulta Millas", Constructores.ConsultaMillas);
             diccionarioFormularios.Add("Compra", Constructores.Compra);
             diccionarioFormularios.Add("Devolución", Constructores.Devolucion);
             diccionarioFormularios.Add("Registro de Usuario", Constructores.RegistroUsuario);
@@ -123,11 +121,6 @@ namespace AerolineaFrba
         private void agregarAFuncViajes(string nombre)
         {
             crearYAgregarADesplegable("Viajes",nombre,120);
-        }
-
-        private void agregarAFuncMillas(string nombre)
-        {
-            crearYAgregarADesplegable("Millas", nombre.Replace(" Millas",""),60);
         }
 
         private void agregarAFuncOperacion(string nombre)

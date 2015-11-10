@@ -166,12 +166,6 @@ namespace AerolineaFrba
             return consultaMillas;
         }
 
-        public static Form CanjeMillas()
-        {
-            throw new Exception("EN CONSTRUCCIÓN");
-        }
-
-
 
         //****** VIAJES ********//
 
