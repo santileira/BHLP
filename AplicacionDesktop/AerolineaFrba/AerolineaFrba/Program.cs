@@ -32,12 +32,13 @@ namespace AerolineaFrba
             manager.agregarFechaSP("@fecha", Program.fechaHoy());
             manager.ejecutarSP();
 
-            Application.Run(new Menu());
+            Application.Run(new FormLogin());
         }
 
         public static SqlConnection conexion()
         {
-            SqlConnection laConexion = new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2015;Persist Security Info=True;User ID=gd;Password=gd2015");
+            string configuracion = ConfigurationManager.AppSettings["configuracionSQL"].ToString();
+            SqlConnection laConexion = new SqlConnection(configuracion);
             laConexion.Open();
             return laConexion;
         }

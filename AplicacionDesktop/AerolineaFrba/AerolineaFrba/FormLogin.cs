@@ -148,7 +148,7 @@ namespace AerolineaFrba
 
         private bool validarTipos()
         {
-            return !Validacion.esSoloTexto(txtUsuario, "usuario", true);
+            return !Validacion.esTextoAlfanumerico(txtUsuario,true, "usuario", true);
         }
 
     }
