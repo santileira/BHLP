@@ -34,7 +34,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.dgHistorial = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cantTotalMillas = new System.Windows.Forms.Label();
@@ -104,16 +103,6 @@
             this.dgHistorial.TabIndex = 61;
             this.dgHistorial.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(12, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(47, 22);
-            this.button2.TabIndex = 62;
-            this.button2.Text = "Atrás";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -163,7 +152,6 @@
             this.ClientSize = new System.Drawing.Size(754, 376);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtApe);
             this.Controls.Add(this.label3);
@@ -188,7 +176,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dgHistorial;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label cantTotalMillas;

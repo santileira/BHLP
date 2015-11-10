@@ -41,7 +41,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dgEncomienda = new System.Windows.Forms.DataGridView();
             this.Devolver = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.button1 = new System.Windows.Forms.Button();
             this.btFinalizar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).BeginInit();
@@ -173,17 +172,6 @@
             this.Devolver.Text = "Cancelar";
             this.Devolver.UseColumnTextForButtonValue = true;
             // 
-            // button1
-            // 
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(34, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Atrás";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // btFinalizar
             // 
             this.btFinalizar.ForeColor = System.Drawing.Color.Black;
@@ -202,7 +190,6 @@
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(870, 531);
             this.Controls.Add(this.btFinalizar);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.dgEncomienda);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dgPasaje);
@@ -231,7 +218,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dgEncomienda;
         private System.Windows.Forms.DataGridViewButtonColumn Cancelar;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewButtonColumn Devolver;
         private System.Windows.Forms.Button btFinalizar;
     }

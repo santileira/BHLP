@@ -49,7 +49,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -259,17 +258,6 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button6
-            // 
-            this.button6.ForeColor = System.Drawing.Color.Black;
-            this.button6.Location = new System.Drawing.Point(14, 11);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
-            this.button6.TabIndex = 6;
-            this.button6.Text = "Atrás";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -286,7 +274,6 @@
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(396, 589);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
@@ -316,7 +303,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ComboBox cboServicio;
         private System.Windows.Forms.ComboBox cboFabricante;
         private System.Windows.Forms.Label label7;

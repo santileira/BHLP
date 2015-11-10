@@ -37,7 +37,6 @@ namespace AerolineaFrba.Abm_Aeronave
             {
 
                 txtModelo.Enabled = false;
-                button6.Visible = false;
 
                 cargarDatosFijos();
 
@@ -224,11 +223,6 @@ namespace AerolineaFrba.Abm_Aeronave
             }
 
             return huboError;
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            this.cambiarVisibilidades(new Principal());
         }
 
 

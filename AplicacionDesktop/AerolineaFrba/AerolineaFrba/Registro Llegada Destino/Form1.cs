@@ -150,12 +150,6 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Form formularioSiguiente = new Menu(); 
-            this.cambiarVisibilidades(formularioSiguiente);
-        }
-
         private Boolean validarCampos()
         {
 

@@ -42,7 +42,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -201,17 +200,6 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Nombre del Rol";
             // 
-            // button4
-            // 
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.button4.Location = new System.Drawing.Point(2, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(46, 22);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Atrás";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // Modificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -219,7 +207,6 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(692, 392);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -243,7 +230,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox lstFuncionalidadesTotales;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtRolSeleccionado;
         private System.Windows.Forms.CheckBox checkHabilitado;

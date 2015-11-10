@@ -84,20 +84,7 @@ namespace AerolineaFrba.Listado_Estadistico
             this.inicio();
         }
 
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            this.cambiarVisibilidades(new Menu());
-        }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {

@@ -136,12 +136,6 @@ namespace AerolineaFrba.Abm_Aeronave
             txtServicioActual.Text = "";
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            formularioSiguiente = new Principal();
-            this.cambiarVisibilidades(formularioSiguiente);
-        }
-
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
             formularioSiguiente.Visible = true;

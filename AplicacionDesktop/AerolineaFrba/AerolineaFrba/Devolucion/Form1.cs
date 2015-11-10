@@ -65,7 +65,7 @@ namespace AerolineaFrba.Devolucion
             btBuscar.Enabled = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /*private void button1_Click(object sender, EventArgs e)
         {
             if (pasajes.Count() != 0 || encomiendas.Count() != 0)
             {
@@ -76,7 +76,7 @@ namespace AerolineaFrba.Devolucion
                 }
             }
             else this.cambiarVisibilidades(new Menu());
-        }
+        }*/
 
         private void cambiarVisibilidades(Form proximo)
         {

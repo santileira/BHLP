@@ -125,30 +125,6 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
-        /*private Boolean validarTextNombre()
-        {
-            Boolean huboErrores = false;
-
-            if (Validacion.esVacio(txtNombre , "nombre de Rol" , true))
-            {
-                MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-
-            if (!Validacion.esTexto(txtNombre))
-            {
-                MessageBox.Show("El nombre debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-
-            return huboErrores;
-        }*/
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            formularioSiguiente = new Principal();
-            cambiarVisibilidades(formularioSiguiente);
-        }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {

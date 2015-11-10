@@ -144,13 +144,6 @@ namespace AerolineaFrba.Abm_Ruta
             reader.Close();
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            formularioSiguiente = new Principal();
-            this.iniciar();
-            this.cambiarVisibilidades(formularioSiguiente);
-        }
-
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
             formularioSiguiente.Visible = true;

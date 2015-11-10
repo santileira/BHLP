@@ -49,7 +49,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.btfueradeservicio = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lblErrores = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
             this.txtFiltros = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -254,16 +253,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
             // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(12, 12);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(77, 22);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Atrás";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // txtFiltros
             // 
             this.txtFiltros.BackColor = System.Drawing.Color.SlateGray;
@@ -282,7 +271,6 @@ namespace AerolineaFrba.Abm_Aeronave
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(1245, 507);
             this.Controls.Add(this.txtFiltros);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
@@ -315,7 +303,6 @@ namespace AerolineaFrba.Abm_Aeronave
         private System.Windows.Forms.ComboBox cboCamposFiltro2;
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.ComboBox cboCamposFiltro3;
         private System.Windows.Forms.Label label5;

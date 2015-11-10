@@ -51,7 +51,6 @@
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lblErrores = new System.Windows.Forms.Label();
             this.txtFiltros = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -307,24 +306,12 @@
             this.txtFiltros.TabIndex = 5;
             this.txtFiltros.TextChanged += new System.EventHandler(this.txtFiltros_TextChanged);
             // 
-            // button6
-            // 
-            this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.button6.Location = new System.Drawing.Point(4, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(46, 22);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Atrás";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // Baja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(1354, 668);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.button2);
@@ -372,7 +359,6 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtFiltros;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.TextBox txtOrigen;

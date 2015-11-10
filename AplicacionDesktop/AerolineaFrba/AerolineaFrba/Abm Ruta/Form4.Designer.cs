@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button6 = new System.Windows.Forms.Button();
             this.botonLimpiar = new System.Windows.Forms.Button();
             this.botonGuardar = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -59,16 +58,6 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(37, 12);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(78, 21);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "Atrás";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // botonLimpiar
             // 
@@ -333,7 +322,6 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.botonLimpiar);
             this.Controls.Add(this.botonGuardar);
-            this.Controls.Add(this.button6);
             this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modificación de ruta";
@@ -351,7 +339,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button botonLimpiar;
         private System.Windows.Forms.Button botonGuardar;
         private System.Windows.Forms.Button button5;

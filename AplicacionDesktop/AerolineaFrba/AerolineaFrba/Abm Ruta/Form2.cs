@@ -139,32 +139,6 @@ namespace AerolineaFrba.Abm_Ruta
             return !huboErrores;
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            formularioSiguiente = new Principal();
-            this.cambiarVisibilidades(formularioSiguiente);
-        }
-
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }*/
-
-        /*private Boolean esNumero(TextBox txt)
-        {
-            int numero;
-            return int.TryParse(txt.Text, out numero);
-        }
-
-        private Boolean esDecimal(TextBox txt)
-        {
-            decimal unDecimal;
-            return decimal.TryParse(txt.Text, out unDecimal); 
-        }*/
-
         private void cargarComboServicio()
         {
             cboServicio.Items.Clear();

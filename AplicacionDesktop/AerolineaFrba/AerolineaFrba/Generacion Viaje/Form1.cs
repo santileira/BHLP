@@ -95,20 +95,6 @@ namespace AerolineaFrba.Generacion_Viaje
             this.Visible = false;
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            this.cambiarVisibilidades(new Menu());
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private Boolean fechasErroneas()
         {

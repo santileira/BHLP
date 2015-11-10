@@ -156,11 +156,6 @@ namespace AerolineaFrba.Compra
 
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            this.cambiarVisibilidades(new Menu());
-        }
-
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             this.viaje = dg.SelectedRows[0].Cells["VIAJE_COD"].Value.ToString();

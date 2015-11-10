@@ -273,12 +273,6 @@ namespace AerolineaFrba.Abm_Aeronave
             return int.TryParse(txt.Text, out n);
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            formularioSiguiente = new Principal();
-            this.cambiarVisibilidades(formularioSiguiente);
-        }
-
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
             formularioSiguiente.Visible = true;

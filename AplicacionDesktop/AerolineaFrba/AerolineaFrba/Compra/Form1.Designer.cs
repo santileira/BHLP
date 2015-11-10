@@ -40,7 +40,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
-            this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -155,7 +154,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(234, 222);
+            this.button4.Location = new System.Drawing.Point(23, 222);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 38);
             this.button4.TabIndex = 44;
@@ -179,16 +178,6 @@
             this.dg.Size = new System.Drawing.Size(545, 123);
             this.dg.TabIndex = 45;
             this.dg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellContentClick);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(23, 222);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(110, 38);
-            this.button6.TabIndex = 46;
-            this.button6.Text = "Atras";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
@@ -249,7 +238,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
@@ -280,7 +268,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DataGridView dg;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;

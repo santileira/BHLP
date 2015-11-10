@@ -68,11 +68,6 @@ namespace AerolineaFrba.Consulta_Millas
             this.llenarHistorialDeMillas(); 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.cambiarVisibilidades(new Menu());
-        }
-
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
             formularioSiguiente.Visible = true;
