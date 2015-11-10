@@ -44,7 +44,7 @@ namespace AerolineaFrba
 
         public static DateTime fechaHoy()
         {
-            return DateTime.ParseExact(ConfigurationManager.AppSettings["FechaSistema"], "yyyy-dd-MM",
+            return DateTime.ParseExact(ConfigurationManager.AppSettings["FechaSistema"], "yyyy-dd-MM HH:mm:ss",
                                        System.Globalization.CultureInfo.InvariantCulture);
         }
 
