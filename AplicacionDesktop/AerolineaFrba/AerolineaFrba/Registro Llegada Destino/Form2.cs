@@ -70,8 +70,8 @@ namespace AerolineaFrba.Registro_Llegada_Destino
                                   .ejecutarSP();
 
             MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
-            Form formularioSiguiente = new Menu();
-            this.cambiarVisibilidades(formularioSiguiente);
+
+            this.Close();
 
         }
 

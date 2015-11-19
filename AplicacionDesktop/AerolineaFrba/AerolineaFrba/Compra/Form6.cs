@@ -148,14 +148,14 @@ namespace AerolineaFrba.Compra
 
                 MessageBox.Show("Se realizo la compra con éxito", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
 
-                Form formularioSiguiente = new Menu();
-                this.cambiarVisibilidades(formularioSiguiente);
             }
             else
             {
                 MessageBox.Show("Los datos de la tarjeta son inválidos", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
             }
 
+
+            this.Close();
             
         }
 
