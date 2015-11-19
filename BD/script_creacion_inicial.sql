@@ -92,7 +92,6 @@ CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
 
 GO
 
-
 --SIN INSERT
 --Tabla roles por usuario: tiene los roles para cada usuario del sistema
 CREATE TABLE [ABSTRACCIONX4].[ROLES_USUARIOS](
@@ -847,3 +846,4 @@ INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USERNAME,ROL_COD)
 
 --Crea tabla para la fecha del sistema
 CREATE TABLE [ABSTRACCIONX4].[FECHA]([HOY] [datetime])
+

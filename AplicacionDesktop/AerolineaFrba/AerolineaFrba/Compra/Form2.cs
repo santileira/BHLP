@@ -32,6 +32,9 @@ namespace AerolineaFrba.Compra
 
         public void inicio()
         {
+
+            dgCliente2.Rows.Clear();
+
             txtApe.Text = "";
             txtDire.Text = "";
             txtDni.Text = "";
@@ -189,15 +192,21 @@ namespace AerolineaFrba.Compra
                 dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Style.BackColor = Color.Gray;
 
                 if (this.encontroCliente)
+                {
 
-                    if(this.actualizarTabla)
+                    if (this.actualizarTabla)
                     {
-                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(),txtDni.Text,txtNom.Text,txtApe.Text,txtDire.Text,txtTel.Text,txtMail.Text,dp.Text, dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
-                    }else{
+                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                    }
+                    else
+                    {
                         (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }
+                }
                 else
-                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
+                {
+                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                }
 
                 this.cantidadButacas -= 1;
                 
