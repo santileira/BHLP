@@ -23,7 +23,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void llenarHistorialDeMillas()
         {
-            string query = "SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,[Cant. de Millas]  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,[Cant. de Millas]  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')";
+            string query = "SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')";
 
             SqlConnection conexion = Program.conexion();
 
@@ -67,7 +67,8 @@ namespace AerolineaFrba.Consulta_Millas
         {
             if (validarCampos())
             {
-                this.llenarHistorialDeMillas(); 
+                this.llenarHistorialDeMillas();
+                this.llenarHistorialDeCanjes();
             }
 
             if (dgHistorial.RowCount > 0)
@@ -147,5 +148,26 @@ namespace AerolineaFrba.Consulta_Millas
         {
             this.button3.Enabled = false;
         }
+
+        private void llenarHistorialDeCanjes()
+        {
+            string query = "SELECT C.CANJE_FECHA as Fecha, P.PREMIO_DETALLE as Premio, C.CANJE_CANTIDAD as Cantidad, P.PREMIO_PUNTOS * C.CANJE_CANTIDAD as 'Puntos Consumidos' FROM ABSTRACCIONX4.CANJES C JOIN ABSTRACCIONX4.PREMIOS P ON C.PREMIO_COD = P.PREMIO_COD";
+
+            SqlConnection conexion = Program.conexion();
+
+            DataTable t = new DataTable("Busqueda");
+            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
+            //Llenar el Dataset
+            DataSet ds = new DataSet();
+            a.Fill(ds, "Busqueda");
+            //Ligar el datagrid con la fuente de datos
+            dgCanjes.DataSource = ds;
+            dgCanjes.DataMember = "Busqueda";
+
+            conexion.Close();
+
+        }
+
+
     }
 }

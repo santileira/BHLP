@@ -472,7 +472,6 @@ GO
 -- Tabla de Canjes
 CREATE TABLE [ABSTRACCIONX4].[CANJES](
 	[CANJE_COD] [int] IDENTITY,
-	[CANJE_NRO_DOC] [numeric] (10,0) NOT NULL,
 	[CANJE_FECHA] [datetime] NOT NULL,	
 	[PREMIO_COD] [smallint] NOT NULL,
 	[CANJE_CANTIDAD] [tinyint] NOT NULL,
@@ -2732,6 +2731,28 @@ END
 
 GO
 
+-------------------------------Insertar Canje ----------------------------------
+
+CREATE PROCEDURE [ABSTRACCIONX4].insertarCanje
+	@canje_fecha datetime,
+	@canje_cantidad smallint,
+	@descripcion varchar(100),
+	@dni int,
+	@ape varchar(30)
+AS 
+BEGIN
+	DECLARE @cli_cod int, @premio_cod smallint
+	SET @cli_cod = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape)	
+	SET @premio_cod = (SELECT PREMIO_COD FROM ABSTRACCIONX4.PREMIOS WHERE PREMIO_DETALLE = @descripcion)
+
+	INSERT INTO [ABSTRACCIONX4].CANJES (CANJE_FECHA,PREMIO_COD,CANJE_CANTIDAD,CLI_COD) 
+	VALUES(@canje_fecha,@premio_cod,@canje_cantidad,@cli_cod)
+END
+
+GO
+
+	
+
 
 --******************* DEVOLUCIONES ****************
 --------------------------------Obtener Codigo--------------------------------
@@ -3112,3 +3133,8 @@ else
 return;
 end	
 GO
+
+
+--SELECT * FROM ABSTRACCIONX4.CANJES
+--SELECT * FROM ABSTRACCIONX4.PREMIOS
+--SELECT * FROM ABSTRACCIONX4.CLIENTES

@@ -185,6 +185,17 @@ namespace AerolineaFrba.Canje_Millas
                                          .agregarIntSP("@cantidadSolicitada", cantSelect)
                                             .ejecutarSP();
 
+
+
+                        new SQLManager().generarSP("insertarCanje")
+                                        .agregarFechaSP("@canje_fecha", DateTime.Now)
+                                         .agregarIntSP("@canje_cantidad", cantSelect)
+                                          .agregarStringSP("@descripcion", descripcion)
+                                           .agregarIntSP("@dni", dni)
+                                            .agregarStringSP("@ape", apellido)
+                                                .ejecutarSP();
+
+
                     }
 
 
