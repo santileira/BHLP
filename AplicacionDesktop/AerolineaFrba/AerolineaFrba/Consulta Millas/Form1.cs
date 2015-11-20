@@ -18,7 +18,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void llenarHistorialDeMillas()
@@ -70,6 +70,14 @@ namespace AerolineaFrba.Consulta_Millas
                 this.llenarHistorialDeMillas(); 
             }
 
+            if (dgHistorial.RowCount > 0)
+            {
+                this.button3.Enabled = true;
+            }
+            else
+            {
+                this.button3.Enabled = false;
+            }
             
         }
 
@@ -90,25 +98,54 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void button3_Click(object sender, EventArgs e)
         {
-            int dni;
-            dni = Convert.ToInt32(txtDni.Text);
-            dni = int.Parse(txtDni.Text);
-            int cantMillas;
-            cantMillas = Convert.ToInt32(cantTotalMillas.Text);
-            cantMillas = int.Parse(cantTotalMillas.Text);
+
+            
+            if (validarCampos())
+            {
+
+                if (dgHistorial.RowCount > 0)
+                {
+
+                    int dni;
+                    dni = Convert.ToInt32(txtDni.Text);
+                    dni = int.Parse(txtDni.Text);
+                    int cantMillas;
+                    cantMillas = Convert.ToInt32(cantTotalMillas.Text);
+                    cantMillas = int.Parse(cantTotalMillas.Text);
 
 
-            (canjeMillas as Canje_Millas.Form1).dni = dni;
-            (canjeMillas as Canje_Millas.Form1).apellido = txtApe.Text;
-            (canjeMillas as Canje_Millas.Form1).millasDisponibles = cantMillas;
-            (canjeMillas as Canje_Millas.Form1).millasDispFijas = cantMillas;
+                    (canjeMillas as Canje_Millas.Form1).dni = dni;
+                    (canjeMillas as Canje_Millas.Form1).apellido = txtApe.Text;
+                    (canjeMillas as Canje_Millas.Form1).millasDisponibles = cantMillas;
+                    (canjeMillas as Canje_Millas.Form1).millasDispFijas = cantMillas;
 
-            this.cambiarVisibilidades(canjeMillas);
+                    this.cambiarVisibilidades(canjeMillas);
+
+                }
+                else
+                {
+
+                    MessageBox.Show("El cliente es inválido o bien no posee puntos disponibles a la fecha.", "Canje de Millas", MessageBoxButtons.OK);
+                }
+
+            }
+
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtDni_TextChanged(object sender, EventArgs e)
+        {
+            this.button3.Enabled = false;
+        }
+
+        private void txtApe_TextChanged(object sender, EventArgs e)
+        {
+            this.button3.Enabled = false;
         }
     }
 }
