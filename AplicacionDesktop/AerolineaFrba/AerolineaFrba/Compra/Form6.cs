@@ -19,6 +19,7 @@ namespace AerolineaFrba.Compra
         private bool encontroCliente;
         private bool actualizarTabla;
         private bool tarjetaNueva;
+        private bool esEfectivo;
 
         public Form6()
         {
@@ -139,24 +140,63 @@ namespace AerolineaFrba.Compra
 
         private void button2_Click(object sender, EventArgs e)
         {
+            bool huboError = this.hacerValidacionesDeTipo();
 
-            if (sePuedeEfectuarLaCompra())
+            if (!huboError)
             {
-                
-                string codigoPNR = CreatePNR(10);
-                cargarDatosDeCompra(codigoPNR);
 
-                MessageBox.Show("Se realizo la compra con éxito", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                if (sePuedeEfectuarLaCompra())
+                {
+
+                    string codigoPNR = CreatePNR(10);
+                    cargarDatosDeCompra(codigoPNR);
+
+                    MessageBox.Show("Se realizo la compra con éxito", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+
+                    this.Close();
+
+                }
+                else
+                {
+                    MessageBox.Show("Los datos de la tarjeta son inválidos", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                }
 
             }
-            else
-            {
-                MessageBox.Show("Los datos de la tarjeta son inválidos", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
-            }
-
-
-            this.Close();
             
+        }
+
+        private Boolean hacerValidacionesDeTipo()
+        {
+            Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
+            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
+            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
+            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.estaSeleccionado(cboFormaPago,true) || validacion;
+
+            if (!cboFormaPago.SelectedIndex.Equals(-1))
+            {
+
+                if (cboFormaPago.SelectedItem.ToString() == "Tarjeta de crédito")
+                {
+                    validacion = Validacion.esVacio(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    validacion = Validacion.esVacio(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboAnios, true) || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboMeses, true) || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboTipoTarjeta, true) || validacion;
+                    validacion = !Validacion.numeroCorrecto(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
+                    validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
+                }
+            }
+
+            return validacion;
         }
 
         private bool sePuedeEfectuarLaCompra()
@@ -177,6 +217,8 @@ namespace AerolineaFrba.Compra
             {
                 if (this.esTarjetaValida())
                 {
+                    tarjetaNueva = false;
+                    esEfectivo = false;
                     return true;
                 }
                 else
@@ -192,6 +234,7 @@ namespace AerolineaFrba.Compra
             }else
             {
                 tarjetaNueva = false;
+                esEfectivo = true;
             }
 
             return true;
@@ -415,7 +458,10 @@ namespace AerolineaFrba.Compra
             }
             else
             {
-                new SQLManager().generarSP("ingresarDatosDeCompra")
+                if (esEfectivo)
+                {
+
+                    new SQLManager().generarSP("ingresarDatosDeCompra")
                                  .agregarTableSP("@TablaPasajes", tablaPasajes)
                                  .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
                                  .agregarIntSP("@dni", txtDni)
@@ -436,6 +482,35 @@ namespace AerolineaFrba.Compra
                                  .agregarStringSP("@tipoTarjeta", "nada")
                                  .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
                                  .ejecutarSP();
+
+                }
+                else
+                {
+                    new SQLManager().generarSP("ingresarDatosDeCompra")
+                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
+                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@dni", txtDni)
+                                 .agregarStringSP("@ape", txtApe)
+                                 .agregarStringSP("@nombre", txtNom)
+                                 .agregarStringSP("@direccion", txtDire)
+                                 .agregarStringSP("@mail", txtMail)
+                                 .agregarFechaSP("@fechanac", dp)
+                                 .agregarIntSP("@telefono", txtTel)
+                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
+                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
+                                 .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarStringSP("@formaDePago", cboFormaPago)
+                                 .agregarIntSP("@nroTarjeta", txtNroTarjeta)
+                                 .agregarIntSP("@codSeg", txtCodSeg)
+                                 .agregarIntSP("@vencMes", vencMes)
+                                 .agregarIntSP("@vencAnio", vencAnio)
+                                 .agregarStringSP("@tipoTarjeta", cboTipoTarjeta)
+                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
+                                 .ejecutarSP();
+
+                }
+
+                
             }
            
         }              

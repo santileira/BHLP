@@ -65,8 +65,22 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.llenarHistorialDeMillas(); 
+            if (validarCampos())
+            {
+                this.llenarHistorialDeMillas(); 
+            }
+
+            
         }
+
+        private Boolean validarCampos()
+        {
+
+            return !Validacion.esVacio(txtDni, "Dni",true)  &&
+                        Validacion.numeroCorrecto(txtDni, "Dni", true) &&
+                            Validacion.textNombre(txtApe, "Apellido");
+        }
+
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {

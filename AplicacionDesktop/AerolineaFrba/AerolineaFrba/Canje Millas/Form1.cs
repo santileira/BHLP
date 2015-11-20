@@ -89,7 +89,8 @@ namespace AerolineaFrba.Canje_Millas
 
         private Boolean validarCampo()
         {
-            return Validacion.textNombre(txtCantSeleccionada, "Cant. Seleccionada");
+            return !Validacion.esVacio(txtCantSeleccionada, "Cant. Seleccionada",true) &&
+                    Validacion.esNumero(txtCantSeleccionada, "Cant. Seleccionada",true);
         }
 
         private bool hayStockDisponible()
@@ -198,7 +199,7 @@ namespace AerolineaFrba.Canje_Millas
 
                     MessageBox.Show("Se efectuó el Canje", "Canje Exitoso", MessageBoxButtons.OK);
 
-                    this.cambiarVisibilidades(new Menu());
+                    this.Close();
 
                 }
                 else

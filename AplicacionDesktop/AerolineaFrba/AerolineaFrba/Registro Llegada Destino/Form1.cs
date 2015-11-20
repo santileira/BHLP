@@ -118,6 +118,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             }
         }
 
+
         private bool esOrigenValido()
         {
 
