@@ -62,7 +62,16 @@ namespace AerolineaFrba.Devolucion
                 this.txtCodigo.Enabled =  this.btBuscar.Enabled = false;
                 this.btFinalizar.Visible = true;
                 this.btLimpiar.Visible = true;
-               
+                this.informarResultadoConsulta(dgPasaje, "pasajes");                   
+                this.informarResultadoConsulta(dgEncomienda, "encomiendas");
+            }
+        }
+
+        private void informarResultadoConsulta(DataGridView dg, string nombre)
+        {
+            if (dg.Rows.Count == 0)
+            {
+                MessageBox.Show("No se han encontrado " + nombre + " con ese código de compra", "Informe", MessageBoxButtons.OK);
             }
         }
               
@@ -170,7 +179,7 @@ namespace AerolineaFrba.Devolucion
                     return;
                 }
             }
-            MessageBox.Show("No se ha seleccionado ningún pasaje ni encomienda", "Advertencia", MessageBoxButtons.YesNo);
+            MessageBox.Show("No se ha seleccionado ningún pasaje ni encomienda", "Advertencia", MessageBoxButtons.OK);
         }
         
    
