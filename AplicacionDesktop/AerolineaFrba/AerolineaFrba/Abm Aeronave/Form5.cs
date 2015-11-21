@@ -103,8 +103,6 @@ namespace AerolineaFrba.Abm_Aeronave
         //Boton Buscar
         private void button3_Click(object sender, EventArgs e)
         {
-
-            MessageBox.Show("query: " + query, "lala", MessageBoxButtons.OK);
             this.ejecutarConsulta();
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
@@ -352,6 +350,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 this.query += " AND ";
 
             this.query += combo.Text + criterio;
+            MessageBox.Show("query: " + this.query, "error", MessageBoxButtons.OK);
             MessageBox.Show("Se ha agregado el filtro sobre el campo " + combo.Text, "Filtro agregado", MessageBoxButtons.OK);
 
         }
