@@ -62,23 +62,32 @@ namespace AerolineaFrba.Abm_Rol
         {
             if (datosCorrectos())
             {
-                if (!this.ExisteNombreRol())
+                if (this.ExisteNombreRol())
                 {
-                    DialogResult resultado = MessageBox.Show("Se procede a modificar el rol seleccionado", "Informe", MessageBoxButtons.YesNo);
-                    if (apretoSi(resultado))
+                    if (txtNombre.Text != txtRolSeleccionado.Text)
                     {
-                        modificarRol();
-
-                        (listado as Listado).iniciar();
-                        this.cambiarVisibilidades(this.listado);
-
+                        MessageBox.Show("El nombre ingresado ya existe. No es posible dar de alta el rol", "Informe", MessageBoxButtons.OK);
+                        return;
                     }
+                   
+                        
                 }
-                else
-                    MessageBox.Show("El nombre ingresado ya existe. No es posible dar de alta el rol", "Informe", MessageBoxButtons.OK);
+                this.realizarModificacion();
             }
         }
 
+        private void realizarModificacion()
+        {
+            DialogResult resultado = MessageBox.Show("Se procede a modificar el rol seleccionado", "Informe", MessageBoxButtons.YesNo);
+            if (apretoSi(resultado))
+            {
+                modificarRol();
+
+                (listado as Listado).iniciar();
+                this.cambiarVisibilidades(this.listado);
+
+            }
+        }
         private bool ExisteNombreRol()
         {
             SqlCommand command = new SqlCommand();
