@@ -217,6 +217,7 @@ namespace AerolineaFrba.Abm_Rol
                
                 cambiarVisibilidades(this.siguiente);
                 (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
+                this.Close();
             } 
        }
 

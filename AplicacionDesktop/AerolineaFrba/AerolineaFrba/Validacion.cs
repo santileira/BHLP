@@ -138,7 +138,7 @@ namespace AerolineaFrba
             {
                 if (mostrarMensaje && !esVacio(txtBox))
                 {
-                    MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
+                    MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser alfanumerico", "Error en el nombre", MessageBoxButtons.OK);
                     return false;
                 }
                 if(!esVacio(txtBox))

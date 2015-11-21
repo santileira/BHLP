@@ -68,9 +68,7 @@ namespace AerolineaFrba.Abm_Rol
                     {
                         MessageBox.Show("El nombre ingresado ya existe. No es posible dar de alta el rol", "Informe", MessageBoxButtons.OK);
                         return;
-                    }
-                   
-                        
+                    }     
                 }
                 this.realizarModificacion();
             }
@@ -83,8 +81,7 @@ namespace AerolineaFrba.Abm_Rol
             {
                 modificarRol();
 
-                (listado as Listado).iniciar();
-                this.cambiarVisibilidades(this.listado);
+                this.Close();
 
             }
         }
