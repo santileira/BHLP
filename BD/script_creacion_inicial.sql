@@ -1539,6 +1539,20 @@ AS
 
 GO
 
+-------------------------------Existe Nombre Rol-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ExisteNombreRol (@Nombre VARCHAR(30))
+	RETURNS BIT
+AS
+BEGIN
+	DECLARE @Existe INT
+	SELECT @Existe = COUNT(*) FROM ABSTRACCIONX4.ROLES WHERE ROL_NOMBRE = @Nombre
+	IF(@Existe > 0)
+	RETURN 1
+	RETURN 0
+END
+GO
+
+
 -------------------------------Dar Codigo De Rol-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeRol (@Rol VARCHAR(30))
 RETURNS TINYINT
