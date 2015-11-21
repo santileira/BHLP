@@ -108,7 +108,22 @@ namespace AerolineaFrba.Registro_Llegada_Destino
                     }
                     else
                     {
-                        MessageBox.Show("El Destino seleccionado no corresponde al destino de la aeronave", "Destino inválido", MessageBoxButtons.OK);
+                        MessageBox.Show("El Destino seleccionado difiere al destino de Ruta", "Aviso de Destino Diferido", MessageBoxButtons.OK);
+
+                       /* SqlDataReader sqlviajeCod;
+                        SqlCommand consultaViajeCod = new SqlCommand();
+                        consultaViajeCod.CommandType = CommandType.Text;
+                        consultaViajeCod.CommandText = "";
+                        consultaViajeCod.Connection = Program.conexion();
+                        sqlviajeCod = consultaViajeCod.ExecuteReader();
+
+                        sqlviajeCod.Read();
+                        viaje_cod = (int)sqlviajeCod.GetValue(0);
+                        
+                        
+                        Form2 cargaFecha = new Form2(aeronaveSeleccionada, viaje_cod);
+                        cargaFecha.anterior = this;
+                        cambiarVisibilidades(cargaFecha);*/
                     }
                 }
                 else
