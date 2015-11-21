@@ -75,7 +75,7 @@ GO
 CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
 	[USERNAME] [varchar] (20),
 	[PASSWORD] [varchar] (70) NOT NULL,
-	[CANT_INTENTOS] [tinyint] DEFAULT 0,
+	[CANT_INTENTOS] [tinyint] DEFAULT 0
  CONSTRAINT [PK_USUARIOS] PRIMARY KEY CLUSTERED 
 (
 	[USERNAME] 
@@ -235,13 +235,12 @@ GO
 CREATE TABLE [ABSTRACCIONX4].[RUTAS_AEREAS](
 	[RUTA_ID] [int] IDENTITY,
 	[RUTA_COD] [int] NOT NULL,
-	[SERV_COD] [tinyint] NOT NULL,
 	[CIU_COD_O] [smallint] NOT NULL,
 	[CIU_COD_D] [smallint] NOT NULL,
 	[RUTA_PRECIO_BASE_KG] [numeric] (5,2) NOT NULL,
 	[RUTA_PRECIO_BASE_PASAJE] [numeric] (5,2) NOT NULL,
-	[RUTA_ESTADO] [bit] DEFAULT 1, --para su baja lógica
-	CONSTRAINT [UK_CIUDADES] UNIQUE (CIU_COD_O , CIU_COD_D , RUTA_COD , SERV_COD),
+	[RUTA_ESTADO] [bit] DEFAULT 1,
+	CONSTRAINT [UK_CIUDADES] UNIQUE (CIU_COD_O , CIU_COD_D , RUTA_COD ),
 	CONSTRAINT [PK_RUTAS_AEREAS] PRIMARY KEY CLUSTERED 
 	(
 	[RUTA_ID] 
@@ -260,10 +259,32 @@ REFERENCES [ABSTRACCIONX4].[CIUDADES] ([CIU_COD])
 
 GO
 
-ALTER TABLE [ABSTRACCIONX4].[RUTAS_AEREAS]  WITH CHECK ADD  CONSTRAINT [FK_RUTAS_AEREAS_SERVICIOS] FOREIGN KEY([SERV_COD])
+
+-- Tabla tipos de servicios por ruta
+CREATE TABLE [ABSTRACCIONX4].[SERVICIOS_RUTAS](
+	[SERV_COD] [tinyint] NOT NULL,
+	[RUTA_ID] [int] NOT NULL
+ CONSTRAINT [PK_SERVICIOS_RUTAS] PRIMARY KEY CLUSTERED 
+(
+	[SERV_COD] ASC,
+	[RUTA_ID] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+ALTER TABLE [ABSTRACCIONX4].[SERVICIOS_RUTAS]  WITH CHECK ADD  CONSTRAINT [FK_SERVICIOS_RUTAS_SERVICIO] FOREIGN KEY([SERV_COD])
 REFERENCES [ABSTRACCIONX4].[SERVICIOS] ([SERV_COD])
 
 GO
+
+ALTER TABLE [ABSTRACCIONX4].[SERVICIOS_RUTAS]  WITH CHECK ADD  CONSTRAINT [FK_SERVICIOS_RUTAS_RUTA] FOREIGN KEY([RUTA_ID])
+REFERENCES [ABSTRACCIONX4].[RUTAS_AEREAS] ([RUTA_ID])
+
+GO
+
+
 
 -- Tabla de Aeronaves
 CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
@@ -585,24 +606,39 @@ GO
 INSERT INTO [ABSTRACCIONX4].[RUTAS_AEREAS]
 
 	(	RUTA_COD,
-		SERV_COD,
 		CIU_COD_O,
 		CIU_COD_D,
 		RUTA_PRECIO_BASE_KG,
-		RUTA_PRECIO_BASE_PASAJE,
-		RUTA_ESTADO
+		RUTA_PRECIO_BASE_PASAJE
 	)
 
 SELECT	Ruta_Codigo,
-		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_DESC = Tipo_Servicio),
 		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = SUBSTRING(Ruta_Ciudad_Origen,2,100)),
 		(SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = SUBSTRING(Ruta_Ciudad_Destino,2,100)),
 		MAX(Ruta_Precio_BaseKG) as Precio_BaseKG,
-		MAX(Ruta_Precio_BasePasaje) as Precio_BasePasaje,
-		1 
+		MAX(Ruta_Precio_BasePasaje) as Precio_BasePasaje
 	FROM gd_esquema.Maestra
-	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino,Tipo_Servicio
+	GROUP BY Ruta_Codigo,Ruta_Ciudad_Origen,Ruta_Ciudad_Destino
 GO
+
+-- Inserta los tipos de servicios por cada ruta
+
+INSERT INTO [ABSTRACCIONX4].[SERVICIOS_RUTAS]
+
+	(	RUTA_ID,
+		SERV_COD
+	)
+	
+	SELECT DISTINCT (SELECT RUTA_ID 
+						FROM ABSTRACCIONX4.RUTAS_AEREAS
+						WHERE RUTA_COD = m.Ruta_Codigo AND
+							  CIU_COD_O = (SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Origen,2,100)) AND
+							  CIU_COD_D = (SELECT C.CIU_COD FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Destino,2,100))),
+					(SELECT SERV_COD 
+						FROM ABSTRACCIONX4.SERVICIOS
+						WHERE SERV_DESC = m.Tipo_Servicio)
+		FROM gd_esquema.Maestra m
+
 
 
 -- Inserta los viajes en la tabla viajes (el insert de las butacas disponibles se hace al final)
@@ -1046,8 +1082,8 @@ RETURNS table
 AS		
 	return(
 			select (r.RUTA_PRECIO_BASE_KG * @kilos) IMPORTE
-				from ABSTRACCIONX4.RUTAS_AEREAS r, ABSTRACCIONX4.SERVICIOS s
-				where r.SERV_COD = s.SERV_COD and
+				from ABSTRACCIONX4.RUTAS_AEREAS r
+				where
 				r.CIU_COD_O = (select c1.CIU_COD	
 								from ABSTRACCIONX4.CIUDADES c1
 								where @origen = c1.CIU_DESC) and
@@ -1142,12 +1178,13 @@ AS
 	return (select distinct v.VIAJE_COD, v.AERO_MATRI,v.VIAJE_FECHA_SALIDA Fecha_Salida, v.VIAJE_FECHA_LLEGADAE Fecha_Llegada, 
 				c1.CIU_DESC Origen, c2.CIU_DESC Destino, s.SERV_DESC Tipo_Servicio
 			from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r1, ABSTRACCIONX4.RUTAS_AEREAS r2,
-				ABSTRACCIONX4.CIUDADES c1, ABSTRACCIONX4.CIUDADES c2,ABSTRACCIONX4.SERVICIOS s
+				ABSTRACCIONX4.CIUDADES c1, ABSTRACCIONX4.CIUDADES c2,ABSTRACCIONX4.SERVICIOS s,ABSTRACCIONX4.SERVICIOS_RUTAS rs
 			where v.RUTA_ID = r1.RUTA_ID and
 				v.RUTA_ID = r2.RUTA_ID and
 				r1.CIU_COD_O = c1.CIU_COD and
 				r2.CIU_COD_D = c2.CIU_COD and
-				r1.SERV_COD = s.SERV_COD and
+				r1.RUTA_ID = rs.RUTA_ID and
+				rs.SERV_COD = s.SERV_COD and
 				@origen = c1.CIU_DESC and
 				@destino = c2.CIU_DESC and
 				year(v.VIAJE_FECHA_SALIDA) = year(@fecha) and
@@ -2368,7 +2405,7 @@ GO
 -------------------------------Alta Ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AltaRuta
 	@Codigo INT,
-	@Servicio VARCHAR(30),
+	@Servicios Lista Readonly,
 	@CiudadOrigen VARCHAR(80),
 	@CiudadDestino VARCHAR(80),
 	@PrecioPasaje NUMERIC(5,2),
@@ -2376,16 +2413,23 @@ CREATE PROCEDURE [ABSTRACCIONX4].AltaRuta
 AS
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.RUTAS_AEREAS
-			(RUTA_COD,SERV_COD,CIU_COD_O,CIU_COD_D,RUTA_PRECIO_BASE_PASAJE,RUTA_PRECIO_BASE_KG)
-			VALUES (@Codigo,ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
-			ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
-			ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
-			@PrecioPasaje,@PrecioeEncomienda)
+			(RUTA_COD,CIU_COD_O,CIU_COD_D,RUTA_PRECIO_BASE_PASAJE,RUTA_PRECIO_BASE_KG)
+			VALUES (@Codigo,
+				ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
+				ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
+				@PrecioPasaje,
+				@PrecioeEncomienda)
+
+		INSERT INTO ABSTRACCIONX4.SERVICIOS_RUTAS
+		(RUTA_ID,SERV_COD)
+		SELECT SCOPE_IDENTITY(),ABSTRACCIONX4.ObtenerCodigoServicio(S.elemento)
+		FROM @Servicios S
+
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(255)
 		SET @Error = 'Ya existe una ruta de ' + @CiudadOrigen + ' a ' + @CiudadDestino +
-			' con el código ' + CONVERT(VARCHAR,@Codigo) + ' y servicio ' + @Servicio
+			' con el código ' + CONVERT(VARCHAR,@Codigo)
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO
@@ -2441,12 +2485,48 @@ BEGIN
 END
 GO
 
+-------------------------------Servicios de una ruta-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ServiciosDeRuta
+	(@IdRuta TINYINT)
+RETURNS @Servicios TABLE (tipoServicio VARCHAR(30))
+AS
+BEGIN
+	INSERT INTO @Servicios
+	SELECT SERV_DESC 
+		FROM ABSTRACCIONX4.SERVICIOS S JOIN ABSTRACCIONX4.SERVICIOS_RUTAS SR ON (S.SERV_COD= SR.SERV_COD)
+		WHERE RUTA_ID = @IdRuta
+	RETURN
+END
+
+GO
+
+-------------------------------Actualizar servicios de ruta-------------------------------
+CREATE PROCEDURE [ABSTRACCIONX4].ActualizarServiciosRuta
+	@IdRuta TINYINT,
+	@ServiciosNuevos Lista READONLY
+AS
+BEGIN
+	INSERT INTO [ABSTRACCIONX4].SERVICIOS_RUTAS(RUTA_ID,SERV_COD)
+		SELECT @IdRuta,
+			   ABSTRACCIONX4.ObtenerCodigoServicio(elemento)
+		FROM @ServiciosNuevos
+		WHERE elemento NOT IN (SELECT * FROM [ABSTRACCIONX4].ServiciosDeRuta(@IdRuta))
+	
+	DELETE FROM ABSTRACCIONX4.SERVICIOS_RUTAS
+		WHERE RUTA_ID = @IdRuta AND
+			  SERV_COD NOT IN
+				(SELECT ABSTRACCIONX4.ObtenerCodigoServicio(elemento)
+				 FROM @ServiciosNuevos)
+END
+
+GO
+
 
 -------------------------------Modificacion ruta-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@IdRuta INT,
 	@Codigo INT,
-	@Servicio VARCHAR(30),
+	@Servicios Lista Readonly,
 	@CiudadOrigen VARCHAR(80),
 	@CiudadDestino VARCHAR(80),
 	@PrecioPasaje NUMERIC(5,2),
@@ -2455,22 +2535,25 @@ AS
 BEGIN
 	BEGIN TRY
 		UPDATE ABSTRACCIONX4.RUTAS_AEREAS
-			SET RUTA_COD = @Codigo, SERV_COD = ABSTRACCIONX4.ObtenerCodigoServicio(@Servicio),
+			SET RUTA_COD = @Codigo,
 				CIU_COD_O = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadOrigen),
 				CIU_COD_D = ABSTRACCIONX4.ObtenerCodigoCiudad(@CiudadDestino),
 				RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje,
 				RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
 			WHERE RUTA_ID = @IdRuta
+
+		EXEC ABSTRACCIONX4.ActualizarServiciosRuta @IdRuta,@Servicios
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(255)
 		SET @Error = 'Ya existe una ruta de ' + @CiudadOrigen + ' a ' + @CiudadDestino +
-			' con el código ' + CONVERT(VARCHAR,@Codigo) + ' y servicio ' + @Servicio
+			' con el código ' + CONVERT(VARCHAR,@Codigo)
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 END
 
 GO
+
 
 -- **************** GENERAR VIAJE **************
 
