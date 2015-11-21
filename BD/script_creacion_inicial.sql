@@ -1595,8 +1595,7 @@ AS
 		
 		UPDATE ABSTRACCIONX4.ROLES 
 		SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = @Nombre
-		DELETE FROM ABSTRACCIONX4.ROLES_USUARIOS 
-			WHERE ROL_COD = @Codigo
+		
 GO
 
 -------------------------------Modificar Rol-------------------------------

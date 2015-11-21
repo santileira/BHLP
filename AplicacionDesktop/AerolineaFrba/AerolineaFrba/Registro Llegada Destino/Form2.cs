@@ -31,18 +31,18 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             SqlDataReader reader;
             SqlCommand consultaServicios = new SqlCommand();
             consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT s.SERV_DESC FROM [ABSTRACCIONX4].[AERONAVES] a JOIN [ABSTRACCIONX4].[SERVICIOS] s ON a.SERV_COD = s.SERV_COD WHERE a.AERO_MATRI = '" + registro.Cells["AERO_MATRI"].Value.ToString() + "'";
+            consultaServicios.CommandText = "SELECT s.SERV_DESC FROM [ABSTRACCIONX4].[AERONAVES] a JOIN [ABSTRACCIONX4].[SERVICIOS] s ON a.SERV_COD = s.SERV_COD WHERE a.AERO_MATRI = '" + registro.Cells["Matricula"].Value.ToString() + "'";
             consultaServicios.Connection = Program.conexion();
 
             reader = consultaServicios.ExecuteReader();
             reader.Read();
 
             txtServicio.Text = reader.GetString(0);
-            txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
-            txtModelo.Text = registro.Cells["AERO_MOD"].Value.ToString();
-            txtFabricante.Text = registro.Cells["AERO_FAB"].Value.ToString();
-            txtCantButacas.Text = registro.Cells["AERO_CANT_BUTACAS"].Value.ToString();
-            txtCantKgs.Text = registro.Cells["AERO_CANT_KGS"].Value.ToString();
+            txtMatricula.Text = registro.Cells["Matricula"].Value.ToString();
+            txtModelo.Text = registro.Cells["Modelo"].Value.ToString();
+            txtFabricante.Text = registro.Cells["Fabricante"].Value.ToString();
+            txtCantButacas.Text = registro.Cells["Cant. Butacas"].Value.ToString();
+            txtCantKgs.Text = registro.Cells["Cant. Kgs"].Value.ToString();
             
 
         }

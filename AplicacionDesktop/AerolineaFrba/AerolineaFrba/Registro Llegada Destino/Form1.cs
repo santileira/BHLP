@@ -18,6 +18,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
         bool seleccionandoOrigen;
         DataGridViewRow aeronaveSeleccionada;
         int viaje_cod;
+        int viaje_cod_diferido;
 
         public Form1()
         {
@@ -65,8 +66,9 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         public void seSeleccionoMatricula(DataGridViewRow registro)
         {
-             txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
+             txtMatricula.Text = registro.Cells["Matricula"].Value.ToString();
              aeronaveSeleccionada = registro;
+             int.TryParse(registro.Cells["Cod. Viaje"].Value.ToString(), out viaje_cod_diferido);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -90,7 +92,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         public String consultaSeteada()
         {
-            return "SELECT a.AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI) WHERE v.VIAJE_FECHA_LLEGADA IS NULL AND v.VIAJE_FECHA_SALIDA < [ABSTRACCIONX4].obtenerFechaDeHoy()";
+            return "SELECT a.AERO_MATRI as Matricula,AERO_MOD as Modelo,AERO_FAB as Fabricante,SERV_DESC as Servicio,AERO_CANT_BUTACAS as 'Cant. Butacas',AERO_CANT_KGS as 'Cant. Kgs', v.VIAJE_COD as 'Cod. Viaje', v.VIAJE_FECHA_SALIDA as 'Fecha de Salida', v.VIAJE_FECHA_LLEGADAE as 'Fecha de Llegada Estimada' from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI) WHERE v.VIAJE_FECHA_LLEGADA IS NULL AND v.VIAJE_FECHA_SALIDA < [ABSTRACCIONX4].obtenerFechaDeHoy()";
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -110,20 +112,9 @@ namespace AerolineaFrba.Registro_Llegada_Destino
                     {
                         MessageBox.Show("El Destino seleccionado difiere al destino de Ruta", "Aviso de Destino Diferido", MessageBoxButtons.OK);
 
-                       /* SqlDataReader sqlviajeCod;
-                        SqlCommand consultaViajeCod = new SqlCommand();
-                        consultaViajeCod.CommandType = CommandType.Text;
-                        consultaViajeCod.CommandText = "";
-                        consultaViajeCod.Connection = Program.conexion();
-                        sqlviajeCod = consultaViajeCod.ExecuteReader();
-
-                        sqlviajeCod.Read();
-                        viaje_cod = (int)sqlviajeCod.GetValue(0);
-                        
-                        
-                        Form2 cargaFecha = new Form2(aeronaveSeleccionada, viaje_cod);
+                        Form2 cargaFecha = new Form2(aeronaveSeleccionada, viaje_cod_diferido);
                         cargaFecha.anterior = this;
-                        cambiarVisibilidades(cargaFecha);*/
+                        cambiarVisibilidades(cargaFecha);
                     }
                 }
                 else

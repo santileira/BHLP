@@ -167,7 +167,7 @@ namespace AerolineaFrba
                 }
                 return false;
             }
-            return true;
+          
         }
 
         public static Boolean esTextoAlfanumerico(TextBox txtBox, Boolean primeroLetra,string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
