@@ -85,7 +85,7 @@ namespace AerolineaFrba
         private void button9_Click(object sender, EventArgs e)
         {
             Devolucion.dgEncomiendas devolucion = new Devolucion.dgEncomiendas();
-            devolucion.inicio();
+            devolucion.inicio(false);
             cambiarVisibilidades(devolucion);
         }
 
