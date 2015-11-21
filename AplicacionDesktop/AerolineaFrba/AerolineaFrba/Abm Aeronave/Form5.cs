@@ -30,11 +30,56 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public Boolean llamadoDesdeModificacionSeleccionar;
 
-
+        
         public Listado()
         {
 
             InitializeComponent();
+
+
+            //
+            // Carga del contenido de combos
+            //
+
+            SqlDataReader varcampo;
+            SqlDataReader varfecha;
+
+            SqlCommand consultaColumnas = new SqlCommand();
+            SqlCommand consultaColumnasFechas = new SqlCommand();
+
+            consultaColumnas.CommandType = CommandType.Text;
+            consultaColumnasFechas.CommandType = CommandType.Text;
+
+            if (seSeteaQuery)
+            {
+                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT LIKE 'AERO_BAJA%'";
+            }
+            else
+            {
+                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%'";
+            }
+
+            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
+
+            consultaColumnas.Connection = Program.conexion();
+
+            varcampo = consultaColumnas.ExecuteReader();
+
+            while (varcampo.Read())
+            {
+                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
+                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
+            }
+
+            consultaColumnasFechas.Connection = Program.conexion();
+            varfecha = consultaColumnasFechas.ExecuteReader();
+
+            while (varfecha.Read())
+            {
+                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
+            }
+
+            /////////////////////////Fin carga contenido de combos//////////////////////////
 
         }
 
@@ -59,7 +104,6 @@ namespace AerolineaFrba.Abm_Aeronave
         private void button3_Click(object sender, EventArgs e)
         {
             this.ejecutarConsulta();
-
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
         }
@@ -145,51 +189,6 @@ namespace AerolineaFrba.Abm_Aeronave
         public void inicio()
         {
 
-            //
-            // Carga del contenido de combos
-            //
-
-            SqlDataReader varcampo;
-            SqlDataReader varfecha;
-
-            SqlCommand consultaColumnas = new SqlCommand();
-            SqlCommand consultaColumnasFechas = new SqlCommand();
-
-            consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnasFechas.CommandType = CommandType.Text;
-
-            if (seSeteaQuery)
-            {
-                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT LIKE 'AERO_BAJA%'";
-            }
-            else
-            {
-                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%'";
-            }
-
-            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
-
-            consultaColumnas.Connection = Program.conexion();
-
-            varcampo = consultaColumnas.ExecuteReader();
-
-            while (varcampo.Read())
-            {
-                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
-                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
-            }
-
-            consultaColumnasFechas.Connection = Program.conexion();
-            varfecha = consultaColumnasFechas.ExecuteReader();
-
-            while (varfecha.Read())
-            {
-                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
-            }
-
-            /////////////////////////Fin carga contenido de combos//////////////////////////
-
-
             if (seSeteaQuery)
             {
                 query = (anterior as Registro_Llegada_Destino.Form1).consultaSeteada();
@@ -215,6 +214,11 @@ namespace AerolineaFrba.Abm_Aeronave
             cboCamposFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
+
+            if (seSeteaQuery)
+            {
+                this.huboCondicion = true;
+            }
 
 
         }

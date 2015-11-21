@@ -147,7 +147,7 @@ namespace AerolineaFrba
         public static Form Devolucion()
         {
             Devolucion.dgEncomiendas devolucion = new Devolucion.dgEncomiendas();
-            devolucion.inicio();
+            devolucion.inicio(false);
 
             return devolucion;
         }

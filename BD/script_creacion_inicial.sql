@@ -134,30 +134,30 @@ GO
 
 
 -- Tabla de Tipos de Tarjetas de Cerdito
-CREATE TABLE [ABSTRACCIONX4].[TIPOS](
-	[TIPO_COD] [tinyint] IDENTITY,
-	[TIPO_DESC] [varchar] (30),
+CREATE TABLE [ABSTRACCIONX4].[TIPOS_TARJETAS](
+	[TIPOTARJ_COD] [tinyint] IDENTITY,
+	[TIPOTARJ_DESC] [varchar] (30),
 CONSTRAINT [PK_TIPOS] PRIMARY KEY CLUSTERED 
 (
-	[TIPO_COD] 
+	[TIPOTARJ_COD] 
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 )  ON [PRIMARY]
 GO	
 
 --Tabla de Tipos por Cuotas
 CREATE TABLE [ABSTRACCIONX4].[TIPOS_CUOTAS](
-	[TIPO_COD] [tinyint] NOT NULL,
+	[TIPOTARJ_COD] [tinyint] NOT NULL,
 	[CUO_NUM] [tinyint] NOT NULL,
 CONSTRAINT [PK_TIPOS_CUOTAS] PRIMARY KEY CLUSTERED 
 (
-	[TIPO_COD],
+	[TIPOTARJ_COD],
 	[CUO_NUM] 
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 )  ON [PRIMARY]
 GO	
 
-ALTER TABLE [ABSTRACCIONX4].[TIPOS_CUOTAS]  WITH CHECK ADD  CONSTRAINT [FK_TIPOS_CUOTAS_TIPOS] FOREIGN KEY([TIPO_COD])
-REFERENCES [ABSTRACCIONX4].[TIPOS] ([TIPO_COD])
+ALTER TABLE [ABSTRACCIONX4].[TIPOS_CUOTAS]  WITH CHECK ADD  CONSTRAINT [FK_TIPOS_CUOTAS_TIPOS_TARJETAS] FOREIGN KEY([TIPOTARJ_COD])
+REFERENCES [ABSTRACCIONX4].[TIPOS_TARJETAS] ([TIPOTARJ_COD])
 
 GO
 
@@ -180,7 +180,7 @@ CREATE TABLE [ABSTRACCIONX4].[TARJETAS](
 	[TARJ_NRO] [numeric] (16,0),
 	[TARJ_VTO] [varchar] (10) NOT NULL,
 	[TARJ_CODSEG] [numeric] (4,0) NOT NULL,
-	[TIPO_COD] [tinyint] NOT NULL,
+	[TIPOTARJ_COD] [tinyint] NOT NULL,
 CONSTRAINT [PK_TARJETAS] PRIMARY KEY CLUSTERED 
 (
 	[TARJ_NRO] 
@@ -188,17 +188,17 @@ CONSTRAINT [PK_TARJETAS] PRIMARY KEY CLUSTERED
 )  ON [PRIMARY]
 GO	
 
-ALTER TABLE [ABSTRACCIONX4].[TARJETAS]  WITH CHECK ADD  CONSTRAINT [FK_TARJETAS_TIPOS] FOREIGN KEY([TIPO_COD])
-REFERENCES [ABSTRACCIONX4].[TIPOS] ([TIPO_COD])
+ALTER TABLE [ABSTRACCIONX4].[TARJETAS]  WITH CHECK ADD  CONSTRAINT [FK_TARJETAS_TIPOS_TARJETAS] FOREIGN KEY([TIPOTARJ_COD])
+REFERENCES [ABSTRACCIONX4].[TIPOS_TARJETAS] ([TIPOTARJ_COD])
 
 GO
 
 -- Tabla Compras:
 CREATE TABLE [ABSTRACCIONX4].[COMPRAS](
 	[COMP_PNR] [varchar] (12) UNIQUE NOT NULL,
-	[TARJ_NRO] [numeric] (16,0) NULL,  
-	[CLI_COD] [int] NOT NULL,
-	
+	[TARJ_NRO] [numeric] (16,0) NULL, -- SI ES NULL, ES EFECTIVO ( preguntar si hay que cambiar )
+	[COMP_CUOTAS] [tinyint] NULL, 
+	[CLI_COD] [int] NOT NULL,	
 CONSTRAINT [PK_COMPRAS] PRIMARY KEY CLUSTERED 
 (
 	[COMP_PNR] 
@@ -589,9 +589,25 @@ GO
 
 -- Inserta tipo de tarjetas en la TABLA TIPOS
 
-INSERT INTO [ABSTRACCIONX4].[TIPOS] (TIPO_DESC) VALUES ('Visa')
-INSERT INTO [ABSTRACCIONX4].[TIPOS] (TIPO_DESC) VALUES ('Master Card')
-INSERT INTO [ABSTRACCIONX4].[TIPOS] (TIPO_DESC) VALUES ('American Express')
+INSERT INTO [ABSTRACCIONX4].[TIPOS_TARJETAS] (TIPOTARJ_DESC) VALUES ('Visa')
+INSERT INTO [ABSTRACCIONX4].[TIPOS_TARJETAS] (TIPOTARJ_DESC) VALUES ('Master Card')
+INSERT INTO [ABSTRACCIONX4].[TIPOS_TARJETAS] (TIPOTARJ_DESC) VALUES ('American Express')
+
+-- Inserta las cuotas posibles para los distintos tipos de tarjetas.
+
+--Visa
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(1,1)
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(1,2)
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(1,3)
+
+--MasterCard
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(2,2)
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(2,3)
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(2,6)
+
+--American Express
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(3,6)
+INSERT INTO [ABSTRACCIONX4].[TIPOS_CUOTAS] (TIPOTARJ_COD,CUO_NUM) VALUES(3,12)
 
 GO
 
@@ -1070,7 +1086,7 @@ CREATE PROCEDURE [ABSTRACCIONX4].altaTarjeta
 AS
 	BEGIN
 		INSERT INTO ABSTRACCIONX4.TARJETAS
-				(TARJ_NRO,TARJ_CODSEG,TARJ_VTO,TIPO_COD)
+				(TARJ_NRO,TARJ_CODSEG,TARJ_VTO,TIPOTARJ_COD)
 				VALUES (@nroTarjeta,@codSeg,CAST(@vencMes AS VARCHAR)+ '/' + CAST(@vencAnio AS VARCHAR) ,@tipo_cod)
 	END 
 GO
@@ -1221,7 +1237,8 @@ CREATE PROCEDURE [ABSTRACCIONX4].ingresarCompra
 	@codigoPNR varchar(12),
 	@nroTarjeta numeric(16,0),
 	@formaDePago varchar(25),
-	@codigoCli int
+	@codigoCli int,
+	@cuotas smallint
 AS
 	BEGIN
 		IF(@formaDePago='Efectivo')
@@ -1233,8 +1250,8 @@ AS
 		ELSE
 		BEGIN
 			INSERT INTO ABSTRACCIONX4.COMPRAS
-				(COMP_PNR,TARJ_NRO,CLI_COD)
-				VALUES (@codigoPNR,@nroTarjeta,@codigoCli)
+				(COMP_PNR,TARJ_NRO,CLI_COD,COMP_CUOTAS)
+				VALUES (@codigoPNR,@nroTarjeta,@codigoCli,@cuotas)
 		END
 	END 
 GO
@@ -1331,7 +1348,7 @@ CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDeCompra
 	@TablaEncomiendas [ABSTRACCIONX4].TableEncomiendasType READONLY,
 	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int,
 	@encontroComprador BIT, @actualizarComprador BIT,
-	@codigoPNR varchar(12), @formaDePago varchar(25),@nroTarjeta numeric(16,0),@codSeg int,@vencMes int, @vencAnio int, @tipoTarjeta varchar(30),
+	@codigoPNR varchar(12),@cuotas smallint, @formaDePago varchar(25),@nroTarjeta numeric(16,0),@codSeg int,@vencMes int, @vencAnio int, @tipoTarjeta varchar(30),
 	@agregarTarjeta BIT	
 	)
 AS
@@ -1360,13 +1377,13 @@ AS
 		IF(@agregarTarjeta = 1)
 		BEGIN
 			DECLARE @tipo_cod int
-			SET @tipo_cod = (SELECT TIPO_COD FROM ABSTRACCIONX4.TIPOS WHERE TIPO_DESC = @tipoTarjeta)
+			SET @tipo_cod = (SELECT TIPOTARJ_COD FROM ABSTRACCIONX4.TIPOS_TARJETAS WHERE TIPOTARJ_DESC = @tipoTarjeta)
 			EXEC [ABSTRACCIONX4].altaTarjeta @nroTarjeta,@codSeg,@vencMes,@vencAnio,@tipo_cod
 		END
 
 		DECLARE @cod_cli int
 		SET @cod_cli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape)
-		EXEC [ABSTRACCIONX4].ingresarCompra @codigoPNR,@nroTarjeta,@formaDePago,@cod_cli
+		EXEC [ABSTRACCIONX4].ingresarCompra @codigoPNR,@nroTarjeta,@formaDePago,@cod_cli,@cuotas
 		-------------------------------------
 		-------------------------------------
 
@@ -1503,8 +1520,8 @@ AS
 	BEGIN
 	DECLARE @tipoCod int,@tipoDesc varchar(20),@nro numeric(16,0), @vto varchar(30), @codSeg int, @fechaVenc varchar(15)
 
-	SELECT @vto = TARJ_VTO, @codSeg = TARJ_CODSEG, @tipoCod = TIPO_COD FROM [ABSTRACCIONX4].TARJETAS WHERE TARJ_NRO = @tarjNro	
-	SELECT @tipoDesc=TIPO_DESC FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_COD = @tipoCod 
+	SELECT @vto = TARJ_VTO, @codSeg = TARJ_CODSEG, @tipoCod = TIPOTARJ_COD FROM [ABSTRACCIONX4].TARJETAS WHERE TARJ_NRO = @tarjNro	
+	SELECT @tipoDesc=TIPOTARJ_DESC FROM [ABSTRACCIONX4].TIPOS_TARJETAS WHERE TIPOTARJ_COD = @tipoCod 
 
 	SET @fechaVenc = CAST(@tarjVtoMes AS VARCHAR)+ '/' + CAST(@tarjVtoAnio AS VARCHAR)
 		
@@ -1564,7 +1581,7 @@ AS
 			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
 			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
 		INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USERNAME,ROL_COD)
-			VALUES ('INVITADO',ABSTRACCIONX4.DarCodigoDeRol(@Nombre))
+			VALUES ('Invitado',ABSTRACCIONX4.DarCodigoDeRol(@Nombre))
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
@@ -1575,6 +1592,20 @@ AS
 	END CATCH
 
 GO
+
+-------------------------------Existe Nombre Rol-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ExisteNombreRol (@Nombre VARCHAR(30))
+	RETURNS BIT
+AS
+BEGIN
+	DECLARE @Existe INT
+	SELECT @Existe = COUNT(*) FROM ABSTRACCIONX4.ROLES WHERE ROL_NOMBRE = @Nombre
+	IF(@Existe > 0)
+	RETURN 1
+	RETURN 0
+END
+GO
+
 
 -------------------------------Dar Codigo De Rol-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeRol (@Rol VARCHAR(30))
@@ -1618,8 +1649,7 @@ AS
 		
 		UPDATE ABSTRACCIONX4.ROLES 
 		SET ROL_ESTADO = 0 WHERE ROL_NOMBRE = @Nombre
-		DELETE FROM ABSTRACCIONX4.ROLES_USUARIOS 
-			WHERE ROL_COD = @Codigo
+		
 GO
 
 -------------------------------Modificar Rol-------------------------------

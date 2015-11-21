@@ -25,11 +25,13 @@ namespace AerolineaFrba.Devolucion
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.inicio();
+            this.inicio(false);
         }
 
-        public void inicio()
+        public void inicio(Boolean bandera)
         {
+            dgEncomienda.DataSource = null;
+            dgPasaje.DataSource = null;
             this.btBuscar.Enabled = false;
             this.txtCodigo.Text = "";
             this.Cancelar.Visible = false;
@@ -37,6 +39,8 @@ namespace AerolineaFrba.Devolucion
             pasajes = new List<String>();
             encomiendas = new List<String>();
             this.btFinalizar.Visible = false;
+            this.btLimpiar.Visible = false;
+            this.txtCodigo.Enabled = true;
         }
 
         private void llenarDg(DataGridView dg , string funcion)
@@ -56,7 +60,18 @@ namespace AerolineaFrba.Devolucion
                 this.llenarDg(dgEncomienda , "LlenarEncomiendas('" + txtCodigo.Text + "')");
                 this.Cancelar.Visible = this.Devolver.Visible = true;
                 this.txtCodigo.Enabled =  this.btBuscar.Enabled = false;
-               
+                this.btFinalizar.Visible = true;
+                this.btLimpiar.Visible = true;
+                this.informarResultadoConsulta(dgPasaje, "pasajes");                   
+                this.informarResultadoConsulta(dgEncomienda, "encomiendas");
+            }
+        }
+
+        private void informarResultadoConsulta(DataGridView dg, string nombre)
+        {
+            if (dg.Rows.Count == 0)
+            {
+                MessageBox.Show("No se han encontrado " + nombre + " con ese código de compra", "Informe", MessageBoxButtons.OK);
             }
         }
               
@@ -147,25 +162,27 @@ namespace AerolineaFrba.Devolucion
             return huboErrores;
         }
 
-     
+
 
         private void btFinalizar_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = MessageBox.Show("¿Está seguro que quiere finalizar las devoluciones?", "Advertencia", MessageBoxButtons.YesNo);
-            if(apretoSi(resultado))
+            if (pasajes.Count() != 0 || encomiendas.Count() != 0)
             {
+                DialogResult resultado = MessageBox.Show("¿Está seguro que quiere finalizar las devoluciones?", "Advertencia", MessageBoxButtons.YesNo);
+                if (apretoSi(resultado))
+                {
                     Form2 form = new Form2();
-                    form.ShowDialog();    
+                    form.ShowDialog();
                     motivo = form.Motivo;
                     this.cancelarPasajesYEncomiendas();
-                    cambiarVisibilidades(new Menu());
-            }    
+                    this.Close();
+                    return;
+                }
+            }
+            MessageBox.Show("No se ha seleccionado ningún pasaje ni encomienda", "Advertencia", MessageBoxButtons.OK);
         }
-
-        private void dineroOtarjeta()
-        {
-            
-        }
+        
+   
 
         private Object cancelarPasajesYEncomiendas()
         {
@@ -179,9 +196,20 @@ namespace AerolineaFrba.Devolucion
                    ejecutarSP();
         }
 
-        private void dgEncomiendas_Load(object sender, EventArgs e)
+        private void btLimpiar_Click(object sender, EventArgs e)
         {
-
+            if (pasajes.Count() != 0 || encomiendas.Count() != 0)
+            {
+                DialogResult resultado = MessageBox.Show("¿Está seguro que quiere limpiar la pantalla, no se realizará la devolución?", "Advertencia", MessageBoxButtons.YesNo);
+                if (apretoSi(resultado))
+                {
+                    this.inicio(true);
+                }
+                return;
+            }
+            this.inicio(true);
         }
+
+        
     }
 }

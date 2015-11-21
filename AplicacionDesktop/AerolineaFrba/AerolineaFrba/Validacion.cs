@@ -34,13 +34,13 @@ namespace AerolineaFrba
         {
             Boolean huboErrores = false;
 
-            if (!esTexto(filtro1) && !esVacio(filtro1  , "No importa" , false))
+            if (!esSoloTexto(filtro1) && !esVacio(filtro1  , "No importa" , false))
             {
                 MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
 
-            if (!esTexto(filtro2) && !esVacio(filtro2 , "No importa" , false))
+            if (!esSoloTexto(filtro2) && !esVacio(filtro2 , "No importa" , false))
             {
                 MessageBox.Show("El filtro por igualdad de palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
@@ -138,7 +138,7 @@ namespace AerolineaFrba
             {
                 if (mostrarMensaje && !esVacio(txtBox))
                 {
-                    MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
+                    MessageBox.Show("Para el campo " + nombreCampo + " el criterio debe ser alfanumerico", "Error en el nombre", MessageBoxButtons.OK);
                     return false;
                 }
                 if(!esVacio(txtBox))
@@ -165,8 +165,9 @@ namespace AerolineaFrba
                     MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras.", "Error en los datos de entrada", MessageBoxButtons.OK);
                     return false;
                 }
+                return false;
             }
-            return true;
+          
         }
 
         public static Boolean esTextoAlfanumerico(TextBox txtBox, Boolean primeroLetra,string nombreCampo = "Opcional", Boolean mostrarMensaje = false)

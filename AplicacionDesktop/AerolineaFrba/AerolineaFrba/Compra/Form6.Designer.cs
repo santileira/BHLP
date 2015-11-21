@@ -51,7 +51,6 @@
             this.txtNroTarjeta = new System.Windows.Forms.TextBox();
             this.cboAnios = new System.Windows.Forms.ComboBox();
             this.cboMeses = new System.Windows.Forms.ComboBox();
-            this.ckPagaCuotas = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
             this.cboTipoTarjeta = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -59,6 +58,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboFormaPago = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.labelCuotas = new System.Windows.Forms.Label();
+            this.cboCuotas = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -247,11 +248,12 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cboCuotas);
+            this.groupBox3.Controls.Add(this.labelCuotas);
             this.groupBox3.Controls.Add(this.txtCodSeg);
             this.groupBox3.Controls.Add(this.txtNroTarjeta);
             this.groupBox3.Controls.Add(this.cboAnios);
             this.groupBox3.Controls.Add(this.cboMeses);
-            this.groupBox3.Controls.Add(this.ckPagaCuotas);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.cboTipoTarjeta);
             this.groupBox3.Controls.Add(this.label10);
@@ -308,17 +310,6 @@
             this.cboMeses.Name = "cboMeses";
             this.cboMeses.Size = new System.Drawing.Size(40, 21);
             this.cboMeses.TabIndex = 10;
-            // 
-            // ckPagaCuotas
-            // 
-            this.ckPagaCuotas.AutoSize = true;
-            this.ckPagaCuotas.Location = new System.Drawing.Point(123, 138);
-            this.ckPagaCuotas.Name = "ckPagaCuotas";
-            this.ckPagaCuotas.Size = new System.Drawing.Size(116, 17);
-            this.ckPagaCuotas.TabIndex = 9;
-            this.ckPagaCuotas.Text = "¿Pagar en cuotas?";
-            this.ckPagaCuotas.UseVisualStyleBackColor = true;
-            this.ckPagaCuotas.Visible = false;
             // 
             // label11
             // 
@@ -387,6 +378,23 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // labelCuotas
+            // 
+            this.labelCuotas.AutoSize = true;
+            this.labelCuotas.Location = new System.Drawing.Point(8, 139);
+            this.labelCuotas.Name = "labelCuotas";
+            this.labelCuotas.Size = new System.Drawing.Size(43, 13);
+            this.labelCuotas.TabIndex = 13;
+            this.labelCuotas.Text = "Cuotas:";
+            // 
+            // cboCuotas
+            // 
+            this.cboCuotas.FormattingEnabled = true;
+            this.cboCuotas.Location = new System.Drawing.Point(123, 136);
+            this.cboCuotas.Name = "cboCuotas";
+            this.cboCuotas.Size = new System.Drawing.Size(40, 21);
+            this.cboCuotas.TabIndex = 14;
+            // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -438,9 +446,10 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cboTipoTarjeta;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox ckPagaCuotas;
         private System.Windows.Forms.ComboBox cboAnios;
         private System.Windows.Forms.ComboBox cboMeses;
         private System.Windows.Forms.TextBox txtCodSeg;
+        private System.Windows.Forms.ComboBox cboCuotas;
+        private System.Windows.Forms.Label labelCuotas;
     }
 }

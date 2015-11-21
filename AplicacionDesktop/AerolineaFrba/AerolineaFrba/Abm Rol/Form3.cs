@@ -166,7 +166,7 @@ namespace AerolineaFrba.Abm_Rol
             {
                 if (e.ColumnIndex == 0)
                 {
-                    if(dg.Rows[e.RowIndex].Cells["Nombre"].Value.Equals("ADMINISTRADOR"))
+                    if(dg.Rows[e.RowIndex].Cells["Nombre"].Value.Equals("Administrador"))
                     {
                         MessageBox.Show("No puede darle de baja al rol de Administrador", "Error", MessageBoxButtons.OK);
                         return;

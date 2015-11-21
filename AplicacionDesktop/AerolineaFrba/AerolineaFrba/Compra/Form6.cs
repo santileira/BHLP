@@ -24,7 +24,7 @@ namespace AerolineaFrba.Compra
         public Form6()
         {
             InitializeComponent();
-
+            
             //
             // Carga del contenido de combos
             //
@@ -32,7 +32,7 @@ namespace AerolineaFrba.Compra
             SqlDataReader varTarjeta;
             SqlCommand consultaColumnas = new SqlCommand();
             consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnas.CommandText = "SELECT TIPO_DESC FROM [ABSTRACCIONX4].TIPOS";
+            consultaColumnas.CommandText = "SELECT TIPOTARJ_DESC FROM [ABSTRACCIONX4].TIPOS_TARJETAS";
             consultaColumnas.Connection = Program.conexion();
             varTarjeta = consultaColumnas.ExecuteReader();
 
@@ -114,23 +114,21 @@ namespace AerolineaFrba.Compra
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /*SqlDataReader varCuotas;
-            SqlCommand consulta = new SqlCommand();
-            consulta.CommandType = CommandType.Text;
-            consulta.CommandText = "SELECT TIPO_CUO FROM [ABSTRACCIONX4].TIPOS WHERE TIPO_DESC='" + cboTipoTarjeta.SelectedItem.ToString() + "'";
-            consulta.Connection = Program.conexion();
-            varCuotas = consulta.ExecuteReader();
+           cboCuotas.Items.Clear();
+           SqlDataReader varCuotas;
+           SqlCommand consulta = new SqlCommand();
+           consulta.CommandType = CommandType.Text;
+           consulta.CommandText = "SELECT TC.CUO_NUM FROM [ABSTRACCIONX4].TIPOS_CUOTAS TC JOIN [ABSTRACCIONX4].TIPOS_TARJETAS TT ON TC.TIPOTARJ_COD = TT.TIPOTARJ_COD WHERE TIPOTARJ_DESC='" + cboTipoTarjeta.SelectedItem.ToString() + "'";
+           consulta.Connection = Program.conexion();
+           varCuotas = consulta.ExecuteReader();
 
-            varCuotas.Read();
 
-            if ((bool)varCuotas.GetValue(0))
+           while (varCuotas.Read())
             {
-                ckPagaCuotas.Visible = true;
+                this.cboCuotas.Items.Add(varCuotas.GetValue(0));
             }
-            else
-            {
-                ckPagaCuotas.Visible = false;
-            }*/
+           
+
         }
 
         private void Form6_Load(object sender, EventArgs e)
@@ -141,7 +139,7 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             bool huboError = this.hacerValidacionesDeTipo();
-
+            
             if (!huboError)
             {
 
@@ -191,6 +189,7 @@ namespace AerolineaFrba.Compra
                     validacion = !Validacion.estaSeleccionado(cboAnios, true) || validacion;
                     validacion = !Validacion.estaSeleccionado(cboMeses, true) || validacion;
                     validacion = !Validacion.estaSeleccionado(cboTipoTarjeta, true) || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboCuotas, true) || validacion;
                     validacion = !Validacion.numeroCorrecto(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
                     validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
                 }
@@ -427,8 +426,10 @@ namespace AerolineaFrba.Compra
 
             int vencMes;
             int vencAnio;
+            int cuotas;
             int.TryParse(cboMeses.Text, out vencMes);
             int.TryParse(cboAnios.Text, out vencAnio);
+            int.TryParse(cboCuotas.Text, out cuotas);
 
             if (tarjetaNueva)
             {
@@ -446,6 +447,7 @@ namespace AerolineaFrba.Compra
                                  .agregarBooleanoSP("@encontroComprador", encontroCliente)
                                  .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
                                  .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarIntSP("@cuotas",cuotas)
                                  .agregarStringSP("@formaDePago", cboFormaPago)
                                  .agregarIntSP("@nroTarjeta", txtNroTarjeta)
                                  .agregarIntSP("@codSeg", txtCodSeg)
@@ -474,6 +476,7 @@ namespace AerolineaFrba.Compra
                                  .agregarBooleanoSP("@encontroComprador", encontroCliente)
                                  .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
                                  .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarIntSP("@cuotas", 0)
                                  .agregarStringSP("@formaDePago", cboFormaPago)
                                  .agregarIntSP("@nroTarjeta", 0)
                                  .agregarIntSP("@codSeg", 0)
@@ -499,6 +502,7 @@ namespace AerolineaFrba.Compra
                                  .agregarBooleanoSP("@encontroComprador", encontroCliente)
                                  .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
                                  .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarIntSP("@cuotas", cuotas)
                                  .agregarStringSP("@formaDePago", cboFormaPago)
                                  .agregarIntSP("@nroTarjeta", txtNroTarjeta)
                                  .agregarIntSP("@codSeg", txtCodSeg)
@@ -565,6 +569,7 @@ namespace AerolineaFrba.Compra
             this.hayQueActualizarTabla();
         }
 
+        
 
 
     }
