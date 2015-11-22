@@ -140,6 +140,7 @@
             this.dateTimePicker1.Size = new System.Drawing.Size(213, 20);
             this.dateTimePicker1.TabIndex = 32;
             this.dateTimePicker1.Value = new System.DateTime(2015, 10, 19, 17, 50, 0, 0);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // txtMatricula
             // 
