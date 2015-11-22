@@ -13,14 +13,15 @@ namespace AerolineaFrba.Abm_Ruta
 {
     public partial class Modificacion : Form
     {
-        Form formularioSiguiente;
 
         public Listado listado;
         bool seleccionandoOrigen;
         private int idRuta;
+        List<Object> listaServicios;
 
         public Modificacion()
         {
+            listaServicios = new List<Object>();
             InitializeComponent();
         }
 
@@ -29,24 +30,25 @@ namespace AerolineaFrba.Abm_Ruta
             this.iniciar();
         }
 
-        public void seSelecciono(DataGridViewRow registro)
+        public void seSelecciono(DataGridViewRow registro,List<Object> tiposDeServicio)
         {
-            cargarComboServicio();
 
             idRuta = Convert.ToInt32(registro.Cells["Id"].Value);
 
             txtCodigo.Text = registro.Cells["Código Ruta"].Value.ToString();
-            cboServicio.Text = txtTipoDeServicio.Text = registro.Cells["Descripción"].Value.ToString();
             txtCiudadOrigenNueva.Text = txtCiudadOrigen.Text = registro.Cells["Origen"].Value.ToString();
             txtCiudadDestinoNueva.Text = txtCiudadDestino.Text = registro.Cells["Destino"].Value.ToString();
             txtPrecioEncomiendaNueva.Text = txtPrecioEncomienda.Text = registro.Cells["Precio Base Por Kilogramo"].Value.ToString();
             txtPrecioPasajeNuevo.Text = txtPrecioPasaje.Text = registro.Cells["Precio Base Pasaje"].Value.ToString();
 
+            this.listaServicios.Clear();
+            this.listaServicios.AddRange(tiposDeServicio);
+
             Boolean viajeProgramado = !tieneViajeProgramado(idRuta);
 
             botonSelOrigen.Enabled =
             botonSelDestino.Enabled =
-            txtTipoDeServicio.Enabled =
+            botonSelServicios.Enabled =
             txtPrecioEncomienda.Enabled =
             txtPrecioPasaje.Enabled =
             txtCiudadDestino.Enabled =
@@ -54,7 +56,6 @@ namespace AerolineaFrba.Abm_Ruta
             txtPrecioEncomiendaNueva.Enabled =
             txtPrecioPasajeNuevo.Enabled =
             txtCiudadOrigenNueva.Enabled =
-            cboServicio.Enabled =
             txtCiudadDestinoNueva.Enabled = viajeProgramado;
 
 
@@ -94,22 +95,19 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void iniciar()
         {
-          this.cargarComboServicio();
-
           txtCiudadDestino.Text = "";
           txtCiudadOrigen.Text = "";
           txtCodigo.Text = "";
           txtPrecioEncomienda.Text = "";
           txtPrecioPasaje.Text = "";
-          txtTipoDeServicio.Text = "";
           txtCiudadDestinoNueva.Text = "";
           txtCiudadOrigenNueva.Text = "";
           txtPrecioEncomiendaNueva.Text = "";
           txtPrecioPasajeNuevo.Text = "";
-          cboServicio.SelectedIndex = -1;
+          listaServicios.Clear();
              
           txtCodigo.Enabled = false;
-          txtTipoDeServicio.Enabled = false;
+          botonSelServicios.Enabled = false;
           txtPrecioEncomienda.Enabled = false;
           txtPrecioPasaje.Enabled = false;
           txtPrecioEncomiendaNueva.Enabled = false;
@@ -124,24 +122,6 @@ namespace AerolineaFrba.Abm_Ruta
           botonLimpiar.Enabled = false;
           botonGuardar.Enabled = false;
 
-        }
-
-        private void cargarComboServicio()
-        {
-            cboServicio.Items.Clear();
-
-            SqlDataReader reader;
-            SqlCommand consultaServicios = new SqlCommand();
-            consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
-            consultaServicios.Connection = Program.conexion();
-
-            reader = consultaServicios.ExecuteReader();
-
-            while (reader.Read())
-                this.cboServicio.Items.Add(reader.GetValue(0));
-
-            reader.Close();
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -179,7 +159,7 @@ namespace AerolineaFrba.Abm_Ruta
             SQLManager sqlManager = new SQLManager();
             return sqlManager.generarSP("ModificarRuta").agregarIntSP("@IdRuta", idRuta)
                                                         .agregarIntSP("@Codigo", txtCodigo)
-                                                        .agregarStringSP("@Servicio", cboServicio)
+                                                        .agregarListaSP("@Servicios", listaServicios)
                                                         .agregarStringSP("@CiudadOrigen", txtCiudadOrigenNueva)
                                                         .agregarStringSP("@CiudadDestino", txtCiudadDestinoNueva)
                                                         .agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasajeNuevo.Text))
@@ -209,7 +189,6 @@ namespace AerolineaFrba.Abm_Ruta
         {
 
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código", true);
-            algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadOrigenNueva, "ciudad de origen", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadDestinoNueva, "ciudad de destino", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtPrecioPasajeNuevo, "precio de pasaje", true) || algunoVacio;
@@ -256,5 +235,17 @@ namespace AerolineaFrba.Abm_Ruta
             cambiarVisibilidades(listado);
         }
 
+
+        public void serviciosElegidos(List<object> lista)
+        {
+            listaServicios.Clear();
+            listaServicios.AddRange(lista);
+        }
+
+        private void botonSelServicios_Click(object sender, EventArgs e)
+        {
+            Form formularioServicios = new Servicios(null, this,listaServicios);
+            formularioServicios.ShowDialog();
+        }
     }
 }

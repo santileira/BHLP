@@ -46,7 +46,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_ID 'Id' , SERV_COD 'Código Servicio' , RUTA_COD 'Código Ruta',  (SELECT S.SERV_DESC FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_COD = R.SERV_COD)  'Descripción', ";
+            this.query = "SELECT RUTA_ID 'Id' ,  RUTA_COD 'Código Ruta', ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
             this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo' , RUTA_PRECIO_BASE_PASAJE 'Precio Base Pasaje' , RUTA_ESTADO 'Estado' ";
@@ -133,7 +133,6 @@ namespace AerolineaFrba.Abm_Ruta
             primeraConsulta = false;
 
             dg.Columns["Id"].Visible = false;
-            dg.Columns["Código Servicio"].Visible = false;
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
@@ -373,7 +372,7 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 
                 this.cambiarVisibilidades(this.siguiente);
-                (siguiente as Modificacion).seSelecciono(ultimoRegistroSeleccionado);
+                //(siguiente as Modificacion).seSelecciono(ultimoRegistroSeleccionado);
             }
             else this.cambiarVisibilidades(this.anterior);
         }
@@ -404,10 +403,31 @@ namespace AerolineaFrba.Abm_Ruta
                 {
                     cambiarVisibilidades(this.siguiente);
                     ultimoRegistroSeleccionado = dg.SelectedRows[0];
-                    (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0]);
+                    (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0],obtenerServiciosDe(dg.SelectedRows[0].Cells["Id"].Value.ToString()));
                 }
             }
          }
+
+        private List<object> obtenerServiciosDe(string idRuta)
+        {
+            List<Object> listaServicios = new List<Object>();
+
+            SqlDataReader reader;
+            SqlCommand consultaServicios = new SqlCommand();
+            consultaServicios.CommandType = CommandType.Text;
+            consultaServicios.CommandText = "SELECT tipoServicio FROM [ABSTRACCIONX4].ServiciosDeRuta(@IdRuta)";
+            consultaServicios.Connection = Program.conexion();
+            consultaServicios.Parameters.AddWithValue("@IdRuta", idRuta);
+
+            reader = consultaServicios.ExecuteReader();
+
+            while (reader.Read())
+                listaServicios.Add(reader.GetValue(0));
+
+            reader.Close();
+
+            return listaServicios;
+        }
 
     }
 }
