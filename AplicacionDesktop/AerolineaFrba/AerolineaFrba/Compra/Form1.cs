@@ -106,23 +106,52 @@ namespace AerolineaFrba.Compra
         private void button1_Click(object sender, EventArgs e)
         {
             
-
             if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
             {
                 if (dateTimePicker1.Value.Year != Program.fechaHoy().Year || dateTimePicker1.Value.Month != Program.fechaHoy().Month || dateTimePicker1.Value.Day != Program.fechaHoy().Day)
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
                 else
                 {
-                    this.ejecutarQuery();
+                    SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
+                    //this.ejecutarQuery();
+
+                    dg.Columns["VIAJE_COD"].Visible = false;
+                    dg.Columns["AERO_MATRI"].Visible = false;
+
+                    dg.CurrentCell = null;
+
+                    //En caso de que no encuentre viajes disponibles
+                    if (dg.RowCount == 0)
+                    {
+                        MessageBox.Show("No se encontraron viajes disponibles", "Ningun viaje disponible", MessageBoxButtons.OK);
+                        dg.Visible = false;
+                    }
+                    else
+                        dg.Visible = true;
                 }
             }
             else
             {
-                this.ejecutarQuery();
+                SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
+                //this.ejecutarQuery();
+
+                dg.Columns["VIAJE_COD"].Visible = false;
+                dg.Columns["AERO_MATRI"].Visible = false;
+
+                dg.CurrentCell = null;
+
+                //En caso de que no encuentre viajes disponibles
+                if (dg.RowCount == 0)
+                {
+                    MessageBox.Show("No se encontraron viajes disponibles", "Ningun viaje disponible", MessageBoxButtons.OK);
+                    dg.Visible = false;
+                }
+                else
+                    dg.Visible = true;
             }
         }
 
-        private void ejecutarQuery()
+  /*      private void ejecutarQuery()
         {
             string query = "select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')";
             SqlConnection conexion = Program.conexion();
@@ -142,17 +171,9 @@ namespace AerolineaFrba.Compra
 
             dg.CurrentCell = null;
         }
-
+  */
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
-            {
-                if (dateTimePicker1.Value.Year != Program.fechaHoy().Year || dateTimePicker1.Value.Month != Program.fechaHoy().Month || dateTimePicker1.Value.Day != Program.fechaHoy().Day)
-                {
-                    MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy", "Error en las fechas", MessageBoxButtons.OK);
-                    dateTimePicker1.Value = Program.fechaHoy();
-                }
-            }
 
         }
 
