@@ -196,7 +196,8 @@ GO
 -- Tabla Compras:
 CREATE TABLE [ABSTRACCIONX4].[COMPRAS](
 	[COMP_PNR] [varchar] (12) UNIQUE NOT NULL,
-	[TARJ_NRO] [numeric] (16,0) NULL, -- SI ES NULL, ES EFECTIVO ( preguntar si hay que cambiar )
+	[COMP_EFECTIVO] [BIT] NOT NULL,
+	[TARJ_NRO] [numeric] (16,0) NULL, 
 	[COMP_CUOTAS] [tinyint] NULL, 
 	[CLI_COD] [int] NOT NULL,	
 CONSTRAINT [PK_COMPRAS] PRIMARY KEY CLUSTERED 
@@ -1225,9 +1226,11 @@ GO
 CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDelCliente
 	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
 AS
+	IF NOT EXISTS (SELECT 1 FROM ABSTRACCIONX4.CLIENTES WHERE CLI_APELLIDO = @ape AND CLI_DNI = @dni)
+	BEGIN
 	INSERT INTO [ABSTRACCIONX4].CLIENTES
 	(CLI_DNI,CLI_APELLIDO,CLI_NOMBRE,CLI_DIRECCION,CLI_MAIL,CLI_FECHA_NAC,CLI_TELEFONO) VALUES(@dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono)
-
+	END
 
 GO
 
@@ -1244,14 +1247,14 @@ AS
 		IF(@formaDePago='Efectivo')
 		BEGIN
 			INSERT INTO ABSTRACCIONX4.COMPRAS
-				(COMP_PNR,CLI_COD)
-				VALUES (@codigoPNR,@codigoCli)
+				(COMP_PNR,CLI_COD,COMP_EFECTIVO)
+				VALUES (@codigoPNR,@codigoCli,1)
 		END
 		ELSE
 		BEGIN
 			INSERT INTO ABSTRACCIONX4.COMPRAS
-				(COMP_PNR,TARJ_NRO,CLI_COD,COMP_CUOTAS)
-				VALUES (@codigoPNR,@nroTarjeta,@codigoCli,@cuotas)
+				(COMP_PNR,TARJ_NRO,CLI_COD,COMP_CUOTAS,COMP_EFECTIVO)
+				VALUES (@codigoPNR,@nroTarjeta,@codigoCli,@cuotas,0)
 		END
 	END 
 GO
