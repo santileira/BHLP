@@ -1113,10 +1113,10 @@ CREATE FUNCTION [ABSTRACCIONX4].importePasaje(@origen varchar(80), @destino varc
 RETURNS table
 
 AS		
-	return(
-			select (r.RUTA_PRECIO_BASE_PASAJE * (1 + s.SERV_PORC / 100)) IMPORTE
-				from ABSTRACCIONX4.RUTAS_AEREAS r, ABSTRACCIONX4.SERVICIOS s
-				where r.SERV_COD = s.SERV_COD and
+	return(	select r.RUTA_PRECIO_BASE_PASAJE * (1 + s.SERV_PORC / 100) IMPORTE
+				from ABSTRACCIONX4.RUTAS_AEREAS r, ABSTRACCIONX4.SERVICIOS s, ABSTRACCIONX4.servicios_rutas sr
+				where r.RUTA_ID = sr.RUTA_ID and
+				sr.SERV_COD = s.SERV_COD and
 				r.CIU_COD_O = (select c1.CIU_COD	
 								from ABSTRACCIONX4.CIUDADES c1
 								where @origen = c1.CIU_DESC) and

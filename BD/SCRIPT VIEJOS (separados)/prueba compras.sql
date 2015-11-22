@@ -1,4 +1,39 @@
 
+
+			select r.RUTA_PRECIO_BASE_PASAJE * (1 + s.SERV_PORC / 100) IMPORTE
+				from ABSTRACCIONX4.RUTAS_AEREAS r, ABSTRACCIONX4.SERVICIOS s, ABSTRACCIONX4.servicios_rutas sr
+				where r.RUTA_ID = sr.RUTA_ID and
+				sr.SERV_COD = s.SERV_COD and
+				r.CIU_COD_O = (select c1.CIU_COD	
+								from ABSTRACCIONX4.CIUDADES c1
+								where 'Roma' = c1.CIU_DESC) and
+				r.CIU_COD_D = (select c2.CIU_COD	
+								from ABSTRACCIONX4.CIUDADES c2
+								where 'Nueva York' = c2.CIU_DESC)
+select *
+from ABSTRACCIONX4.SERVICIOS			
+
+select r.serv_cod, r.ruta_id
+from ABSTRACCIONX4.servicios_rutas r
+group by r.ruta_id, r.serv_cod
+
+select top 1 *
+from ABSTRACCIONX4.RUTAS_AEREAS
+
+select *
+from ABSTRACCIONX4.CIUDADES
+order by 1
+
+
+
+
+
+
+
+
+
+
+
 drop function [ABSTRACCIONX4].buscarViajesDisponibles
 
 select *
