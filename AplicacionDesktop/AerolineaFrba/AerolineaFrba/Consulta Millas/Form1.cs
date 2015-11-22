@@ -15,9 +15,11 @@ namespace AerolineaFrba.Consulta_Millas
     {
 
         public Form canjeMillas;
+        public Boolean canjeHabilitado;
 
-        public Form1()
+        public Form1(Boolean canjeHabilitado)
         {
+            this.canjeHabilitado = canjeHabilitado;
             InitializeComponent();            
         }
 
@@ -136,7 +138,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            button3.Visible = canjeHabilitado;
         }
 
         private void txtDni_TextChanged(object sender, EventArgs e)

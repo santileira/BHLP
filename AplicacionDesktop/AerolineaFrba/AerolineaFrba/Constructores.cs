@@ -157,7 +157,7 @@ namespace AerolineaFrba
 
         public static Form ConsultaMillas()
         {
-            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1();
+            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1(false);
             Canje_Millas.Form1 canjeMillas = new Canje_Millas.Form1();
 
             consultaMillas.canjeMillas = canjeMillas;
@@ -207,8 +207,16 @@ namespace AerolineaFrba
         {
             return new Listado_Estadistico.Form1();
         }
-        
 
-        
+        public static Form ConsultaCanjeMillas()
+        {
+            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1(true);
+            Canje_Millas.Form1 canjeMillas = new Canje_Millas.Form1();
+
+            consultaMillas.canjeMillas = canjeMillas;
+            canjeMillas.anterior = consultaMillas;
+
+            return consultaMillas;
+        }
     }
 }

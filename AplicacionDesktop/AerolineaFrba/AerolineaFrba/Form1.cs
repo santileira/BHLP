@@ -96,7 +96,7 @@ namespace AerolineaFrba
 
         private void button10_Click(object sender, EventArgs e)
         {
-            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1();
+            Consulta_Millas.Form1 consultaMillas = new Consulta_Millas.Form1(true);
             Canje_Millas.Form1 canjeMillas = new Canje_Millas.Form1();
 
             consultaMillas.canjeMillas = canjeMillas;

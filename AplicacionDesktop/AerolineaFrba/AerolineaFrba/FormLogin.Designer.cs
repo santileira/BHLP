@@ -181,6 +181,7 @@
             this.Controls.Add(this.botonIngresar);
             this.Controls.Add(this.gbAdministrador);
             this.Name = "FormLogin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.FormPrincipalAdministrador_Load);
             this.gbAdministrador.ResumeLayout(false);

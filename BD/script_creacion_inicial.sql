@@ -580,6 +580,7 @@ INSERT INTO ABSTRACCIONX4.FUNCIONALIDADES (FUNC_DESC)
 		   ('Generación Viaje'),
 		   ('Registro Llegada Destino'),
 		   ('Consulta Millas'),
+		   ('Consulta/Canje Millas'),
 		   ('Compra'),
 		   ('Devolución'),
 		   ('Registro de Usuario'),
