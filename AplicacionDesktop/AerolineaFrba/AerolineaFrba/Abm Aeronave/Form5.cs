@@ -130,7 +130,7 @@ namespace AerolineaFrba.Abm_Aeronave
             //modificar check que se pone automáticamente en los campos de tipo bit
             if (!seSeteaQuery)
             {
-                actualizarColumnasDeEstado(dg);
+                //actualizarColumnasDeEstado(dg); 
             }
             conexion.Close();
 
@@ -225,7 +225,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void extenderQuery()
         {
-            query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS,(SELECT CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = CIU_COD_P) from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+            //QUERY VIEJA
+            //query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_BAJA_FS,AERO_FECHA_FS,AERO_BAJA_VU,AERO_FECHA_BAJA,AERO_FECHA_RS,(SELECT CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = CIU_COD_P) from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+
+
+            //QUERY NUEVA
+            query = "select a.SERV_COD, AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA,AERO_FECHA_BAJA,(SELECT CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = a.CIU_COD_ORIGEN) from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
 
             if (this.loActivoGenerarViajes)
             {

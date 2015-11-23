@@ -156,8 +156,8 @@ namespace AerolineaFrba.Generacion_Viaje
             
             if(!huboError)
             {
-                this.insertarNuevoViaje();
-                MessageBox.Show("Se inserto correctamente el nuevo viaje, el cual ya se encuentra disponible para la venta de pasajes", "Nuevo viaje", MessageBoxButtons.OK);
+                if(this.insertarNuevoViaje() != null)
+                    MessageBox.Show("Se inserto correctamente el nuevo viaje, el cual ya se encuentra disponible para la venta de pasajes", "Nuevo viaje", MessageBoxButtons.OK);
             }
         }
 
