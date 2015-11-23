@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.txtOrigen = new System.Windows.Forms.TextBox();
@@ -50,7 +50,7 @@
             this.dg = new System.Windows.Forms.DataGridView();
             this.btlogica = new System.Windows.Forms.DataGridViewButtonColumn();
             this.lblErrores = new System.Windows.Forms.Label();
-            this.txtFiltros = new System.Windows.Forms.TextBox();
+            this.listaFiltros = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -249,25 +249,25 @@
             this.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btlogica});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg.DefaultCellStyle = dataGridViewCellStyle4;
             this.dg.Location = new System.Drawing.Point(22, 188);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
@@ -296,15 +296,13 @@
             // 
             // txtFiltros
             // 
-            this.txtFiltros.BackColor = System.Drawing.SystemColors.Menu;
-            this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFiltros.Location = new System.Drawing.Point(955, 24);
-            this.txtFiltros.Multiline = true;
-            this.txtFiltros.Name = "txtFiltros";
-            this.txtFiltros.Size = new System.Drawing.Size(385, 681);
-            this.txtFiltros.TabIndex = 5;
-            this.txtFiltros.TextChanged += new System.EventHandler(this.txtFiltros_TextChanged);
+            this.listaFiltros.BackColor = System.Drawing.Color.SlateGray;
+            this.listaFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listaFiltros.FormattingEnabled = true;
+            this.listaFiltros.Location = new System.Drawing.Point(954, 33);
+            this.listaFiltros.Name = "txtFiltros";
+            this.listaFiltros.Size = new System.Drawing.Size(346, 559);
+            this.listaFiltros.TabIndex = 6;
             // 
             // Baja
             // 
@@ -312,7 +310,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(1354, 668);
-            this.Controls.Add(this.txtFiltros);
+            this.Controls.Add(this.listaFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dg);
@@ -358,9 +356,9 @@
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.DataGridViewButtonColumn btlogica;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.TextBox txtOrigen;
+        private System.Windows.Forms.ListBox listaFiltros;
     }
 }

@@ -235,6 +235,21 @@ namespace AerolineaFrba
             return vacio;
         }
 
+        public static Boolean esVacio(ListBox txtBox, string nombreCampo = "Opcional", bool mostrarMensaje = false)
+        {
+            Boolean vacio = false;
+            if (txtBox.Text == "")
+            {
+                vacio = true;
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+            }
+
+            return vacio;
+        }
+
         public static Boolean esVacio(ComboBox cboBox, string nombreCampo = "Opcional", bool mostrarMensaje = false)
         {
             Boolean vacio = false;
@@ -247,6 +262,20 @@ namespace AerolineaFrba
                 }
             }
 
+            return vacio;
+        }
+
+        public static Boolean listaVacia(List<Object> lista, string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
+        {
+            Boolean vacio = false;
+            if (lista.Count == 0)
+            {
+                vacio = true;
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("Se debe agregar por lo menos un tipo de servicio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                }
+            }
             return vacio;
         }
 
