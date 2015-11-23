@@ -169,7 +169,16 @@ namespace AerolineaFrba.Generacion_Viaje
             manejador.agregarStringSP("@llegadaEstimada", dateTimePicker2.Value.ToString());
             manejador.agregarIntSP("@ruta", txtRuta);
             manejador.agregarStringSP("@matricula", txtMatricula.Text);
-            return manejador.ejecutarSP();
+
+            try
+            {
+                return manejador.ejecutarSP();
+            }
+            catch (System.Exception e)
+            {
+                MessageBox.Show(e.Message, "Erro en la base de datos", MessageBoxButtons.OK);
+                return null;
+            }   
         }
 
         private void label7_Click(object sender, EventArgs e)

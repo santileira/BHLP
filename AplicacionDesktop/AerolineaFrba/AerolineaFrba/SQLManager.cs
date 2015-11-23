@@ -58,6 +58,7 @@ namespace AerolineaFrba
         {
             return command.ExecuteScalar();
         }
+
         public SQLManager agregarDecimalSP(string nombreVariable, decimal numero)
         {
             command.Parameters.AddWithValue(nombreVariable, numero);
