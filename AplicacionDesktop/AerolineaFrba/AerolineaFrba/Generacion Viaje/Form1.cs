@@ -31,7 +31,6 @@ namespace AerolineaFrba.Generacion_Viaje
             this.inicio();
         }
 
-
         private void inicio()
         {
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
@@ -41,7 +40,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
             dateTimePicker1.Value = Program.fechaHoy();
             dateTimePicker2.Value = Program.fechaHoy();
-
+            
             txtMatricula.Text = "";
             txtRuta.Text = "";
 
@@ -59,8 +58,8 @@ namespace AerolineaFrba.Generacion_Viaje
 
         public void seSeleccionoRuta(DataGridViewRow registro)
         {
-            txtRuta.Text = registro.Cells["RUTA_ID"].Value.ToString();
-            this.listadoAeronaves.serv_cod = registro.Cells["SERV_COD"].Value.ToString();
+            txtRuta.Text = registro.Cells["Id"].Value.ToString();
+            this.listadoAeronaves.serv_cod = registro.Cells["serv_cod"].Value.ToString();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -179,6 +178,11 @@ namespace AerolineaFrba.Generacion_Viaje
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtRuta_TextChanged(object sender, EventArgs e)
         {
 
         }
