@@ -40,7 +40,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
             dateTimePicker1.Value = Program.fechaHoy();
             dateTimePicker2.Value = Program.fechaHoy();
-            
+
             txtMatricula.Text = "";
             txtRuta.Text = "";
 
@@ -177,15 +177,6 @@ namespace AerolineaFrba.Generacion_Viaje
 
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtRuta_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
     }
 }
