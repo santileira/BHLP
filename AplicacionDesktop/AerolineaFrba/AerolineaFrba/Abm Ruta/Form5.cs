@@ -14,7 +14,7 @@ namespace AerolineaFrba.Abm_Ruta
     public partial class Listado : Form
     {
         string query;
-        Boolean huboCondicion;
+        Boolean huboCondicion ;
         int filtro;
         private bool sePusoAgregarFiltro1 = false;
         private bool sePusoAgregarFiltro2 = false;
@@ -22,7 +22,7 @@ namespace AerolineaFrba.Abm_Ruta
         public Form siguiente;
         public Alta alta;
         Boolean primeraVez = true;
-        public Boolean llamadoDeModificacion = false;
+        public Boolean llamadoDeModificacion;
         private DataGridViewRow ultimoRegistroSeleccionado;
         public Boolean primeraConsulta = true;
 
@@ -48,16 +48,13 @@ namespace AerolineaFrba.Abm_Ruta
         {
             this.query = "SELECT R.RUTA_ID 'Id' ,  RUTA_COD 'Código Ruta', ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
-            this.query +=this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
-            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo' , RUTA_PRECIO_BASE_PASAJE 'Precio Base Pasaje' , RUTA_ESTADO 'Estado' ";
-            
-            //Agrego el serv cod por el tema de generacion de viajes
-            this.query += ", (select sr.serv_cod from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where sr.ruta_id = R.ruta_id) serv_cod ";
-            
-            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R";
-
+            this.query += this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo' , RUTA_PRECIO_BASE_PASAJE 'Precio Base Pasaje' , RUTA_ESTADO 'Estado' , S.SERV_DESC 'Servicio' , S.SERV_COD 'Codigo Serv' ";
+  
+            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R, [ABSTRACCIONX4].[SERVICIOS] S, [ABSTRACCIONX4].[SERVICIOS_RUTAS] SR ";
+            this.query += "WHERE R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD";
             if (this.loActivoGenerarViajes && this.serv_cod != null)
-                query += " WHERE (select sr.serv_cod from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where sr.ruta_id = R.ruta_id) = " + this.serv_cod;
+                query += " AND (select sr.serv_cod from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where sr.ruta_id = R.ruta_id) = " + this.serv_cod;
         }
 
         private string buscarCiudad(string cod)
@@ -69,27 +66,21 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.primeraVez && chkEstadoIgnorar.Checked == false)
             {
-                if (!this.huboCondicion)
-                {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-                }
-                else
                     this.query += " AND ";
 
                 if (optEstadoAlta.Checked)
-                    this.query += "Estado = 1"; 
+                    this.query += "RUTA_ESTADO = 1"; 
                 else
-                    this.query += "Estado = 0";
+                    this.query += "RUTA_ESTADO = 0";
 
                 this.primeraVez = false;
             }
 
-            if ((!sePusoAgregarFiltro1 || txtFiltros.TextLength != 0) && txtFiltro1.TextLength != 0 && cboCamposFiltro1.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro1 || listaFiltros.Text == "") && txtFiltro1.TextLength != 0 && cboCamposFiltro1.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if ((!sePusoAgregarFiltro2 || txtFiltros.TextLength != 0) && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
+            if ((!sePusoAgregarFiltro2 || listaFiltros.Text == "") && txtFiltro2.TextLength != 0 && cboCamposFiltro2.SelectedIndex != -1)
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
@@ -106,7 +97,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboFiltro3.SelectedIndex != -1);          
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0);          
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -137,7 +128,8 @@ namespace AerolineaFrba.Abm_Ruta
             primeraConsulta = false;
 
             dg.Columns["Id"].Visible = false;
-            dg.Columns["serv_cod"].Visible = false;
+            dg.Columns["Codigo Serv"].Visible = false;
+          
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
@@ -174,8 +166,9 @@ namespace AerolineaFrba.Abm_Ruta
         {
             this.generarQueryInicial();
             this.ejecutarQuery();
-            
-            txtFiltros.Text = "";
+
+
+            listaFiltros.Items.Clear();
             chkEstadoIgnorar.Checked = true;
             optEstadoAlta.Checked = true;
             optEstadoBaja.Checked = false;
@@ -186,13 +179,13 @@ namespace AerolineaFrba.Abm_Ruta
             button4.Enabled = false;
             txtFiltro1.Text = "";
             txtFiltro2.Text = "";
-            txtFiltro4.Text = "";
+     
 
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
             cboCamposFiltro1.Text = "Seleccione un campo";
             cboCamposFiltro2.Text = "Seleccione un campo";
-            cboFiltro3.SelectedIndex = -1;
+
 
             this.huboCondicion = false;
 
@@ -238,7 +231,7 @@ namespace AerolineaFrba.Abm_Ruta
             else if (combo.Text == "DESTINO")
                 return this.buscarCiudad("R.CIU_COD_D");
             else if (combo.Text == "TIPO_SERVICIO")
-                return "SERV_COD";
+                return "S.SERV_DESC";
             else if (combo.Text == "CODIGO_DE_RUTA")
                 return "RUTA_COD";
             else
@@ -249,12 +242,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos(txt, combo))
             {
-                if (!this.huboCondicion)
-                {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-                }
-                else
+                
                     this.query += " AND ";
 
                 string campo = this.buscarNombreCampo(combo);
@@ -263,10 +251,11 @@ namespace AerolineaFrba.Abm_Ruta
 
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
-                    txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
+                    listaFiltros.Items.Add("Se ha agregado el filtro por contenido del valor ");
                     
                 else
-                    txtFiltros.Text += "Se ha agregado el filtro por igualdad del valor " + mensaje + System.Environment.NewLine;
+                    listaFiltros.Items.Add("Se ha agregado el filtro por igualdad del valor ");
+                listaFiltros.Items.Add(mensaje);
                 return true;
             }
             return false;
@@ -375,9 +364,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.llamadoDeModificacion)
             {
-                
-                this.cambiarVisibilidades(this.siguiente);
-                //(siguiente as Modificacion).seSelecciono(ultimoRegistroSeleccionado);
+                this.Close();
             }
             else this.cambiarVisibilidades(this.anterior);
         }
@@ -406,7 +393,7 @@ namespace AerolineaFrba.Abm_Ruta
                 if (siguiente == null) cambiarVisibilidades(this.anterior);
                 else
                 {
-                    cambiarVisibilidades(this.siguiente);
+                    this.Close();
                     ultimoRegistroSeleccionado = dg.SelectedRows[0];
                     (siguiente as Modificacion).seSelecciono(dg.SelectedRows[0],obtenerServiciosDe(dg.SelectedRows[0].Cells["Id"].Value.ToString()));
                 }

@@ -59,7 +59,7 @@ namespace AerolineaFrba.Generacion_Viaje
         public void seSeleccionoRuta(DataGridViewRow registro)
         {
             txtRuta.Text = registro.Cells["Id"].Value.ToString();
-            this.listadoAeronaves.serv_cod = registro.Cells["serv_cod"].Value.ToString();
+            this.listadoAeronaves.serv_cod = registro.Cells["Codigo Serv"].Value.ToString();
         }
 
         private void button5_Click(object sender, EventArgs e)

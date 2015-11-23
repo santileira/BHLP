@@ -133,13 +133,14 @@ namespace AerolineaFrba.Abm_Ruta
         private void button5_Click(object sender, EventArgs e)
         {
             this.iniciar();
-            this.listado.llamadoDeModificacion = true;
-            this.cambiarVisibilidades(this.listado);
+            Listado listado = new Listado();
+            listado.llamadoDeModificacion = true;
+            listado.siguiente = this;
+            listado.ShowDialog();
         }
 
         private void botonLimpiar_Click(object sender, EventArgs e)
         {
-            
             this.iniciar();
         }
 
