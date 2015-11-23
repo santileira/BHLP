@@ -2558,6 +2558,24 @@ BEGIN
 END
 GO
 
+-------------------------------Tiene Viaje Vendidos-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].TieneViajeVendidos (@IdRuta INT)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Tiene INT
+	DECLARE @Tiene1 INT
+	SELECT @Tiene = COUNT(*) FROM [ABSTRACCIONX4].PASAJES P JOIN [ABSTRACCIONX4].VIAJES V ON P.VIAJE_COD = V.VIAJE_COD WHERE V.RUTA_ID = @IdRuta
+	SELECT @Tiene1 = COUNT(*) FROM [ABSTRACCIONX4].ENCOMIENDAS E JOIN [ABSTRACCIONX4].VIAJES V ON E.VIAJE_COD = V.VIAJE_COD WHERE V.RUTA_ID = @IdRuta
+
+	
+	
+	IF(@Tiene + @Tiene1 > 0)
+		RETURN 1
+	RETURN 0
+END
+GO
+
 -------------------------------Esta Siendo Usada-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].EstaSiendoUsada (@IdRuta INT)
 RETURNS BIT

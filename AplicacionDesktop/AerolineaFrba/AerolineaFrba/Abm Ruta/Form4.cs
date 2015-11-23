@@ -45,6 +45,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.listaServicios.AddRange(tiposDeServicio);
 
             Boolean viajeProgramado = !tieneViajeProgramado(idRuta);
+            
 
             botonSelOrigen.Enabled =
             botonSelDestino.Enabled =
@@ -53,10 +54,13 @@ namespace AerolineaFrba.Abm_Ruta
             txtPrecioPasaje.Enabled =
             txtCiudadDestino.Enabled =
             txtCiudadOrigen.Enabled =
-            txtPrecioEncomiendaNueva.Enabled =
-            txtPrecioPasajeNuevo.Enabled =
             txtCiudadOrigenNueva.Enabled =
             txtCiudadDestinoNueva.Enabled = viajeProgramado;
+            
+            Boolean viajeVendidos = !tieneViajeVendidos(idRuta);
+
+            txtPrecioEncomiendaNueva.Enabled =
+            txtPrecioPasajeNuevo.Enabled = viajeVendidos;
 
 
             txtCodigo.Enabled = true;
@@ -64,6 +68,19 @@ namespace AerolineaFrba.Abm_Ruta
             botonGuardar.Enabled = true;
             
             
+        }
+
+        private Boolean tieneViajeVendidos(int idRuta)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.TieneViajeVendidos(@IdRuta)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@IdRuta", idRuta);
+
+            return (Boolean)command.ExecuteScalar();
         }
 
         private Boolean tieneViajeProgramado(int idRuta)
