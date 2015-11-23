@@ -40,9 +40,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.lblErrores = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -57,7 +57,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(24, 24);
+            this.groupBox1.Location = new System.Drawing.Point(21, 40);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(578, 176);
             this.groupBox1.TabIndex = 0;
@@ -144,7 +144,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(28, 206);
+            this.button2.Location = new System.Drawing.Point(25, 222);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 21);
             this.button2.TabIndex = 1;
@@ -154,7 +154,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(363, 206);
+            this.button3.Location = new System.Drawing.Point(360, 222);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(108, 21);
             this.button3.TabIndex = 2;
@@ -170,20 +170,9 @@
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
             // 
-            // button6
-            // 
-            this.button6.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.button6.Location = new System.Drawing.Point(2, 1);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(46, 22);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "Atrás";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(494, 206);
+            this.button4.Location = new System.Drawing.Point(491, 222);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(108, 21);
             this.button4.TabIndex = 9;
@@ -198,7 +187,7 @@
             this.dg.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dg.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dg.Location = new System.Drawing.Point(28, 244);
+            this.dg.Location = new System.Drawing.Point(25, 260);
             this.dg.MultiSelect = false;
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
@@ -206,15 +195,25 @@
             this.dg.Size = new System.Drawing.Size(574, 235);
             this.dg.TabIndex = 10;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(5, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(57, 25);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Atrás";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(627, 490);
+            this.ClientSize = new System.Drawing.Size(626, 517);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button6);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -248,8 +247,8 @@
         private System.Windows.Forms.RadioButton optEstadoBaja;
         private System.Windows.Forms.RadioButton optEstadoAlta;
         private System.Windows.Forms.CheckBox chkEstadoIgnorar;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DataGridView dg;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -212,13 +212,14 @@ namespace AerolineaFrba.Abm_Rol
             listaFuncionalidades = new List<object>();
             estadoRol = false;
             ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
-            if (siguiente != null)
-            {
+            /*if (siguiente != null)
+            {*/
                
-                cambiarVisibilidades(this.siguiente);
-                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
-                this.Close();
-            } 
+                (anterior as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
+                cambiarVisibilidades(this.anterior);
+                
+            //}
+            this.Close();
        }
 
         private void ejecutarSeleccion(ref string rolSeleccionado,ref Boolean estadoRol, List<Object> listaFuncionalidades)
@@ -279,6 +280,11 @@ namespace AerolineaFrba.Abm_Rol
 
             dg.Columns["Estado"].Visible = false;
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(anterior);
         }
     }
 }
