@@ -67,7 +67,7 @@ namespace AerolineaFrba
         {
             Abm_Rol.Modificacion modificacion = new Abm_Rol.Modificacion();
             Abm_Rol.Listado listado = new Abm_Rol.Listado();
-
+            listado.anterior = modificacion;
             modificacion.listado = listado;
             listado.siguiente = modificacion;
 

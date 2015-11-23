@@ -167,14 +167,19 @@ namespace AerolineaFrba.Abm_Rol
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
+            
             formularioSiguiente.Visible = true;
             this.Visible = false;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            this.listado.llamadoDeModificacion = true;
-            this.cambiarVisibilidades(this.listado);
+            Listado listado = new Listado();
+            
+            listado.llamadoDeModificacion = true;
+            listado.ShowDialog();
+            //this.cambiarVisibilidades(this.listado);
+            
         }
 
         public void seSelecciono(string nombreRol, bool habilitado, Object[] funcionalidadesRol)

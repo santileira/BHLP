@@ -294,15 +294,18 @@
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
             // 
-            // txtFiltros
+            // listaFiltros
             // 
             this.listaFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.listaFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listaFiltros.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this.listaFiltros.FormattingEnabled = true;
+            this.listaFiltros.HorizontalScrollbar = true;
             this.listaFiltros.Location = new System.Drawing.Point(954, 33);
-            this.listaFiltros.Name = "txtFiltros";
+            this.listaFiltros.Name = "listaFiltros";
             this.listaFiltros.Size = new System.Drawing.Size(346, 559);
             this.listaFiltros.TabIndex = 6;
+            this.listaFiltros.UseWaitCursor = true;
             // 
             // Baja
             // 
