@@ -67,6 +67,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             if (validarCampos())
             {
                 this.llenarHistorialDeMillas();
@@ -80,16 +81,20 @@ namespace AerolineaFrba.Consulta_Millas
             else
             {
                 this.button3.Enabled = false;
+                MessageBox.Show("El cliente es inválido o bien no posee puntos disponibles a la fecha.", "Canje de Millas", MessageBoxButtons.OK);
             }
             
         }
 
         private Boolean validarCampos()
         {
+            Boolean esValido = true;
 
-            return !Validacion.esVacio(txtDni, "Dni",true)  &&
-                        Validacion.numeroCorrecto(txtDni, "Dni", true) &&
-                            Validacion.textNombre(txtApe, "Apellido");
+            esValido = !Validacion.esVacio(txtDni, "Dni", true) && esValido;
+            esValido = Validacion.numeroCorrecto(txtDni, "Dni", true) && esValido;
+            esValido = Validacion.textNombre(txtApe, "Apellido") && esValido;
+
+            return esValido;
         }
 
 
@@ -127,7 +132,6 @@ namespace AerolineaFrba.Consulta_Millas
                 }
                 else
                 {
-
                     MessageBox.Show("El cliente es inválido o bien no posee puntos disponibles a la fecha.", "Canje de Millas", MessageBoxButtons.OK);
                 }
 
@@ -153,7 +157,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void llenarHistorialDeCanjes()
         {
-            string query = "SELECT C.CANJE_FECHA as Fecha, P.PREMIO_DETALLE as Premio, C.CANJE_CANTIDAD as Cantidad, P.PREMIO_PUNTOS * C.CANJE_CANTIDAD as 'Puntos Consumidos' FROM ABSTRACCIONX4.CANJES C JOIN ABSTRACCIONX4.PREMIOS P ON C.PREMIO_COD = P.PREMIO_COD";
+            string query = "SELECT C.CANJE_FECHA as Fecha, P.PREMIO_DETALLE as Premio, C.CANJE_CANTIDAD as Cantidad, P.PREMIO_PUNTOS * C.CANJE_CANTIDAD as 'Puntos Consumidos' FROM ABSTRACCIONX4.CANJES C JOIN ABSTRACCIONX4.PREMIOS P ON C.PREMIO_COD = P.PREMIO_COD WHERE C.CLI_COD = (SELECT CU.CLI_COD FROM ABSTRACCIONX4.CLIENTES CU WHERE CU.CLI_DNI =" + txtDni.Text + " AND CU.CLI_APELLIDO = '"+ txtApe.Text  +"' )";
 
             SqlConnection conexion = Program.conexion();
 
