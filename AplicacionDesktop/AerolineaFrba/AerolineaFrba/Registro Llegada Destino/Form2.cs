@@ -21,10 +21,9 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             InitializeComponent();
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
             dateTimePicker1.CustomFormat = "dd/MM/yyyy - HH:mm:ss";
-            DateTime fechaSalida = (DateTime)obtenerFechaSalida(viajeCod);
-            dateTimePicker1.MinDate = fechaSalida;
-            dateTimePicker1.MaxDate = fechaSalida.AddDays(1);
-
+            /*dateTimePicker1.MinDate = fechaSalida;
+            dateTimePicker1.MaxDate = fechaSalida.AddDays(1);*/
+            dateTimePicker1.Value = Program.fechaHoy();
 
             viaje_cod = viajeCod;
 
@@ -64,14 +63,29 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         private void button1_Click(object sender, EventArgs e)
         {
-            new SQLManager().generarSP("agregarFechaLlegada")
-                              .agregarStringSP("@fecha", dateTimePicker1.Value.ToString())
-                                .agregarIntSP("@viajecod", viaje_cod)
-                                  .ejecutarSP();
 
-            MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
 
-            this.Close();
+            DateTime fechaSalida = (DateTime)obtenerFechaSalida(viaje_cod);
+            TimeSpan ts = dateTimePicker1.Value - fechaSalida;
+
+            int differenceInHours = ts.Hours;
+
+            if (differenceInHours > 0 && differenceInHours <= 24)
+            {
+
+
+                new SQLManager().generarSP("agregarFechaLlegada")
+                                  .agregarStringSP("@fecha", dateTimePicker1.Value.ToString())
+                                    .agregarIntSP("@viajecod", viaje_cod)
+                                      .ejecutarSP();
+
+                MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
+
+                this.Close();
+
+            }else{
+                MessageBox.Show("La fecha de llegada debe ser dentro del rango de 24hs. posterior a la fecha de salida ", "Fecha Incorrecta", MessageBoxButtons.OK);
+            }
 
         }
 

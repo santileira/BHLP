@@ -1,4 +1,4 @@
-﻿c:\users\matias\documents\visual studio 2012\Projects\AerolineaFrba\AerolineaFrba\bin\Debug\AerolineaFrba.exe.config
+c:\users\matias\documents\visual studio 2012\Projects\AerolineaFrba\AerolineaFrba\bin\Debug\AerolineaFrba.exe.config
 C:\Users\Braianhal\Desktop\Gestión de datos\Enunciado\Aplicacion Desktop\AerolineaFrba\AerolineaFrba\bin\Debug\AerolineaFrba.exe.config
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\bin\Debug\AerolineaFrba.exe.config
 C:\Users\Braianhal\workspaceGDD\BHLP\AplicacionDesktop\AerolineaFrba\AerolineaFrba\obj\Debug\AerolineaFrba.exe
