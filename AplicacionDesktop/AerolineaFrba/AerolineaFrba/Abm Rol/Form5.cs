@@ -212,13 +212,13 @@ namespace AerolineaFrba.Abm_Rol
             listaFuncionalidades = new List<object>();
             estadoRol = false;
             ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
-            if (siguiente != null)
-            {
+            /*if (siguiente != null)
+            {*/
                
-                //cambiarVisibilidades(this.siguiente);
-                (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
+                (anterior as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
+                cambiarVisibilidades(this.anterior);
                 
-            }
+            //}
             this.Close();
        }
 
