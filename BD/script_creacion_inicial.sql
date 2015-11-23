@@ -294,14 +294,10 @@ CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
 	[AERO_MATRI] [varchar] (8),
 	[AERO_FAB] [varchar] (30) NOT NULL,	
 	[SERV_COD] [tinyint] NOT NULL,	
-	[AERO_BAJA_FS] [bit] DEFAULT 0,
-	[AERO_BAJA_VU] [bit] DEFAULT 0,
-	[AERO_FECHA_FS] [datetime] NULL,
-	[AERO_FECHA_RS] [datetime] NULL,
 	[AERO_FECHA_BAJA] [datetime] NULL,
 	[AERO_CANT_BUTACAS] [smallint] NOT NULL,
 	[AERO_CANT_KGS] [numeric] (6,2) NOT NULL,
-	[CIU_COD_P] [smallint] NULL,
+	[CIU_COD_ORIGEN] [smallint] NULL,
  CONSTRAINT [PK_AERONAVES] PRIMARY KEY CLUSTERED 
 (
 	[AERO_MATRI] 
@@ -315,8 +311,28 @@ REFERENCES [ABSTRACCIONX4].[SERVICIOS] ([SERV_COD])
 
 GO
 
-ALTER TABLE [ABSTRACCIONX4].[AERONAVES]  WITH CHECK ADD  CONSTRAINT [FK_AERONAVES_CIUDADES] FOREIGN KEY([CIU_COD_P])
+ALTER TABLE [ABSTRACCIONX4].[AERONAVES]  WITH CHECK ADD  CONSTRAINT [FK_AERONAVES_CIUDADES] FOREIGN KEY([CIU_COD_ORIGEN])
 REFERENCES [ABSTRACCIONX4].[CIUDADES] ([CIU_COD])
+
+GO
+
+
+-- Tabla de Fueras de servicio por aeronave
+CREATE TABLE [ABSTRACCIONX4].[FUERA_SERVICIO_AERONAVES](
+	[FS_AERONAVE_ID] [int] IDENTITY,
+	[AERO_MATRI] [varchar] (8) NOT NULL,
+	[FECHA_FS] [datetime] NOT NULL,
+	[FECHA_REINICIO] [datetime] NOT NULL,
+ CONSTRAINT [PK_FUERA_SERVICIO_AERONAVES] PRIMARY KEY CLUSTERED 
+(
+	[FS_AERONAVE_ID] 
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [ABSTRACCIONX4].[FUERA_SERVICIO_AERONAVES]  WITH CHECK ADD  CONSTRAINT [FK_FUERA_SERVICIO_AERONAVES] FOREIGN KEY([AERO_MATRI])
+REFERENCES [ABSTRACCIONX4].[AERONAVES] ([AERO_MATRI])
 
 GO
 
@@ -1817,7 +1833,21 @@ GO
 
 
 
-
+-------------------------------Cantidad de fueras de servicio-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].CantidadFuerasDeServicioEntre
+	(@Matricula VARCHAR(8),
+	@FechaBaja DATETIME,
+	@FechaReinicio DATETIME)
+RETURNS INT
+AS
+BEGIN
+	RETURN (SELECT COUNT(*) 
+			FROM [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
+			WHERE AERO_MATRI = @Matricula AND
+				  ([ABSTRACCIONX4].datetime_is_between(FECHA_FS,@FechaBaja,@FechaReinicio) = 1 OR
+				   [ABSTRACCIONX4].datetime_is_between(FECHA_REINICIO,@FechaBaja,@FechaReinicio) = 1))
+END
+GO
 
 -------------------------------Baja Aeronave-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
@@ -1826,20 +1856,30 @@ CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@FechaReinicio DATETIME
 AS
 BEGIN
-	DECLARE @TieneViajeEnEsasFechas BIT
-	SET @TieneViajeEnEsasFechas = [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,@FechaReinicio)
+	DECLARE @HuboError BIT
+	SET @HuboError = 0
+	DECLARE @Error varchar(120)
 
-	IF @TieneViajeEnEsasFechas = 1
+	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,@FechaReinicio) = 1
 	BEGIN
-		DECLARE @Error varchar(80)
 		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
 		RAISERROR(@Error, 16, 1)
-		RETURN
+		SET @HuboError = 1
 	END
+
+	IF [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(@Matricula,@FechaBaja,@FechaReinicio) > 0
+	BEGIN
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' ya se encuentra en fuera de servicio en esas fechas'
+		RAISERROR(@Error, 16, 1)
+		SET @HuboError = 1
+	END
+
+	IF @HuboError = 1
+		RETURN
 	
-	UPDATE ABSTRACCIONX4.AERONAVES 
-			SET AERO_BAJA_FS = 1, AERO_FECHA_RS = @FechaReinicio , AERO_FECHA_FS = @FechaBaja
-			WHERE AERO_MATRI = @Matricula
+	INSERT INTO [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
+		(AERO_MATRI,FECHA_FS,FECHA_REINICIO)
+		VALUES (@Matricula,@FechaBaja,@FechaReinicio)
 END
 GO
 
@@ -1849,19 +1889,32 @@ CREATE PROCEDURE [ABSTRACCIONX4].DarDeBajaLogica
 	@Matricula VARCHAR(8),
 	@FechaBaja DATETIME
 AS
-	DECLARE @TieneViajeEnEsasFechas BIT
-	SET @TieneViajeEnEsasFechas = [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,NULL)
+	DECLARE @Error varchar(120)
+	DECLARE @HuboError BIT
+	SET @HuboError = 0
 
-	IF @TieneViajeEnEsasFechas = 1
+	DECLARE @FechaMaxima DATETIME
+	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(NULL)
+
+	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,NULL) = 1
 	BEGIN
-		DECLARE @Error varchar(80)
 		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
 		RAISERROR(@Error, 16, 1)
-		RETURN
+		SET @HuboError = 1
 	END
 
+	IF [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(@Matricula,@FechaBaja,@FechaMaxima) > 0
+	BEGIN
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' ya se encuentra en fuera de servicio en esas fechas'
+		RAISERROR(@Error, 16, 1)
+		SET @HuboError = 1
+	END
+
+	IF @HuboError = 1
+		RETURN
+
 	UPDATE ABSTRACCIONX4.AERONAVES 
-		SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
+		SET AERO_FECHA_BAJA = @FechaBaja
 		WHERE AERO_MATRI = @Matricula
 GO
 
@@ -1944,14 +1997,14 @@ BEGIN
 	IF @FechaReinicio IS NULL
 		BEGIN
 			UPDATE ABSTRACCIONX4.AERONAVES 
-				SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
+				SET AERO_FECHA_BAJA = @FechaBaja
 				WHERE AERO_MATRI = @Matricula
 		END
 	ELSE
 		BEGIN
-			UPDATE ABSTRACCIONX4.AERONAVES 
-				SET AERO_BAJA_FS = 1 , AERO_FECHA_FS = @FechaBaja , AERO_FECHA_RS = @FechaReinicio
-				WHERE AERO_MATRI = @Matricula
+			INSERT INTO [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
+				(AERO_MATRI,FECHA_FS,FECHA_REINICIO)
+				VALUES (@Matricula,@FechaBaja,@FechaReinicio)
 		END
 		
 		
@@ -2029,14 +2082,14 @@ BEGIN
 	IF @FechaReinicio IS NULL
 		BEGIN
 			UPDATE ABSTRACCIONX4.AERONAVES 
-				SET AERO_BAJA_VU = 1 , AERO_FECHA_BAJA = @FechaBaja
+				SET AERO_FECHA_BAJA = @FechaBaja
 				WHERE AERO_MATRI = @Matricula
 		END
 	ELSE
 		BEGIN
-			UPDATE ABSTRACCIONX4.AERONAVES 
-				SET AERO_BAJA_FS = 1 , AERO_FECHA_FS = @FechaBaja , AERO_FECHA_RS = @FechaReinicio
-				WHERE AERO_MATRI = @Matricula
+			INSERT INTO [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
+				(AERO_MATRI,FECHA_FS,FECHA_REINICIO)
+				VALUES (@Matricula,@FechaBaja,@FechaReinicio)
 		END
 END
 
@@ -2077,18 +2130,21 @@ BEGIN
 		   FROM ABSTRACCIONX4.AERONAVES
 		   WHERE AERO_MATRI = @Matricula
 
-
 	DECLARE @MatriculaNueva VARCHAR(8)
 	SET @MatriculaNueva = NULL
 	SELECT TOP 1 @MatriculaNueva = AERO_MATRI
-		FROM ABSTRACCIONX4.AERONAVES
+		FROM ABSTRACCIONX4.AERONAVES A
 		WHERE AERO_MATRI <> @Matricula AND
 			  SERV_COD = @TipoServicio AND 
 			  AERO_FAB = @Fabricante AND
 			  AERO_MOD = @Modelo AND
 			  [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA,@FechaBaja,@FechaReinicio) = 0 AND
 			  AERO_CANT_KGS >= @CantidadKG AND
-			  AERO_BAJA_FS = 0 AND AERO_BAJA_VU = 0 AND
+			  (SELECT CASE AERO_FECHA_BAJA 
+					  WHEN NULL THEN 0
+					  ELSE [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_BAJA,@FechaBaja,@FechaReinicio)
+					  END) = 0 AND
+			  [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(AERO_MATRI,@FechaBaja,@FechaReinicio) = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
 			  ABSTRACCIONX4.DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
@@ -2363,7 +2419,7 @@ AS
 		SET @CodigoCiudad = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadPrincipal)
 
 		INSERT INTO ABSTRACCIONX4.AERONAVES 
-			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA , CIU_COD_P)
+			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA , CIU_COD_ORIGEN)
 			VALUES (@Modelo,@Matricula,@Fabricante,@CodigoServicio,@CantidadButacas,@CantidadKG,@FechaAlta,@CodigoCiudad)
 		EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
 	END TRY
