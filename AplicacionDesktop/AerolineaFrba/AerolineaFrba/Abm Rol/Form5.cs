@@ -215,10 +215,11 @@ namespace AerolineaFrba.Abm_Rol
             if (siguiente != null)
             {
                
-                cambiarVisibilidades(this.siguiente);
+                //cambiarVisibilidades(this.siguiente);
                 (siguiente as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
-                this.Close();
-            } 
+                
+            }
+            this.Close();
        }
 
         private void ejecutarSeleccion(ref string rolSeleccionado,ref Boolean estadoRol, List<Object> listaFuncionalidades)
@@ -279,6 +280,11 @@ namespace AerolineaFrba.Abm_Rol
 
             dg.Columns["Estado"].Visible = false;
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            this.cambiarVisibilidades(anterior);
         }
     }
 }

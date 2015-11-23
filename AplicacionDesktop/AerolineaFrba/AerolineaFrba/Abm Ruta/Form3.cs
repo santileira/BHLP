@@ -108,8 +108,8 @@ namespace AerolineaFrba.Abm_Ruta
         {
             this.generarQueryInicial();
             this.ejecutarQuery();
-            
-            listaFiltros.Text = "";
+
+            listaFiltros.Items.Clear();
 
 
             txtDestino.Text = "";
@@ -176,10 +176,17 @@ namespace AerolineaFrba.Abm_Ruta
                 this.query += campo + criterio;
 
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
+
+
                 if (this.filtro == 1)
-                    listaFiltros.Items.Add("Se ha agregado el filtro por contenido del valor " + mensaje);
+                {
+                    listaFiltros.Items.Add("Se ha agregado el filtro por contenido del valor "); 
+                }
                 else
-                    listaFiltros.Items.Add("Se ha agregado el filtro por igualdad del valor " + mensaje);
+                {
+                    listaFiltros.Items.Add("Se ha agregado el filtro por igualdad del valor ");
+                }
+                listaFiltros.Items.Add(mensaje);
                 return true;
             }
             return false;
@@ -277,7 +284,10 @@ namespace AerolineaFrba.Abm_Ruta
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error al dar de baja", MessageBoxButtons.OK);
+                return;
             }
+            MessageBox.Show("Se realizo la baja correctamente", "Informe", MessageBoxButtons.OK);
+        
         }
 
         private void ejecutarCommand(string cadenaComando)
