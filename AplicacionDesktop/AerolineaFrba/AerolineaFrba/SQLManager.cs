@@ -56,16 +56,7 @@ namespace AerolineaFrba
 
         public Object ejecutarSP()
         {
-            try
-            {
-                return command.ExecuteScalar();
-            }
-            catch (System.Exception e)
-            {
-                MessageBox.Show(e.Message, "Erro en la base de datos", MessageBoxButtons.OK);
-                return null;
-            }
-            
+            return command.ExecuteScalar();
         }
         public SQLManager agregarDecimalSP(string nombreVariable, decimal numero)
         {

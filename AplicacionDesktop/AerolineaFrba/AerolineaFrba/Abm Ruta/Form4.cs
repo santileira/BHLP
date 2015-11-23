@@ -66,6 +66,13 @@ namespace AerolineaFrba.Abm_Ruta
             txtCodigo.Enabled = true;
             botonLimpiar.Enabled = true;
             botonGuardar.Enabled = true;
+
+
+            foreach (Object e in tiposDeServicio)
+            {
+                label9.Text += (String)e + " - ";
+                label10.Text += (String)e + " - ";
+            }
             
             
         }
@@ -122,6 +129,8 @@ namespace AerolineaFrba.Abm_Ruta
           txtPrecioEncomiendaNueva.Text = "";
           txtPrecioPasajeNuevo.Text = "";
           listaServicios.Clear();
+          label10.Text = "";
+          label9.Text = "";
              
           txtCodigo.Enabled = false;
           botonSelServicios.Enabled = false;
@@ -165,10 +174,10 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                MessageBox.Show("Todos los datos son correctos. Se procede a modificar el registro de aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
+                
                 modificarRuta();
-                (listado as Listado).inicio();
-                this.cambiarVisibilidades(this.listado);
+                MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
+                this.Close();
             }
         }
 
@@ -258,6 +267,13 @@ namespace AerolineaFrba.Abm_Ruta
         {
             listaServicios.Clear();
             listaServicios.AddRange(lista);
+
+            label10.Text = "";
+            foreach (Object e in lista)
+            {
+                label10.Text += (String)e + " - ";
+                label10.Visible = true;
+            }
             
         }
 
@@ -266,5 +282,7 @@ namespace AerolineaFrba.Abm_Ruta
             Form formularioServicios = new Servicios(null, this,listaServicios);
             formularioServicios.ShowDialog();
         }
+
+        
     }
 }
