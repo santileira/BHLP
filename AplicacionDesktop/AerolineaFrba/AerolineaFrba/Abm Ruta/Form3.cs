@@ -34,11 +34,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_ID 'Id' ,RUTA_COD 'Código' , ";
+            this.query = "SELECT R.RUTA_ID 'Id' , RUTA_COD 'Código' , ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
-            this.query +=this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
-            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje' ";
-            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R  WHERE R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(RUTA_ID) = 0";
+            this.query += this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje', ";
+            this.query += "S.SERV_DESC 'Servicio' FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R,[ABSTRACCIONX4].[SERVICIOS_RUTAS] SR , [ABSTRACCIONX4].[SERVICIOS] S";
+            this.query += " WHERE  R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(R.RUTA_ID) = 0";
+       
         }
 
         private string buscarCiudad(string cod)
@@ -50,11 +52,11 @@ namespace AerolineaFrba.Abm_Ruta
         {
 
 
-            if ((!sePusoAgregarFiltro1 ||!Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro1) && Validacion.estaSeleccionado(cboCamposFiltro1))
+            if ((!sePusoAgregarFiltro1 ||!Validacion.esVacio(listaFiltros)) && !Validacion.esVacio(txtFiltro1) && Validacion.estaSeleccionado(cboCamposFiltro1))
             {
                 MessageBox.Show("No se ha agregado el filtro que contenga a la palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if ((!sePusoAgregarFiltro2 || !Validacion.esVacio(txtFiltros)) && !Validacion.esVacio(txtFiltro2) && Validacion.estaSeleccionado(cboCamposFiltro2))
+            if ((!sePusoAgregarFiltro2 || !Validacion.esVacio(listaFiltros)) && !Validacion.esVacio(txtFiltro2) && Validacion.estaSeleccionado(cboCamposFiltro2))
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
@@ -107,7 +109,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.generarQueryInicial();
             this.ejecutarQuery();
             
-            txtFiltros.Text = "";
+            listaFiltros.Text = "";
 
 
             txtDestino.Text = "";
@@ -175,9 +177,9 @@ namespace AerolineaFrba.Abm_Ruta
 
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
-                    txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
+                    listaFiltros.Items.Add("Se ha agregado el filtro por contenido del valor " + mensaje);
                 else
-                    txtFiltros.Text += "Se ha agregado el filtro por igualdad del valor " + mensaje + System.Environment.NewLine;
+                    listaFiltros.Items.Add("Se ha agregado el filtro por igualdad del valor " + mensaje);
                 return true;
             }
             return false;

@@ -32,6 +32,9 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void iniciar()
         {
+            
+            label6.Text = "";
+            label6.Visible = false;
             listaServicios.Clear();
             txtCiudadDestino.Text = "";
             txtCiudadOrigen.Text = "";
@@ -65,7 +68,7 @@ namespace AerolineaFrba.Abm_Ruta
                     MessageBox.Show(excepcion.Message,"Advertencia", MessageBoxButtons.OK);
                     return;
                 }
-                this.cambiarVisibilidades(new Principal());
+                this.Close();
             }
 
         }
@@ -105,10 +108,12 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean validarLongitudes()
         {
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código" , true);
+            algunoVacio = Validacion.listaVacia(listaServicios, "servicios", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadOrigen, "ciudad de origen", true) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtCiudadDestino, "ciudad de destino" , true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtPrecioPasaje, "precio de pasaje", true) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtPrecioEncomienda, "precio de encomienda" , true ) || algunoVacio;
+            
             
             return algunoVacio;
         }
@@ -166,14 +171,27 @@ namespace AerolineaFrba.Abm_Ruta
 
         internal void serviciosElegidos(List<object> lista)
         {
+            label6.Text = "";
             listaServicios.Clear();
             listaServicios.AddRange(lista);
+
+            foreach (Object e in lista)
+            {
+                label6.Text += (String)e + " - ";
+                label6.Visible = true;
+            }
+  
         }
 
         private void botonSelServicios_Click(object sender, EventArgs e)
         {
             Form formularioServicios = new Servicios(this, null,listaServicios);
             formularioServicios.ShowDialog();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

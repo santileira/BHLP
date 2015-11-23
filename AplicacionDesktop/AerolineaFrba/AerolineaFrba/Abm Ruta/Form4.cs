@@ -240,6 +240,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             listaServicios.Clear();
             listaServicios.AddRange(lista);
+            
         }
 
         private void botonSelServicios_Click(object sender, EventArgs e)

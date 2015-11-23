@@ -43,12 +43,13 @@
             this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.botonSelServicios = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.botonSelServicios = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -64,7 +65,7 @@
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(13, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(584, 303);
+            this.groupBox1.Size = new System.Drawing.Size(584, 368);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Campos de la Ruta";
@@ -72,7 +73,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 283);
+            this.label5.Location = new System.Drawing.Point(12, 331);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 15;
@@ -86,7 +87,7 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Location = new System.Drawing.Point(294, 29);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(249, 113);
+            this.groupBox4.Size = new System.Drawing.Size(249, 140);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
@@ -133,9 +134,9 @@
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.txtCiudadOrigen);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Location = new System.Drawing.Point(15, 160);
+            this.groupBox3.Location = new System.Drawing.Point(15, 195);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(352, 113);
+            this.groupBox3.Size = new System.Drawing.Size(359, 113);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Ciudades";
@@ -198,16 +199,28 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.botonSelServicios);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Location = new System.Drawing.Point(15, 29);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(249, 113);
+            this.groupBox2.Size = new System.Drawing.Size(249, 140);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
+            // 
+            // botonSelServicios
+            // 
+            this.botonSelServicios.ForeColor = System.Drawing.Color.Black;
+            this.botonSelServicios.Location = new System.Drawing.Point(95, 65);
+            this.botonSelServicios.Name = "botonSelServicios";
+            this.botonSelServicios.Size = new System.Drawing.Size(88, 25);
+            this.botonSelServicios.TabIndex = 8;
+            this.botonSelServicios.Text = "Seleccionar";
+            this.botonSelServicios.UseVisualStyleBackColor = true;
+            this.botonSelServicios.Click += new System.EventHandler(this.botonSelServicios_Click);
             // 
             // label7
             // 
@@ -237,7 +250,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(485, 349);
+            this.button2.Location = new System.Drawing.Point(486, 423);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 1;
@@ -247,7 +260,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 349);
+            this.button3.Location = new System.Drawing.Point(13, 423);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 35);
             this.button3.TabIndex = 2;
@@ -255,23 +268,22 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // botonSelServicios
+            // label6
             // 
-            this.botonSelServicios.ForeColor = System.Drawing.Color.Black;
-            this.botonSelServicios.Location = new System.Drawing.Point(95, 65);
-            this.botonSelServicios.Name = "botonSelServicios";
-            this.botonSelServicios.Size = new System.Drawing.Size(88, 25);
-            this.botonSelServicios.TabIndex = 8;
-            this.botonSelServicios.Text = "Seleccionar";
-            this.botonSelServicios.UseVisualStyleBackColor = true;
-            this.botonSelServicios.Click += new System.EventHandler(this.botonSelServicios_Click);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(62, 107);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "label6";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(627, 403);
+            this.ClientSize = new System.Drawing.Size(632, 470);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -314,5 +326,6 @@
         private System.Windows.Forms.Button botonSelOrigen;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button botonSelServicios;
+        private System.Windows.Forms.Label label6;
     }
 }
