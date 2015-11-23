@@ -46,6 +46,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(24, 72);
+            this.textBox1.MaxLength = 255;
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(221, 50);

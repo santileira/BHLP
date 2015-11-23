@@ -60,7 +60,7 @@
             // txtCodigo
             // 
             this.txtCodigo.Location = new System.Drawing.Point(445, 41);
-            this.txtCodigo.MaxLength = 12;
+            this.txtCodigo.MaxLength = 10;
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(100, 20);
             this.txtCodigo.TabIndex = 1;
@@ -213,6 +213,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "dgEncomiendas";
             this.Text = "Cancelación";
+         
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).EndInit();
             this.ResumeLayout(false);
