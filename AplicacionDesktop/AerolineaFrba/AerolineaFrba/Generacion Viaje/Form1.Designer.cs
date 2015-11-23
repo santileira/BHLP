@@ -166,6 +166,7 @@
             this.txtRuta.Name = "txtRuta";
             this.txtRuta.Size = new System.Drawing.Size(157, 20);
             this.txtRuta.TabIndex = 1;
+            this.txtRuta.TextChanged += new System.EventHandler(this.txtRuta_TextChanged);
             // 
             // label1
             // 

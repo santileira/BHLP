@@ -315,6 +315,7 @@
             this.txtFiltros.Name = "txtFiltros";
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
             this.txtFiltros.TabIndex = 5;
+            this.txtFiltros.TextChanged += new System.EventHandler(this.txtFiltros_TextChanged);
             // 
             // button6
             // 
