@@ -17,9 +17,11 @@ namespace AerolineaFrba.Abm_Ruta
         public Listado listado;
         Form formularioSiguiente;
         bool seleccionandoOrigen;
+        List<Object> listaServicios;
 
         public Alta()
         {
+            listaServicios = new List<Object>();
             InitializeComponent();          
         }
 
@@ -30,15 +32,12 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void iniciar()
         {
-            
-            this.cargarComboServicio();
-
+            listaServicios.Clear();
             txtCiudadDestino.Text = "";
             txtCiudadOrigen.Text = "";
             txtCodigo.Text = "";
             txtPrecioEncomienda.Text = "";
             txtPrecioPasaje.Text = "";
-            cboServicio.SelectedItem = -1;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -61,11 +60,9 @@ namespace AerolineaFrba.Abm_Ruta
                     darDeAltaRuta();
                     MessageBox.Show("El alta de la ruta se realizó exitosamente.", "Alta de nueva ruta", MessageBoxButtons.OK);
                 }
-                catch
+                catch(Exception excepcion)
                 {
-                    MessageBox.Show("Ya existe una ruta de " + txtCiudadOrigen.Text + " a " + txtCiudadDestino.Text +
-                    " con el código " + txtCodigo.Text.ToString() + " y servicio " + cboServicio.Text, 
-                    "Advertencia", MessageBoxButtons.OK);
+                    MessageBox.Show(excepcion.Message,"Advertencia", MessageBoxButtons.OK);
                     return;
                 }
                 this.cambiarVisibilidades(new Principal());
@@ -78,7 +75,7 @@ namespace AerolineaFrba.Abm_Ruta
             SQLManager sqlManager = new SQLManager();
             return sqlManager.generarSP("AltaRuta")
                              .agregarIntSP("@Codigo", txtCodigo)
-                             .agregarStringSP("@Servicio", cboServicio)
+                             .agregarListaSP("@Servicios", listaServicios)
                              .agregarStringSP("@CiudadOrigen", txtCiudadOrigen)
                              .agregarStringSP("@CiudadDestino", txtCiudadDestino)
                              .agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasaje.Text))
@@ -108,7 +105,6 @@ namespace AerolineaFrba.Abm_Ruta
         private Boolean validarLongitudes()
         {
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código" , true);
-            algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadOrigen, "ciudad de origen", true) || algunoVacio;
             algunoVacio =  Validacion.esVacio(txtCiudadDestino, "ciudad de destino" , true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtPrecioPasaje, "precio de pasaje", true) || algunoVacio;
@@ -139,24 +135,6 @@ namespace AerolineaFrba.Abm_Ruta
             return !huboErrores;
         }
 
-        private void cargarComboServicio()
-        {
-            cboServicio.Items.Clear();
-
-            SqlDataReader reader;
-            SqlCommand consultaServicios = new SqlCommand();
-            consultaServicios.CommandType = CommandType.Text;
-            consultaServicios.CommandText = "SELECT SERV_DESC FROM [ABSTRACCIONX4].SERVICIOS";
-            consultaServicios.Connection = Program.conexion();
-
-            reader = consultaServicios.ExecuteReader();
-
-            while (reader.Read())
-                this.cboServicio.Items.Add(reader.GetValue(0));
-
-            reader.Close();
-        }
-
         private void botonSelOrigen_Click(object sender, EventArgs e)
         {
             seleccionandoOrigen = true;
@@ -185,7 +163,17 @@ namespace AerolineaFrba.Abm_Ruta
             }
         }
 
-        
 
+        internal void serviciosElegidos(List<object> lista)
+        {
+            listaServicios.Clear();
+            listaServicios.AddRange(lista);
+        }
+
+        private void botonSelServicios_Click(object sender, EventArgs e)
+        {
+            Form formularioServicios = new Servicios(this, null,listaServicios);
+            formularioServicios.ShowDialog();
+        }
     }
 }

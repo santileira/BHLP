@@ -34,11 +34,11 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT RUTA_ID 'Id' ,RUTA_COD 'Código' , SERV_DESC 'Servicio', ";
+            this.query = "SELECT RUTA_ID 'Id' ,RUTA_COD 'Código' , ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
             this.query +=this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
             this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje' ";
-            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R , [ABSTRACCIONX4].SERVICIOS S WHERE R.RUTA_ESTADO = '1' AND R.SERV_COD = S.SERV_COD AND [ABSTRACCIONX4].EstaSiendoUsada(RUTA_ID) = 0";
+            this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R  WHERE R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(RUTA_ID) = 0";
         }
 
         private string buscarCiudad(string cod)

@@ -51,7 +51,7 @@ namespace AerolineaFrba
 
         private void agregarBotonLogout()
         {
-            ToolStripButton boton = generarBoton("Salir",70);
+            ToolStripButton boton = generarBoton("Cerrar sesión",100);
             boton.Alignment = ToolStripItemAlignment.Right;
             boton.Margin = new Padding(0, 0, 25, 0);
             boton.Click += new System.EventHandler(salir_Click);
@@ -67,6 +67,7 @@ namespace AerolineaFrba
             diccionarioFunc.Add("Generación Viaje", agregarAFuncViajes);
             diccionarioFunc.Add("Registro Llegada Destino", agregarAFuncViajes);
             diccionarioFunc.Add("Consulta Millas", agregarFuncionalidadUnica);
+            diccionarioFunc.Add("Consulta/Canje Millas", agregarFuncionalidadUnica);
             diccionarioFunc.Add("Compra", agregarAFuncOperacion);
             diccionarioFunc.Add("Devolución", agregarAFuncOperacion);
             diccionarioFunc.Add("Registro de Usuario", agregarFuncionalidadUnica);
@@ -88,6 +89,7 @@ namespace AerolineaFrba
             diccionarioFormularios.Add("Generación Viaje", Constructores.GeneracionViaje);
             diccionarioFormularios.Add("Registro Llegada Destino", Constructores.RegistroLlegadaDestino);
             diccionarioFormularios.Add("Consulta Millas", Constructores.ConsultaMillas);
+            diccionarioFormularios.Add("Consulta/Canje Millas", Constructores.ConsultaCanjeMillas);
             diccionarioFormularios.Add("Compra", Constructores.Compra);
             diccionarioFormularios.Add("Devolución", Constructores.Devolucion);
             diccionarioFormularios.Add("Registro de Usuario", Constructores.RegistroUsuario);

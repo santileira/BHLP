@@ -43,12 +43,12 @@
             this.txtCiudadOrigen = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cboServicio = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.botonSelServicios = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -198,7 +198,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.cboServicio);
+            this.groupBox2.Controls.Add(this.botonSelServicios);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
             this.groupBox2.Controls.Add(this.label8);
@@ -208,15 +208,6 @@
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
-            // 
-            // cboServicio
-            // 
-            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(95, 68);
-            this.cboServicio.Name = "cboServicio";
-            this.cboServicio.Size = new System.Drawing.Size(117, 21);
-            this.cboServicio.TabIndex = 15;
             // 
             // label7
             // 
@@ -264,6 +255,17 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // botonSelServicios
+            // 
+            this.botonSelServicios.ForeColor = System.Drawing.Color.Black;
+            this.botonSelServicios.Location = new System.Drawing.Point(95, 65);
+            this.botonSelServicios.Name = "botonSelServicios";
+            this.botonSelServicios.Size = new System.Drawing.Size(88, 25);
+            this.botonSelServicios.TabIndex = 8;
+            this.botonSelServicios.Text = "Seleccionar";
+            this.botonSelServicios.UseVisualStyleBackColor = true;
+            this.botonSelServicios.Click += new System.EventHandler(this.botonSelServicios_Click);
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,12 +307,12 @@
         private System.Windows.Forms.TextBox txtCiudadOrigen;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cboServicio;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button botonSelDestino;
         private System.Windows.Forms.Button botonSelOrigen;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button botonSelServicios;
     }
 }

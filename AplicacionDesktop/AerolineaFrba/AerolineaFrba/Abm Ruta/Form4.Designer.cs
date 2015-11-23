@@ -48,8 +48,7 @@
             this.txtCiudadOrigenNueva = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtTipoDeServicio = new System.Windows.Forms.TextBox();
-            this.cboServicio = new System.Windows.Forms.ComboBox();
+            this.botonSelServicios = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -71,7 +70,7 @@
             // 
             // botonGuardar
             // 
-            this.botonGuardar.Location = new System.Drawing.Point(747, 328);
+            this.botonGuardar.Location = new System.Drawing.Point(564, 328);
             this.botonGuardar.Name = "botonGuardar";
             this.botonGuardar.Size = new System.Drawing.Size(112, 35);
             this.botonGuardar.TabIndex = 10;
@@ -81,7 +80,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(781, 12);
+            this.button5.Location = new System.Drawing.Point(598, 12);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 22);
             this.button5.TabIndex = 43;
@@ -98,7 +97,7 @@
             this.groupBox4.Controls.Add(this.txtPrecioPasaje);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(503, 57);
+            this.groupBox4.Location = new System.Drawing.Point(320, 57);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(356, 112);
             this.groupBox4.TabIndex = 46;
@@ -245,35 +244,28 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.txtTipoDeServicio);
-            this.groupBox2.Controls.Add(this.cboServicio);
+            this.groupBox2.Controls.Add(this.botonSelServicios);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(37, 57);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(398, 112);
+            this.groupBox2.Size = new System.Drawing.Size(252, 112);
             this.groupBox2.TabIndex = 44;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
             // 
-            // txtTipoDeServicio
+            // botonSelServicios
             // 
-            this.txtTipoDeServicio.Location = new System.Drawing.Point(95, 69);
-            this.txtTipoDeServicio.Name = "txtTipoDeServicio";
-            this.txtTipoDeServicio.ReadOnly = true;
-            this.txtTipoDeServicio.Size = new System.Drawing.Size(117, 20);
-            this.txtTipoDeServicio.TabIndex = 17;
-            // 
-            // cboServicio
-            // 
-            this.cboServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboServicio.FormattingEnabled = true;
-            this.cboServicio.Location = new System.Drawing.Point(237, 68);
-            this.cboServicio.Name = "cboServicio";
-            this.cboServicio.Size = new System.Drawing.Size(117, 21);
-            this.cboServicio.TabIndex = 16;
+            this.botonSelServicios.ForeColor = System.Drawing.Color.Black;
+            this.botonSelServicios.Location = new System.Drawing.Point(95, 63);
+            this.botonSelServicios.Name = "botonSelServicios";
+            this.botonSelServicios.Size = new System.Drawing.Size(88, 25);
+            this.botonSelServicios.TabIndex = 8;
+            this.botonSelServicios.Text = "Seleccionar";
+            this.botonSelServicios.UseVisualStyleBackColor = true;
+            this.botonSelServicios.Click += new System.EventHandler(this.botonSelServicios_Click);
             // 
             // label7
             // 
@@ -314,7 +306,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(891, 379);
+            this.ClientSize = new System.Drawing.Size(713, 379);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -360,10 +352,9 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtPrecioEncomiendaNueva;
         private System.Windows.Forms.TextBox txtPrecioPasajeNuevo;
-        private System.Windows.Forms.ComboBox cboServicio;
         private System.Windows.Forms.TextBox txtCiudadDestino;
         private System.Windows.Forms.TextBox txtCiudadOrigen;
-        private System.Windows.Forms.TextBox txtTipoDeServicio;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button botonSelServicios;
     }
 }
