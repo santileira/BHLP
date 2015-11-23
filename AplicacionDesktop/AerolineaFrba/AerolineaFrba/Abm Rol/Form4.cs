@@ -15,8 +15,8 @@ namespace AerolineaFrba.Abm_Rol
     public partial class Modificacion : Form
     {
 
-        Form formularioSiguiente;
-        public Listado listado;
+        
+        //public Listado listado;
 
 
         public Modificacion()
@@ -175,7 +175,7 @@ namespace AerolineaFrba.Abm_Rol
         private void button5_Click(object sender, EventArgs e)
         {
             Listado listado = new Listado();
-            
+            listado.anterior = this;
             listado.llamadoDeModificacion = true;
             listado.ShowDialog();
             //this.cambiarVisibilidades(this.listado);

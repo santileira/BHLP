@@ -47,7 +47,6 @@ namespace AerolineaFrba.Abm_Rol
             Listado listado = new Listado();
             Principal principal = new Principal();
 
-            modificacion.listado = listado;
             listado.anterior = principal;
             listado.siguiente = modificacion;
 
