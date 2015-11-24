@@ -90,7 +90,7 @@
             // txtRolSeleccionado
             // 
             this.txtRolSeleccionado.Location = new System.Drawing.Point(318, 29);
-            this.txtRolSeleccionado.MaxLength = 60;
+            this.txtRolSeleccionado.MaxLength = 30;
             this.txtRolSeleccionado.Name = "txtRolSeleccionado";
             this.txtRolSeleccionado.ReadOnly = true;
             this.txtRolSeleccionado.Size = new System.Drawing.Size(110, 20);
