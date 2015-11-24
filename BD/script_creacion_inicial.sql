@@ -2691,6 +2691,24 @@ BEGIN
 END
 GO
 
+-------------------------------Tiene Viaje Vendidos-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].TieneViajeVendidos (@IdRuta INT)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @Tiene INT
+	DECLARE @Tiene1 INT
+	SELECT @Tiene = COUNT(*) FROM [ABSTRACCIONX4].PASAJES P JOIN [ABSTRACCIONX4].VIAJES V ON P.VIAJE_COD = V.VIAJE_COD WHERE V.RUTA_ID = @IdRuta
+	SELECT @Tiene1 = COUNT(*) FROM [ABSTRACCIONX4].ENCOMIENDAS E JOIN [ABSTRACCIONX4].VIAJES V ON E.VIAJE_COD = V.VIAJE_COD WHERE V.RUTA_ID = @IdRuta
+
+	
+	
+	IF(@Tiene + @Tiene1 > 0)
+		RETURN 1
+	RETURN 0
+END
+GO
+
 -------------------------------Esta Siendo Usada-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].EstaSiendoUsada (@IdRuta INT)
 RETURNS BIT
@@ -3402,40 +3420,38 @@ RETURNS smallint
 AS
 
 begin
-	declare @fechas table (fuera_servicio datetime, fecha_reinicio datetime)
+declare @fechaFS datetime
+declare @fechaRS datetime
 
-	insert into @fechas select fs.FECHA_FS fuera_servicio, fs.FECHA_REINICIO fecha_reinicio
-						from ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs 
-						where fs.AERO_MATRI = @matricula
+set @fechaFS = (select a.aero_fecha_fs from abstraccionx4.aeronaves a where a.aero_matri = @matricula)
+set	@fechaRS = (select a.aero_fecha_rs from abstraccionx4.aeronaves a where a.aero_matri = @matricula)
 
-	if((select count(*) from @fechas) <> 0)
-		begin
-		return (select sum(t2.cantidad_dias)
-				from (select datediff(day, t.fecha_reinicio, t.fuera_servicio) cantidad_dias
-						from @fechas t) t2)
-		end
+if(@fechaFS <> null)
+	return (select datediff(day, @fechaRS, @fechaFS)  
+			from [ABSTRACCIONX4].aeronaves a
+			where a.aero_matri = @matricula)
 
 	return 0
 end
 GO
 
 CREATE FUNCTION [ABSTRACCIONX4].aeronavesConMayorFueraDeServicio(@semestre tinyint, @anio smallint)
+
 RETURNS @variable_tabla TABLE (Descripcion varchar(8), CantidadDias smallint)
+
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
-		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 1 and 6
-		and a.AERO_MATRI = fs.AERO_MATRI
+		from [ABSTRACCIONX4].aeronaves a
+		where year(a.aero_fecha_fs) = @anio and month(a.aero_fecha_fs) between 1 and 6
 		order by a.aero_matri desc
 else
 	insert @variable_tabla	
 		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
-		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 7 and 12
-		and a.AERO_MATRI = fs.AERO_MATRI
+		from [ABSTRACCIONX4].aeronaves a
+		where year(a.aero_fecha_fs) = @anio and month(a.aero_fecha_fs) between 7 and 12
 		order by a.aero_matri desc
 
 return;

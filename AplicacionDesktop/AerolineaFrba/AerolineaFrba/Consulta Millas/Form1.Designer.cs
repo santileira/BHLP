@@ -42,8 +42,8 @@
             this.dgHistorial = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cantTotalMillas = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.cantTotalMillas = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgCanjes = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgHistorial)).BeginInit();
@@ -55,6 +55,7 @@
             // txtApe
             // 
             this.txtApe.Location = new System.Drawing.Point(344, 55);
+            this.txtApe.MaxLength = 60;
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 59;
@@ -161,14 +162,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Historial De Millas";
             // 
-            // cantTotalMillas
-            // 
-            this.cantTotalMillas.AutoSize = true;
-            this.cantTotalMillas.Location = new System.Drawing.Point(528, 191);
-            this.cantTotalMillas.Name = "cantTotalMillas";
-            this.cantTotalMillas.Size = new System.Drawing.Size(0, 13);
-            this.cantTotalMillas.TabIndex = 65;
-            // 
             // button3
             // 
             this.button3.Enabled = false;
@@ -179,6 +172,14 @@
             this.button3.Text = "Canjear Millas";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // cantTotalMillas
+            // 
+            this.cantTotalMillas.AutoSize = true;
+            this.cantTotalMillas.Location = new System.Drawing.Point(528, 191);
+            this.cantTotalMillas.Name = "cantTotalMillas";
+            this.cantTotalMillas.Size = new System.Drawing.Size(0, 13);
+            this.cantTotalMillas.TabIndex = 65;
             // 
             // groupBox2
             // 

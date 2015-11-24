@@ -37,12 +37,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.optEstadoBaja = new System.Windows.Forms.RadioButton();
             this.optEstadoAlta = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
             this.txtFiltro1 = new System.Windows.Forms.TextBox();
-            this.txtFiltro4 = new System.Windows.Forms.TextBox();
-            this.cboFiltro3 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.txtFiltro2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -50,9 +45,9 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dg = new System.Windows.Forms.DataGridView();
             this.lblErrores = new System.Windows.Forms.Label();
-            this.txtFiltros = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
             this.botonSeleccionar = new System.Windows.Forms.Button();
+            this.listaFiltros = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
@@ -66,19 +61,14 @@
             this.groupBox1.Controls.Add(this.cboCamposFiltro1);
             this.groupBox1.Controls.Add(this.chkEstadoIgnorar);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txtFiltro1);
-            this.groupBox1.Controls.Add(this.txtFiltro4);
-            this.groupBox1.Controls.Add(this.cboFiltro3);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtFiltro2);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(22, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(794, 194);
+            this.groupBox1.Size = new System.Drawing.Size(720, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -181,58 +171,12 @@
             this.optEstadoAlta.Text = "Estado DISPONIBLE";
             this.optEstadoAlta.UseVisualStyleBackColor = true;
             // 
-            // button1
-            // 
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(698, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 20);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Seleccionar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // txtFiltro1
             // 
             this.txtFiltro1.Location = new System.Drawing.Point(341, 24);
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
-            // 
-            // txtFiltro4
-            // 
-            this.txtFiltro4.Enabled = false;
-            this.txtFiltro4.Location = new System.Drawing.Point(597, 58);
-            this.txtFiltro4.Name = "txtFiltro4";
-            this.txtFiltro4.Size = new System.Drawing.Size(87, 20);
-            this.txtFiltro4.TabIndex = 7;
-            // 
-            // cboFiltro3
-            // 
-            this.cboFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFiltro3.FormattingEnabled = true;
-            this.cboFiltro3.Location = new System.Drawing.Point(597, 24);
-            this.cboFiltro3.Name = "cboFiltro3";
-            this.cboFiltro3.Size = new System.Drawing.Size(180, 21);
-            this.cboFiltro3.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(546, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Filtro 4";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(546, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Filtro 3";
             // 
             // txtFiltro2
             // 
@@ -273,7 +217,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(609, 227);
+            this.button3.Location = new System.Drawing.Point(517, 227);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 2;
@@ -294,7 +238,7 @@
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dg.Size = new System.Drawing.Size(700, 432);
+            this.dg.Size = new System.Drawing.Size(720, 432);
             this.dg.TabIndex = 3;
             // 
             // lblErrores
@@ -304,18 +248,6 @@
             this.lblErrores.Name = "lblErrores";
             this.lblErrores.Size = new System.Drawing.Size(0, 13);
             this.lblErrores.TabIndex = 4;
-            // 
-            // txtFiltros
-            // 
-            this.txtFiltros.BackColor = System.Drawing.Color.SlateGray;
-            this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFiltros.Location = new System.Drawing.Point(840, 27);
-            this.txtFiltros.Multiline = true;
-            this.txtFiltros.Name = "txtFiltros";
-            this.txtFiltros.Size = new System.Drawing.Size(385, 681);
-            this.txtFiltros.TabIndex = 5;
-            this.txtFiltros.TextChanged += new System.EventHandler(this.txtFiltros_TextChanged);
             // 
             // button6
             // 
@@ -331,7 +263,7 @@
             // botonSeleccionar
             // 
             this.botonSeleccionar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonSeleccionar.Location = new System.Drawing.Point(741, 227);
+            this.botonSeleccionar.Location = new System.Drawing.Point(663, 227);
             this.botonSeleccionar.Name = "botonSeleccionar";
             this.botonSeleccionar.Size = new System.Drawing.Size(79, 23);
             this.botonSeleccionar.TabIndex = 7;
@@ -339,15 +271,25 @@
             this.botonSeleccionar.UseVisualStyleBackColor = true;
             this.botonSeleccionar.Click += new System.EventHandler(this.botonSeleccionar_Click);
             // 
+            // listaFiltros
+            // 
+            this.listaFiltros.BackColor = System.Drawing.Color.SlateGray;
+            this.listaFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listaFiltros.FormattingEnabled = true;
+            this.listaFiltros.Location = new System.Drawing.Point(779, 34);
+            this.listaFiltros.Name = "listaFiltros";
+            this.listaFiltros.Size = new System.Drawing.Size(370, 585);
+            this.listaFiltros.TabIndex = 8;
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(1241, 708);
+            this.ClientSize = new System.Drawing.Size(1122, 708);
+            this.Controls.Add(this.listaFiltros);
             this.Controls.Add(this.botonSeleccionar);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
             this.Controls.Add(this.button3);
@@ -376,11 +318,6 @@
         private System.Windows.Forms.TextBox txtFiltro1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtFiltro4;
-        private System.Windows.Forms.ComboBox cboFiltro3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dg;
@@ -393,8 +330,8 @@
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button botonSeleccionar;
+        private System.Windows.Forms.ListBox listaFiltros;
     }
 }

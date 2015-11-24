@@ -48,6 +48,10 @@
             this.txtCiudadOrigenNueva = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.botonSelServicios = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
@@ -60,7 +64,7 @@
             // 
             // botonLimpiar
             // 
-            this.botonLimpiar.Location = new System.Drawing.Point(37, 328);
+            this.botonLimpiar.Location = new System.Drawing.Point(37, 357);
             this.botonLimpiar.Name = "botonLimpiar";
             this.botonLimpiar.Size = new System.Drawing.Size(112, 35);
             this.botonLimpiar.TabIndex = 11;
@@ -70,7 +74,7 @@
             // 
             // botonGuardar
             // 
-            this.botonGuardar.Location = new System.Drawing.Point(564, 328);
+            this.botonGuardar.Location = new System.Drawing.Point(564, 357);
             this.botonGuardar.Name = "botonGuardar";
             this.botonGuardar.Size = new System.Drawing.Size(112, 35);
             this.botonGuardar.TabIndex = 10;
@@ -99,28 +103,28 @@
             this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(320, 57);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(356, 112);
+            this.groupBox4.Size = new System.Drawing.Size(356, 148);
             this.groupBox4.TabIndex = 46;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Precios";
             // 
             // txtPrecioEncomiendaNueva
             // 
-            this.txtPrecioEncomiendaNueva.Location = new System.Drawing.Point(233, 68);
+            this.txtPrecioEncomiendaNueva.Location = new System.Drawing.Point(232, 82);
             this.txtPrecioEncomiendaNueva.Name = "txtPrecioEncomiendaNueva";
             this.txtPrecioEncomiendaNueva.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioEncomiendaNueva.TabIndex = 9;
             // 
             // txtPrecioPasajeNuevo
             // 
-            this.txtPrecioPasajeNuevo.Location = new System.Drawing.Point(233, 31);
+            this.txtPrecioPasajeNuevo.Location = new System.Drawing.Point(232, 35);
             this.txtPrecioPasajeNuevo.Name = "txtPrecioPasajeNuevo";
             this.txtPrecioPasajeNuevo.Size = new System.Drawing.Size(117, 20);
             this.txtPrecioPasajeNuevo.TabIndex = 8;
             // 
             // txtPrecioEncomienda
             // 
-            this.txtPrecioEncomienda.Location = new System.Drawing.Point(95, 68);
+            this.txtPrecioEncomienda.Location = new System.Drawing.Point(94, 82);
             this.txtPrecioEncomienda.Name = "txtPrecioEncomienda";
             this.txtPrecioEncomienda.ReadOnly = true;
             this.txtPrecioEncomienda.Size = new System.Drawing.Size(117, 20);
@@ -129,7 +133,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 71);
+            this.label3.Location = new System.Drawing.Point(6, 85);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 6;
@@ -137,7 +141,7 @@
             // 
             // txtPrecioPasaje
             // 
-            this.txtPrecioPasaje.Location = new System.Drawing.Point(95, 31);
+            this.txtPrecioPasaje.Location = new System.Drawing.Point(94, 35);
             this.txtPrecioPasaje.Name = "txtPrecioPasaje";
             this.txtPrecioPasaje.ReadOnly = true;
             this.txtPrecioPasaje.Size = new System.Drawing.Size(117, 20);
@@ -146,7 +150,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 34);
+            this.label4.Location = new System.Drawing.Point(6, 38);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(39, 13);
             this.label4.TabIndex = 4;
@@ -163,7 +167,7 @@
             this.groupBox3.Controls.Add(this.txtCiudadOrigenNueva);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(37, 188);
+            this.groupBox3.Location = new System.Drawing.Point(37, 211);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(477, 107);
             this.groupBox3.TabIndex = 45;
@@ -244,6 +248,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.botonSelServicios);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txtCodigo);
@@ -251,10 +259,44 @@
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(37, 57);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(252, 112);
+            this.groupBox2.Size = new System.Drawing.Size(252, 148);
             this.groupBox2.TabIndex = 44;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Datos principales";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(77, 124);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(0, 13);
+            this.label10.TabIndex = 12;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(23, 124);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(44, 13);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Nuevos";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(77, 99);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(0, 13);
+            this.label9.TabIndex = 10;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(23, 99);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Actuales";
             // 
             // botonSelServicios
             // 
@@ -295,7 +337,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(34, 305);
+            this.label5.Location = new System.Drawing.Point(34, 334);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(233, 13);
             this.label5.TabIndex = 11;
@@ -306,7 +348,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(713, 379);
+            this.ClientSize = new System.Drawing.Size(716, 417);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -356,5 +398,9 @@
         private System.Windows.Forms.TextBox txtCiudadOrigen;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button botonSelServicios;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label6;
     }
 }

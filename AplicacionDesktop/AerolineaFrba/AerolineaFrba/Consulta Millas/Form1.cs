@@ -67,12 +67,14 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            Boolean camposInvalidos = false;
             if (validarCampos())
             {
                 this.llenarHistorialDeMillas();
                 this.llenarHistorialDeCanjes();
             }
+            else
+                camposInvalidos = true;
 
             if (dgHistorial.RowCount > 0)
             {
@@ -81,8 +83,10 @@ namespace AerolineaFrba.Consulta_Millas
             else
             {
                 this.button3.Enabled = false;
+                if(!camposInvalidos)
                 MessageBox.Show("El cliente es inválido o bien no posee puntos disponibles a la fecha.", "Canje de Millas", MessageBoxButtons.OK);
-            }
+            
+             }
             
         }
 
@@ -91,8 +95,10 @@ namespace AerolineaFrba.Consulta_Millas
             Boolean esValido = true;
 
             esValido = !Validacion.esVacio(txtDni, "Dni", true) && esValido;
-            esValido = Validacion.numeroCorrecto(txtDni, "Dni", true) && esValido;
-            esValido = Validacion.textNombre(txtApe, "Apellido") && esValido;
+            esValido = Validacion.esNumero(txtDni, "Dni", true) && esValido;
+            esValido = Validacion.estaEntreLimites(txtDni, 0, 99999999, true, "Dni") && esValido;
+            esValido = Validacion.esSoloTexto(txtApe, "Apellido" , true) && esValido;
+           
 
             return esValido;
         }

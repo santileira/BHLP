@@ -59,7 +59,7 @@ namespace AerolineaFrba.Generacion_Viaje
         public void seSeleccionoRuta(DataGridViewRow registro)
         {
             txtRuta.Text = registro.Cells["Id"].Value.ToString();
-            this.listadoAeronaves.serv_cod = registro.Cells["serv_cod"].Value.ToString();
+            this.listadoAeronaves.serv_cod = registro.Cells["Codigo Serv"].Value.ToString();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -156,8 +156,8 @@ namespace AerolineaFrba.Generacion_Viaje
             
             if(!huboError)
             {
-                this.insertarNuevoViaje();
-                MessageBox.Show("Se inserto correctamente el nuevo viaje, el cual ya se encuentra disponible para la venta de pasajes", "Nuevo viaje", MessageBoxButtons.OK);
+                if(this.insertarNuevoViaje() != null)
+                    MessageBox.Show("Se inserto correctamente el nuevo viaje, el cual ya se encuentra disponible para la venta de pasajes", "Nuevo viaje", MessageBoxButtons.OK);
             }
         }
 
@@ -169,7 +169,16 @@ namespace AerolineaFrba.Generacion_Viaje
             manejador.agregarStringSP("@llegadaEstimada", dateTimePicker2.Value.ToString());
             manejador.agregarIntSP("@ruta", txtRuta);
             manejador.agregarStringSP("@matricula", txtMatricula.Text);
-            return manejador.ejecutarSP();
+
+            try
+            {
+                return manejador.ejecutarSP();
+            }
+            catch (System.Exception e)
+            {
+                MessageBox.Show(e.Message, "Erro en la base de datos", MessageBoxButtons.OK);
+                return null;
+            }   
         }
 
         private void label7_Click(object sender, EventArgs e)

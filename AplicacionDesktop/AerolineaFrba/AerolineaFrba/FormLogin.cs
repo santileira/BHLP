@@ -119,12 +119,15 @@ namespace AerolineaFrba
             try
             {
                 manager.ejecutarSP();
-                cambiarVisibilidades(new Principal("ADMINISTRADOR",txtUsuario.Text,this));
+                cambiarVisibilidades(new Principal("ADMINISTRADOR", txtUsuario.Text, this));
+                
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
             }
+
+            
         }
         
 
