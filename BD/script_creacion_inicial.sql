@@ -766,45 +766,21 @@ SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] ON
 
 GO
 
---- TRIGGER PARA CREAR LA COMPRA DE LOS PASAJES/ENCOMIENDAS SOLO DURANTE LA MIGRACION. (Luego se elimina)
----------------------------------------------------------------------------------------------------------
 
-CREATE TRIGGER [ABSTRACCIONX4].generadorCompraEncomiendas
-ON [ABSTRACCIONX4].[ENCOMIENDAS]
-AFTER INSERT
-AS
-BEGIN
-	DECLARE @cli_cod int
-	DECLARE @encomienda_cod int	
-	DECLARE @fechaCompra datetime
-	DECLARE cursorA CURSOR FOR (SELECT ENCOMIENDA_COD, CLI_COD FROM INSERTED)
-	OPEN cursorA
-	FETCH NEXT FROM cursorA INTO @encomienda_cod,@cli_cod
-	
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		DECLARE @codigoPNR varchar(11)
-		SELECT @codigoPNR = [ABSTRACCIONX4].fnCustomPass(10,'CN')
-		SET @fechaCompra = (SELECT Paquete_FechaCompra FROM gd_esquema.Maestra WHERE Paquete_Codigo = @encomienda_cod)
-		
-		INSERT INTO [ABSTRACCIONX4].[COMPRAS] (COMP_PNR , COMP_FECHA ,COMP_EFECTIVO ,CLI_COD)
-		VALUES (@codigoPNR,@fechaCompra,1,@cli_cod)
+INSERT INTO ABSTRACCIONX4.COMPRAS
+	(
+		[COMP_PNR],
+		[COMP_FECHA],
+		[COMP_EFECTIVO],
+		[CLI_COD]
+	)
+SELECT [ABSTRACCIONX4].fnCustomPass(10,'CN'),Tabla2.* FROM (
+SELECT DISTINCT FechaCompra, Efectivo, CliCod FROM (
+			SELECT m1.Paquete_FechaCompra as FechaCompra,1 as Efectivo,(SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = m1.Cli_Dni AND CLI_APELLIDO = m1.Cli_Apellido) as CliCod FROM gd_esquema.Maestra m1 WHERE Paquete_Codigo != 0
+				UNION 
+			SELECT m2.Pasaje_FechaCompra as FechaCompra,1 as Efectivo,(SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = m2.Cli_Dni AND CLI_APELLIDO = m2.Cli_Apellido) as CliCod FROM gd_esquema.Maestra m2 WHERE Pasaje_Codigo != 0) 
+			as Tabla) as Tabla2
 
-		UPDATE [ABSTRACCIONX4].[ENCOMIENDAS]
-		SET COMP_PNR = @codigoPNR 
-		WHERE ENCOMIENDA_COD = @encomienda_cod
-
-		FETCH NEXT FROM cursorA INTO @encomienda_cod,@cli_cod
-	END
-
-	CLOSE cursorA
-	DEALLOCATE cursorA
-
-END
-GO
-
----------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------
 
 INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
 	(
@@ -814,7 +790,8 @@ INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
 		[AERO_MATRI],
 		[ENCOMIENDA_PRECIO],	
 		[ENCOMIENDA_PESO_KG],
-		[ENCOMIENDA_MILLAS]
+		[ENCOMIENDA_MILLAS],
+		[COMP_PNR]
 	)
 
 SELECT T.ENCOMIENDA_COD,T.CLIENTE,
@@ -824,7 +801,8 @@ SELECT T.ENCOMIENDA_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
-	T.MAT_AERONAVE,T.PRECIO,T.CANT_KG,T.CANT_MILLAS
+	T.MAT_AERONAVE,T.PRECIO,T.CANT_KG,T.CANT_MILLAS,
+	(SELECT COMP_PNR FROM ABSTRACCIONX4.COMPRAS WHERE COMP_FECHA = FECHA_COMPRA AND CLI_COD = CLIENTE)
 FROM
 (SELECT (SELECT c.CLI_COD 
 			FROM [ABSTRACCIONX4].[CLIENTES] c 
@@ -835,6 +813,7 @@ FROM
 		m.Paquete_Codigo ENCOMIENDA_COD,
 		m.Paquete_Precio PRECIO,
 		m.Paquete_KG CANT_KG,
+		m.Paquete_FechaCompra FECHA_COMPRA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
 		CAST((m.Paquete_Precio / 10) as INT) CANT_MILLAS,
@@ -852,9 +831,6 @@ GO
 
 SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] OFF
 
-GO
-
-DROP TRIGGER [ABSTRACCIONX4].generadorCompraEncomiendas
 GO
 
 
@@ -876,50 +852,6 @@ GO
 SET IDENTITY_INSERT [ABSTRACCIONX4].[PASAJES] ON
 GO
 
---- TRIGGER PARA CREAR LA COMPRA DE LOS PASAJES/ENCOMIENDAS SOLO DURANTE LA MIGRACION. (Luego se elimina)
----------------------------------------------------------------------------------------------------------
-
-/*
-CREATE TRIGGER [ABSTRACCIONX4].generadorCompraPasajes
-ON #tempPasajes
-AFTER INSERT
-AS
-BEGIN
-	DECLARE @cli_cod int
-	DECLARE @pasaje_cod int
-	DECLARE @fechaCompra datetime
-	DECLARE cursorA CURSOR FOR (SELECT PASAJE_COD, CLI_COD,PASAJE_FECHA_COMPRA FROM INSERTED)
-	OPEN cursorA
-	FETCH NEXT FROM cursorA INTO @pasaje_cod,@cli_cod,@fechaCompra
-	
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		DECLARE @codigoPNR varchar(11)
-		SELECT @codigoPNR = [ABSTRACCIONX4].fnCustomPass(10,'CN')
-
-		INSERT INTO [ABSTRACCIONX4].[COMPRAS] (COMP_PNR , COMP_FECHA ,COMP_EFECTIVO ,CLI_COD)
-		VALUES (@codigoPNR,@fechaCompra,1,@cli_cod)
-
-		UPDATE [ABSTRACCIONX4].[PASAJES]
-		SET COMP_PNR = @codigoPNR 
-		WHERE PASAJE_COD = @pasaje_cod
-
-		FETCH NEXT FROM cursorA INTO @pasaje_cod,@cli_cod,@fechaCompra
-	END
-
-	CLOSE cursorA
-	DEALLOCATE cursorA
-
-END
-GO
-
-
----------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------
-
-
-
-
 -- Inserta pasajes en la tabla pasajes
 
 INSERT INTO [ABSTRACCIONX4].PASAJES
@@ -928,10 +860,10 @@ INSERT INTO [ABSTRACCIONX4].PASAJES
 		[CLI_COD],
 		[VIAJE_COD],
 		[PASAJE_PRECIO],
-		[PASAJE_FECHA_COMPRA],
 		[BUT_NRO],
 		[AERO_MATRI],
-		[PASAJE_MILLAS]
+		[PASAJE_MILLAS],
+		[COMP_PNR]
 		
 	)
 		
@@ -942,7 +874,8 @@ SELECT T.PASAJE_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
-	T.PRECIO,T.FECHA_COMPRA,T.NRO_BUTACA,T.MAT_AERONAVE,T.CANT_MILLAS
+	T.PRECIO,T.NRO_BUTACA,T.MAT_AERONAVE,T.CANT_MILLAS,
+	(SELECT COMP_PNR FROM ABSTRACCIONX4.COMPRAS WHERE COMP_FECHA = FECHA_COMPRA AND CLI_COD = CLIENTE)
 FROM
 (SELECT (SELECT c.CLI_COD 
 			FROM [ABSTRACCIONX4].[CLIENTES] c 
@@ -971,8 +904,6 @@ WHERE Pasaje_Precio > 0) T
 GO
 SET IDENTITY_INSERT [ABSTRACCIONX4].[PASAJES] OFF
 
-DROP TRIGGER [ABSTRACCIONX4].generadorCompraPasajes
-*/
 -- Actualiza el valor de las butacas disponibles en viajes realizados 
 
 UPDATE [ABSTRACCIONX4].[VIAJES]
@@ -1405,49 +1336,6 @@ AS
 				VALUES (@codigoPNR,@nroTarjeta,@codigoCli,@cuotas,0,@fechaCompra)
 		END
 	END 
-GO
-
---------------------------------ingresarDatosDePasajes(NO SE USA, POR AHORA)------------------------------------------------
-
-create PROCEDURE [ABSTRACCIONX4].ingresarDatosDePasajes
-	@cliCod int,
-	@viajeCod int,
-	@pasajePrecio numeric(7,2),
-	@pasajeFechaCompra datetime,
-	@butNro smallint,
-	@aeroMatri varchar(8)
-AS
-	BEGIN TRY
-		INSERT INTO ABSTRACCIONX4.PASAJES
-			(CLI_COD,VIAJE_COD,PASAJE_PRECIO,PASAJE_FECHA_COMPRA,BUT_NRO,AERO_MATRI)
-			VALUES (@cliCod,@viajeCod,@pasajePrecio,@pasajeFechaCompra,@butNro,@aeroMatri)
-	END TRY
-	BEGIN CATCH
-	END CATCH
-
-
-GO
-
-
---------------------------------ingresarDatosDeEncomiendas(NO SE USA, POR AHORA)------------------------------------------------
-
-create PROCEDURE [ABSTRACCIONX4].ingresarDatosDeEncomiendas
-	@cliCod int,
-	@viajeCod int,
-	@encomiendaPrecio numeric(7,2),
-	@encomiendaFechaCompra datetime,
-	@encomiendaPesoKG numeric(6,2),
-	@aeroMatri varchar(8)
-AS
-	BEGIN TRY
-		INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
-			(CLI_COD,VIAJE_COD,ENCOMIENDA_PRECIO,ENCOMIENDA_FECHA_COMPRA,ENCOMIENDA_PESO_KG,AERO_MATRI)
-			VALUES (@cliCod,@viajeCod,@encomiendaPrecio,@encomiendaFechaCompra,@encomiendaPesoKG,@aeroMatri)
-	END TRY
-	BEGIN CATCH
-	END CATCH
-
-
 GO
 
 
