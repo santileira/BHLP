@@ -2152,6 +2152,63 @@ END
 
 GO
 
+
+-------------------------------Reasignar butacas a pasajes-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ReasignarButacas
+@MatriculaVieja VARCHAR(8), 
+@MatriculaNueva VARCHAR(8),
+@FechaBaja DATETIME,
+@FechaReinicio DATETIME
+AS
+BEGIN
+	DECLARE @Viaje INT,@Contador SMALLINT
+	
+	CREATE TABLE #ButacasVentanilla
+	(idButaca SMALLINT IDENTITY,
+	 nroButaca SMALLINT)
+	CREATE TABLE #ButacasPasillo
+	(idButaca SMALLINT IDENTITY,
+	 nroButaca SMALLINT)
+
+	 INSERT INTO #ButacasPasillo
+		SELECT BUT_NRO
+		FROM ABSTRACCIONX4.BUTACAS
+		WHERE BUT_TIPO = 'Pasillo' AND
+			  AERO_MATRI = @MatriculaNueva
+
+	INSERT INTO #ButacasVentanilla
+		SELECT BUT_NRO
+		FROM ABSTRACCIONX4.BUTACAS
+		WHERE BUT_TIPO = 'Ventanilla' AND
+			  AERO_MATRI = @MatriculaNueva
+
+	DECLARE cursorViajes CURSOR FOR (SELECT VIAJE_COD 
+										FROM ABSTRACCIONX4.VIAJES
+										WHERE AERO_MATRI = @MatriculaVieja AND
+										      [ABSTRACCIONX4].ExisteViajeEntreFechas(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1)
+	OPEN cursorViajes
+
+	SET @Contador = 1
+
+	FETCH cursorViajes INTO @Viaje
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		UPDATE ABSTRACCIONX4.BUTACAS
+			SET 
+		FETCH cursorViajes INTO @Viaje
+	END
+
+	CLOSE cursorViajes
+	DEALLOCATE cursorViajes
+
+
+
+
+	DROP TABLE #ButacasPasillo
+	DROP TABLE #ButacasVentanilla
+END
+GO
+
 -------------------------------Suplantar Aeronave Baja-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].SuplantarAeronave
 	@Matricula VARCHAR(8),
@@ -2173,6 +2230,7 @@ BEGIN
 		RETURN
 	END
 	
+	EXECUTE [ABSTRACCIONX4].ReasignarButacas @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
 	EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @Matricula,@MatriculaNueva,@FechaBaja,@FechaMaxima
 
 	IF @FechaReinicio IS NULL
