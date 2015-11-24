@@ -299,7 +299,6 @@ CREATE TABLE [ABSTRACCIONX4].[AERONAVES](
 	[AERO_FAB] [varchar] (30) NOT NULL,	
 	[SERV_COD] [tinyint] NOT NULL,	
 	[AERO_FECHA_BAJA] [datetime] NULL,
-	[AERO_CANT_BUTACAS] [smallint] NOT NULL,
 	[AERO_CANT_KGS] [numeric] (6,2) NOT NULL,
 	[CIU_COD_ORIGEN] [smallint] NULL,
  CONSTRAINT [PK_AERONAVES] PRIMARY KEY CLUSTERED 
@@ -610,15 +609,13 @@ GO
 --Inserta las aeronaves en la tabla de aeronaves
 INSERT INTO [ABSTRACCIONX4].[AERONAVES] 
 	(	AERO_MOD , 
-		AERO_MATRI , 
-		AERO_CANT_BUTACAS ,  
+		AERO_MATRI ,   
 		AERO_CANT_KGS , 
 		AERO_FAB , 
 		SERV_COD
 	)
 SELECT  Aeronave_Modelo , 
-		Aeronave_Matricula, 
-		MAX(Butaca_Nro), 
+		Aeronave_Matricula,  
 		Aeronave_KG_Disponibles , 
 		Aeronave_Fabricante , 		
 		(SELECT S.SERV_COD FROM [ABSTRACCIONX4].[SERVICIOS] S WHERE S.SERV_DESC = Tipo_Servicio)		
@@ -1804,6 +1801,12 @@ GO
 
 
 
+
+
+
+
+
+
 -- ************ ABM AERONAVE *************
 
 -------------------------------Viajes asignados a aeronave-------------------------------
@@ -2318,8 +2321,6 @@ AS
 BEGIN 
 		DECLARE @CodigoServicio SMALLINT
 		DECLARE @ViajeAsignado BIT
-		DECLARE @CantidadButacas SMALLINT
-		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 		SELECT @ExisteMatricula = COUNT(*) FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @Matricula AND AERO_MATRI <> @MatriculaActual
 		SET @ViajeAsignado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)
 		--EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual	
@@ -2333,8 +2334,8 @@ BEGIN
 				IF(@Matricula != @MatriculaActual)
 				BEGIN	
 					INSERT INTO [ABSTRACCIONX4].AERONAVES 
-					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD , AERO_CANT_BUTACAS , AERO_CANT_KGS) VALUES
-					(@Modelo , @Matricula , @Fabricante , @CodigoServicio , @CantidadButacas , @CantidadKG)
+					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
+					(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
 
 					EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
 					EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaActual , @Matricula
@@ -2350,7 +2351,7 @@ BEGIN
 					UPDATE ABSTRACCIONX4.AERONAVES
 					SET AERO_MOD = @Modelo , AERO_FAB = @Fabricante, AERO_MATRI = @Matricula ,
 					SERV_COD = @CodigoServicio,
-					AERO_CANT_BUTACAS = @CantidadButacas, AERO_CANT_KGS = @CantidadKG
+					AERO_CANT_KGS = @CantidadKG
 					WHERE AERO_MATRI = @MatriculaActual
 
 					EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
@@ -2394,15 +2395,13 @@ create PROCEDURE [ABSTRACCIONX4].AltaAeronave
 AS
 	BEGIN TRY
 		DECLARE @CodigoServicio TINYINT
-		DECLARE @CantidadButacas TINYINT
 		DECLARE @CodigoCiudad SMALLINT
-		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 		SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
 		SET @CodigoCiudad = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadPrincipal)
 
 		INSERT INTO ABSTRACCIONX4.AERONAVES 
-			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA , CIU_COD_ORIGEN)
-			VALUES (@Modelo,@Matricula,@Fabricante,@CodigoServicio,@CantidadButacas,@CantidadKG,@FechaAlta,@CodigoCiudad)
+			(AERO_MOD,AERO_MATRI,AERO_FAB,SERV_COD,AERO_CANT_KGS,AERO_FECHA_ALTA , CIU_COD_ORIGEN)
+			VALUES (@Modelo,@Matricula,@Fabricante,@CodigoServicio,@CantidadKG,@FechaAlta,@CodigoCiudad)
 		EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
 	END TRY
 	BEGIN CATCH
