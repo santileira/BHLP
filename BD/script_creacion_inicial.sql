@@ -3277,7 +3277,6 @@ end
 GO
 
 
--------------------------------Estadistica aeronaves con mayor cantidad de dias fuera de servicio-----------------
 CREATE FUNCTION [ABSTRACCIONX4].cantidadDiasFueraDeServicio(@matricula varchar(8))
 
 RETURNS smallint
@@ -3285,41 +3284,42 @@ RETURNS smallint
 AS
 
 begin
-declare @fechaFS datetime
-declare @fechaRS datetime
+	declare @fechas table (fuera_servicio datetime, fecha_reinicio datetime)
 
-set @fechaFS = (select a.aero_fecha_fs from abstraccionx4.aeronaves a where a.aero_matri = @matricula)
-set	@fechaRS = (select a.aero_fecha_rs from abstraccionx4.aeronaves a where a.aero_matri = @matricula)
+	insert into @fechas select fs.FECHA_FS fuera_servicio, fs.FECHA_REINICIO fecha_reinicio
+						from ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs 
+						where fs.AERO_MATRI = @matricula
 
-if(@fechaFS <> null)
-	return (select datediff(day, @fechaRS, @fechaFS)  
-			from [ABSTRACCIONX4].aeronaves a
-			where a.aero_matri = @matricula)
+	if((select count(*) from @fechas) <> 0)
+		begin
+		return (select sum(t2.cantidad_dias)
+				from (select datediff(day, t.fecha_reinicio, t.fuera_servicio) cantidad_dias
+						from @fechas t) t2)
+		end
 
 	return 0
 end
 GO
 
 CREATE FUNCTION [ABSTRACCIONX4].aeronavesConMayorFueraDeServicio(@semestre tinyint, @anio smallint)
-
 RETURNS @variable_tabla TABLE (Descripcion varchar(8), CantidadDias smallint)
-
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a
-		where year(a.aero_fecha_fs) = @anio and month(a.aero_fecha_fs) between 1 and 6
+		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
+		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 1 and 6
+		and a.AERO_MATRI = fs.AERO_MATRI
 		order by a.aero_matri desc
 else
 	insert @variable_tabla	
 		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a
-		where year(a.aero_fecha_fs) = @anio and month(a.aero_fecha_fs) between 7 and 12
+		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
+		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 7 and 12
+		and a.AERO_MATRI = fs.AERO_MATRI
 		order by a.aero_matri desc
 
 return;
 end	
 GO
-
