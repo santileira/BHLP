@@ -60,10 +60,14 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button2_Click(object sender, EventArgs e)
         {
-     
+
             if (datosCorrectos())
             {
-                
+                if ( String.Compare(txtRolSeleccionado.Text , "Administrador" , false) == 0 && txtRolSeleccionado.Text != txtNombre.Text)
+                {
+                    MessageBox.Show("No se puede modificar el nombre del rol Administrador" , "Informe" , MessageBoxButtons.OK);
+                    return;
+                }
                 if (this.ExisteNombreRol())
                 {
                     if (txtNombre.Text != txtRolSeleccionado.Text)
