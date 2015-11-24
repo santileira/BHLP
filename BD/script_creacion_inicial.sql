@@ -73,12 +73,14 @@ GO
 
 -- Tabla Usuarios: 
 CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
+	[USUA_COD] [tinyint] IDENTITY,
 	[USERNAME] [varchar] (20),
 	[PASSWORD] [varchar] (70) NOT NULL,
-	[CANT_INTENTOS] [tinyint] DEFAULT 0
+	[CANT_INTENTOS] [tinyint] DEFAULT 0,
+	[HABILITADO] [bit] DEFAULT 1
  CONSTRAINT [PK_USUARIOS] PRIMARY KEY CLUSTERED 
 (
-	[USERNAME] 
+	[USUA_COD] 
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -224,6 +226,7 @@ GO
 CREATE TABLE [ABSTRACCIONX4].[CIUDADES](
 	[CIU_COD] [smallint] IDENTITY,
 	[CIU_DESC] [varchar] (80) UNIQUE NOT NULL,
+	[HABILITADA] [bit] DEFAULT 1
  CONSTRAINT [PK_CIUDADES] PRIMARY KEY CLUSTERED 
 (
 	[CIU_COD] 
@@ -761,50 +764,42 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 
 GO
 
+CREATE FUNCTION [ABSTRACCIONX4].DevolverPNR (@Cli_Cod INT , @Fecha DATETIME)
+RETURNS VARCHAR(15)
+AS
+BEGIN
+	DECLARE @PNR VARCHAR(15)
+	SELECT @PNR = COMP_PNR FROM [ABSTRACCIONX4].COMPRAS WHERE COMP_FECHA = @Fecha AND CLI_COD = @Cli_Cod
+	RETURN @PNR
+END
+GO
+
+-- Inserta las compras en la tabla compras
+
+INSERT INTO [ABSTRACCIONX4].[COMPRAS]
+
+	(	
+		COMP_PNR ,
+		COMP_EFECTIVO,
+		CLI_COD ,
+		COMP_FECHA
+		)
+	SELECT [ABSTRACCIONX4].fnCustomPass(10,'CN') PNR, 1 EFECTIVO, T.CLIENTE , T.FECHA FROM (
+	SELECT (SELECT c.CLI_COD 
+			FROM [ABSTRACCIONX4].[CLIENTES] c 
+			WHERE c.CLI_DNI = m.Cli_Dni 
+				AND c.CLI_APELLIDO = m.Cli_Apellido 
+				AND c.CLI_NOMBRE = m.Cli_Nombre  
+		) AS CLIENTE, CASE m.Paquete_FechaCompra WHEN 0 THEN m.Pasaje_FechaCompra ELSE m.Paquete_FechaCompra END AS FECHA FROM gd_esquema.Maestra m
+		) T
+		GROUP BY T.FECHA , T.CLIENTE
+GO
 
 SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] ON
 
 GO
 
---- TRIGGER PARA CREAR LA COMPRA DE LOS PASAJES/ENCOMIENDAS SOLO DURANTE LA MIGRACION. (Luego se elimina)
----------------------------------------------------------------------------------------------------------
-
-CREATE TRIGGER [ABSTRACCIONX4].generadorCompraEncomiendas
-ON [ABSTRACCIONX4].[ENCOMIENDAS]
-AFTER INSERT
-AS
-BEGIN
-	DECLARE @cli_cod int
-	DECLARE @encomienda_cod int	
-	DECLARE @fechaCompra datetime
-	DECLARE cursorA CURSOR FOR (SELECT ENCOMIENDA_COD, CLI_COD FROM INSERTED)
-	OPEN cursorA
-	FETCH NEXT FROM cursorA INTO @encomienda_cod,@cli_cod
-	
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		DECLARE @codigoPNR varchar(11)
-		SELECT @codigoPNR = [ABSTRACCIONX4].fnCustomPass(10,'CN')
-		SET @fechaCompra = (SELECT Paquete_FechaCompra FROM gd_esquema.Maestra WHERE Paquete_Codigo = @encomienda_cod)
-		
-		INSERT INTO [ABSTRACCIONX4].[COMPRAS] (COMP_PNR , COMP_FECHA ,COMP_EFECTIVO ,CLI_COD)
-		VALUES (@codigoPNR,@fechaCompra,1,@cli_cod)
-
-		UPDATE [ABSTRACCIONX4].[ENCOMIENDAS]
-		SET COMP_PNR = @codigoPNR 
-		WHERE ENCOMIENDA_COD = @encomienda_cod
-
-		FETCH NEXT FROM cursorA INTO @encomienda_cod,@cli_cod
-	END
-
-	CLOSE cursorA
-	DEALLOCATE cursorA
-
-END
-GO
-
----------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------
+SELECT * FROM ABSTRACCIONX4.ENCOMIENDAS
 
 INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
 	(
@@ -814,7 +809,8 @@ INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
 		[AERO_MATRI],
 		[ENCOMIENDA_PRECIO],	
 		[ENCOMIENDA_PESO_KG],
-		[ENCOMIENDA_MILLAS]
+		[ENCOMIENDA_MILLAS],
+		[COMP_PNR]
 	)
 
 SELECT T.ENCOMIENDA_COD,T.CLIENTE,
@@ -824,7 +820,7 @@ SELECT T.ENCOMIENDA_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
-	T.MAT_AERONAVE,T.PRECIO,T.CANT_KG,T.CANT_MILLAS
+	T.MAT_AERONAVE,T.PRECIO,T.CANT_KG,T.CANT_MILLAS, ABSTRACCIONX4.DevolverPNR(T.CLIENTE , T.FECHA_COMPRA) 
 FROM
 (SELECT (SELECT c.CLI_COD 
 			FROM [ABSTRACCIONX4].[CLIENTES] c 
@@ -836,6 +832,7 @@ FROM
 		m.Paquete_Precio PRECIO,
 		m.Paquete_KG CANT_KG,
 		m.FechaSalida FECHA_SALIDA,
+		m.Paquete_FechaCompra FECHA_COMPRA,
 		m.Aeronave_Matricula MAT_AERONAVE,
 		CAST((m.Paquete_Precio / 10) as INT) CANT_MILLAS,
 		(SELECT r.RUTA_ID 
@@ -854,8 +851,6 @@ SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] OFF
 
 GO
 
-DROP TRIGGER [ABSTRACCIONX4].generadorCompraEncomiendas
-GO
 
 
 -- Inserta butacas en la tabla butacas
@@ -876,51 +871,9 @@ GO
 SET IDENTITY_INSERT [ABSTRACCIONX4].[PASAJES] ON
 GO
 
---- TRIGGER PARA CREAR LA COMPRA DE LOS PASAJES/ENCOMIENDAS SOLO DURANTE LA MIGRACION. (Luego se elimina)
----------------------------------------------------------------------------------------------------------
-
-/*
-CREATE TRIGGER [ABSTRACCIONX4].generadorCompraPasajes
-ON #tempPasajes
-AFTER INSERT
-AS
-BEGIN
-	DECLARE @cli_cod int
-	DECLARE @pasaje_cod int
-	DECLARE @fechaCompra datetime
-	DECLARE cursorA CURSOR FOR (SELECT PASAJE_COD, CLI_COD,PASAJE_FECHA_COMPRA FROM INSERTED)
-	OPEN cursorA
-	FETCH NEXT FROM cursorA INTO @pasaje_cod,@cli_cod,@fechaCompra
-	
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		DECLARE @codigoPNR varchar(11)
-		SELECT @codigoPNR = [ABSTRACCIONX4].fnCustomPass(10,'CN')
-
-		INSERT INTO [ABSTRACCIONX4].[COMPRAS] (COMP_PNR , COMP_FECHA ,COMP_EFECTIVO ,CLI_COD)
-		VALUES (@codigoPNR,@fechaCompra,1,@cli_cod)
-
-		UPDATE [ABSTRACCIONX4].[PASAJES]
-		SET COMP_PNR = @codigoPNR 
-		WHERE PASAJE_COD = @pasaje_cod
-
-		FETCH NEXT FROM cursorA INTO @pasaje_cod,@cli_cod,@fechaCompra
-	END
-
-	CLOSE cursorA
-	DEALLOCATE cursorA
-
-END
-GO
 
 
----------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------
-
-
-
-
--- Inserta pasajes en la tabla pasajes
+--Inserta pasajes en la tabla pasajes
 
 INSERT INTO [ABSTRACCIONX4].PASAJES
 	(
@@ -931,7 +884,8 @@ INSERT INTO [ABSTRACCIONX4].PASAJES
 		[PASAJE_FECHA_COMPRA],
 		[BUT_NRO],
 		[AERO_MATRI],
-		[PASAJE_MILLAS]
+		[PASAJE_MILLAS],
+		[COMP_PNR]
 		
 	)
 		
@@ -942,7 +896,7 @@ SELECT T.PASAJE_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
-	T.PRECIO,T.FECHA_COMPRA,T.NRO_BUTACA,T.MAT_AERONAVE,T.CANT_MILLAS
+	T.PRECIO,T.FECHA_COMPRA,T.NRO_BUTACA,T.MAT_AERONAVE,T.CANT_MILLAS,[ABSTRACCIONX4].DevolverPNR(T.CLIENTE , T.FECHA_COMPRA)
 FROM
 (SELECT (SELECT c.CLI_COD 
 			FROM [ABSTRACCIONX4].[CLIENTES] c 
