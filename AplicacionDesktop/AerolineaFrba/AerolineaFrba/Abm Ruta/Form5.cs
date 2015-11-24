@@ -46,15 +46,24 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void generarQueryInicial()
         {
-            this.query = "SELECT R.RUTA_ID 'Id' ,  RUTA_COD 'Código Ruta', ";
+            this.query = "SELECT";
+            if (this.llamadoDeModificacion)
+                this.query += " DISTINCT ";
+
+            this.query += " R.RUTA_ID 'Id' ,  RUTA_COD 'Código Ruta', ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
             this.query += this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
-            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo' , RUTA_PRECIO_BASE_PASAJE 'Precio Base Pasaje' , RUTA_ESTADO 'Estado' , S.SERV_DESC 'Servicio' , S.SERV_COD 'Codigo Serv' ";
-  
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo' , RUTA_PRECIO_BASE_PASAJE 'Precio Base Pasaje' , RUTA_ESTADO 'Estado' ";
+            
+            if (!this.llamadoDeModificacion)
+                this.query += ", S.SERV_DESC 'Servicio' , S.SERV_COD 'Codigo Serv' ";
+
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R, [ABSTRACCIONX4].[SERVICIOS] S, [ABSTRACCIONX4].[SERVICIOS_RUTAS] SR ";
             this.query += "WHERE R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD";
             if (this.loActivoGenerarViajes && this.serv_cod != null)
                 query += " AND (select sr.serv_cod from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where sr.ruta_id = R.ruta_id) = " + this.serv_cod;
+
+            this.query += " ORDER BY R.RUTA_COD";
         }
 
         private string buscarCiudad(string cod)
@@ -128,6 +137,7 @@ namespace AerolineaFrba.Abm_Ruta
             primeraConsulta = false;
 
             dg.Columns["Id"].Visible = false;
+            if(!this.llamadoDeModificacion)
             dg.Columns["Codigo Serv"].Visible = false;
           
         }
