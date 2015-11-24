@@ -1992,30 +1992,6 @@ AS
 GO
 
 
--------------------------------Tiene viaje comprado-------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].TieneViajeComprado
-	(@Matricula VARCHAR(8))
-RETURNS BIT
-AS
-BEGIN
-	DECLARE @ResultadoPasajes INT
-	DECLARE @ResultadoEncomiendas INT 
-	
-	SELECT @ResultadoPasajes = COUNT(*) 
-		FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.VIAJES V ON (P.VIAJE_COD = V.VIAJE_COD)
-		   WHERE AERO_MATRI = @Matricula
-
-	SELECT @ResultadoEncomiendas = COUNT(*) 
-		FROM ABSTRACCIONX4.ENCOMIENDAS E JOIN ABSTRACCIONX4.VIAJES V ON (E.VIAJE_COD = V.VIAJE_COD)
-		   WHERE AERO_MATRI = @Matricula
-
-	IF @ResultadoPasajes > 0 OR @ResultadoEncomiendas > 0
-		RETURN 1
-	RETURN 0
-END
-
-GO
-
 -------------------------------Cantidad Butacas-------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].CantidadButacas
@@ -2345,7 +2321,7 @@ BEGIN
 		DECLARE @CantidadButacas SMALLINT
 		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 		SELECT @ExisteMatricula = COUNT(*) FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @Matricula AND AERO_MATRI <> @MatriculaActual
-		SET @viajeComprado = [ABSTRACCIONX4].tieneViajeComprado(@MatriculaActual)
+		SET @viajeComprado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)
 		--EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual	
 		
 		IF(@ExisteMatricula = 0)
@@ -2484,6 +2460,8 @@ BEGIN
 	RETURN
 END
 GO
+
+
 
 
 
