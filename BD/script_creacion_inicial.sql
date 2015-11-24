@@ -2317,18 +2317,18 @@ AS
 		DECLARE @ExisteMatricula BIT
 BEGIN 
 		DECLARE @CodigoServicio SMALLINT
-		DECLARE @viajeComprado BIT
+		DECLARE @ViajeAsignado BIT
 		DECLARE @CantidadButacas SMALLINT
 		SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 		SELECT @ExisteMatricula = COUNT(*) FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @Matricula AND AERO_MATRI <> @MatriculaActual
-		SET @viajeComprado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)
+		SET @ViajeAsignado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)
 		--EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual	
 		
 		IF(@ExisteMatricula = 0)
 		BEGIN
 			SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
 			--si tiene viaje comprado solo modifico su nombre, no se puede otra cosa EN AERONAVES
-			IF( @viajeComprado = 1)
+			IF( @ViajeAsignado = 1)
 			BEGIN
 				IF(@Matricula != @MatriculaActual)
 				BEGIN	
@@ -2358,7 +2358,7 @@ BEGIN
 		END	
 		ELSE
 		BEGIN
-			SET @Error = '(modificar aeronave)Ya existe una aeronave con matrícula ' + @Matricula
+			SET @Error = 'Ya existe una aeronave con matrícula ' + @Matricula
 			RAISERROR(@Error, 16, 1)
 		END	
 		
