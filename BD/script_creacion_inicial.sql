@@ -964,16 +964,16 @@ INSERT INTO ABSTRACCIONX4.USUARIOS (USERNAME,PASSWORD)
 
 GO
 
--- Insert de roles por usuarios (CORREGIR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)
+-- Insert de roles por usuarios 
 INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USUA_COD,ROL_COD)
-	SELECT (SELECT USUA_COD FROM ABSTRACCIONX4.USUARIOS WHERE USERNAME = 'Invitado'),ROL_COD 
+	SELECT (SELECT USUA_COD FROM ABSTRACCIONX4.USUARIOS U WHERE U.USERNAME = 'Invitado') ,ROL_COD 
 		FROM ABSTRACCIONX4.ROLES
 		WHERE ROL_NOMBRE = 'Cliente'
+
 INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USUA_COD,ROL_COD)
-	SELECT USERNAME,(SELECT ROL_COD 
-						FROM ABSTRACCIONX4.ROLES 
-						WHERE ROL_NOMBRE='Administrador')
-		FROM ABSTRACCIONX4.USUARIOS
+	SELECT (SELECT USUA_COD FROM ABSTRACCIONX4.USUARIOS U1 WHERE U1.USERNAME = U.USERNAME),
+			(SELECT ROL_COD FROM ABSTRACCIONX4.ROLES WHERE ROL_NOMBRE='Administrador')
+		FROM ABSTRACCIONX4.USUARIOS U
 		WHERE USERNAME != 'Invitado'
 
 GO
@@ -1658,8 +1658,8 @@ AS
 		INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD,FUNC_COD)
 			SELECT ABSTRACCIONX4.DarCodigoDeRol(@Nombre),
 			ABSTRACCIONX4.DarCodigoDeFuncionalidad(elemento) FROM @Funcionalidades
-		INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USERNAME,ROL_COD)
-			VALUES ('Invitado',ABSTRACCIONX4.DarCodigoDeRol(@Nombre))
+		INSERT INTO ABSTRACCIONX4.ROLES_USUARIOS (USUA_COD,ROL_COD)
+			VALUES (ABSTRACCIONX4.DarCodigoDeUsuario('Invitado'),ABSTRACCIONX4.DarCodigoDeRol(@Nombre))
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
@@ -1697,6 +1697,21 @@ BEGIN
 	IF(@Rol_Cod is NULL)
 	SET @Rol_Cod = 0
 	RETURN @Rol_Cod
+END
+GO
+
+-------------------------------Dar Codigo De Usuario-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].DarCodigoDeUsuario(@Username VARCHAR(30))
+RETURNS TINYINT
+AS
+BEGIN
+	DECLARE @Usua_Cod TINYINT
+	SELECT @Usua_Cod = U.USUA_COD
+	FROM ABSTRACCIONX4.USUARIOS U
+	WHERE U.USERNAME = @Username
+	IF(@Usua_cod is NULL)
+	SET @Usua_cod = 0
+	RETURN @Usua_cod
 END
 GO
 
@@ -3016,6 +3031,22 @@ BEGIN
 END
 GO
 
+
+--------------------------------Fecha es mayor que Fecha1--------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].datetime_esMayor(@Fecha DATETIME , @Fecha1 DATETIME)
+RETURNS BIT
+AS
+BEGIN
+
+IF(datediff(minute, '1900-01-01 00:00:00.0000000', @Fecha) > datediff(minute, '1900-01-01 00:00:00.0000000',  @Fecha1))
+	BEGIN
+		RETURN 1
+	END
+		RETURN 0
+END
+GO
+
+
 --------------------------------Esta en viaje pasaje--------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].EstaEnViajePasaje(@Codigo INT)
@@ -3031,9 +3062,9 @@ BEGIN
 	AND [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1
 
 	IF(@Cantidad > 0)
-	SET @Esta  = 1
-	ELSE
 	SET @Esta  = 0
+	ELSE
+	SET @Esta  = 1
 	RETURN @Esta
 END
 GO
@@ -3052,22 +3083,8 @@ BEGIN
 	AND [ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 0
 	AND [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1
 	IF(@Cantidad > 0)
-	RETURN 1
 	RETURN 0
-END
-GO
-
---------------------------------Fecha es mayor que Fecha1--------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].datetime_esMayor(@Fecha DATETIME , @Fecha1 DATETIME)
-RETURNS BIT
-AS
-BEGIN
-
-IF(datediff(minute, '1900-01-01 00:00:00.0000000', @Fecha) > datediff(minute, '1900-01-01 00:00:00.0000000',  @Fecha1))
-	BEGIN
-		RETURN 1
-	END
-		RETURN 0
+	RETURN 1
 END
 GO
 
@@ -3083,7 +3100,7 @@ AS
 					[CLI_COD]  AS 'Cliente',
 					[VIAJE_COD] AS 'Viaje' ,
 					[ENCOMIENDA_PRECIO] AS 'Precio' ,
-					[ENCOMIENDA_FECHA_COMPRA] AS 'Fecha Compra',
+					(SELECT COMP_FECHA FROM ABSTRACCIONX4.COMPRAS WHERE COMP_PNR = @Codigo) AS 'Fecha Compra',
 					[ENCOMIENDA_PESO_KG] AS 'Peso' ,
 					[AERO_MATRI] AS 'Aeronave'  
 			FROM ABSTRACCIONX4.ENCOMIENDAS
@@ -3111,13 +3128,12 @@ RETURNS TABLE /*([PASAJE_COD] INT,
 	           [AERO_MATRI] VARCHAR(8),
 	           [PASAJE_CANCELADO] BIT)*/
 AS
-
 	RETURN(SELECT	[PASAJE_COD] AS 'Código',
 					[COMP_PNR] AS 'Código Compra' ,
 					[CLI_COD] AS 'Cliente',
 					[VIAJE_COD] AS 'Viaje' ,
 					[PASAJE_PRECIO] AS 'Precio' ,
-					[PASAJE_FECHA_COMPRA] AS 'Fecha Compra',
+					(SELECT COMP_FECHA FROM ABSTRACCIONX4.COMPRAS WHERE COMP_PNR = @Codigo) AS 'Fecha Compra',
 					[BUT_NRO] AS 'Butaca',
 					[AERO_MATRI] AS 'Aeronave' 
 			FROM ABSTRACCIONX4.PASAJES 

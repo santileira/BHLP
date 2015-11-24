@@ -60,8 +60,10 @@ namespace AerolineaFrba.Abm_Rol
 
         private void button2_Click(object sender, EventArgs e)
         {
+     
             if (datosCorrectos())
             {
+                
                 if (this.ExisteNombreRol())
                 {
                     if (txtNombre.Text != txtRolSeleccionado.Text)
@@ -71,6 +73,7 @@ namespace AerolineaFrba.Abm_Rol
                     }     
                 }
                 this.realizarModificacion();
+                
             }
         }
 
@@ -80,7 +83,7 @@ namespace AerolineaFrba.Abm_Rol
             if (apretoSi(resultado))
             {
                 modificarRol();
-
+                MessageBox.Show("Se ha modificado al rol correctamente", "Modificación de roles", MessageBoxButtons.OK);
                 this.Close();
 
             }

@@ -176,6 +176,7 @@ namespace AerolineaFrba.Abm_Rol
                     {
                         darDeBajaRol(darValorDadoIndex(e.RowIndex));
                         ejecutarQuery(query);
+                        MessageBox.Show("Se ha dado de baja al rol correctamente", "Baja de roles", MessageBoxButtons.OK);
                     }
                 }
             }

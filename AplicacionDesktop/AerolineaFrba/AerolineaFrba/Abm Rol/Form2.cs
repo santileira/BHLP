@@ -46,9 +46,10 @@ namespace AerolineaFrba.Abm_Rol
 
                 if (!this.ExisteNombreRol())
                 {
-                    MessageBox.Show("El nombre ingresado es correcto. Se procede a dar de alta al nuevo rol", "Alta de roles", MessageBoxButtons.OK);
+                    
 
                     darDeAltaRol();
+                    MessageBox.Show("Se ha dado de alta al nuevo rol correctamente", "Alta de roles", MessageBoxButtons.OK);
                     this.Close();
                 }
                 else

@@ -61,7 +61,7 @@ namespace AerolineaFrba
             SqlDataReader reader;
             SqlCommand consultaRoles = new SqlCommand();
             consultaRoles.CommandType = CommandType.Text;
-            consultaRoles.CommandText = "SELECT ROL_NOMBRE FROM [ABSTRACCIONX4].ROLES_USUARIOS RU JOIN [ABSTRACCIONX4].ROLES R ON (RU.ROL_COD = R.ROL_COD) WHERE USERNAME = 'INVITADO' AND ROL_ESTADO = 1";
+            consultaRoles.CommandText = "SELECT R.ROL_NOMBRE FROM [ABSTRACCIONX4].ROLES_USUARIOS RU JOIN [ABSTRACCIONX4].ROLES R ON (RU.ROL_COD = R.ROL_COD) JOIN [ABSTRACCIONX4].USUARIOS U ON (U.USUA_COD = RU.USUA_COD) WHERE U.USERNAME = 'INVITADO' AND R.ROL_ESTADO = 1";
             consultaRoles.Connection = Program.conexion();
 
             reader = consultaRoles.ExecuteReader();

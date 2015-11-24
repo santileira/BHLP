@@ -175,6 +175,7 @@ namespace AerolineaFrba.Devolucion
                     form.ShowDialog();
                     motivo = form.Motivo;
                     this.cancelarPasajesYEncomiendas();
+                    MessageBox.Show("Se ha realizado correctamente la devolución", "Informe", MessageBoxButtons.OK);
                     this.Close();
                     return;
                 }
@@ -210,6 +211,7 @@ namespace AerolineaFrba.Devolucion
             this.inicio(true);
         }
 
+ 
     
 
         
