@@ -101,7 +101,8 @@ namespace AerolineaFrba.Abm_Ruta
             conexion.Close();*/
             sePusoAgregarFiltro1 = false;
             sePusoAgregarFiltro2 = false;
-            SQLManager.ejecutarQuery(query, dg);
+            SQLManager.ejecutarQuery(query + " ORDER BY R.RUTA_COD", dg);
+            dg.Columns["Id"].Visible = false;
         }
 
         private void iniciar()

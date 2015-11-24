@@ -63,7 +63,7 @@ namespace AerolineaFrba.Abm_Ruta
             if (this.loActivoGenerarViajes && this.serv_cod != null)
                 query += " AND (select sr.serv_cod from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where sr.ruta_id = R.ruta_id) = " + this.serv_cod;
 
-            this.query += " ORDER BY R.RUTA_COD";
+            
         }
 
         private string buscarCiudad(string cod)
@@ -122,7 +122,7 @@ namespace AerolineaFrba.Abm_Ruta
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
+            SqlDataAdapter a = new SqlDataAdapter(this.query + " ORDER BY R.RUTA_COD", conexion);
             //Llenar el Dataset
             DataSet ds = new DataSet();
             a.Fill(ds, "Busqueda");
