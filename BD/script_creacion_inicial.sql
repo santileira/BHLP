@@ -3217,26 +3217,28 @@ begin
 if(@semestre = 1)
 	insert @variable_tabla 
 			select top 5 t.Descripcion
-			from (select c.ciu_desc Descripcion, p.pasaje_fecha_compra Fecha, count(p.pasaje_cod) Cantidad
-					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c
-					where p.viaje_cod = v.viaje_cod and
+			from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
+					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
+					where com.COMP_PNR = p.COMP_PNR  and
+					p.viaje_cod = v.viaje_cod and
 					v.ruta_id = r.ruta_id and
-					r.ciu_cod_d = c.ciu_cod and
+					r.ciu_cod_d = ciu.ciu_cod and
 					p.pasaje_cancelado = 0
-					group by c.ciu_desc, p.pasaje_fecha_compra) t
+					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 			group by t.Descripcion
 			order by sum(t.cantidad) desc
 else
 	insert @variable_tabla 
 			select top 5 t.Descripcion
-			from (select c.ciu_desc Descripcion, p.pasaje_fecha_compra Fecha, count(p.pasaje_cod) Cantidad
-					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c
-					where p.viaje_cod = v.viaje_cod and
+			from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
+					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
+					where com.COMP_PNR = p.COMP_PNR  and
+					p.viaje_cod = v.viaje_cod and
 					v.ruta_id = r.ruta_id and
-					r.ciu_cod_d = c.ciu_cod and
+					r.ciu_cod_d = ciu.ciu_cod and
 					p.pasaje_cancelado = 0
-					group by c.ciu_desc, p.pasaje_fecha_compra) t
+					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 			group by t.Descripcion
 			order by sum(t.cantidad) desc
@@ -3324,26 +3326,28 @@ begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 t.Descripcion
-		from (select c.ciu_desc Descripcion, p.pasaje_fecha_compra Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c
-				where p.viaje_cod = v.viaje_cod and
+		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
+				where com.COMP_PNR = p.COMP_PNR and
+				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
-				r.ciu_cod_d = c.ciu_cod and
+				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by c.ciu_desc, p.pasaje_fecha_compra) t
+				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion
 		order by sum(t.cantidad) desc
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion
-		from (select c.ciu_desc Descripcion, p.pasaje_fecha_compra Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c
-				where p.viaje_cod = v.viaje_cod and
+		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
+				where com.COMP_PNR = p.COMP_PNR and
+				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
-				r.ciu_cod_d = c.ciu_cod and
+				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by c.ciu_desc, p.pasaje_fecha_compra) t
+				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 		group by t.Descripcion
 		order by sum(t.cantidad) desc
