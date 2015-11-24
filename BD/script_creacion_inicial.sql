@@ -73,12 +73,14 @@ GO
 
 -- Tabla Usuarios: 
 CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
+	[USUA_COD] [tinyint] IDENTITY,
 	[USERNAME] [varchar] (20),
 	[PASSWORD] [varchar] (70) NOT NULL,
-	[CANT_INTENTOS] [tinyint] DEFAULT 0
+	[CANT_INTENTOS] [tinyint] DEFAULT 0,
+	[HABILITADO] [bit] DEFAULT 1
  CONSTRAINT [PK_USUARIOS] PRIMARY KEY CLUSTERED 
 (
-	[USERNAME] 
+	[USUA_COD] 
 )WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -224,6 +226,7 @@ GO
 CREATE TABLE [ABSTRACCIONX4].[CIUDADES](
 	[CIU_COD] [smallint] IDENTITY,
 	[CIU_DESC] [varchar] (80) UNIQUE NOT NULL,
+	[HABILITADA] [bit] DEFAULT 1
  CONSTRAINT [PK_CIUDADES] PRIMARY KEY CLUSTERED 
 (
 	[CIU_COD] 
@@ -761,6 +764,7 @@ INSERT INTO [ABSTRACCIONX4].[CLIENTES]
 
 GO
 
+<<<<<<< HEAD
 
 SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] ON
 
@@ -781,6 +785,44 @@ SELECT DISTINCT FechaCompra, Efectivo, CliCod FROM (
 			SELECT m2.Pasaje_FechaCompra as FechaCompra,1 as Efectivo,(SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = m2.Cli_Dni AND CLI_APELLIDO = m2.Cli_Apellido) as CliCod FROM gd_esquema.Maestra m2 WHERE Pasaje_Codigo != 0) 
 			as Tabla) as Tabla2
 
+=======
+CREATE FUNCTION [ABSTRACCIONX4].DevolverPNR (@Cli_Cod INT , @Fecha DATETIME)
+RETURNS VARCHAR(15)
+AS
+BEGIN
+	DECLARE @PNR VARCHAR(15)
+	SELECT @PNR = COMP_PNR FROM [ABSTRACCIONX4].COMPRAS WHERE COMP_FECHA = @Fecha AND CLI_COD = @Cli_Cod
+	RETURN @PNR
+END
+GO
+
+-- Inserta las compras en la tabla compras
+
+INSERT INTO [ABSTRACCIONX4].[COMPRAS]
+
+	(	
+		COMP_PNR ,
+		COMP_EFECTIVO,
+		CLI_COD ,
+		COMP_FECHA
+		)
+	SELECT [ABSTRACCIONX4].fnCustomPass(10,'CN') PNR, 1 EFECTIVO, T.CLIENTE , T.FECHA FROM (
+	SELECT (SELECT c.CLI_COD 
+			FROM [ABSTRACCIONX4].[CLIENTES] c 
+			WHERE c.CLI_DNI = m.Cli_Dni 
+				AND c.CLI_APELLIDO = m.Cli_Apellido 
+				AND c.CLI_NOMBRE = m.Cli_Nombre  
+		) AS CLIENTE, CASE m.Paquete_FechaCompra WHEN 0 THEN m.Pasaje_FechaCompra ELSE m.Paquete_FechaCompra END AS FECHA FROM gd_esquema.Maestra m
+		) T
+		GROUP BY T.FECHA , T.CLIENTE
+GO
+
+SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] ON
+
+GO
+
+SELECT * FROM ABSTRACCIONX4.ENCOMIENDAS
+>>>>>>> 46ceb9b1f425c4f5ae5fc6a1e5089e4c5c72b610
 
 INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
 	(
@@ -801,8 +843,12 @@ SELECT T.ENCOMIENDA_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
+<<<<<<< HEAD
 	T.MAT_AERONAVE,T.PRECIO,T.CANT_KG,T.CANT_MILLAS,
 	(SELECT COMP_PNR FROM ABSTRACCIONX4.COMPRAS WHERE COMP_FECHA = FECHA_COMPRA AND CLI_COD = CLIENTE)
+=======
+	T.MAT_AERONAVE,T.PRECIO,T.CANT_KG,T.CANT_MILLAS, ABSTRACCIONX4.DevolverPNR(T.CLIENTE , T.FECHA_COMPRA) 
+>>>>>>> 46ceb9b1f425c4f5ae5fc6a1e5089e4c5c72b610
 FROM
 (SELECT (SELECT c.CLI_COD 
 			FROM [ABSTRACCIONX4].[CLIENTES] c 
@@ -815,6 +861,7 @@ FROM
 		m.Paquete_KG CANT_KG,
 		m.Paquete_FechaCompra FECHA_COMPRA,
 		m.FechaSalida FECHA_SALIDA,
+		m.Paquete_FechaCompra FECHA_COMPRA,
 		m.Aeronave_Matricula MAT_AERONAVE,
 		CAST((m.Paquete_Precio / 10) as INT) CANT_MILLAS,
 		(SELECT r.RUTA_ID 
@@ -833,6 +880,10 @@ SET IDENTITY_INSERT [ABSTRACCIONX4].[ENCOMIENDAS] OFF
 
 GO
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 46ceb9b1f425c4f5ae5fc6a1e5089e4c5c72b610
 
 -- Inserta butacas en la tabla butacas
 
@@ -852,7 +903,13 @@ GO
 SET IDENTITY_INSERT [ABSTRACCIONX4].[PASAJES] ON
 GO
 
+<<<<<<< HEAD
 -- Inserta pasajes en la tabla pasajes
+=======
+
+
+--Inserta pasajes en la tabla pasajes
+>>>>>>> 46ceb9b1f425c4f5ae5fc6a1e5089e4c5c72b610
 
 INSERT INTO [ABSTRACCIONX4].PASAJES
 	(
@@ -874,8 +931,12 @@ SELECT T.PASAJE_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
+<<<<<<< HEAD
 	T.PRECIO,T.NRO_BUTACA,T.MAT_AERONAVE,T.CANT_MILLAS,
 	(SELECT COMP_PNR FROM ABSTRACCIONX4.COMPRAS WHERE COMP_FECHA = FECHA_COMPRA AND CLI_COD = CLIENTE)
+=======
+	T.PRECIO,T.FECHA_COMPRA,T.NRO_BUTACA,T.MAT_AERONAVE,T.CANT_MILLAS,[ABSTRACCIONX4].DevolverPNR(T.CLIENTE , T.FECHA_COMPRA)
+>>>>>>> 46ceb9b1f425c4f5ae5fc6a1e5089e4c5c72b610
 FROM
 (SELECT (SELECT c.CLI_COD 
 			FROM [ABSTRACCIONX4].[CLIENTES] c 
@@ -3308,41 +3369,42 @@ RETURNS smallint
 AS
 
 begin
-declare @fechaFS datetime
-declare @fechaRS datetime
+	declare @fechas table (fuera_servicio datetime, fecha_reinicio datetime)
 
-set @fechaFS = (select a.aero_fecha_fs from abstraccionx4.aeronaves a where a.aero_matri = @matricula)
-set	@fechaRS = (select a.aero_fecha_rs from abstraccionx4.aeronaves a where a.aero_matri = @matricula)
+	insert into @fechas select fs.FECHA_FS fuera_servicio, fs.FECHA_REINICIO fecha_reinicio
+						from ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs 
+						where fs.AERO_MATRI = @matricula
 
-if(@fechaFS <> null)
-	return (select datediff(day, @fechaRS, @fechaFS)  
-			from [ABSTRACCIONX4].aeronaves a
-			where a.aero_matri = @matricula)
+	if((select count(*) from @fechas) <> 0)
+		begin
+		return (select sum(t2.cantidad_dias)
+				from (select datediff(day, t.fecha_reinicio, t.fuera_servicio) cantidad_dias
+						from @fechas t) t2)
+		end
 
 	return 0
 end
 GO
 
 CREATE FUNCTION [ABSTRACCIONX4].aeronavesConMayorFueraDeServicio(@semestre tinyint, @anio smallint)
-
 RETURNS @variable_tabla TABLE (Descripcion varchar(8), CantidadDias smallint)
-
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a
-		where year(a.aero_fecha_fs) = @anio and month(a.aero_fecha_fs) between 1 and 6
+		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
+		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 1 and 6
+		and a.AERO_MATRI = fs.AERO_MATRI
 		order by a.aero_matri desc
 else
 	insert @variable_tabla	
 		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a
-		where year(a.aero_fecha_fs) = @anio and month(a.aero_fecha_fs) between 7 and 12
+		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
+		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 7 and 12
+		and a.AERO_MATRI = fs.AERO_MATRI
 		order by a.aero_matri desc
 
 return;
 end	
 GO
-
