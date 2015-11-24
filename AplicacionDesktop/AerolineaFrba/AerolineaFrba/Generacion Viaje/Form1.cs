@@ -172,7 +172,8 @@ namespace AerolineaFrba.Generacion_Viaje
 
             try
             {
-                return manejador.ejecutarSP();
+                manejador.ejecutarSP();
+                return 1;
             }
             catch (System.Exception e)
             {

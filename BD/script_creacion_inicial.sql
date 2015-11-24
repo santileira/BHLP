@@ -350,7 +350,7 @@ CREATE TABLE [ABSTRACCIONX4].[VIAJES](
 	[AERO_MATRI] [varchar] (8) NOT NULL,
 	[RUTA_ID] [int] NOT NULL,
 	[CANT_BUT_OCUPADAS] [smallint] DEFAULT 0
-	CONSTRAINT [UK_VIAJES] UNIQUE (VIAJE_FECHA_SALIDA , VIAJE_FECHA_LLEGADA , AERO_MATRI , RUTA_ID),
+	CONSTRAINT [UK_VIAJES] UNIQUE (VIAJE_FECHA_SALIDA , VIAJE_FECHA_LLEGADAE , AERO_MATRI , RUTA_ID),
 	CONSTRAINT [CK_FECHA] CHECK (VIAJE_FECHA_LLEGADA > VIAJE_FECHA_SALIDA),
 	CONSTRAINT [CK_FECHAE] CHECK (VIAJE_FECHA_LLEGADAE > VIAJE_FECHA_SALIDA),
  CONSTRAINT [PK_VIAJES] PRIMARY KEY CLUSTERED 
@@ -2744,18 +2744,22 @@ CREATE PROCEDURE [ABSTRACCIONX4].generarNuevoViaje
 	@ruta int, 
 	@matricula varchar(8)
 AS
+	DECLARE @Error varchar(80)
+	SET @Error = 'La aeronave no se encuentra disponible en el periodo ingresado'
+
+	if(ABSTRACCIONX4.aeronave_disponible(@matricula, @salida, @llegadaEstimada) = 0)
+		RAISERROR(@Error, 16, 1)
+
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.VIAJES 
 			(VIAJE_FECHA_SALIDA, VIAJE_FECHA_LLEGADA, VIAJE_FECHA_LLEGADAE, AERO_MATRI, RUTA_ID)
 			VALUES (@salida, null, @llegadaEstimada, @matricula, @ruta)
 	END TRY
 	BEGIN CATCH
-		DECLARE @Error varchar(80)
 		SET @Error = 'Ya existe un viaje programado con los mismos detalles'
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO
-
 
 -- ************ REGISTRO USUARIO **************
 
