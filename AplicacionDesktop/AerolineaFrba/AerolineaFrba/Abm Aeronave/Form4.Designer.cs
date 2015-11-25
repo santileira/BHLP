@@ -119,7 +119,7 @@
             // 
             this.txtButacasV.Enabled = false;
             this.txtButacasV.Location = new System.Drawing.Point(348, 319);
-            this.txtButacasV.MaxLength = 3;
+            this.txtButacasV.MaxLength = 9;
             this.txtButacasV.Name = "txtButacasV";
             this.txtButacasV.Size = new System.Drawing.Size(157, 20);
             this.txtButacasV.TabIndex = 43;
@@ -184,7 +184,7 @@
             // 
             this.txtButacasP.Enabled = false;
             this.txtButacasP.Location = new System.Drawing.Point(348, 263);
-            this.txtButacasP.MaxLength = 3;
+            this.txtButacasP.MaxLength = 9;
             this.txtButacasP.Name = "txtButacasP";
             this.txtButacasP.Size = new System.Drawing.Size(157, 20);
             this.txtButacasP.TabIndex = 11;
@@ -221,7 +221,7 @@
             // 
             this.txtKilos.Enabled = false;
             this.txtKilos.Location = new System.Drawing.Point(348, 374);
-            this.txtKilos.MaxLength = 6;
+            this.txtKilos.MaxLength = 9;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(157, 20);
             this.txtKilos.TabIndex = 9;
