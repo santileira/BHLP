@@ -47,6 +47,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cboCuotas = new System.Windows.Forms.ComboBox();
+            this.labelCuotas = new System.Windows.Forms.Label();
             this.txtCodSeg = new System.Windows.Forms.TextBox();
             this.txtNroTarjeta = new System.Windows.Forms.TextBox();
             this.cboAnios = new System.Windows.Forms.ComboBox();
@@ -58,8 +60,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.cboFormaPago = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.labelCuotas = new System.Windows.Forms.Label();
-            this.cboCuotas = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -268,6 +268,23 @@
             this.groupBox3.Text = "Datos de la Tarjeta";
             this.groupBox3.Visible = false;
             // 
+            // cboCuotas
+            // 
+            this.cboCuotas.FormattingEnabled = true;
+            this.cboCuotas.Location = new System.Drawing.Point(123, 136);
+            this.cboCuotas.Name = "cboCuotas";
+            this.cboCuotas.Size = new System.Drawing.Size(40, 21);
+            this.cboCuotas.TabIndex = 14;
+            // 
+            // labelCuotas
+            // 
+            this.labelCuotas.AutoSize = true;
+            this.labelCuotas.Location = new System.Drawing.Point(8, 139);
+            this.labelCuotas.Name = "labelCuotas";
+            this.labelCuotas.Size = new System.Drawing.Size(43, 13);
+            this.labelCuotas.TabIndex = 13;
+            this.labelCuotas.Text = "Cuotas:";
+            // 
             // txtCodSeg
             // 
             this.txtCodSeg.Location = new System.Drawing.Point(123, 53);
@@ -378,23 +395,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // labelCuotas
-            // 
-            this.labelCuotas.AutoSize = true;
-            this.labelCuotas.Location = new System.Drawing.Point(8, 139);
-            this.labelCuotas.Name = "labelCuotas";
-            this.labelCuotas.Size = new System.Drawing.Size(43, 13);
-            this.labelCuotas.TabIndex = 13;
-            this.labelCuotas.Text = "Cuotas:";
-            // 
-            // cboCuotas
-            // 
-            this.cboCuotas.FormattingEnabled = true;
-            this.cboCuotas.Location = new System.Drawing.Point(123, 136);
-            this.cboCuotas.Name = "cboCuotas";
-            this.cboCuotas.Size = new System.Drawing.Size(40, 21);
-            this.cboCuotas.TabIndex = 14;
-            // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -406,6 +406,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button6);
             this.Name = "Form6";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Efectuar compra";
             this.Load += new System.EventHandler(this.Form6_Load);
             this.groupBox1.ResumeLayout(false);
