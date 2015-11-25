@@ -2872,6 +2872,23 @@ AS
 	WHERE VIAJE_COD = @viajecod
 GO
 
+--------------debeHaberLlegadoAntes-----------------
+
+CREATE FUNCTION [ABSTRACCIONX4].debeHaberLlegadoAntes(@fechaSalida datetime, @fechaLlegada datetime, @aero_matri varchar(8))
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @salidaSigVuelo datetime
+	SELECT TOP 1 @salidaSigVuelo = VIAJE_FECHA_SALIDA FROM ABSTRACCIONX4.VIAJES WHERE AERO_MATRI = @aero_matri AND VIAJE_FECHA_SALIDA > @fechaSalida ORDER BY VIAJE_FECHA_SALIDA
+	
+	IF @fechaLlegada < @salidaSigVuelo
+	BEGIN
+		RETURN 1
+	END
+
+	RETURN 0
+END
+
 
 -- ************** MILLAS ****************
 
