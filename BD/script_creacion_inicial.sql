@@ -1852,13 +1852,13 @@ GO
 -------------------------------Actualizar Butacas-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AgregarButacas 
 @Matricula VARCHAR(8), 
-@CantidadPasillo TINYINT, 
-@CantidadVentanilla TINYINT
+@CantidadPasillo SMALLINT, 
+@CantidadVentanilla SMALLINT
 AS
 BEGIN
 	DECLARE @i SMALLINT
 	SET @i = 0
-	DECLARE @CantidadButacas TINYINT
+	DECLARE @CantidadButacas SMALLINT
 	SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 	WHILE (@i < @CantidadPasillo)
 	BEGIN
@@ -2350,7 +2350,7 @@ BEGIN
 END
 GO
 
-
+/*
 -------------------------------Modificacion Butaca-------------------------------
 CREATE TRIGGER [ABSTRACCIONX4].ModificacionButaca
 ON [ABSTRACCIONX4].BUTACAS
@@ -2371,11 +2371,11 @@ BEGIN
 		DELETE FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = @MatriculaVieja
 	END TRY
 	BEGIN CATCH
-	SET @Error = 'ENTRE A ERROR TRIGGER BUTACA' + @MatriculaNueva 
+	SET @Error = 'Error butaca no aceptada' + @MatriculaNueva 
 				RAISERROR(@Error, 16, 1)
 	END CATCH
 END
-GO
+GO*/
 
 -------------------------------Viajes asignados a aeronave-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].TieneViajeAsignado
@@ -2441,7 +2441,7 @@ AS
 		DECLARE @Error varchar(80)
 		DECLARE @ExisteMatricula BIT
 BEGIN 
-		DECLARE @CodigoServicio SMALLINT
+		DECLARE @CodigoServicio TINYINT
 		DECLARE @ViajeAsignado BIT
 		SELECT @ExisteMatricula = COUNT(*) FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @Matricula AND AERO_MATRI <> @MatriculaActual
 		SET @ViajeAsignado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)

@@ -56,22 +56,14 @@ namespace AerolineaFrba.Abm_Aeronave
             Boolean viajeAsignado = !tieneUnViajeAsignado(mkMatricula.Text);
 
             txtButacasP.Enabled =
-            txtButacasPActual.Enabled =
             txtButacasV.Enabled=
-            txtButacasVActual.Enabled=
             txtKilos.Enabled =
-            txtKilosActual.Enabled =
             txtModelo.Enabled =
-            txtModeloActual.Enabled =
-            txtServicioActual.Enabled =
             cboServicio.Enabled =
             cboFabricante.Enabled = 
-            txtFabricanteActual.Enabled =
             cboFabricante.Enabled = viajeAsignado;
 
             mkMatricula.Enabled = true;
-            txtMatriculaActual.Enabled = true;
-
             button2.Enabled = true;
             button3.Enabled = true;
             
@@ -163,7 +155,8 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 this.modificar();
                 MessageBox.Show("Se modificó la aeronave de manera exitosa", "Modificación de aeronave", MessageBoxButtons.OK);
-                this.inicio();
+        
+                this.Close();
             }
         }
 

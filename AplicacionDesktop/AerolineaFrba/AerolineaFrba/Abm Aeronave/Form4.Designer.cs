@@ -126,6 +126,7 @@
             // 
             // txtButacasVActual
             // 
+            this.txtButacasVActual.Enabled = false;
             this.txtButacasVActual.Location = new System.Drawing.Point(165, 319);
             this.txtButacasVActual.Name = "txtButacasVActual";
             this.txtButacasVActual.ReadOnly = true;
@@ -143,6 +144,7 @@
             // 
             // txtServicioActual
             // 
+            this.txtServicioActual.Enabled = false;
             this.txtServicioActual.Location = new System.Drawing.Point(165, 209);
             this.txtServicioActual.Name = "txtServicioActual";
             this.txtServicioActual.ReadOnly = true;
@@ -161,6 +163,7 @@
             // 
             // txtFabricanteActual
             // 
+            this.txtFabricanteActual.Enabled = false;
             this.txtFabricanteActual.Location = new System.Drawing.Point(165, 150);
             this.txtFabricanteActual.Name = "txtFabricanteActual";
             this.txtFabricanteActual.ReadOnly = true;
@@ -188,6 +191,7 @@
             // 
             // txtButacasPActual
             // 
+            this.txtButacasPActual.Enabled = false;
             this.txtButacasPActual.Location = new System.Drawing.Point(165, 263);
             this.txtButacasPActual.Name = "txtButacasPActual";
             this.txtButacasPActual.ReadOnly = true;
@@ -206,6 +210,7 @@
             // 
             // txtKilosActual
             // 
+            this.txtKilosActual.Enabled = false;
             this.txtKilosActual.Location = new System.Drawing.Point(165, 374);
             this.txtKilosActual.Name = "txtKilosActual";
             this.txtKilosActual.ReadOnly = true;
@@ -223,6 +228,7 @@
             // 
             // txtMatriculaActual
             // 
+            this.txtMatriculaActual.Enabled = false;
             this.txtMatriculaActual.Location = new System.Drawing.Point(165, 47);
             this.txtMatriculaActual.Name = "txtMatriculaActual";
             this.txtMatriculaActual.ReadOnly = true;
@@ -249,6 +255,7 @@
             // 
             // txtModeloActual
             // 
+            this.txtModeloActual.Enabled = false;
             this.txtModeloActual.Location = new System.Drawing.Point(165, 96);
             this.txtModeloActual.Name = "txtModeloActual";
             this.txtModeloActual.ReadOnly = true;
@@ -312,7 +319,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Modificacion";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Modificación de aeronave";
             this.Load += new System.EventHandler(this.Modificacion_Load);
             this.groupBox1.ResumeLayout(false);
