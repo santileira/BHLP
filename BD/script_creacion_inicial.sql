@@ -2111,6 +2111,52 @@ END
 
 GO
 
+-------------------------------Ciudad en la que se encuentra-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula VARCHAR(8),@FechaBaja DATETIME)
+RETURNS VARCHAR(80)
+AS
+BEGIN
+	DECLARE @FechaMaxima DATETIME
+	SET @FechaMaxima = ABSTRACCIONX4.FechaReinicioOMaxima(NULL)
+
+	DECLARE @Ciudad VARCHAR(80)
+
+	SELECT TOP 1 @Ciudad = c.CIU_DESC 
+		FROM ABSTRACCIONX4.VIAJES v JOIN ABSTRACCIONX4.RUTAS_AEREAS r ON (v.RUTA_ID=r.RUTA_ID)
+									JOIN ABSTRACCIONX4.CIUDADES c ON (r.CIU_COD_O=C.CIU_COD)
+		WHERE v.AERO_MATRI = @Matricula AND 
+			  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaMaxima) = 1
+		ORDER BY v.VIAJE_FECHA_SALIDA
+
+	RETURN @Ciudad
+END
+GO
+
+
+-------------------------------Respeta origenes y destinos-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].RespetaOrigenesDestinos
+	(@MatriculaNueva VARCHAR(8),@MatriculaVieja VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @UnaTabla TABLE (orden INT IDENTITY, origen SMALLINT, destino SMALLINT)
+	INSERT INTO @UnaTabla
+	SELECT CIU_COD_O,CIU_COD_D
+		FROM ABSTRACCIONX4.VIAJES V JOIN RUTAS_AEREAS R ON (V.RUTA_ID = R.RUTA_ID)
+		WHERE AERO_MATRI IN (@MatriculaNueva,@MatriculaVieja) AND
+			  [ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1
+		ORDER BY VIAJE_FECHA_SALIDA
+
+	IF (SELECT COUNT(*)
+			FROM @UnaTabla T1 JOIN @UnaTabla T2 ON (T1.orden = (T2.orden - 1))
+			WHERE T1.orden % 2 = 1 AND
+				  T1.orden <> T2.destino) > 0
+		RETURN 0
+	RETURN 1
+END
+
+GO
+
 -------------------------------Aeronave de mismas caracteristicas-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].AeronaveDeMismasCaracteristicas
 	(@Matricula VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
@@ -2142,10 +2188,12 @@ BEGIN
 					  WHEN NULL THEN 0
 					  ELSE [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_BAJA,@FechaBaja,@FechaReinicio)
 					  END) = 0 AND
+			  [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(AERO_MATRI,@FechaBaja) = [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula,@FechaBaja) AND
 			  [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(AERO_MATRI,@FechaBaja,@FechaReinicio) = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
-			  ABSTRACCIONX4.DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
+			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 AND
+			  [ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
 			  
 	RETURN @MatriculaNueva
 END
@@ -2164,20 +2212,20 @@ BEGIN
 	DECLARE @Viaje INT,@Contador SMALLINT
 	
 	CREATE TABLE #ButacasVentanilla
-	(idButaca SMALLINT IDENTITY,
-	 nroButaca SMALLINT)
+	(contador INT IDENTITY,
+	 id SMALLINT)
 	CREATE TABLE #ButacasPasillo
-	(idButaca SMALLINT IDENTITY,
-	 nroButaca SMALLINT)
+	(contador INT IDENTITY,
+	 id SMALLINT)
 
 	 INSERT INTO #ButacasPasillo
-		SELECT BUT_NRO
+		SELECT BUT_ID
 		FROM ABSTRACCIONX4.BUTACAS
 		WHERE BUT_TIPO = 'Pasillo' AND
 			  AERO_MATRI = @MatriculaNueva
 
 	INSERT INTO #ButacasVentanilla
-		SELECT BUT_NRO
+		SELECT BUT_ID
 		FROM ABSTRACCIONX4.BUTACAS
 		WHERE BUT_TIPO = 'Ventanilla' AND
 			  AERO_MATRI = @MatriculaNueva
@@ -2188,13 +2236,22 @@ BEGIN
 										      [ABSTRACCIONX4].ExisteViajeEntreFechas(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1)
 	OPEN cursorViajes
 
-	SET @Contador = 1
 
 	FETCH cursorViajes INTO @Viaje
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
-		UPDATE ABSTRACCIONX4.BUTACAS
-			SET 
+		UPDATE ABSTRACCIONX4.PASAJES
+			SET BUT_ID = V.id
+			FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.BUTACAS B ON (P.BUT_ID = B.BUT_ID)
+										 JOIN #ButacasVentanilla V ON (ROW_NUMBER() OVER (ORDER BY P.PASAJE_COD DESC) = V.contador)
+			WHERE BUT_TIPO = 'Ventanilla'
+
+		UPDATE ABSTRACCIONX4.PASAJES
+			SET BUT_ID = V.id
+			FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.BUTACAS B ON (P.BUT_ID = B.BUT_ID)
+										 JOIN #ButacasPasillo V ON (ROW_NUMBER() OVER (ORDER BY P.PASAJE_COD DESC) = V.contador)
+			WHERE BUT_TIPO = 'Pasillo'
+		
 		FETCH cursorViajes INTO @Viaje
 	END
 
@@ -2471,26 +2528,7 @@ AS
 
 GO
 
--------------------------------Ciudad en la que se encuentra-------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula VARCHAR(8),@FechaBaja DATETIME)
-RETURNS VARCHAR(80)
-AS
-BEGIN
-	DECLARE @FechaMaxima DATETIME
-	SET @FechaMaxima = ABSTRACCIONX4.FechaReinicioOMaxima(NULL)
 
-	DECLARE @Ciudad VARCHAR(80)
-
-	SELECT TOP 1 @Ciudad = c.CIU_DESC 
-		FROM ABSTRACCIONX4.VIAJES v JOIN ABSTRACCIONX4.RUTAS_AEREAS r ON (v.RUTA_ID=r.RUTA_ID)
-									JOIN ABSTRACCIONX4.CIUDADES c ON (r.CIU_COD_O=C.CIU_COD)
-		WHERE v.AERO_MATRI = @Matricula AND 
-			  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaMaxima) = 1
-		ORDER BY v.VIAJE_FECHA_SALIDA
-
-	RETURN @Ciudad
-END
-GO
 
 -------------------------------Obtener Codigo de Ciudad-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DatosDeAeronaveASuplantar(@Matricula VARCHAR(8),@FechaBaja DATETIME)
