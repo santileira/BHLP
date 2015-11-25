@@ -175,6 +175,10 @@ namespace AerolineaFrba.Devolucion
                     form.ShowDialog();
                     motivo = form.Motivo;
                     this.cancelarPasajesYEncomiendas();
+                    foreach (String pasaje in pasajes) {
+                        MessageBox.Show(pasaje, "asda", MessageBoxButtons.OK);
+                    }
+                    
                     MessageBox.Show("Se ha realizado correctamente la devolución", "Informe", MessageBoxButtons.OK);
                     this.Close();
                     return;
@@ -210,6 +214,8 @@ namespace AerolineaFrba.Devolucion
             }
             this.inicio(true);
         }
+
+   
 
  
     
