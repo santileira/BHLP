@@ -1266,7 +1266,7 @@ AS
 	return(
 			select((select a.AERO_CANT_KGS
 			from ABSTRACCIONX4.AERONAVES a
-			where AERO_MATRI = @matricula) - (select sum(e.ENCOMIENDA_PESO_KG)
+			where AERO_MATRI = @matricula) - (select coalesce(sum(e.ENCOMIENDA_PESO_KG),0)
 												from ABSTRACCIONX4.ENCOMIENDAS e, ABSTRACCIONX4.VIAJES v
 												where e.VIAJE_COD = v.VIAJE_COD and
 												v.AERO_MATRI = @matricula and
