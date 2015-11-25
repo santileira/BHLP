@@ -15,11 +15,13 @@ namespace AerolineaFrba.Abm_Aeronave
         Baja baja;
         Boolean llamadoDesdeBajaLogica;
         Nullable<DateTime> fechaAlta;
-        public Form6(Baja unabBaja, Boolean llamadoDesdeBajaLogica,Nullable<DateTime> fechaAlta)
+        Nullable<DateTime> fechaBajaDefinitiva;
+        public Form6(Baja unabBaja, Boolean llamadoDesdeBajaLogica, Nullable<DateTime> fechaAlta, Nullable<DateTime> fechaBajaDefinitiva)
         {
             baja = unabBaja;
             this.llamadoDesdeBajaLogica = llamadoDesdeBajaLogica;
             this.fechaAlta = fechaAlta;
+            this.fechaBajaDefinitiva = fechaBajaDefinitiva;
             InitializeComponent();
         }
 
@@ -97,6 +99,15 @@ namespace AerolineaFrba.Abm_Aeronave
                 if (fechaBaja.Value.CompareTo(fechaAlta) <= 0)
                 {
                     MessageBox.Show("La fecha de baja debe ser posterior a la fecha de alta de la aeronave", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    return true;
+                }
+            }
+
+            if(fechaBajaDefinitiva != null && !llamadoDesdeBajaLogica)
+            {
+                if (fechaReinicio.Value.CompareTo(fechaBajaDefinitiva) >= 0)
+                {
+                    MessageBox.Show("La fecha de reinicio debe ser anterior a la fecha de baja definitiva", "Error en los datos de entrada", MessageBoxButtons.OK);
                     return true;
                 }
             }

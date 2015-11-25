@@ -302,15 +302,20 @@ namespace AerolineaFrba.Abm_Aeronave
                 indiceAeronaveElegida = e.RowIndex;
 
                 Object fechaAlta = dg.Rows[indiceAeronaveElegida].Cells["Fecha de alta"].Value;
+                Object fechaBajaDefinitiva = dg.Rows[indiceAeronaveElegida].Cells["Fecha de baja"].Value;
 
                 if (fechaAlta == DBNull.Value)
                 {
                     fechaAlta = null;
                 }
+                if (fechaBajaDefinitiva == DBNull.Value)
+                {
+                    fechaBajaDefinitiva = null;
+                }
 
                 if (e.ColumnIndex == 0)
                 {
-                    new Form6(this, false,(Nullable<DateTime>)fechaAlta).ShowDialog();
+                    new Form6(this, false, (Nullable<DateTime>)fechaAlta, (Nullable<DateTime>)fechaBajaDefinitiva).ShowDialog();
                     ejecutarQuery();
                 }
                 else
@@ -321,7 +326,7 @@ namespace AerolineaFrba.Abm_Aeronave
                             MessageBox.Show("La aeronave elegida ya tiene una fecha de baja establecida", "Selección invalida", MessageBoxButtons.OK);
                             return;
                         }
-                        new Form6(this, true,(Nullable<DateTime>)fechaAlta).ShowDialog();
+                        new Form6(this, true, (Nullable<DateTime>)fechaAlta, (Nullable<DateTime>)fechaBajaDefinitiva).ShowDialog();
                         ejecutarQuery();
                     }
             }
@@ -329,44 +334,47 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void darDeBajaLogica(DateTime fechaBaja)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DarDeBajaLogica]";
-            command.CommandTimeout = 0;
-
             string matricula = dg.Rows[indiceAeronaveElegida].Cells["Matrícula"].Value.ToString();
-            command.Parameters.AddWithValue("@Matricula", matricula);
-            command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
+            SQLManager manager = new SQLManager();
+
+            manager = manager.generarSP("DarDeBajaLogica").agregarStringSP("@Matricula", matricula)
+                                                          .agregarFechaSP("@FechaBaja", fechaBaja);
             try
             {
-                command.ExecuteScalar();
+                manager.ejecutarSP();
+                MessageBox.Show("La fecha de baja de la aeronave fue cargada exitosamente", "Baja de aeronave", MessageBoxButtons.OK);
             }
             catch (Exception e)
             {
+                if (e.Message.Contains("fuera de servicio"))
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
+                    return;
+                }
                 new Form7(e.Message, matricula, true, fechaBaja, Program.fechaHoy()).ShowDialog();
             }
         }
 
         public void dejarFueraDeServicio(DateTime fechaReinicio, DateTime fechaBaja)
         {
-            SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DejarAeronaveFueraDeServicio]";
-            command.CommandTimeout = 0;
             string matricula = dg.Rows[indiceAeronaveElegida].Cells["Matrícula"].Value.ToString();
-            command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["Matrícula"].Value.ToString());
-            command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
-            command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
+            SQLManager manager = new SQLManager();
 
-
+            manager = manager.generarSP("DejarAeronaveFueraDeServicio").agregarStringSP("@Matricula", matricula)
+                                                                       .agregarFechaSP("@FechaBaja", fechaBaja)
+                                                                       .agregarFechaSP("@FechaReinicio", fechaReinicio);
             try
             {
-                command.ExecuteScalar();
+                manager.ejecutarSP();
+                MessageBox.Show("El período de fuera de servicio se ha cargado exitosamente", "Fuera de servicio", MessageBoxButtons.OK);
             }
             catch (Exception e)
             {
+                if (e.Message.Contains("fuera de servicio"))
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
+                    return;
+                }
                 new Form7(e.Message, matricula,false, fechaBaja, fechaReinicio).ShowDialog();
             }
         }

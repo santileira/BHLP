@@ -1903,7 +1903,7 @@ BEGIN
 	IF @FechaReinicio IS NULL
 	BEGIN
 		DECLARE @FechaMaxima DATETIME
-		SELECT @FechaMaxima = MAX(VIAJE_FECHA_LLEGADA) FROM ABSTRACCIONX4.VIAJES
+		SET @FechaMaxima = MAX(CONVERT(DATETIME,'31-12-2999'))
 		RETURN @FechaMaxima
 	END 
 	RETURN @FechaReinicio
@@ -1940,26 +1940,21 @@ CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@FechaReinicio DATETIME
 AS
 BEGIN
-	DECLARE @HuboError BIT
-	SET @HuboError = 0
 	DECLARE @Error varchar(120)
-
-	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,@FechaReinicio) = 1
-	BEGIN
-		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
-		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
-	END
 
 	IF [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(@Matricula,@FechaBaja,@FechaReinicio) > 0
 	BEGIN
 		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' ya se encuentra en fuera de servicio en esas fechas'
 		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
+		RETURN
 	END
 
-	IF @HuboError = 1
+	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,@FechaReinicio) = 1
+	BEGIN
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
+		RAISERROR(@Error, 16, 1)
 		RETURN
+	END
 	
 	INSERT INTO [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
 		(AERO_MATRI,FECHA_FS,FECHA_REINICIO)
@@ -1973,28 +1968,23 @@ CREATE PROCEDURE [ABSTRACCIONX4].DarDeBajaLogica
 	@FechaBaja DATETIME
 AS
 	DECLARE @Error varchar(120)
-	DECLARE @HuboError BIT
-	SET @HuboError = 0
 
 	DECLARE @FechaMaxima DATETIME
 	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(NULL)
-
-	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,NULL) = 1
-	BEGIN
-		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
-		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
-	END
 
 	IF [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(@Matricula,@FechaBaja,@FechaMaxima) > 0
 	BEGIN
 		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' ya se encuentra en fuera de servicio en esas fechas'
 		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
+		RETURN
 	END
 
-	IF @HuboError = 1
+	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,NULL) = 1
+	BEGIN
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
+		RAISERROR(@Error, 16, 1)
 		RETURN
+	END
 
 	UPDATE ABSTRACCIONX4.AERONAVES 
 		SET AERO_FECHA_BAJA = @FechaBaja
