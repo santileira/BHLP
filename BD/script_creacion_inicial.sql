@@ -1176,13 +1176,97 @@ BEGIN
 												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, fs.FECHA_FS, fs.FECHA_REINICIO) = 1)
 												)
 						and (
-						(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) = NULL or
-							datediff(minute, '1900-01-01 00:00:00.0000000', (select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula))
-							> datediff(minute, '1900-01-01 00:00:00.0000000', @fecha_llegada_estimada)
+							(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) = NULL or
+							[ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, (select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula)) = 1
 						)
 					then 1
 					else 0
 					end)
+END
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio_para_comprar
+(@matricula VARCHAR(8), @fecha datetime)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+
+	if(@matricula in (select distinct v.AERO_MATRI
+						from ABSTRACCIONX4.viajes v
+						where day(v.viaje_fecha_salida) = day(@fecha)
+						and month(v.viaje_fecha_salida) = month(@fecha)
+						and year(v.viaje_fecha_salida) = year(@fecha)
+						and [ABSTRACCIONX4].aeronave_en_servicio(v.AERO_MATRI, v.viaje_fecha_salida, v.viaje_fecha_llegadae) = 1
+						)
+		)
+		return 1
+
+	return 0
+			
+END
+GO
+
+-------------------------------La aeronave sigue la ruta existente-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].sigue_la_ruta
+
+ (@matricula VARCHAR(8), @ruta_id int, @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+	declare @ciudad_actual smallint
+	declare @proxima_ciudad smallint
+	set @ciudad_actual = (select top 1 r.CIU_COD_D
+							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+							where v.AERO_MATRI = @matricula
+							and [ABSTRACCIONX4].fecha_menor(v.VIAJE_FECHA_LLEGADAE, @fecha_salida) = 1
+							and v.RUTA_ID = r.RUTA_ID
+							order by v.VIAJE_FECHA_LLEGADAE desc
+							)
+	set @proxima_ciudad = (select top 1 r.CIU_COD_O
+							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+							where v.AERO_MATRI = @matricula
+							and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
+							and v.RUTA_ID = r.RUTA_ID
+							order by v.VIAJE_FECHA_SALIDA
+							)
+	
+	if(@proxima_ciudad = NULL)
+	begin
+		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+			return 1
+		else
+			return 0
+	end
+	else
+	begin
+		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
+			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+			return 1
+	end
+
+	return 0
+END
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].fecha_menor
+
+ (@fecha1 datetime, @fecha2 DATETIME)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+	if (datediff(minute, '1900-01-01 00:00:00.0000000', @fecha1) < datediff(minute, '1900-01-01 00:00:00.0000000', @fecha2))
+		return 1
+	
+	return 0
 END
 GO
 
@@ -1357,9 +1441,10 @@ AS
 				@destino = c2.CIU_DESC and
 				year(v.VIAJE_FECHA_SALIDA) = year(@fecha) and
 				month(v.VIAJE_FECHA_SALIDA) = month(@fecha) and
-				day(v.VIAJE_FECHA_SALIDA) = day(@fecha))
+				day(v.VIAJE_FECHA_SALIDA) = day(@fecha)	and
+				[ABSTRACCIONX4].aeronave_en_servicio_para_comprar(v.aero_matri, @fecha) = 1						
+			)
 GO
-
 
 
 --------------------------------actualizarDatosDelCliente-----------------------------------------

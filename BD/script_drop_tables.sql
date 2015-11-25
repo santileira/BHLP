@@ -6,6 +6,9 @@ DROP FUNCTION [ABSTRACCIONX4].datetime_is_between
 DROP FUNCTION [ABSTRACCIONX4].aeronave_disponible
 DROP FUNCTION [ABSTRACCIONX4].pasajero_disponible
 DROP FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+DROP FUNCTION [ABSTRACCIONX4].aeronave_en_servicio_para_comprar
+DROP FUNCTION [ABSTRACCIONX4].sigue_la_ruta
+DROP FUNCTION [ABSTRACCIONX4].fecha_menor
 -----------------------------------------------
 
 DROP PROCEDURE [ABSTRACCIONX4].altaTarjeta
