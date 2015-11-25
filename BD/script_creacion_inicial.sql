@@ -1155,7 +1155,38 @@ BEGIN
 END
 GO
 
--------------------------------Aeronaves disponibles para un vuelo-------------------------------
+-------------------------------Aeronaves en servicio-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+
+ (@matricula VARCHAR(8), @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+
+	return (select case 
+						when @matricula not in (select distinct AERO_MATRI
+												from ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
+												where 
+												([ABSTRACCIONX4].datetime_is_between(fs.FECHA_FS, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(fs.FECHA_REINICIO, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_salida, fs.FECHA_FS, fs.FECHA_REINICIO) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, fs.FECHA_FS, fs.FECHA_REINICIO) = 1)
+												)
+						and (
+						(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) = NULL or
+							datediff(minute, '1900-01-01 00:00:00.0000000', (select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula))
+							> datediff(minute, '1900-01-01 00:00:00.0000000', @fecha_llegada_estimada)
+						)
+					then 1
+					else 0
+					end)
+END
+GO
+
+-------------------------------Pasajero disponibles para un vuelo-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].pasajero_disponible
 
  (@cli_cod int, @fecha_salida datetime, @fecha_llegada_estimada datetime)
@@ -3262,7 +3293,7 @@ if(@semestre = 1)
 					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 			group by t.Descripcion
-			order by sum(t.cantidad) desc
+			order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
 			select top 5 t.Descripcion
@@ -3276,7 +3307,7 @@ else
 					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 			group by t.Descripcion
-			order by sum(t.cantidad) desc
+			order by coalesce(sum(t.cantidad),0) desc
 		
 return;
 end
@@ -3300,7 +3331,7 @@ AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
+		select top 5 t.Descripcion, coalesce(sum(t.Cantidad),0) Cantidad
 		from (select c.ciu_desc Descripcion, ([ABSTRACCIONX4].cantidadButacasAeronave(a.AERO_MATRI) - v.CANT_BUT_OCUPADAS) Cantidad
 				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6
@@ -3309,10 +3340,10 @@ if(@semestre = 1)
 				a.AERO_MATRI = v.AERO_MATRI
 						) t
 		group by t.Descripcion
-		order by sum(t.Cantidad) desc
+		order by coalesce(sum(t.Cantidad),0) desc
 else
 	insert @variable_tabla 
-		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
+		select top 5 t.Descripcion, coalesce(sum(t.Cantidad),0) Cantidad
 		from (select c.ciu_desc Descripcion, ([ABSTRACCIONX4].cantidadButacasAeronave(a.AERO_MATRI) - v.CANT_BUT_OCUPADAS) Cantidad
 				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12
@@ -3320,7 +3351,7 @@ else
 				r.ciu_cod_d = c.ciu_cod and
 				a.AERO_MATRI = v.AERO_MATRI) t
 		group by t.Descripcion
-		order by sum(t.Cantidad) desc
+		order by coalesce(sum(t.Cantidad),0) desc
 		
 return;
 end
@@ -3339,8 +3370,8 @@ if(@semestre = 1)
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
@@ -3350,8 +3381,8 @@ else
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
@@ -3380,7 +3411,7 @@ if(@semestre = 1)
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion
-		order by sum(t.cantidad) desc
+		order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion
@@ -3394,7 +3425,7 @@ else
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 		group by t.Descripcion
-		order by sum(t.cantidad) desc
+		order by coalesce(sum(t.cantidad),0) desc
 
 return;
 end
@@ -3417,7 +3448,7 @@ begin
 
 	if((select count(*) from @fechas) <> 0)
 		begin
-		return (select sum(t2.cantidad_dias)
+		return (select coalesce(sum(t2.cantidad_dias),0)
 				from (select datediff(day, t.fecha_reinicio, t.fuera_servicio) cantidad_dias
 						from @fechas t) t2)
 		end

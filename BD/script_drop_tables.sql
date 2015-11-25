@@ -1,11 +1,16 @@
 DROP PROCEDURE ABSTRACCIONX4.LoginAdministrador
 
+------------DISPONIBILIDADES------------------
 DROP FUNCTION [ABSTRACCIONX4].datetime_between
 DROP FUNCTION [ABSTRACCIONX4].datetime_is_between
 DROP FUNCTION [ABSTRACCIONX4].aeronave_disponible
 DROP FUNCTION [ABSTRACCIONX4].pasajero_disponible
+DROP FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+-----------------------------------------------
 
 DROP PROCEDURE [ABSTRACCIONX4].altaTarjeta
+
+
 DROP FUNCTION [ABSTRACCIONX4].importeEncomienda
 DROP FUNCTION [ABSTRACCIONX4].importePasaje
 DROP FUNCTION [ABSTRACCIONX4].buscarCliente
@@ -13,6 +18,8 @@ DROP FUNCTION [ABSTRACCIONX4].kilosDisponibles
 DROP FUNCTION [ABSTRACCIONX4].butacasDisponibles
 DROP FUNCTION [ABSTRACCIONX4].butacasDisponiblesCantidad
 DROP FUNCTION [ABSTRACCIONX4].buscarViajesDisponibles
+
+
 DROP PROCEDURE [ABSTRACCIONX4].actualizarDatosDelCliente
 DROP PROCEDURE [ABSTRACCIONX4].ingresarDatosDelCliente
 DROP PROCEDURE [ABSTRACCIONX4].ingresarCompra
