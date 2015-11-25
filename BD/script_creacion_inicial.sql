@@ -1490,13 +1490,15 @@ AS
 		DECLARE @clienteEncontrado BIT
 		DECLARE @clienteActualizado BIT
 		DECLARE @esComprador int
-		DECLARE @codigoCli int		
+		DECLARE @codigoCli int
+		DECLARE @codBut int		
 
 		OPEN cursorPasajes
 		FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		WHILE(@@FETCH_STATUS=0)
 		BEGIN
-
+			
+			SET @codBut = (SELECT BUT_ID FROM ABSTRACCIONX4.BUTACAS WHERE BUT_NRO = @but AND AERO_MATRI = @matri)
 			IF(@clienteEncontrado = 0) --hay que agregar al cliente
 			BEGIN		
 				
@@ -1505,15 +1507,14 @@ AS
 					EXEC [ABSTRACCIONX4].ingresarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
 
 					SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
-				
-
-					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_NRO, AERO_MATRI, PASAJE_MILLAS) 
-										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@but,@matri,@precio/10)
+					
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID, PASAJE_MILLAS) 
+										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@codBut,@precio/10)
 				END
 				ELSE
 				BEGIN
-					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_NRO, AERO_MATRI, PASAJE_MILLAS) 
-										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@but,@matri,@precio/10)
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID, PASAJE_MILLAS) 
+										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@codBut,@precio/10)
 				END
 
 			END
@@ -1523,8 +1524,8 @@ AS
 					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
 
 					
-					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_NRO, AERO_MATRI, PASAJE_MILLAS) 
-										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@but,@matri,@precio/10)
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID, PASAJE_MILLAS) 
+										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@codBut,@precio/10)
 			END	
 											
 										 
@@ -1546,13 +1547,13 @@ AS
 
 					SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
 				
-					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
-										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@peso,@matri,@precio/10) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, ENCOMIENDA_MILLAS) 
+										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@peso,@precio/10) 
 				END
 				ELSE
 				BEGIN
-					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
-										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@peso,@matri,@precio/10) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, ENCOMIENDA_MILLAS) 
+										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@peso,@precio/10) 
 				END
 			END
 			ELSE
@@ -1560,8 +1561,8 @@ AS
 			IF(@clienteActualizado = 1) -- si existe y se modifico, hay que actualizarlo
 					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel					
 					
-					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, AERO_MATRI, ENCOMIENDA_MILLAS) 
-										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@peso,@matri,@precio/10) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, ENCOMIENDA_MILLAS) 
+										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@peso,@precio/10) 
 			END	
 
 			
