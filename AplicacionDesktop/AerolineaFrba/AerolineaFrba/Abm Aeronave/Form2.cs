@@ -104,7 +104,7 @@ namespace AerolineaFrba.Abm_Aeronave
                     }
                     else
                     {
-                        this.inicio();
+                        this.Close();
                     }
                 }
                 catch(Exception error)
@@ -308,10 +308,7 @@ namespace AerolineaFrba.Abm_Aeronave
             reader.Close();
         }
 
-        private void mkMatricula_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
+   
 
     }
 }

@@ -37,14 +37,14 @@
             // txtMensaje
             // 
             this.txtMensaje.AutoSize = true;
-            this.txtMensaje.Location = new System.Drawing.Point(19, 22);
+            this.txtMensaje.Location = new System.Drawing.Point(19, 18);
             this.txtMensaje.Name = "txtMensaje";
             this.txtMensaje.Size = new System.Drawing.Size(0, 13);
             this.txtMensaje.TabIndex = 0;
             // 
             // botonSuplantar
             // 
-            this.botonSuplantar.Location = new System.Drawing.Point(228, 76);
+            this.botonSuplantar.Location = new System.Drawing.Point(377, 76);
             this.botonSuplantar.Name = "botonSuplantar";
             this.botonSuplantar.Size = new System.Drawing.Size(75, 23);
             this.botonSuplantar.TabIndex = 1;
@@ -78,7 +78,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(343, 136);
+            this.ClientSize = new System.Drawing.Size(539, 136);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.botonCancelar);
             this.Controls.Add(this.botonSuplantar);

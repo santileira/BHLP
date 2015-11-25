@@ -33,6 +33,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private void Form7_Load(object sender, EventArgs e)
         {
             txtMensaje.Text = mensaje;
+            txtMensaje.ForeColor = Color.White;
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)

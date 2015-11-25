@@ -52,8 +52,8 @@ namespace AerolineaFrba.Generacion_Viaje
 
         public void seSeleccionoAeronave(DataGridViewRow registro)
         {
-            txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
-            this.listadoRutas.serv_cod = registro.Cells["SERV_COD"].Value.ToString();
+            txtMatricula.Text = registro.Cells["Matrícula"].Value.ToString();
+            this.listadoRutas.serv_cod = registro.Cells["Tipo de servicio"].Value.ToString();
         }
 
         public void seSeleccionoRuta(DataGridViewRow registro)
@@ -73,6 +73,12 @@ namespace AerolineaFrba.Generacion_Viaje
             else
             {
                 this.listadoAeronaves.queryViajes = " WHERE ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
+                + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
+
+                this.listadoAeronaves.queryViajes += " and [ABSTRACCIONX4].aeronave_en_servicio(AERO_MATRI, '"
+                + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
+                
+                this.listadoAeronaves.queryViajes += "and [ABSTRACCIONX4].sigue_la_ruta(AERO_MATRI, '" + txtRuta.Text + "') = 1, "
                 + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
 
                 this.listadoAeronaves.extenderQuery();

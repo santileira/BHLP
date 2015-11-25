@@ -76,7 +76,7 @@ CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
 	[USUA_COD] [tinyint] IDENTITY,
 	[USERNAME] [varchar] (20),
 	[PASSWORD] [varchar] (70) NOT NULL,
-	[CANT_INTENTOS] [tinyint] DEFAULT 0,
+	[CANT_INT_FALL] [tinyint] DEFAULT 0,
 	[HABILITADO] [bit] DEFAULT 1
  CONSTRAINT [PK_USUARIOS] PRIMARY KEY CLUSTERED 
 (
@@ -1043,7 +1043,7 @@ BEGIN
 		RETURN
 	END
 
-	SELECT @Contrasenia = PASSWORD, @CantidadIntentos = CANT_INTENTOS
+	SELECT @Contrasenia = PASSWORD, @CantidadIntentos = CANT_INT_FALL
 		FROM ABSTRACCIONX4.USUARIOS
 		WHERE USERNAME = @Usuario
 
@@ -1058,10 +1058,10 @@ BEGIN
 		RAISERROR('Contraseña incorrecta.', 16, 1)
 		
 		UPDATE ABSTRACCIONX4.USUARIOS 
-			SET CANT_INTENTOS = CANT_INTENTOS + 1
+			SET CANT_INT_FALL = CANT_INT_FALL + 1
 			WHERE USERNAME = @Usuario
 
-		SELECT @CantidadIntentos = CANT_INTENTOS
+		SELECT @CantidadIntentos = CANT_INT_FALL
 			FROM ABSTRACCIONX4.USUARIOS
 			WHERE USERNAME = @Usuario
 		
@@ -1073,7 +1073,7 @@ BEGIN
 	END
 
 	UPDATE ABSTRACCIONX4.USUARIOS 
-		SET CANT_INTENTOS = 0
+		SET CANT_INT_FALL = 0
 		WHERE USERNAME = @Usuario
 END
 
@@ -1155,7 +1155,122 @@ BEGIN
 END
 GO
 
--------------------------------Aeronaves disponibles para un vuelo-------------------------------
+-------------------------------Aeronaves en servicio-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+
+ (@matricula VARCHAR(8), @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+
+	return (select case 
+						when @matricula not in (select distinct AERO_MATRI
+												from ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
+												where 
+												([ABSTRACCIONX4].datetime_is_between(fs.FECHA_FS, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(fs.FECHA_REINICIO, @fecha_salida, @fecha_llegada_estimada) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_salida, fs.FECHA_FS, fs.FECHA_REINICIO) = 1) or
+												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, fs.FECHA_FS, fs.FECHA_REINICIO) = 1)
+												)
+						and (
+							(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) = NULL or
+							[ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, (select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula)) = 1
+						)
+					then 1
+					else 0
+					end)
+END
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio_para_comprar
+(@matricula VARCHAR(8), @fecha datetime)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+
+	if(@matricula in (select distinct v.AERO_MATRI
+						from ABSTRACCIONX4.viajes v
+						where day(v.viaje_fecha_salida) = day(@fecha)
+						and month(v.viaje_fecha_salida) = month(@fecha)
+						and year(v.viaje_fecha_salida) = year(@fecha)
+						and [ABSTRACCIONX4].aeronave_en_servicio(v.AERO_MATRI, v.viaje_fecha_salida, v.viaje_fecha_llegadae) = 1
+						)
+		)
+		return 1
+
+	return 0
+			
+END
+GO
+
+-------------------------------La aeronave sigue la ruta existente-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].sigue_la_ruta
+
+ (@matricula VARCHAR(8), @ruta_id int, @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+	declare @ciudad_actual smallint
+	declare @proxima_ciudad smallint
+	set @ciudad_actual = (select top 1 r.CIU_COD_D
+							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+							where v.AERO_MATRI = @matricula
+							and [ABSTRACCIONX4].fecha_menor(v.VIAJE_FECHA_LLEGADAE, @fecha_salida) = 1
+							and v.RUTA_ID = r.RUTA_ID
+							order by v.VIAJE_FECHA_LLEGADAE desc
+							)
+	set @proxima_ciudad = (select top 1 r.CIU_COD_O
+							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+							where v.AERO_MATRI = @matricula
+							and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
+							and v.RUTA_ID = r.RUTA_ID
+							order by v.VIAJE_FECHA_SALIDA
+							)
+	
+	if(@proxima_ciudad = NULL)
+	begin
+		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+			return 1
+		else
+			return 0
+	end
+	else
+	begin
+		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
+			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+			return 1
+	end
+
+	return 0
+END
+GO
+
+CREATE FUNCTION [ABSTRACCIONX4].fecha_menor
+
+ (@fecha1 datetime, @fecha2 DATETIME)
+
+RETURNS smallint
+
+AS
+	
+BEGIN
+	if (datediff(minute, '1900-01-01 00:00:00.0000000', @fecha1) < datediff(minute, '1900-01-01 00:00:00.0000000', @fecha2))
+		return 1
+	
+	return 0
+END
+GO
+
+-------------------------------Pasajero disponibles para un vuelo-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].pasajero_disponible
 
  (@cli_cod int, @fecha_salida datetime, @fecha_llegada_estimada datetime)
@@ -1266,9 +1381,10 @@ AS
 	return(
 			select((select a.AERO_CANT_KGS
 			from ABSTRACCIONX4.AERONAVES a
-			where AERO_MATRI = @matricula) - (select sum(e.ENCOMIENDA_PESO_KG)
-												from ABSTRACCIONX4.ENCOMIENDAS e
-												where e.AERO_MATRI = @matricula and
+			where AERO_MATRI = @matricula) - (select coalesce(sum(e.ENCOMIENDA_PESO_KG),0)
+												from ABSTRACCIONX4.ENCOMIENDAS e, ABSTRACCIONX4.VIAJES v
+												where e.VIAJE_COD = v.VIAJE_COD and
+												v.AERO_MATRI = @matricula and
 												e.VIAJE_COD = @viaje_cod and
 												e.ENCOMIENDA_CANCELADO = 0)) Kilos
 				)
@@ -1283,13 +1399,15 @@ AS
 	return(
 			select b.BUT_NRO, b.BUT_TIPO
 			from ABSTRACCIONX4.BUTACAS b
-			where AERO_MATRI = @matricula and
-			b.BUT_NRO not in(select b.BUT_NRO
-								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
-								where p.BUT_NRO = b.BUT_NRO and
-								p.AERO_MATRI = b.AERO_MATRI and
-								p.PASAJE_CANCELADO = 0 and
-								p.AERO_MATRI = @matricula and p.VIAJE_COD = @viaje_cod)
+			where b.AERO_MATRI = @matricula and
+			b.BUT_ID not in(select b.BUT_ID
+								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b, ABSTRACCIONX4.VIAJES v
+								where v.AERO_MATRI = @matricula and 
+								p.VIAJE_COD = @viaje_cod and
+								p.BUT_ID = b.BUT_ID and
+								p.VIAJE_COD = v.VIAJE_COD and
+								v.AERO_MATRI = b.AERO_MATRI and
+								p.PASAJE_CANCELADO = 0)
 			)
 GO
 
@@ -1323,9 +1441,10 @@ AS
 				@destino = c2.CIU_DESC and
 				year(v.VIAJE_FECHA_SALIDA) = year(@fecha) and
 				month(v.VIAJE_FECHA_SALIDA) = month(@fecha) and
-				day(v.VIAJE_FECHA_SALIDA) = day(@fecha))
+				day(v.VIAJE_FECHA_SALIDA) = day(@fecha)	and
+				[ABSTRACCIONX4].aeronave_en_servicio_para_comprar(v.aero_matri, @fecha) = 1						
+			)
 GO
-
 
 
 --------------------------------actualizarDatosDelCliente-----------------------------------------
@@ -1852,13 +1971,13 @@ GO
 -------------------------------Actualizar Butacas-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].AgregarButacas 
 @Matricula VARCHAR(8), 
-@CantidadPasillo TINYINT, 
-@CantidadVentanilla TINYINT
+@CantidadPasillo SMALLINT, 
+@CantidadVentanilla SMALLINT
 AS
 BEGIN
 	DECLARE @i SMALLINT
 	SET @i = 0
-	DECLARE @CantidadButacas TINYINT
+	DECLARE @CantidadButacas SMALLINT
 	SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
 	WHILE (@i < @CantidadPasillo)
 	BEGIN
@@ -1903,7 +2022,7 @@ BEGIN
 	IF @FechaReinicio IS NULL
 	BEGIN
 		DECLARE @FechaMaxima DATETIME
-		SELECT @FechaMaxima = MAX(VIAJE_FECHA_LLEGADA) FROM ABSTRACCIONX4.VIAJES
+		SET @FechaMaxima = MAX(CONVERT(DATETIME,'31-12-2999'))
 		RETURN @FechaMaxima
 	END 
 	RETURN @FechaReinicio
@@ -1924,7 +2043,8 @@ BEGIN
 	SELECT @Cantidad = COUNT(*) 
 		FROM ABSTRACCIONX4.VIAJES
 		WHERE AERO_MATRI = @Matricula
-			AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@Fecha1,@FechaMaxima) = 1
+			AND (ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@Fecha1,@FechaMaxima) = 1 OR
+				 ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_LLEGADAE,@Fecha1,@FechaMaxima) = 1)
 
 	IF @Cantidad > 0
 		RETURN 1
@@ -1940,26 +2060,21 @@ CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@FechaReinicio DATETIME
 AS
 BEGIN
-	DECLARE @HuboError BIT
-	SET @HuboError = 0
 	DECLARE @Error varchar(120)
-
-	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,@FechaReinicio) = 1
-	BEGIN
-		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
-		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
-	END
 
 	IF [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(@Matricula,@FechaBaja,@FechaReinicio) > 0
 	BEGIN
 		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' ya se encuentra en fuera de servicio en esas fechas'
 		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
+		RETURN
 	END
 
-	IF @HuboError = 1
+	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,@FechaReinicio) = 1
+	BEGIN
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
+		RAISERROR(@Error, 16, 1)
 		RETURN
+	END
 	
 	INSERT INTO [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
 		(AERO_MATRI,FECHA_FS,FECHA_REINICIO)
@@ -1973,28 +2088,23 @@ CREATE PROCEDURE [ABSTRACCIONX4].DarDeBajaLogica
 	@FechaBaja DATETIME
 AS
 	DECLARE @Error varchar(120)
-	DECLARE @HuboError BIT
-	SET @HuboError = 0
 
 	DECLARE @FechaMaxima DATETIME
 	SET @FechaMaxima = [ABSTRACCIONX4].FechaReinicioOMaxima(NULL)
-
-	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,NULL) = 1
-	BEGIN
-		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
-		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
-	END
 
 	IF [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(@Matricula,@FechaBaja,@FechaMaxima) > 0
 	BEGIN
 		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' ya se encuentra en fuera de servicio en esas fechas'
 		RAISERROR(@Error, 16, 1)
-		SET @HuboError = 1
+		RETURN
 	END
 
-	IF @HuboError = 1
+	IF [ABSTRACCIONX4].TieneViajeEntreFechas(@Matricula,@FechaBaja,NULL) = 1
+	BEGIN
+		SET @Error = 'La aeronave de matrícula ' + @Matricula + ' tiene viajes programados'
+		RAISERROR(@Error, 16, 1)
 		RETURN
+	END
 
 	UPDATE ABSTRACCIONX4.AERONAVES 
 		SET AERO_FECHA_BAJA = @FechaBaja
@@ -2351,6 +2461,19 @@ END
 GO
 
 
+-------------------------------Modificar Períodos fuera de servicio-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarPeriodosFS
+@MatriculaVieja VARCHAR(8), 
+@MatriculaNueva VARCHAR(8)
+AS
+BEGIN 
+	UPDATE [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
+		SET AERO_MATRI = @MatriculaNueva
+		WHERE AERO_MATRI = @MatriculaVieja
+END
+GO
+
+/*
 -------------------------------Modificacion Butaca-------------------------------
 CREATE TRIGGER [ABSTRACCIONX4].ModificacionButaca
 ON [ABSTRACCIONX4].BUTACAS
@@ -2371,11 +2494,11 @@ BEGIN
 		DELETE FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = @MatriculaVieja
 	END TRY
 	BEGIN CATCH
-	SET @Error = 'ENTRE A ERROR TRIGGER BUTACA' + @MatriculaNueva 
+	SET @Error = 'Error butaca no aceptada' + @MatriculaNueva 
 				RAISERROR(@Error, 16, 1)
 	END CATCH
 END
-GO
+GO*/
 
 -------------------------------Viajes asignados a aeronave-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].TieneViajeAsignado
@@ -2441,7 +2564,7 @@ AS
 		DECLARE @Error varchar(80)
 		DECLARE @ExisteMatricula BIT
 BEGIN 
-		DECLARE @CodigoServicio SMALLINT
+		DECLARE @CodigoServicio TINYINT
 		DECLARE @ViajeAsignado BIT
 		SELECT @ExisteMatricula = COUNT(*) FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @Matricula AND AERO_MATRI <> @MatriculaActual
 		SET @ViajeAsignado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)
@@ -2451,33 +2574,28 @@ BEGIN
 		BEGIN
 			SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
 			--si tiene viaje comprado solo modifico su nombre, no se puede otra cosa EN AERONAVES
+			INSERT INTO [ABSTRACCIONX4].AERONAVES 
+					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
+					(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
+
 			IF( @ViajeAsignado = 1)
 			BEGIN
 				IF(@Matricula != @MatriculaActual)
 				BEGIN	
-					INSERT INTO [ABSTRACCIONX4].AERONAVES 
-					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
-					(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
-
 					EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
 					EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaActual , @Matricula
-
-					DELETE FROM [ABSTRACCIONX4].AERONAVES
-					WHERE AERO_MATRI = @MatriculaActual
 				END
 			END
 			ELSE
 			BEGIN
 					EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual
-				
-					UPDATE ABSTRACCIONX4.AERONAVES
-					SET AERO_MOD = @Modelo , AERO_FAB = @Fabricante, AERO_MATRI = @Matricula ,
-					SERV_COD = @CodigoServicio,
-					AERO_CANT_KGS = @CantidadKG
-					WHERE AERO_MATRI = @MatriculaActual
-
 					EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
 			END
+
+			EXECUTE [ABSTRACCIONX4].ModificarPeriodosFS @MatriculaActual , @Matricula
+
+			DELETE FROM [ABSTRACCIONX4].AERONAVES
+					WHERE AERO_MATRI = @MatriculaActual
 		END	
 		ELSE
 		BEGIN
@@ -3260,7 +3378,7 @@ if(@semestre = 1)
 					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 			group by t.Descripcion
-			order by sum(t.cantidad) desc
+			order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
 			select top 5 t.Descripcion
@@ -3274,13 +3392,22 @@ else
 					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 			group by t.Descripcion
-			order by sum(t.cantidad) desc
+			order by coalesce(sum(t.cantidad),0) desc
 		
 return;
 end
 GO
 
 -------------------------------Estadistica destino con aeronaves mas vacias-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].cantidadButacasAeronave(@matricula varchar(8))
+
+RETURNS smallint
+AS
+begin
+	return (select count(*) from ABSTRACCIONX4.BUTACAS b where b.AERO_MATRI = @matricula)
+end
+GO
+
 CREATE FUNCTION [ABSTRACCIONX4].destinosConAeronaveMasVacia(@semestre tinyint, @anio smallint)
 
 RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad smallint)
@@ -3289,8 +3416,8 @@ AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
-		from (select c.ciu_desc Descripcion, (a.AERO_CANT_BUTACAS - v.CANT_BUT_OCUPADAS) Cantidad
+		select top 5 t.Descripcion, coalesce(sum(t.Cantidad),0) Cantidad
+		from (select c.ciu_desc Descripcion, ([ABSTRACCIONX4].cantidadButacasAeronave(a.AERO_MATRI) - v.CANT_BUT_OCUPADAS) Cantidad
 				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6
 				and v.ruta_id = r.ruta_id and
@@ -3298,18 +3425,18 @@ if(@semestre = 1)
 				a.AERO_MATRI = v.AERO_MATRI
 						) t
 		group by t.Descripcion
-		order by sum(t.Cantidad) desc
+		order by coalesce(sum(t.Cantidad),0) desc
 else
 	insert @variable_tabla 
-		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
-		from (select c.ciu_desc Descripcion, (a.AERO_CANT_BUTACAS - v.CANT_BUT_OCUPADAS) Cantidad
+		select top 5 t.Descripcion, coalesce(sum(t.Cantidad),0) Cantidad
+		from (select c.ciu_desc Descripcion, ([ABSTRACCIONX4].cantidadButacasAeronave(a.AERO_MATRI) - v.CANT_BUT_OCUPADAS) Cantidad
 				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12
 				and v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = c.ciu_cod and
 				a.AERO_MATRI = v.AERO_MATRI) t
 		group by t.Descripcion
-		order by sum(t.Cantidad) desc
+		order by coalesce(sum(t.Cantidad),0) desc
 		
 return;
 end
@@ -3328,8 +3455,8 @@ if(@semestre = 1)
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
@@ -3339,8 +3466,8 @@ else
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select sum("Cant. de Millas") from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
@@ -3369,7 +3496,7 @@ if(@semestre = 1)
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion
-		order by sum(t.cantidad) desc
+		order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion
@@ -3383,7 +3510,7 @@ else
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 		group by t.Descripcion
-		order by sum(t.cantidad) desc
+		order by coalesce(sum(t.cantidad),0) desc
 
 return;
 end
@@ -3406,7 +3533,7 @@ begin
 
 	if((select count(*) from @fechas) <> 0)
 		begin
-		return (select sum(t2.cantidad_dias)
+		return (select coalesce(sum(t2.cantidad_dias),0)
 				from (select datediff(day, t.fecha_reinicio, t.fuera_servicio) cantidad_dias
 						from @fechas t) t2)
 		end

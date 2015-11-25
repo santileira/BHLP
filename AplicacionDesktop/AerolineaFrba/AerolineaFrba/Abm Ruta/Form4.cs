@@ -239,7 +239,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
-            huboErrores = !Validacion.estaEntreLimites(txtCodigo, 1, 999999999, false, "código") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtCodigo, 1, 99999999, false, "código") || huboErrores;
             huboErrores = !Validacion.estaEntreLimites(txtPrecioPasajeNuevo, 0.01m, 999, true, "precio de pasaje") || huboErrores;
             huboErrores = !Validacion.estaEntreLimites(txtPrecioEncomiendaNueva, 0.01m, 999, true, "precio de encomienda") || huboErrores;
 
