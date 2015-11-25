@@ -1267,8 +1267,9 @@ AS
 			select((select a.AERO_CANT_KGS
 			from ABSTRACCIONX4.AERONAVES a
 			where AERO_MATRI = @matricula) - (select sum(e.ENCOMIENDA_PESO_KG)
-												from ABSTRACCIONX4.ENCOMIENDAS e
-												where e.AERO_MATRI = @matricula and
+												from ABSTRACCIONX4.ENCOMIENDAS e, ABSTRACCIONX4.VIAJES v
+												where e.VIAJE_COD = v.VIAJE_COD and
+												v.AERO_MATRI = @matricula and
 												e.VIAJE_COD = @viaje_cod and
 												e.ENCOMIENDA_CANCELADO = 0)) Kilos
 				)
@@ -1283,13 +1284,15 @@ AS
 	return(
 			select b.BUT_NRO, b.BUT_TIPO
 			from ABSTRACCIONX4.BUTACAS b
-			where AERO_MATRI = @matricula and
-			b.BUT_NRO not in(select b.BUT_NRO
-								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b
-								where p.BUT_NRO = b.BUT_NRO and
-								p.AERO_MATRI = b.AERO_MATRI and
-								p.PASAJE_CANCELADO = 0 and
-								p.AERO_MATRI = @matricula and p.VIAJE_COD = @viaje_cod)
+			where b.AERO_MATRI = @matricula and
+			b.BUT_ID not in(select b.BUT_ID
+								from ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.BUTACAS b, ABSTRACCIONX4.VIAJES v
+								where v.AERO_MATRI = @matricula and 
+								p.VIAJE_COD = @viaje_cod and
+								p.BUT_ID = b.BUT_ID and
+								p.VIAJE_COD = v.VIAJE_COD and
+								v.AERO_MATRI = b.AERO_MATRI and
+								p.PASAJE_CANCELADO = 0)
 			)
 GO
 
@@ -1924,7 +1927,8 @@ BEGIN
 	SELECT @Cantidad = COUNT(*) 
 		FROM ABSTRACCIONX4.VIAJES
 		WHERE AERO_MATRI = @Matricula
-			AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@Fecha1,@FechaMaxima) = 1
+			AND (ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@Fecha1,@FechaMaxima) = 1 OR
+				 ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_LLEGADAE,@Fecha1,@FechaMaxima) = 1)
 
 	IF @Cantidad > 0
 		RETURN 1
@@ -3279,6 +3283,15 @@ end
 GO
 
 -------------------------------Estadistica destino con aeronaves mas vacias-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].cantidadButacasAeronave(@matricula varchar(8))
+
+RETURNS smallint
+AS
+begin
+	return (select count(*) from ABSTRACCIONX4.BUTACAS b where b.AERO_MATRI = @matricula)
+end
+GO
+
 CREATE FUNCTION [ABSTRACCIONX4].destinosConAeronaveMasVacia(@semestre tinyint, @anio smallint)
 
 RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad smallint)
@@ -3288,7 +3301,7 @@ begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
-		from (select c.ciu_desc Descripcion, (a.AERO_CANT_BUTACAS - v.CANT_BUT_OCUPADAS) Cantidad
+		from (select c.ciu_desc Descripcion, ([ABSTRACCIONX4].cantidadButacasAeronave(a.AERO_MATRI) - v.CANT_BUT_OCUPADAS) Cantidad
 				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6
 				and v.ruta_id = r.ruta_id and
@@ -3300,7 +3313,7 @@ if(@semestre = 1)
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion, sum(t.Cantidad) Cantidad
-		from (select c.ciu_desc Descripcion, (a.AERO_CANT_BUTACAS - v.CANT_BUT_OCUPADAS) Cantidad
+		from (select c.ciu_desc Descripcion, ([ABSTRACCIONX4].cantidadButacasAeronave(a.AERO_MATRI) - v.CANT_BUT_OCUPADAS) Cantidad
 				from abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades c, ABSTRACCIONX4.AERONAVES a
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12
 				and v.ruta_id = r.ruta_id and

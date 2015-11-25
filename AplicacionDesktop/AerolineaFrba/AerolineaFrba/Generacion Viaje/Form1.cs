@@ -52,8 +52,8 @@ namespace AerolineaFrba.Generacion_Viaje
 
         public void seSeleccionoAeronave(DataGridViewRow registro)
         {
-            txtMatricula.Text = registro.Cells["AERO_MATRI"].Value.ToString();
-            this.listadoRutas.serv_cod = registro.Cells["SERV_COD"].Value.ToString();
+            txtMatricula.Text = registro.Cells["Matrícula"].Value.ToString();
+            this.listadoRutas.serv_cod = registro.Cells["Tipo de servicio"].Value.ToString();
         }
 
         public void seSeleccionoRuta(DataGridViewRow registro)
