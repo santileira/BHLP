@@ -76,7 +76,7 @@ CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
 	[USUA_COD] [tinyint] IDENTITY,
 	[USERNAME] [varchar] (20),
 	[PASSWORD] [varchar] (70) NOT NULL,
-	[CANT_INTENTOS] [tinyint] DEFAULT 0,
+	[CANT_INT_FALL] [tinyint] DEFAULT 0,
 	[HABILITADO] [bit] DEFAULT 1
  CONSTRAINT [PK_USUARIOS] PRIMARY KEY CLUSTERED 
 (
@@ -1043,7 +1043,7 @@ BEGIN
 		RETURN
 	END
 
-	SELECT @Contrasenia = PASSWORD, @CantidadIntentos = CANT_INTENTOS
+	SELECT @Contrasenia = PASSWORD, @CantidadIntentos = CANT_INT_FALL
 		FROM ABSTRACCIONX4.USUARIOS
 		WHERE USERNAME = @Usuario
 
@@ -1058,10 +1058,10 @@ BEGIN
 		RAISERROR('Contraseña incorrecta.', 16, 1)
 		
 		UPDATE ABSTRACCIONX4.USUARIOS 
-			SET CANT_INTENTOS = CANT_INTENTOS + 1
+			SET CANT_INT_FALL = CANT_INT_FALL + 1
 			WHERE USERNAME = @Usuario
 
-		SELECT @CantidadIntentos = CANT_INTENTOS
+		SELECT @CantidadIntentos = CANT_INT_FALL
 			FROM ABSTRACCIONX4.USUARIOS
 			WHERE USERNAME = @Usuario
 		
@@ -1073,7 +1073,7 @@ BEGIN
 	END
 
 	UPDATE ABSTRACCIONX4.USUARIOS 
-		SET CANT_INTENTOS = 0
+		SET CANT_INT_FALL = 0
 		WHERE USERNAME = @Usuario
 END
 
@@ -2350,6 +2350,19 @@ BEGIN
 END
 GO
 
+
+-------------------------------Modificar Períodos fuera de servicio-------------------------------
+CREATE PROCEDURE  [ABSTRACCIONX4].ModificarPeriodosFS
+@MatriculaVieja VARCHAR(8), 
+@MatriculaNueva VARCHAR(8)
+AS
+BEGIN 
+	UPDATE [ABSTRACCIONX4].FUERA_SERVICIO_AERONAVES
+		SET AERO_MATRI = @MatriculaNueva
+		WHERE AERO_MATRI = @MatriculaVieja
+END
+GO
+
 /*
 -------------------------------Modificacion Butaca-------------------------------
 CREATE TRIGGER [ABSTRACCIONX4].ModificacionButaca
@@ -2451,33 +2464,28 @@ BEGIN
 		BEGIN
 			SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
 			--si tiene viaje comprado solo modifico su nombre, no se puede otra cosa EN AERONAVES
+			INSERT INTO [ABSTRACCIONX4].AERONAVES 
+					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
+					(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
+
 			IF( @ViajeAsignado = 1)
 			BEGIN
 				IF(@Matricula != @MatriculaActual)
 				BEGIN	
-					INSERT INTO [ABSTRACCIONX4].AERONAVES 
-					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
-					(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
-
 					EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
 					EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaActual , @Matricula
-
-					DELETE FROM [ABSTRACCIONX4].AERONAVES
-					WHERE AERO_MATRI = @MatriculaActual
 				END
 			END
 			ELSE
 			BEGIN
 					EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual
-				
-					UPDATE ABSTRACCIONX4.AERONAVES
-					SET AERO_MOD = @Modelo , AERO_FAB = @Fabricante, AERO_MATRI = @Matricula ,
-					SERV_COD = @CodigoServicio,
-					AERO_CANT_KGS = @CantidadKG
-					WHERE AERO_MATRI = @MatriculaActual
-
 					EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
 			END
+
+			EXECUTE [ABSTRACCIONX4].ModificarPeriodosFS @MatriculaActual , @Matricula
+
+			DELETE FROM [ABSTRACCIONX4].AERONAVES
+					WHERE AERO_MATRI = @MatriculaActual
 		END	
 		ELSE
 		BEGIN

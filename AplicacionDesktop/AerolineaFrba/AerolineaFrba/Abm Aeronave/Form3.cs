@@ -14,10 +14,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
     public partial class Baja : Form
     {
-        const string QUERY_BASE = "SELECT AERO_MATRI,AERO_MOD,AERO_FAB,SERV_DESC,AERO_CANT_BUTACAS,AERO_CANT_KGS,AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
+        const string QUERY_BASE = "SELECT AERO_MATRI 'Matrícula',AERO_MOD 'Modelo',AERO_FAB 'Fabricante',SERV_DESC 'Tipo de servicio',AERO_CANT_KGS 'Cantidad de KG',AERO_FECHA_ALTA 'Fecha de alta', AERO_FECHA_BAJA 'Fecha de baja' FROM ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
         string query;
         public Form anterior;
-        private Form formularioSiguiente;
         private Boolean sePusoAgregarFiltro1 = false;
         private Boolean sePusoAgregarFiltro2 = false;
         private Boolean sePusoAgregarFiltro3 = false;
@@ -302,7 +301,7 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 indiceAeronaveElegida = e.RowIndex;
 
-                Object fechaAlta = dg.Rows[indiceAeronaveElegida].Cells["AERO_FECHA_ALTA"].Value;
+                Object fechaAlta = dg.Rows[indiceAeronaveElegida].Cells["Fecha de alta"].Value;
 
                 if (fechaAlta == DBNull.Value)
                 {
@@ -317,6 +316,11 @@ namespace AerolineaFrba.Abm_Aeronave
                 else
                     if (e.ColumnIndex == 1)
                     {
+                        if (!dg.Rows[indiceAeronaveElegida].Cells["Fecha de baja"].Value.ToString().Equals(""))
+                        {
+                            MessageBox.Show("La aeronave elegida ya tiene una fecha de baja establecida", "Selección invalida", MessageBoxButtons.OK);
+                            return;
+                        }
                         new Form6(this, true,(Nullable<DateTime>)fechaAlta).ShowDialog();
                         ejecutarQuery();
                     }
@@ -331,7 +335,7 @@ namespace AerolineaFrba.Abm_Aeronave
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DarDeBajaLogica]";
             command.CommandTimeout = 0;
 
-            string matricula = dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString();
+            string matricula = dg.Rows[indiceAeronaveElegida].Cells["Matrícula"].Value.ToString();
             command.Parameters.AddWithValue("@Matricula", matricula);
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
             try
@@ -351,8 +355,8 @@ namespace AerolineaFrba.Abm_Aeronave
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[DejarAeronaveFueraDeServicio]";
             command.CommandTimeout = 0;
-            string matricula = dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString();
-            command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["AERO_MATRI"].Value.ToString());
+            string matricula = dg.Rows[indiceAeronaveElegida].Cells["Matrícula"].Value.ToString();
+            command.Parameters.AddWithValue("@Matricula", dg.Rows[indiceAeronaveElegida].Cells["Matrícula"].Value.ToString());
             command.Parameters.AddWithValue("@FechaBaja", fechaBaja);
             command.Parameters.AddWithValue("@FechaReinicio", fechaReinicio);
 
