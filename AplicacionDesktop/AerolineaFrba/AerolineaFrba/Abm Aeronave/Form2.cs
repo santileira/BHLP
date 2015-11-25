@@ -70,9 +70,9 @@ namespace AerolineaFrba.Abm_Aeronave
             if (!llamadoDesdeBaja)
             {
                 txtModelo.Text = "";
-                cboCiudades.Text = "";
-                cboFabricante.Text = "";
-                cboServicio.Text = "";
+                cboCiudades.SelectedIndex = -1;
+                cboFabricante.SelectedIndex = -1;
+                cboServicio.SelectedIndex = -1;
             }
         }
 
@@ -92,10 +92,10 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             if (this.datosCorrectos())
             {
-                MessageBox.Show("Todos los datos son correctos. Se procede a dar de alta a la nueva aeronave", "Alta de nueva aeronave", MessageBoxButtons.OK);
                 try
                 {
                     darDeAltaAeronave();
+                    MessageBox.Show("La aeronave fue dada de alta de manera exitosa", "Alta de nueva aeronave", MessageBoxButtons.OK);
 
                     if (llamadoDesdeBaja)
                     {
@@ -104,12 +104,12 @@ namespace AerolineaFrba.Abm_Aeronave
                     }
                     else
                     {
-                        this.cambiarVisibilidades(new Principal());
+                        this.inicio();
                     }
                 }
-                catch
+                catch(Exception error)
                 {
-                    MessageBox.Show("La matrícula " + mkMatricula.Text + " ya existe. Ingrese otra", "Error", MessageBoxButtons.OK);
+                    MessageBox.Show(error.Message, "Error en alta", MessageBoxButtons.OK);
                     return;
                 }
             }
@@ -157,9 +157,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean validarLongitudes()
         {
-            Boolean algunoVacio = false;//Validacion.esVacio(txtMatricula, "matrícula", true);
+            Boolean algunoVacio = false;
             algunoVacio = Validacion.esVacio(txtModelo, "modelo", true) || algunoVacio;
-            algunoVacio = Validacion.esVacio(cboFabricante, "fabricante") || algunoVacio;
+            algunoVacio = Validacion.esVacio(cboFabricante, "fabricante",true) || algunoVacio;
             algunoVacio = Validacion.esVacio(cboServicio, "tipo de servicio", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(cboCiudades, "ciudad en la que se encuentra", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtButacas, "cantidad de butacas pasillo", true) || algunoVacio;
@@ -200,11 +200,11 @@ namespace AerolineaFrba.Abm_Aeronave
 
             Boolean huboErrores = false;
 
-            huboErrores = Validacion.estaEntreLimites(txtButacas, limiteInfPasillo, 999, false, "cantidad de butacas pasillo") || huboErrores;
-            huboErrores = Validacion.estaEntreLimites(txtVenta, limiteInfVentanilla, 999, false, "cantidad de butacas ventanilla") || huboErrores;
-            huboErrores = Validacion.estaEntreLimites(txtKilos, limiteInfKG, 999, true, "cantidad de kilos") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtButacas, limiteInfPasillo, 999, false, "cantidad de butacas pasillo") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtVenta, limiteInfVentanilla, 999, false, "cantidad de butacas ventanilla") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtKilos, limiteInfKG, 999, true, "cantidad de kilos") || huboErrores;
 
-            return !huboErrores;
+            return huboErrores;
         }
 
         private bool validarLimitesBaja()

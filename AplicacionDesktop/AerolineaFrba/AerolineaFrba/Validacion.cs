@@ -15,7 +15,6 @@ namespace AerolineaFrba
 
             if (Validacion.esVacio(txtBox , nombreCampo , true))
             {
-                //MessageBox.Show("El nombre no puede estar en blanco", "Error en el nombre", MessageBoxButtons.OK);
                 huboErrores = true;
             }
             else
@@ -193,8 +192,19 @@ namespace AerolineaFrba
                     MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras o números.", "Error en los datos de entrada", MessageBoxButtons.OK);
                     
                 }
-                return false;
+                huboErrores = true;
             }
+
+            if (!cadena.Any((car) => Char.IsLetter(car)))
+            {
+                if (mostrarMensaje)
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe contener al menos una letra", "Error en los datos de entrada", MessageBoxButtons.OK);
+
+                }
+                huboErrores = true;
+            }
+
             return !huboErrores;
         }
 
@@ -228,7 +238,7 @@ namespace AerolineaFrba
                 vacio = true;
                 if (mostrarMensaje)
                 {
-                    MessageBox.Show("El campo " + nombreCampo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    MessageBox.Show("El campo " + nombreCampo + " no puede estar vacío", "Error en los datos de entrada", MessageBoxButtons.OK);
                 }
             }
 
@@ -243,7 +253,7 @@ namespace AerolineaFrba
                 vacio = true;
                 if (mostrarMensaje)
                 {
-                    MessageBox.Show("El campo " + nombreCampo + " no puede estar vacio", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    MessageBox.Show("El campo " + nombreCampo + " no puede estar vacío", "Error en los datos de entrada", MessageBoxButtons.OK);
                 }
             }
 

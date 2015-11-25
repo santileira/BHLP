@@ -32,15 +32,15 @@
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mkMatricula = new System.Windows.Forms.MaskedTextBox();
-            this.txtVenta1 = new System.Windows.Forms.TextBox();
-            this.txtVenta = new System.Windows.Forms.TextBox();
+            this.txtButacasV = new System.Windows.Forms.TextBox();
+            this.txtButacasVActual = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtServicioActual = new System.Windows.Forms.TextBox();
             this.cboFabricante = new System.Windows.Forms.ComboBox();
             this.txtFabricanteActual = new System.Windows.Forms.TextBox();
             this.cboServicio = new System.Windows.Forms.ComboBox();
-            this.txtButacas = new System.Windows.Forms.TextBox();
-            this.txtButacasActual = new System.Windows.Forms.TextBox();
+            this.txtButacasP = new System.Windows.Forms.TextBox();
+            this.txtButacasPActual = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtKilosActual = new System.Windows.Forms.TextBox();
             this.txtKilos = new System.Windows.Forms.TextBox();
@@ -79,15 +79,15 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.mkMatricula);
-            this.groupBox1.Controls.Add(this.txtVenta1);
-            this.groupBox1.Controls.Add(this.txtVenta);
+            this.groupBox1.Controls.Add(this.txtButacasV);
+            this.groupBox1.Controls.Add(this.txtButacasVActual);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtServicioActual);
             this.groupBox1.Controls.Add(this.cboFabricante);
             this.groupBox1.Controls.Add(this.txtFabricanteActual);
             this.groupBox1.Controls.Add(this.cboServicio);
-            this.groupBox1.Controls.Add(this.txtButacas);
-            this.groupBox1.Controls.Add(this.txtButacasActual);
+            this.groupBox1.Controls.Add(this.txtButacasP);
+            this.groupBox1.Controls.Add(this.txtButacasPActual);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtKilosActual);
             this.groupBox1.Controls.Add(this.txtKilos);
@@ -115,21 +115,22 @@
             this.mkMatricula.Size = new System.Drawing.Size(70, 20);
             this.mkMatricula.TabIndex = 45;
             // 
-            // txtVenta1
+            // txtButacasV
             // 
-            this.txtVenta1.Enabled = false;
-            this.txtVenta1.Location = new System.Drawing.Point(348, 319);
-            this.txtVenta1.Name = "txtVenta1";
-            this.txtVenta1.Size = new System.Drawing.Size(157, 20);
-            this.txtVenta1.TabIndex = 43;
+            this.txtButacasV.Enabled = false;
+            this.txtButacasV.Location = new System.Drawing.Point(348, 319);
+            this.txtButacasV.MaxLength = 3;
+            this.txtButacasV.Name = "txtButacasV";
+            this.txtButacasV.Size = new System.Drawing.Size(157, 20);
+            this.txtButacasV.TabIndex = 43;
             // 
-            // txtVenta
+            // txtButacasVActual
             // 
-            this.txtVenta.Location = new System.Drawing.Point(165, 319);
-            this.txtVenta.Name = "txtVenta";
-            this.txtVenta.ReadOnly = true;
-            this.txtVenta.Size = new System.Drawing.Size(157, 20);
-            this.txtVenta.TabIndex = 44;
+            this.txtButacasVActual.Location = new System.Drawing.Point(165, 319);
+            this.txtButacasVActual.Name = "txtButacasVActual";
+            this.txtButacasVActual.ReadOnly = true;
+            this.txtButacasVActual.Size = new System.Drawing.Size(157, 20);
+            this.txtButacasVActual.TabIndex = 44;
             // 
             // label7
             // 
@@ -176,22 +177,23 @@
             this.cboServicio.Size = new System.Drawing.Size(157, 21);
             this.cboServicio.TabIndex = 30;
             // 
-            // txtButacas
+            // txtButacasP
             // 
-            this.txtButacas.Enabled = false;
-            this.txtButacas.Location = new System.Drawing.Point(348, 263);
-            this.txtButacas.Name = "txtButacas";
-            this.txtButacas.Size = new System.Drawing.Size(157, 20);
-            this.txtButacas.TabIndex = 11;
+            this.txtButacasP.Enabled = false;
+            this.txtButacasP.Location = new System.Drawing.Point(348, 263);
+            this.txtButacasP.MaxLength = 3;
+            this.txtButacasP.Name = "txtButacasP";
+            this.txtButacasP.Size = new System.Drawing.Size(157, 20);
+            this.txtButacasP.TabIndex = 11;
             // 
-            // txtButacasActual
+            // txtButacasPActual
             // 
-            this.txtButacasActual.Location = new System.Drawing.Point(165, 263);
-            this.txtButacasActual.Name = "txtButacasActual";
-            this.txtButacasActual.ReadOnly = true;
-            this.txtButacasActual.Size = new System.Drawing.Size(157, 20);
-            this.txtButacasActual.TabIndex = 39;
-            this.txtButacasActual.TextChanged += new System.EventHandler(this.txtButacasActual_TextChanged);
+            this.txtButacasPActual.Location = new System.Drawing.Point(165, 263);
+            this.txtButacasPActual.Name = "txtButacasPActual";
+            this.txtButacasPActual.ReadOnly = true;
+            this.txtButacasPActual.Size = new System.Drawing.Size(157, 20);
+            this.txtButacasPActual.TabIndex = 39;
+            this.txtButacasPActual.TextChanged += new System.EventHandler(this.txtButacasActual_TextChanged);
             // 
             // label6
             // 
@@ -214,6 +216,7 @@
             // 
             this.txtKilos.Enabled = false;
             this.txtKilos.Location = new System.Drawing.Point(348, 374);
+            this.txtKilos.MaxLength = 6;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(157, 20);
             this.txtKilos.TabIndex = 9;
@@ -274,6 +277,7 @@
             // 
             this.txtModelo.Enabled = false;
             this.txtModelo.Location = new System.Drawing.Point(348, 96);
+            this.txtModelo.MaxLength = 30;
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(157, 20);
             this.txtModelo.TabIndex = 1;
@@ -324,7 +328,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cboFabricante;
         private System.Windows.Forms.ComboBox cboServicio;
-        private System.Windows.Forms.TextBox txtButacas;
+        private System.Windows.Forms.TextBox txtButacasP;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtKilos;
         private System.Windows.Forms.Label label5;
@@ -336,12 +340,12 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtServicioActual;
         private System.Windows.Forms.TextBox txtFabricanteActual;
-        private System.Windows.Forms.TextBox txtButacasActual;
+        private System.Windows.Forms.TextBox txtButacasPActual;
         private System.Windows.Forms.TextBox txtKilosActual;
         private System.Windows.Forms.TextBox txtMatriculaActual;
         private System.Windows.Forms.TextBox txtModeloActual;
-        private System.Windows.Forms.TextBox txtVenta1;
-        private System.Windows.Forms.TextBox txtVenta;
+        private System.Windows.Forms.TextBox txtButacasV;
+        private System.Windows.Forms.TextBox txtButacasVActual;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.MaskedTextBox mkMatricula;
     }

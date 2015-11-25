@@ -81,8 +81,8 @@
             this.Name = "Principal";
             this.Text = "Aerolínea FRBA";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Principal_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Principal_Closing);
+            this.Load += new System.EventHandler(this.Principal_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
