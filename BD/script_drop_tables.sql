@@ -81,6 +81,7 @@ DROP FUNCTION [ABSTRACCIONX4].llegaADestinoCorrecto
 DROP FUNCTION [ABSTRACCIONX4].esOrigenCorrecto
 DROP FUNCTION [ABSTRACCIONX4].obtenerFechaSalidaDeUnViaje
 DROP PROCEDURE [ABSTRACCIONX4].agregarFechaLlegada
+DROP FUNCTION [ABSTRACCIONX4].debeHaberLlegadoAntes
 
 DROP FUNCTION [ABSTRACCIONX4].obtenerHistorialMillasPasajes
 DROP FUNCTION [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas
