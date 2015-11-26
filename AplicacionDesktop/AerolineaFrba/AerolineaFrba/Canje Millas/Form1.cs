@@ -35,7 +35,7 @@ namespace AerolineaFrba.Canje_Millas
 
         private void llenarListadoProductos()
         {
-            string query = "SELECT PREMIO_COD,PREMIO_DETALLE, PREMIO_PUNTOS,PREMIO_STOCK FROM ABSTRACCIONX4.PREMIOS";
+            string query = "SELECT PREMIO_COD,PREMIO_DETALLE as Producto, PREMIO_PUNTOS as Puntos,PREMIO_STOCK as Stock FROM ABSTRACCIONX4.PREMIOS";
 
             SqlConnection conexion = Program.conexion();
 
@@ -56,10 +56,10 @@ namespace AerolineaFrba.Canje_Millas
 
         private void dgListadoProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!dgListadoProductos.SelectedRows[0].Cells["PREMIO_STOCK"].Style.BackColor.Equals(Color.Gray))
+            if (!dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor.Equals(Color.Gray))
             {
                 button1.Enabled = true;
-                string premio_detalle = dgListadoProductos.SelectedRows[0].Cells["PREMIO_DETALLE"].Value.ToString();
+                string premio_detalle = dgListadoProductos.SelectedRows[0].Cells["Producto"].Value.ToString();
                 txtProdSeleccionado.Text = premio_detalle;
 
             }
@@ -91,12 +91,12 @@ namespace AerolineaFrba.Canje_Millas
 
         private bool hayStockDisponible()
         {
-            string cantStock = dgListadoProductos.SelectedRows[0].Cells["PREMIO_STOCK"].Value.ToString();
+            string cantStock = dgListadoProductos.SelectedRows[0].Cells["Stock"].Value.ToString();
             int stockCant;
             stockCant = Convert.ToInt32(cantStock);
             stockCant = int.Parse(cantStock);
 
-            string cantPuntos = dgListadoProductos.SelectedRows[0].Cells["PREMIO_PUNTOS"].Value.ToString();
+            string cantPuntos = dgListadoProductos.SelectedRows[0].Cells["Puntos"].Value.ToString();
             int puntos;
             puntos = Convert.ToInt32(cantPuntos);
             puntos = int.Parse(cantPuntos);
@@ -113,9 +113,9 @@ namespace AerolineaFrba.Canje_Millas
 
                 if (stockCant >= cantSeleccionada)
                 {
-                    dgListadoProductos.SelectedRows[0].Cells["PREMIO_STOCK"].Style.BackColor = Color.Gray;
-                    dgListadoProductos.SelectedRows[0].Cells["PREMIO_DETALLE"].Style.BackColor = Color.Gray;
-                    dgListadoProductos.SelectedRows[0].Cells["PREMIO_PUNTOS"].Style.BackColor = Color.Gray;
+                    dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor = Color.Gray;
+                    dgListadoProductos.SelectedRows[0].Cells["Producto"].Style.BackColor = Color.Gray;
+                    dgListadoProductos.SelectedRows[0].Cells["Puntos"].Style.BackColor = Color.Gray;
 
 
                     millasDisponibles = millasDisp;
@@ -156,9 +156,9 @@ namespace AerolineaFrba.Canje_Millas
 
             foreach (DataGridViewRow row in dgListadoProductos.Rows)
             {
-                row.Cells["PREMIO_STOCK"].Style.BackColor = Color.White;
-                row.Cells["PREMIO_DETALLE"].Style.BackColor = Color.White;
-                row.Cells["PREMIO_PUNTOS"].Style.BackColor = Color.White;
+                row.Cells["Stock"].Style.BackColor = Color.White;
+                row.Cells["Producto"].Style.BackColor = Color.White;
+                row.Cells["Puntos"].Style.BackColor = Color.White;
             }
         }
 
