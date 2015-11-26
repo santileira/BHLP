@@ -59,10 +59,12 @@ namespace AerolineaFrba.Abm_Aeronave
             try
             {
                 suplantarAeronave();
+                MessageBox.Show("Los vuelos de la aeronave se han reemplazado exitosamente", "Suplantar aeronave", MessageBoxButtons.OK);
                 this.Close();
             }
             catch (Exception error)
             {
+                MessageBox.Show(error.Message, "Advertencia", MessageBoxButtons.OK);
                 darDeAltaNuevaAeronave();
                 if (cargoDatosParaSuplantar)
                 {
