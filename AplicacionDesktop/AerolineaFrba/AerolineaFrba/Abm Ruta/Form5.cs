@@ -61,7 +61,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.query += "FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R, [ABSTRACCIONX4].[SERVICIOS] S, [ABSTRACCIONX4].[SERVICIOS_RUTAS] SR ";
             this.query += "WHERE R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD";
             if (this.loActivoGenerarViajes && this.serv_cod != null)
-                query += " AND (select sr.serv_cod from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where sr.ruta_id = R.ruta_id) = " + this.serv_cod;
+                query += " AND (select s.serv_desc from [ABSTRACCIONX4].[SERVICIOS_RUTAS] sr where s.serv_cod = sr.serv_cod and sr.ruta_id = R.ruta_id) = " + "'" + this.serv_cod + "'";
 
             
         }

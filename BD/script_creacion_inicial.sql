@@ -1156,7 +1156,7 @@ END
 GO
 
 -------------------------------Aeronaves en servicio-------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+alter FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
 
  (@matricula VARCHAR(8), @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
 
@@ -1176,7 +1176,7 @@ BEGIN
 												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, fs.FECHA_FS, fs.FECHA_REINICIO) = 1)
 												)
 						and (
-							(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) = NULL or
+							(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) is NULL or
 							[ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, (select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula)) = 1
 						)
 					then 1
@@ -1220,7 +1220,6 @@ AS
 	
 BEGIN
 	declare @ciudad_actual smallint
-	declare @proxima_ciudad smallint
 	set @ciudad_actual = (select top 1 r.CIU_COD_D
 							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
 							where v.AERO_MATRI = @matricula
@@ -1228,27 +1227,27 @@ BEGIN
 							and v.RUTA_ID = r.RUTA_ID
 							order by v.VIAJE_FECHA_LLEGADAE desc
 							)
-	set @proxima_ciudad = (select top 1 r.CIU_COD_O
-							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
-							where v.AERO_MATRI = @matricula
-							and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
-							and v.RUTA_ID = r.RUTA_ID
-							order by v.VIAJE_FECHA_SALIDA
-							)
 	
-	if(@proxima_ciudad = NULL)
-	begin
+--	if((select count(*)
+--		from (select top 1 r.CIU_COD_O
+--				from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+--				where v.AERO_MATRI = @matricula
+--				and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
+--				and v.RUTA_ID = r.RUTA_ID
+--				order by v.VIAJE_FECHA_SALIDA) t
+--		) = 0)
+--	begin
 		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
 			return 1
-		else
-			return 0
-	end
-	else
-	begin
-		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
-			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
-			return 1
-	end
+--		else
+--			return 0
+--	end
+--	else
+--	begin
+--		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
+--			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+--			return 1
+--	end
 
 	return 0
 END
@@ -3006,7 +3005,6 @@ BEGIN
 
 	RETURN 0
 END
-
 
 -- ************** MILLAS ****************
 
