@@ -1215,13 +1215,7 @@ AS
 BEGIN
 	declare @ciudad_actual smallint
 
-	if((select count(*) from (select top 1 r.CIU_COD_D
-								from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
-								where v.AERO_MATRI = @matricula
-								and [ABSTRACCIONX4].fecha_menor(v.VIAJE_FECHA_LLEGADAE, @fecha_salida) = 1
-								and v.RUTA_ID = r.RUTA_ID
-								order by v.VIAJE_FECHA_LLEGADAE desc) t
-								) = 0)
+	if((select count(*) from ABSTRACCIONX4.VIAJES v where v.aero_matri = @matricula) = 0)
 		set @ciudad_actual = (select a.ciu_cod_origen from ABSTRACCIONX4.aeronaves a where a.aero_matri = @matricula)
 	else
 		set @ciudad_actual = (select top 1 r.CIU_COD_D
