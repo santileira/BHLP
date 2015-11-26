@@ -2229,6 +2229,10 @@ BEGIN
 	DECLARE @FechaAlta DATETIME
 	SELECT @FechaAlta = AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES WHERE AERO_MATRI = @Matricula
 	DECLARE @Ciudad VARCHAR(80)
+	IF @FechaAlta IS NULL
+	BEGIN
+		SET @FechaAlta = CONVERT(DATETIME, '01/01/1900')
+	END
 
 	SELECT TOP 1 @Ciudad = c.CIU_DESC 
 		FROM ABSTRACCIONX4.VIAJES v JOIN ABSTRACCIONX4.RUTAS_AEREAS r ON (v.RUTA_ID=r.RUTA_ID)
@@ -2257,15 +2261,14 @@ BEGIN
 	DECLARE @UnaTabla TABLE (orden INT IDENTITY, origen SMALLINT, destino SMALLINT)
 	INSERT INTO @UnaTabla
 	SELECT CIU_COD_O,CIU_COD_D
-		FROM ABSTRACCIONX4.VIAJES V JOIN RUTAS_AEREAS R ON (V.RUTA_ID = R.RUTA_ID)
+		FROM ABSTRACCIONX4.VIAJES V JOIN ABSTRACCIONX4.RUTAS_AEREAS R ON (V.RUTA_ID = R.RUTA_ID)
 		WHERE AERO_MATRI IN (@MatriculaNueva,@MatriculaVieja) AND
 			  [ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1
 		ORDER BY VIAJE_FECHA_SALIDA
 
 	IF (SELECT COUNT(*)
 			FROM @UnaTabla T1 JOIN @UnaTabla T2 ON (T1.orden = (T2.orden - 1))
-			WHERE T1.orden % 2 = 1 AND
-				  T1.orden <> T2.destino) > 0
+			WHERE T1.destino <> T2.origen) > 0
 		RETURN 0
 	RETURN 1
 END
@@ -2297,18 +2300,18 @@ BEGIN
 			  SERV_COD = @TipoServicio AND 
 			  AERO_FAB = @Fabricante AND
 			  AERO_MOD = @Modelo AND
-			  [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA,@FechaBaja,@FechaReinicio) = 0 AND
+			  [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA,@FechaBaja,[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 0 AND
 			  AERO_CANT_KGS >= @CantidadKG AND
 			  (SELECT CASE AERO_FECHA_BAJA 
 					  WHEN NULL THEN 0
-					  ELSE [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_BAJA,@FechaBaja,@FechaReinicio)
+					  ELSE [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_BAJA,AERO_FECHA_ALTA,@FechaReinicio)
 					  END) = 0 AND
-			  --[ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(AERO_MATRI,@FechaBaja) = [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula,@FechaBaja) AND
+			  [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(AERO_MATRI,@FechaBaja) = [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula,@FechaBaja) AND
 			  [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(AERO_MATRI,@FechaBaja,@FechaReinicio) = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
-			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 --AND
-			  --[ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
+			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 AND
+			  [ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
 			  
 	RETURN @MatriculaNueva
 END
