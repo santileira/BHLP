@@ -56,6 +56,12 @@ namespace AerolineaFrba.Compra
             }
             else
             {
+                txtNroTarjeta.Text = "";
+                txtCodSeg.Text = "";
+                cboAnios.Text = "";
+                cboMeses.Text = "";
+                cboTipoTarjeta.Text = "";
+                cboCuotas.Text = "";
                 groupBox3.Visible = false;
             }
                 
