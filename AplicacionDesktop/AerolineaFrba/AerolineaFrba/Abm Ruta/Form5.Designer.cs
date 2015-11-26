@@ -103,9 +103,7 @@
             "CODIGO_DE_RUTA",
             "TIPO_SERVICIO",
             "ORIGEN",
-            "DESTINO",
-            "RUTA_PRECIO_BASE_KG",
-            "RUTA_PRECIO_BASE_PASAJE"});
+            "DESTINO"});
             this.cboCamposFiltro2.Location = new System.Drawing.Point(168, 59);
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
@@ -174,6 +172,7 @@
             // txtFiltro1
             // 
             this.txtFiltro1.Location = new System.Drawing.Point(341, 24);
+            this.txtFiltro1.MaxLength = 30;
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
@@ -181,6 +180,7 @@
             // txtFiltro2
             // 
             this.txtFiltro2.Location = new System.Drawing.Point(341, 60);
+            this.txtFiltro2.MaxLength = 30;
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;

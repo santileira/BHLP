@@ -159,6 +159,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // txtFiltro1
             // 
             this.txtFiltro1.Location = new System.Drawing.Point(296, 29);
+            this.txtFiltro1.MaxLength = 30;
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(183, 20);
             this.txtFiltro1.TabIndex = 16;
@@ -166,6 +167,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // txtFiltro2
             // 
             this.txtFiltro2.Location = new System.Drawing.Point(296, 65);
+            this.txtFiltro2.MaxLength = 30;
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(183, 20);
             this.txtFiltro2.TabIndex = 3;
