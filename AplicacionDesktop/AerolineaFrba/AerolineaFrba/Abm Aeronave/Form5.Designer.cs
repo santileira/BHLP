@@ -49,6 +49,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.lblErrores = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.listaFiltros = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg)).BeginInit();
             this.SuspendLayout();
@@ -196,7 +197,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(713, 208);
+            this.button3.Location = new System.Drawing.Point(596, 208);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(101, 29);
             this.button3.TabIndex = 2;
@@ -240,20 +241,31 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(710, 12);
+            this.button7.Location = new System.Drawing.Point(713, 208);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(104, 20);
+            this.button7.Size = new System.Drawing.Size(101, 29);
             this.button7.TabIndex = 6;
             this.button7.Text = "Seleccionar";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click_1);
+            // 
+            // listaFiltros
+            // 
+            this.listaFiltros.BackColor = System.Drawing.Color.SlateGray;
+            this.listaFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listaFiltros.FormattingEnabled = true;
+            this.listaFiltros.Location = new System.Drawing.Point(836, 60);
+            this.listaFiltros.Name = "listaFiltros";
+            this.listaFiltros.Size = new System.Drawing.Size(365, 585);
+            this.listaFiltros.TabIndex = 9;
             // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(867, 507);
+            this.ClientSize = new System.Drawing.Size(1213, 507);
+            this.Controls.Add(this.listaFiltros);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.lblErrores);
@@ -295,6 +307,7 @@ namespace AerolineaFrba.Abm_Aeronave
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.ListBox listaFiltros;
 
     }
 }
