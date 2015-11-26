@@ -43,19 +43,40 @@ namespace AerolineaFrba.Consulta_Millas
 
 
             SqlDataReader totalMillas;
+            SqlDataReader millasCanjeadas;
 
             SqlCommand consultaTotal = new SqlCommand();
+            SqlCommand consultaCanjeadas = new SqlCommand();
 
             consultaTotal.CommandType = CommandType.Text;
+            consultaCanjeadas.CommandType = CommandType.Text;
 
-            consultaTotal.CommandText = "SELECT SUM([Cant. de Millas]) FROM (SELECT * FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION  SELECT * FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')) as Sarasa";
+            consultaTotal.CommandText = "SELECT SUM(Millas) FROM (SELECT CAST(Precio/10 as Int) as Millas FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION ALL  SELECT CAST(Precio/10 as Int) as Millas FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')) as Sarasa";
+            consultaCanjeadas.CommandText = "SELECT SUM(P.PREMIO_PUNTOS * C.CANJE_CANTIDAD) FROM ABSTRACCIONX4.CANJES C JOIN ABSTRACCIONX4.PREMIOS P ON C.PREMIO_COD = P.PREMIO_COD WHERE C.CLI_COD = (SELECT CU.CLI_COD FROM ABSTRACCIONX4.CLIENTES CU WHERE CU.CLI_DNI =" + txtDni.Text + " AND CU.CLI_APELLIDO = '" + txtApe.Text + "' )";
 
             consultaTotal.Connection = Program.conexion();
+            consultaCanjeadas.Connection = Program.conexion();
 
             totalMillas = consultaTotal.ExecuteReader();
+            millasCanjeadas = consultaCanjeadas.ExecuteReader();
 
             totalMillas.Read();
-            cantTotalMillas.Text = totalMillas.GetValue(0).ToString();
+            millasCanjeadas.Read();
+
+            string totMillas = totalMillas.GetValue(0).ToString();
+            string millasCanj = millasCanjeadas.GetValue(0).ToString();
+            int millasTotales;
+            int millas_canjeadas;
+
+            int.TryParse(totMillas, out millasTotales);
+            int.TryParse(millasCanj, out millas_canjeadas);
+
+            var total = millasTotales;
+            var canjeadas = millas_canjeadas;
+            var final = total - canjeadas;
+
+
+            cantTotalMillas.Text = final.ToString();
 
         }
 

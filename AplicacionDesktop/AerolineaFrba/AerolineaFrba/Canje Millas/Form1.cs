@@ -80,10 +80,6 @@ namespace AerolineaFrba.Canje_Millas
                     dgListadoProductos.SelectedRows[0].Selected = false;
                     button1.Enabled = false;
                 }
-                else
-                {
-                    MessageBox.Show("No hay suficientes millas o no hay stock para realizar el canje", "Error", MessageBoxButtons.OK);
-                }
             }
         }
 
@@ -127,6 +123,14 @@ namespace AerolineaFrba.Canje_Millas
 
                     return true;
                 }
+                else
+                {
+                    MessageBox.Show("No hay stock para realizar el canje", "Error", MessageBoxButtons.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay suficientes millas para realizar el canje", "Error", MessageBoxButtons.OK);
             }
 
             return false;
@@ -200,14 +204,6 @@ namespace AerolineaFrba.Canje_Millas
 
 
                     MessageBox.Show("Puntos a Gastar: " + totalPuntos, "Data", MessageBoxButtons.OK);
-
-
-                    new SQLManager().generarSP("DescontarMillas")
-                                 .agregarIntSP("@cantMillas", totalPuntos)
-                                   .agregarIntSP("@dni", dni)
-                                     .agregarStringSP("@ape", apellido)
-                                        .ejecutarSP();
-
                     MessageBox.Show("Se efectuó el Canje", "Canje Exitoso", MessageBoxButtons.OK);
 
                     this.Close();

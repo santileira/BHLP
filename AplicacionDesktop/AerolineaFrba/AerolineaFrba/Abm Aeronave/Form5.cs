@@ -115,7 +115,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void ejecutarConsulta()
         {
-
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");

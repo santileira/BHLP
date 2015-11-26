@@ -414,7 +414,6 @@ CREATE TABLE [ABSTRACCIONX4].[PASAJES](
 	[PASAJE_PRECIO] [numeric] (7,2) NOT NULL,
 	[BUT_ID] [int] NOT NULL,
 	[PASAJE_CANCELADO] [bit] DEFAULT 0,
-	[PASAJE_MILLAS] [int],
 	[DEVOLUC_COD] [int]
  CONSTRAINT [PK_PASAJES] PRIMARY KEY CLUSTERED 
 (
@@ -459,7 +458,6 @@ CREATE TABLE [ABSTRACCIONX4].[ENCOMIENDAS](
 	[ENCOMIENDA_PRECIO] [numeric] (7,2) NOT NULL,	
 	[ENCOMIENDA_PESO_KG] [numeric] (6,2) NOT NULL,
 	[ENCOMIENDA_CANCELADO] [bit] DEFAULT 0,
-	[ENCOMIENDA_MILLAS] [int],
 	[DEVOLUC_COD] [int] NULL
  CONSTRAINT [PK_ENCOMIENDAS] PRIMARY KEY CLUSTERED 
 (
@@ -821,7 +819,6 @@ INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
 		[VIAJE_COD],
 		[ENCOMIENDA_PRECIO],	
 		[ENCOMIENDA_PESO_KG],
-		[ENCOMIENDA_MILLAS],
 		[COMP_PNR]
 	)
 
@@ -832,7 +829,7 @@ SELECT T.ENCOMIENDA_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
-	T.PRECIO,T.CANT_KG,T.CANT_MILLAS,
+	T.PRECIO,T.CANT_KG,
 	(SELECT COMP_PNR FROM ABSTRACCIONX4.COMPRAS WHERE COMP_FECHA = FECHA_COMPRA AND CLI_COD = CLIENTE)
 FROM
 (SELECT (SELECT c.CLI_COD 
@@ -847,7 +844,6 @@ FROM
 		m.Paquete_FechaCompra FECHA_COMPRA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
-		CAST((m.Paquete_Precio / 10) as INT) CANT_MILLAS,
 		(SELECT r.RUTA_ID 
 			FROM [ABSTRACCIONX4].RUTAS_AEREAS r
 				JOIN [ABSTRACCIONX4].CIUDADES c1 ON (c1.CIU_COD = r.CIU_COD_O)
@@ -892,7 +888,6 @@ INSERT INTO [ABSTRACCIONX4].PASAJES
 		[VIAJE_COD],
 		[PASAJE_PRECIO],
 		[BUT_ID],
-		[PASAJE_MILLAS],
 		[COMP_PNR]
 		
 	)
@@ -904,7 +899,7 @@ SELECT T.PASAJE_COD,T.CLIENTE,
 		AND v.AERO_MATRI = T.MAT_AERONAVE
 		AND v.VIAJE_FECHA_SALIDA = T.FECHA_SALIDA
 	) COD_VIAJE,
-	T.PRECIO,T.NRO_BUTACA,T.CANT_MILLAS,
+	T.PRECIO,T.NRO_BUTACA,
 	(SELECT COMP_PNR FROM ABSTRACCIONX4.COMPRAS WHERE COMP_FECHA = FECHA_COMPRA AND CLI_COD = CLIENTE)
 FROM
 (SELECT (SELECT c.CLI_COD 
@@ -922,7 +917,6 @@ FROM
 				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
-		CAST((m.Pasaje_Precio / 10) as INT) CANT_MILLAS,
 		(SELECT r.RUTA_ID 
 			FROM [ABSTRACCIONX4].RUTAS_AEREAS r
 				JOIN [ABSTRACCIONX4].CIUDADES c1 ON (c1.CIU_COD = r.CIU_COD_O)
@@ -1626,13 +1620,13 @@ AS
 
 					SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
 					
-					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID, PASAJE_MILLAS) 
-										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@codBut,@precio/10)
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID) 
+										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@codBut)
 				END
 				ELSE
 				BEGIN
-					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID, PASAJE_MILLAS) 
-										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@codBut,@precio/10)
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID) 
+										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@codBut)
 				END
 
 			END
@@ -1642,8 +1636,8 @@ AS
 					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
 
 					
-					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID, PASAJE_MILLAS) 
-										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@codBut,@precio/10)
+					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID) 
+										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@codBut)
 			END	
 											
 										 
@@ -1665,13 +1659,13 @@ AS
 
 					SET @codigoCli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @curDni AND CLI_APELLIDO = @curApe)
 				
-					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, ENCOMIENDA_MILLAS) 
-										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@peso,@precio/10) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG) 
+										VALUES(@codigoPNR,@codigoCli,@viajeCod,@precio,@peso) 
 				END
 				ELSE
 				BEGIN
-					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, ENCOMIENDA_MILLAS) 
-										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@peso,@precio/10) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG) 
+										VALUES(@codigoPNR,@cod_cli,@viajeCod,@precio,@peso) 
 				END
 			END
 			ELSE
@@ -1679,8 +1673,8 @@ AS
 			IF(@clienteActualizado = 1) -- si existe y se modifico, hay que actualizarlo
 					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel					
 					
-					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG, ENCOMIENDA_MILLAS) 
-										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@peso,@precio/10) 
+					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG) 
+										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@peso) 
 			END	
 
 			
@@ -2986,6 +2980,8 @@ BEGIN
 	RETURN 0
 END
 
+GO
+
 -- ************** MILLAS ****************
 
 -------------------------------Obtener Ciudad dado el Codigo-------------------------------
@@ -3010,7 +3006,7 @@ AS
 				'Encomienda' as Tipo,
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
-				CO.COMP_FECHA as "Fecha de Compra",E.ENCOMIENDA_PRECIO as Precio,E.ENCOMIENDA_MILLAS as "Cant. de Millas"
+				CO.COMP_FECHA as "Fecha de Compra",E.ENCOMIENDA_PRECIO as Precio
 			FROM ABSTRACCIONX4.CLIENTES C
 			JOIN ABSTRACCIONX4.ENCOMIENDAS E ON C.CLI_COD=E.CLI_COD
 			JOIN ABSTRACCIONX4.VIAJES V ON E.VIAJE_COD = V.VIAJE_COD 
@@ -3032,7 +3028,7 @@ AS
 				'Pasaje' as Tipo,
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
-				CO.COMP_FECHA as "Fecha de Compra",P.PASAJE_PRECIO as Precio,P.PASAJE_MILLAS as "Cant. de Millas"
+				CO.COMP_FECHA as "Fecha de Compra",P.PASAJE_PRECIO as Precio
 			FROM ABSTRACCIONX4.CLIENTES C
 			JOIN ABSTRACCIONX4.PASAJES P ON C.CLI_COD=P.CLI_COD
 			JOIN ABSTRACCIONX4.VIAJES V ON P.VIAJE_COD = V.VIAJE_COD 
@@ -3042,58 +3038,6 @@ AS
 			[ABSTRACCIONX4].obtenerFechaDeHoy() - 365 AND [ABSTRACCIONX4].obtenerFechaDeHoy() AND PASAJE_CANCELADO = 0
 
 		)
-GO
-
-
-
--------------------------------Descontar millas-------------------------------
-
-CREATE PROCEDURE [ABSTRACCIONX4].DescontarMillas
-	@cantMillas int,
-	@dni int,
-	@ape varchar(30)
-AS
-BEGIN
-	DECLARE @MillasPasaje int
-	DECLARE @seguir bit
-	DECLARE @Cod int
-	DECLARE @tipo varchar(15)
-	DECLARE @Fecha datetime
-	SET @seguir = 1
-	DECLARE cursorPasajes CURSOR FOR (SELECT Codigo,Tipo,[Cant. de Millas],[Fecha de Compra] FROM ABSTRACCIONX4.obtenerHistorialMillasPasajes(@dni,@ape) UNION SELECT Codigo,Tipo,[Cant. de Millas],[Fecha de Compra] FROM ABSTRACCIONX4.obtenerHistorialMillasEncomiendas(@dni,@ape)) ORDER BY [Fecha de Compra]
-	OPEN cursorPasajes
-	FETCH NEXT FROM cursorPasajes INTO @Cod,@tipo,@MillasPasaje,@Fecha
-	WHILE(@seguir=1)
-	BEGIN
-	
-		
-		IF(@cantMillas <= @MillasPasaje)
-		BEGIN
-
-			IF(@tipo = 'Pasaje')
-			UPDATE ABSTRACCIONX4.PASAJES SET PASAJE_MILLAS = @MillasPasaje - @cantMillas WHERE PASAJE_COD = @Cod
-			ELSE
-			UPDATE ABSTRACCIONX4.ENCOMIENDAS SET ENCOMIENDA_MILLAS = @MillasPasaje - @cantMillas WHERE ENCOMIENDA_COD = @Cod
-
-		SET @seguir = 0
-		END
-
-		IF(@cantMillas > @MillasPasaje)
-		BEGIN
-
-			IF(@tipo = 'Pasaje')
-			UPDATE ABSTRACCIONX4.PASAJES SET PASAJE_MILLAS = 0 WHERE PASAJE_COD = @Cod
-			ELSE
-			UPDATE ABSTRACCIONX4.ENCOMIENDAS SET ENCOMIENDA_MILLAS = 0 WHERE ENCOMIENDA_COD = @Cod
-
-		SET @cantMillas = @cantMillas - @MillasPasaje 
-		END
-
-
-	FETCH NEXT FROM cursorPasajes INTO @Cod,@tipo,@MillasPasaje,@Fecha
-	END
-END
-
 GO
 
 --------------------------------Obtener Puntos de un Premio ----------------------
@@ -3433,8 +3377,8 @@ if(@semestre = 1)
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
@@ -3444,8 +3388,8 @@ else
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select coalesce(sum("Cant. de Millas"),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
