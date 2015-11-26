@@ -1150,7 +1150,7 @@ END
 GO
 
 -------------------------------Aeronaves en servicio-------------------------------
-alter FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
 
  (@matricula VARCHAR(8), @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
 
