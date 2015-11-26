@@ -1150,7 +1150,7 @@ END
 GO
 
 -------------------------------Aeronaves en servicio-------------------------------
-CREATE FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
+alter FUNCTION [ABSTRACCIONX4].aeronave_en_servicio
 
  (@matricula VARCHAR(8), @fecha_salida datetime, @fecha_llegada_estimada DATETIME)
 
@@ -1170,7 +1170,7 @@ BEGIN
 												([ABSTRACCIONX4].datetime_is_between(@fecha_llegada_estimada, fs.FECHA_FS, fs.FECHA_REINICIO) = 1)
 												)
 						and (
-							(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) = NULL or
+							(select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula) is NULL or
 							[ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, (select a.AERO_FECHA_BAJA from ABSTRACCIONX4.AERONAVES a where a.AERO_MATRI = @matricula)) = 1
 						)
 					then 1
@@ -1214,7 +1214,6 @@ AS
 	
 BEGIN
 	declare @ciudad_actual smallint
-	declare @proxima_ciudad smallint
 	set @ciudad_actual = (select top 1 r.CIU_COD_D
 							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
 							where v.AERO_MATRI = @matricula
@@ -1222,27 +1221,27 @@ BEGIN
 							and v.RUTA_ID = r.RUTA_ID
 							order by v.VIAJE_FECHA_LLEGADAE desc
 							)
-	set @proxima_ciudad = (select top 1 r.CIU_COD_O
-							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
-							where v.AERO_MATRI = @matricula
-							and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
-							and v.RUTA_ID = r.RUTA_ID
-							order by v.VIAJE_FECHA_SALIDA
-							)
 	
-	if(@proxima_ciudad = NULL)
-	begin
+--	if((select count(*)
+--		from (select top 1 r.CIU_COD_O
+--				from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+--				where v.AERO_MATRI = @matricula
+--				and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
+--				and v.RUTA_ID = r.RUTA_ID
+--				order by v.VIAJE_FECHA_SALIDA) t
+--		) = 0)
+--	begin
 		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
 			return 1
-		else
-			return 0
-	end
-	else
-	begin
-		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
-			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
-			return 1
-	end
+--		else
+--			return 0
+--	end
+--	else
+--	begin
+--		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
+--			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+--			return 1
+--	end
 
 	return 0
 END
@@ -2299,12 +2298,12 @@ BEGIN
 					  WHEN NULL THEN 0
 					  ELSE [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_BAJA,@FechaBaja,@FechaReinicio)
 					  END) = 0 AND
-			  [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(AERO_MATRI,@FechaBaja) = [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula,@FechaBaja) AND
+			  --[ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(AERO_MATRI,@FechaBaja) = [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula,@FechaBaja) AND
 			  [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(AERO_MATRI,@FechaBaja,@FechaReinicio) = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
-			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 AND
-			  [ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
+			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 /*AND
+			  [ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1*/
 			  
 	RETURN @MatriculaNueva
 END
@@ -2320,60 +2319,20 @@ CREATE PROCEDURE  [ABSTRACCIONX4].ReasignarButacas
 @FechaReinicio DATETIME
 AS
 BEGIN
-	DECLARE @Viaje INT,@Contador SMALLINT
-	
-	CREATE TABLE #ButacasVentanilla
-	(contador INT IDENTITY,
-	 id SMALLINT)
-	CREATE TABLE #ButacasPasillo
-	(contador INT IDENTITY,
-	 id SMALLINT)
+	UPDATE ABSTRACCIONX4.PASAJES
+	SET BUT_ID = (SELECT BUT_ID
+					FROM ABSTRACCIONX4.BUTACAS B
+					WHERE AERO_MATRI = @MatriculaNueva
+					AND B.BUT_NRO = (SELECT BUT_NRO FROM ABSTRACCIONX4.BUTACAS B1
+										WHERE B1.BUT_ID = P.BUT_ID))
+	FROM ABSTRACCIONX4.PASAJES P
+	WHERE VIAJE_COD IN 
+	(SELECT VIAJE_COD 
+		FROM ABSTRACCIONX4.VIAJES
+		WHERE AERO_MATRI = @MatriculaVieja AND
+			 ([ABSTRACCIONX4].ExisteViajeEntreFechas(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1 OR
+			  [ABSTRACCIONX4].ExisteViajeEntreFechas(VIAJE_FECHA_LLEGADAE,@FechaBaja,@FechaReinicio) = 1))
 
-	 INSERT INTO #ButacasPasillo
-		SELECT BUT_ID
-		FROM ABSTRACCIONX4.BUTACAS
-		WHERE BUT_TIPO = 'Pasillo' AND
-			  AERO_MATRI = @MatriculaNueva
-
-	INSERT INTO #ButacasVentanilla
-		SELECT BUT_ID
-		FROM ABSTRACCIONX4.BUTACAS
-		WHERE BUT_TIPO = 'Ventanilla' AND
-			  AERO_MATRI = @MatriculaNueva
-
-	DECLARE cursorViajes CURSOR FOR (SELECT VIAJE_COD 
-										FROM ABSTRACCIONX4.VIAJES
-										WHERE AERO_MATRI = @MatriculaVieja AND
-										      [ABSTRACCIONX4].ExisteViajeEntreFechas(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaReinicio) = 1)
-	OPEN cursorViajes
-
-
-	FETCH cursorViajes INTO @Viaje
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		UPDATE ABSTRACCIONX4.PASAJES
-			SET BUT_ID = V.id
-			FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.BUTACAS B ON (P.BUT_ID = B.BUT_ID)
-										 JOIN #ButacasVentanilla V ON (ROW_NUMBER() OVER (ORDER BY P.PASAJE_COD DESC) = V.contador)
-			WHERE BUT_TIPO = 'Ventanilla'
-
-		UPDATE ABSTRACCIONX4.PASAJES
-			SET BUT_ID = V.id
-			FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.BUTACAS B ON (P.BUT_ID = B.BUT_ID)
-										 JOIN #ButacasPasillo V ON (ROW_NUMBER() OVER (ORDER BY P.PASAJE_COD DESC) = V.contador)
-			WHERE BUT_TIPO = 'Pasillo'
-		
-		FETCH cursorViajes INTO @Viaje
-	END
-
-	CLOSE cursorViajes
-	DEALLOCATE cursorViajes
-
-
-
-
-	DROP TABLE #ButacasPasillo
-	DROP TABLE #ButacasVentanilla
 END
 GO
 
@@ -3002,6 +2961,7 @@ BEGIN
 END
 
 GO
+
 -- ************** MILLAS ****************
 
 -------------------------------Obtener Ciudad dado el Codigo-------------------------------
