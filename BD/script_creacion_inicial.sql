@@ -1214,34 +1214,26 @@ AS
 	
 BEGIN
 	declare @ciudad_actual smallint
-	set @ciudad_actual = (select top 1 r.CIU_COD_D
-							from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
-							where v.AERO_MATRI = @matricula
-							and [ABSTRACCIONX4].fecha_menor(v.VIAJE_FECHA_LLEGADAE, @fecha_salida) = 1
-							and v.RUTA_ID = r.RUTA_ID
-							order by v.VIAJE_FECHA_LLEGADAE desc
-							)
+
+	if((select count(*) from (select top 1 r.CIU_COD_D
+								from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+								where v.AERO_MATRI = @matricula
+								and [ABSTRACCIONX4].fecha_menor(v.VIAJE_FECHA_LLEGADAE, @fecha_salida) = 1
+								and v.RUTA_ID = r.RUTA_ID
+								order by v.VIAJE_FECHA_LLEGADAE desc) t
+								) = 0)
+		set @ciudad_actual = (select a.ciu_cod_origen from ABSTRACCIONX4.aeronaves a where a.aero_matri = @matricula)
+	else
+		set @ciudad_actual = (select top 1 r.CIU_COD_D
+								from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
+								where v.AERO_MATRI = @matricula
+								and [ABSTRACCIONX4].fecha_menor(v.VIAJE_FECHA_LLEGADAE, @fecha_salida) = 1
+								and v.RUTA_ID = r.RUTA_ID
+								order by v.VIAJE_FECHA_LLEGADAE desc
+								)
 	
---	if((select count(*)
---		from (select top 1 r.CIU_COD_O
---				from ABSTRACCIONX4.VIAJES v, ABSTRACCIONX4.RUTAS_AEREAS r
---				where v.AERO_MATRI = @matricula
---				and [ABSTRACCIONX4].fecha_menor(@fecha_llegada_estimada, v.VIAJE_FECHA_SALIDA) = 1
---				and v.RUTA_ID = r.RUTA_ID
---				order by v.VIAJE_FECHA_SALIDA) t
---		) = 0)
---	begin
-		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
+	if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
 			return 1
---		else
---			return 0
---	end
---	else
---	begin
---		if(@ciudad_actual = (select r.CIU_COD_O from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id)
---			and @proxima_ciudad = (select r.CIU_COD_D from ABSTRACCIONX4.RUTAS_AEREAS r where r.RUTA_ID = @ruta_id))
---			return 1
---	end
 
 	return 0
 END
