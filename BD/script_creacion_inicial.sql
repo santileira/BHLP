@@ -1962,24 +1962,24 @@ END
 GO
 
 -------------------------------Actualizar Butacas-------------------------------
-CREATE PROCEDURE [ABSTRACCIONX4].AgregarButacas 
+ALTER PROCEDURE [ABSTRACCIONX4].AgregarButacas 
 @Matricula VARCHAR(8), 
 @CantidadPasillo SMALLINT, 
 @CantidadVentanilla SMALLINT
 AS
 BEGIN
 	DECLARE @i SMALLINT
-	SET @i = 0
+	SET @i = 1
 	DECLARE @CantidadButacas SMALLINT
 	SET @CantidadButacas = @CantidadPasillo + @CantidadVentanilla
-	WHILE (@i < @CantidadPasillo)
+	WHILE (@i <= @CantidadPasillo)
 	BEGIN
 		INSERT INTO [ABSTRACCIONX4].BUTACAS (BUT_NRO , BUT_PISO , AERO_MATRI , BUT_TIPO)
 		VALUES (@i , 1 , @Matricula , 'Pasillo')
 		SET @i = @i + 1
 	END
 
-	WHILE (@i < @CantidadButacas)
+	WHILE (@i <= @CantidadButacas)
 	BEGIN
 		INSERT INTO [ABSTRACCIONX4].BUTACAS (BUT_NRO , BUT_PISO , AERO_MATRI , BUT_TIPO)
 		VALUES (@i , 1 , @Matricula , 'Ventanilla')
@@ -2226,17 +2226,22 @@ CREATE FUNCTION [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula VARCHAR(8),@
 RETURNS VARCHAR(80)
 AS
 BEGIN
-	DECLARE @FechaMaxima DATETIME
-	SET @FechaMaxima = ABSTRACCIONX4.FechaReinicioOMaxima(NULL)
-
+	DECLARE @FechaAlta DATETIME
+	SELECT @FechaAlta = AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES WHERE AERO_MATRI = @Matricula
 	DECLARE @Ciudad VARCHAR(80)
 
 	SELECT TOP 1 @Ciudad = c.CIU_DESC 
 		FROM ABSTRACCIONX4.VIAJES v JOIN ABSTRACCIONX4.RUTAS_AEREAS r ON (v.RUTA_ID=r.RUTA_ID)
-									JOIN ABSTRACCIONX4.CIUDADES c ON (r.CIU_COD_O=C.CIU_COD)
+									JOIN ABSTRACCIONX4.CIUDADES c ON (r.CIU_COD_D=C.CIU_COD)
 		WHERE v.AERO_MATRI = @Matricula AND 
-			  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,@FechaMaxima) = 1
-		ORDER BY v.VIAJE_FECHA_SALIDA
+			  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_LLEGADAE,@FechaAlta,@FechaBaja) = 1
+		ORDER BY v.VIAJE_FECHA_LLEGADAE DESC
+
+	IF @Ciudad IS NULL
+	BEGIN
+		RETURN (SELECT C.CIU_DESC FROM ABSTRACCIONX4.AERONAVES A JOIN ABSTRACCIONX4.CIUDADES C ON (A.CIU_COD_ORIGEN = C.CIU_COD)
+					WHERE AERO_MATRI = @Matricula)
+	END
 
 	RETURN @Ciudad
 END
@@ -2302,8 +2307,8 @@ BEGIN
 			  [ABSTRACCIONX4].CantidadFuerasDeServicioEntre(AERO_MATRI,@FechaBaja,@FechaReinicio) = 0 AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Pasillo') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Pasillo') AND
 			  [ABSTRACCIONX4].CantidadButacas(AERO_MATRI,'Ventanilla') >= [ABSTRACCIONX4].CantidadButacas(@Matricula,'Ventanilla') AND
-			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 /*AND
-			  [ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1*/
+			  [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1 --AND
+			  --[ABSTRACCIONX4].RespetaOrigenesDestinos(AERO_MATRI,@Matricula,@FechaBaja,@FechaReinicio) = 1
 			  
 	RETURN @MatriculaNueva
 END
@@ -2527,28 +2532,43 @@ BEGIN
 		BEGIN
 			SET @CodigoServicio = [ABSTRACCIONX4].ObtenerCodigoServicio(@TipoDeServicio)
 			--si tiene viaje comprado solo modifico su nombre, no se puede otra cosa EN AERONAVES
-			INSERT INTO [ABSTRACCIONX4].AERONAVES 
-					(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
-					(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
+			
 
-			IF( @ViajeAsignado = 1)
+			IF(@Matricula = @MatriculaActual)
 			BEGIN
-				IF(@Matricula != @MatriculaActual)
-				BEGIN	
-					EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
-					EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaActual , @Matricula
+				IF( @ViajeAsignado = 0)
+				BEGIN
+					EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual
+					EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
+					UPDATE [ABSTRACCIONX4].AERONAVES 
+						SET AERO_MOD = @Modelo, AERO_FAB = @Fabricante, SERV_COD = @CodigoServicio,
+							AERO_CANT_KGS = @CantidadKG
+						WHERE AERO_MATRI = @Matricula
 				END
 			END
 			ELSE
 			BEGIN
+				INSERT INTO [ABSTRACCIONX4].AERONAVES 
+						(AERO_MOD , AERO_MATRI , AERO_FAB , SERV_COD  , AERO_CANT_KGS) VALUES
+						(@Modelo , @Matricula , @Fabricante , @CodigoServicio  , @CantidadKG)
+				IF( @ViajeAsignado = 1)
+				BEGIN
+					EXECUTE [ABSTRACCIONX4].ModificarAeronaveButacas @MatriculaActual , @Matricula	
+					EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
+					EXECUTE [ABSTRACCIONX4].ModificarPeriodosFS @MatriculaActual , @Matricula
+				END
+				ELSE
+				BEGIN
+					EXECUTE [ABSTRACCIONX4].ModificarPeriodosFS @MatriculaActual , @Matricula
+					EXECUTE [ABSTRACCIONX4].ModificarAeronaveViajes @MatriculaActual , @Matricula , NULL , NULL
 					EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual
 					EXECUTE [ABSTRACCIONX4].AgregarButacas @Matricula , @CantidadPasillo , @CantidadVentanilla
-			END
-
-			EXECUTE [ABSTRACCIONX4].ModificarPeriodosFS @MatriculaActual , @Matricula
-
-			DELETE FROM [ABSTRACCIONX4].AERONAVES
+				END
+				DELETE FROM [ABSTRACCIONX4].AERONAVES
 					WHERE AERO_MATRI = @MatriculaActual
+					
+			END
+			
 		END	
 		ELSE
 		BEGIN
