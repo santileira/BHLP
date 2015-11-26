@@ -75,6 +75,13 @@ namespace AerolineaFrba.Generacion_Viaje
                 this.listadoAeronaves.queryViajes = " WHERE ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
                 + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
 
+                this.listadoAeronaves.queryViajes += " and [ABSTRACCIONX4].aeronave_en_servicio(AERO_MATRI, '"
+                + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
+                
+                if(txtRuta.Text != "")
+                    this.listadoAeronaves.queryViajes += "and [ABSTRACCIONX4].sigue_la_ruta(AERO_MATRI, '" + txtRuta.Text + "', '"
+                    + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
+
                 this.listadoAeronaves.extenderQuery();
                 this.listadoAeronaves.ejecutarConsulta();
                 this.cambiarVisibilidades(this.listadoAeronaves);
