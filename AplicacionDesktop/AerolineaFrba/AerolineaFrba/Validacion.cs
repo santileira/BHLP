@@ -419,7 +419,7 @@ namespace AerolineaFrba
             }
 
 
-            decimal numero = Convert.ToDecimal(txt.Text);
+            decimal numero = Convert.ToDecimal(txt.Text.Replace(".",","));
 
             if (numero < limiteInferior || numero > limiteSuperior)
             {
