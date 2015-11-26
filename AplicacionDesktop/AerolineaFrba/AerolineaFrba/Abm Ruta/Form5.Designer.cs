@@ -217,7 +217,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(517, 227);
+            this.button3.Location = new System.Drawing.Point(543, 227);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 2;
@@ -276,9 +276,9 @@
             this.listaFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.listaFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listaFiltros.FormattingEnabled = true;
-            this.listaFiltros.Location = new System.Drawing.Point(779, 34);
+            this.listaFiltros.Location = new System.Drawing.Point(770, 27);
             this.listaFiltros.Name = "listaFiltros";
-            this.listaFiltros.Size = new System.Drawing.Size(370, 585);
+            this.listaFiltros.Size = new System.Drawing.Size(340, 585);
             this.listaFiltros.TabIndex = 8;
             // 
             // Listado
