@@ -24,6 +24,8 @@ namespace AerolineaFrba.Compra
         public string fechaSalida;
         public string fechaLlegada;
 
+        public Boolean seleccionoViaje;
+
         public Form1()
         {
             InitializeComponent();
@@ -57,6 +59,8 @@ namespace AerolineaFrba.Compra
             button3.Enabled = false;
 
             dg.DataSource = null;
+
+            seleccionoViaje = false;
         }
         
 
@@ -128,6 +132,7 @@ namespace AerolineaFrba.Compra
                     }
                     else
                         dg.Visible = true;
+                        dg.CurrentCell = dg.SelectedRows[0].Cells[0];
                 }
             }
             else
@@ -187,19 +192,29 @@ namespace AerolineaFrba.Compra
             this.fechaLlegada = dg.SelectedRows[0].Cells["Fecha_Llegada"].Value.ToString();
 
             (((formularioSiguiente as Compra.Form3).formularioSiguiente as Compra.Form4).butacas as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
+
+            seleccionoViaje = true;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (dg.CurrentCell == null)
-                MessageBox.Show("Debe seleccionar algun viaje disponible", "Error en la seleccion de viajes", MessageBoxButtons.OK);
+
+            if (!seleccionoViaje)
+                MessageBox.Show("No ha seleccionado ningun viaje. Verifique haber presionado sobre alguno de los datos que figuran en la grilla", "Error en la seleccion de viajes", MessageBoxButtons.OK);
             else
             {
-                (formularioSiguiente as Compra.Form3).cantidadButacasDisponibles = Convert.ToInt32(lblButacas.Text);
-                (formularioSiguiente as Compra.Form3).cantidadKilosDisponibles = Convert.ToDouble(lblKilos.Text);
-                
-                this.cambiarVisibilidades(formularioSiguiente);
+                if (dg.CurrentCell == null)
+                    MessageBox.Show("Debe seleccionar algun viaje disponible", "Error en la seleccion de viajes", MessageBoxButtons.OK);
+                else
+                {
+                    (formularioSiguiente as Compra.Form3).cantidadButacasDisponibles = Convert.ToInt32(lblButacas.Text);
+                    (formularioSiguiente as Compra.Form3).cantidadKilosDisponibles = Convert.ToDouble(lblKilos.Text);
+
+                    this.cambiarVisibilidades(formularioSiguiente);
+                }
             }
+
+
         }
     }
 }

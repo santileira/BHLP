@@ -115,7 +115,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
         public void ejecutarConsulta()
         {
-
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -136,10 +135,9 @@ namespace AerolineaFrba.Abm_Aeronave
 
             primeraConsulta = false;
 
-            if (loActivoModificar)
-            {
+            
                 dg.Columns["SERV_COD"].Visible = false;
-            }
+            
         }
 
         private void actualizarColumnasDeEstado(DataGridView dg)
