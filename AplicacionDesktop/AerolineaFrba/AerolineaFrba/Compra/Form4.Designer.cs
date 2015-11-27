@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button6 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -40,6 +40,8 @@
             this.button5 = new System.Windows.Forms.Button();
             this.dgEncomiendas = new System.Windows.Forms.DataGridView();
             this.button2 = new System.Windows.Forms.Button();
+            this.labelPasajesRestantes = new System.Windows.Forms.Label();
+            this.labelKGRestantes = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPasajes)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -52,7 +54,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(89, 37);
             this.button6.TabIndex = 53;
-            this.button6.Text = "Atras";
+            this.button6.Text = "Atrás";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -68,6 +70,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelPasajesRestantes);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.dgPasajes);
             this.groupBox1.Controls.Add(this.button1);
@@ -98,14 +101,14 @@
             this.dgPasajes.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgPasajes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgPasajes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgPasajes.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgPasajes.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgPasajes.Location = new System.Drawing.Point(14, 99);
             this.dgPasajes.MultiSelect = false;
             this.dgPasajes.Name = "dgPasajes";
@@ -131,6 +134,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.labelKGRestantes);
             this.groupBox2.Controls.Add(this.button5);
             this.groupBox2.Controls.Add(this.dgEncomiendas);
             this.groupBox2.Controls.Add(this.button2);
@@ -161,14 +165,14 @@
             this.dgEncomiendas.BackgroundColor = System.Drawing.Color.SlateGray;
             this.dgEncomiendas.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgEncomiendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgEncomiendas.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgEncomiendas.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgEncomiendas.Location = new System.Drawing.Point(14, 99);
             this.dgEncomiendas.MultiSelect = false;
             this.dgEncomiendas.Name = "dgEncomiendas";
@@ -192,6 +196,25 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
+            // labelPasajesRestantes
+            // 
+            this.labelPasajesRestantes.AutoSize = true;
+            this.labelPasajesRestantes.ForeColor = System.Drawing.Color.White;
+            this.labelPasajesRestantes.Location = new System.Drawing.Point(122, 42);
+            this.labelPasajesRestantes.Name = "labelPasajesRestantes";
+            this.labelPasajesRestantes.Size = new System.Drawing.Size(96, 13);
+            this.labelPasajesRestantes.TabIndex = 87;
+            this.labelPasajesRestantes.Text = "Pasajes restantes: ";
+            // 
+            // labelKGRestantes
+            // 
+            this.labelKGRestantes.AutoSize = true;
+            this.labelKGRestantes.Location = new System.Drawing.Point(122, 42);
+            this.labelKGRestantes.Name = "labelKGRestantes";
+            this.labelKGRestantes.Size = new System.Drawing.Size(61, 13);
+            this.labelKGRestantes.TabIndex = 111;
+            this.labelKGRestantes.Text = "Restantes: ";
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -209,8 +232,10 @@
             this.Text = "Carga de datos";
             this.Load += new System.EventHandler(this.Form4_Load);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPasajes)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomiendas)).EndInit();
             this.ResumeLayout(false);
 
@@ -228,5 +253,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.DataGridView dgEncomiendas;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label labelPasajesRestantes;
+        private System.Windows.Forms.Label labelKGRestantes;
     }
 }

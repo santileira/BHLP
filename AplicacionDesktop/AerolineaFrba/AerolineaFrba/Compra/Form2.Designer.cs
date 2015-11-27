@@ -30,7 +30,6 @@
         {
             this.button6 = new System.Windows.Forms.Button();
             this.dgButacas = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
             this.dgKilos = new System.Windows.Forms.DataGridView();
             this.dgCliente = new System.Windows.Forms.DataGridView();
             this.button2 = new System.Windows.Forms.Button();
@@ -53,6 +52,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtDni = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelRestantes = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgButacas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgKilos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
@@ -87,16 +87,6 @@
             this.dgButacas.Size = new System.Drawing.Size(298, 98);
             this.dgButacas.TabIndex = 48;
             this.dgButacas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgButacas_CellContentClick);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(24, 277);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
-            this.label2.TabIndex = 50;
-            this.label2.Text = "Butacas libres:";
             // 
             // dgKilos
             // 
@@ -358,6 +348,16 @@
             this.label1.TabIndex = 71;
             this.label1.Text = "Numero de documento:";
             // 
+            // labelRestantes
+            // 
+            this.labelRestantes.AutoSize = true;
+            this.labelRestantes.ForeColor = System.Drawing.Color.White;
+            this.labelRestantes.Location = new System.Drawing.Point(22, 277);
+            this.labelRestantes.Name = "labelRestantes";
+            this.labelRestantes.Size = new System.Drawing.Size(96, 13);
+            this.labelRestantes.TabIndex = 86;
+            this.labelRestantes.Text = "Pasajes restantes: ";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,6 +365,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(359, 481);
+            this.Controls.Add(this.labelRestantes);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgImporte);
             this.Controls.Add(this.dgCliente2);
@@ -372,7 +373,6 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dgCliente);
             this.Controls.Add(this.dgKilos);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.dgButacas);
             this.Controls.Add(this.button6);
             this.MaximizeBox = false;
@@ -396,7 +396,6 @@
 
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridView dgButacas;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgKilos;
         private System.Windows.Forms.DataGridView dgCliente;
         private System.Windows.Forms.Button button2;
@@ -419,5 +418,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtDni;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelRestantes;
     }
 }

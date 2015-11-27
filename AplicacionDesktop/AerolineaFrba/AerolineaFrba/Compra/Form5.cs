@@ -48,6 +48,7 @@ namespace AerolineaFrba.Compra
             txtNom.Text = "";
             txtTel.Text = "";
             txtMail.Text = "";
+            labelRestantes.Text = "KG Restantes: " + (anterior as Form4).kilosRestantes().ToString();
 
             txtDni.Focus();
 
@@ -273,12 +274,6 @@ namespace AerolineaFrba.Compra
             validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
             validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999,false,"Teléfono") || validacion;
             validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, (anterior as Form4).kilosRestantes(),true,"Kilos de encomienda") || validacion;
-            if (!Validacion.esVacio(txtKilos, "cantidad de kilos", false) &&
-                        Validacion.esDecimal(txtKilos, "cantidad de kilos", false) &&
-                        Convert.ToDecimal(txtKilos.Text.Replace(".", ",")) > (anterior as Form4).kilosRestantes())
-            {
-                MessageBox.Show("La cantidad de kilos disponibles restantes es " + (anterior as Form4).kilosRestantes().ToString(), "Error Compra", MessageBoxButtons.OK);
-            }
 
             return validacion;
         }

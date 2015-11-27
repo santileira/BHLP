@@ -38,6 +38,8 @@ namespace AerolineaFrba.Compra
         private void Form_VisibleChanged(object sender, EventArgs e)
         {
             habilitarBotonesCompra();
+            labelPasajesRestantes.Text = "Pasajes restantes: " + butacasRestantes().ToString();
+            labelKGRestantes.Text = "KG Restantes: " + kilosRestantes().ToString();
         }
 
         public void habilitarBotonesCompra()
@@ -50,7 +52,7 @@ namespace AerolineaFrba.Compra
         {
             foreach (DataGridViewRow row in dgPasajes.Rows)
             {
-                if (row.Cells["CLI_DNI"].Value.ToString() == dni && row.Cells["CLI_APELLIDO"].Value.ToString() == apellido)
+                if (row.Cells["DNI"].Value.ToString() == dni && row.Cells["APELLIDO"].Value.ToString() == apellido)
                 {
                     return true;
                 }
@@ -63,7 +65,7 @@ namespace AerolineaFrba.Compra
         {
             foreach (DataGridViewRow row in dgEncomiendas.Rows)
             {
-                if (row.Cells["CLI_DNI"].Value.ToString() == dni && row.Cells["CLI_APELLIDO"].Value.ToString() == apellido)
+                if (row.Cells["DNI"].Value.ToString() == dni && row.Cells["APELLIDO"].Value.ToString() == apellido)
                 {
                     return true;
                 }
@@ -76,12 +78,14 @@ namespace AerolineaFrba.Compra
         {
             button4.Enabled = true;
             button1.Enabled = true;
+            labelPasajesRestantes.Visible = true;
         }
 
         public void activarCompraEncomienda()
         {
             button2.Enabled = true;
             button5.Enabled = true;
+            labelKGRestantes.Visible = true;
         }
 
 
@@ -89,12 +93,14 @@ namespace AerolineaFrba.Compra
         {
             button4.Enabled = false;
             button1.Enabled = false;
+            labelPasajesRestantes.Visible = false;
         }
 
         public void desactivarCompraEncomienda()
         {
             button2.Enabled = false;
             button5.Enabled = false;
+            labelKGRestantes.Visible = false;
         }
 
         public void crearColumnas()
@@ -192,8 +198,21 @@ namespace AerolineaFrba.Compra
 
         private void button6_Click(object sender, EventArgs e)
         {
-            this.cambiarVisibilidades(this.anterior);
+            DialogResult resultado = MessageBox.Show("Si vuelve al formulario anterior perderá los datos de pasajes/encomiendas ya cargados. ¿Desea regresar de todas formas?", "Advertencia", MessageBoxButtons.YesNo);
+            if (apretoSi(resultado))
+            {
+                dgEncomiendas.Rows.Clear();
+                dgPasajes.Rows.Clear();
+                this.cambiarVisibilidades(this.anterior);
+            }
+          
+            
         }
+
+        private Boolean apretoSi(DialogResult resultado)
+        {
+            return resultado == System.Windows.Forms.DialogResult.Yes;
+        } 
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {

@@ -43,6 +43,8 @@ namespace AerolineaFrba.Compra
             txtTel.Text = "";
             txtMail.Text = "";
 
+            labelRestantes.Text = "Pasajes restantes: " + (anterior as Form4).butacasRestantes().ToString();
+
             txtDni.Focus();
 
             txtApe.Enabled = false;
