@@ -332,7 +332,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(177, 21);
-            this.txtDni.MaxLength = 9;
+            this.txtDni.MaxLength = 12;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 72;

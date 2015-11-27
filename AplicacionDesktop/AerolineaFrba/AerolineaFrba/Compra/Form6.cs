@@ -180,7 +180,7 @@ namespace AerolineaFrba.Compra
                 }
                 else
                 {
-                    MessageBox.Show("Los datos de la tarjeta son inválidos", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                    MessageBox.Show("Los datos ingresados de la tarjeta no coinciden con los datos registrados", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
                 }
 
             }
@@ -230,7 +230,16 @@ namespace AerolineaFrba.Compra
                     validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
                     validacion = !Validacion.estaEntreLimites(txtNroTarjeta, 0, 9999999999999999, false, "número de tarjeta") || validacion;
                     validacion = !Validacion.estaEntreLimites(txtCodSeg, 0, 9999, false, "código de seguridad") || validacion;
-                     
+
+                    if (Validacion.estaSeleccionado(cboAnios, false, "año de fecha de vencimiento") && Validacion.estaSeleccionado(cboMeses, false, "mes de fecha de vencimiento"))
+                    {
+                        if (Convert.ToInt16(cboAnios.Text) == Program.fechaHoy().Year &&
+                           Convert.ToInt16(cboMeses.Text) == 1)
+                        {
+                            MessageBox.Show("La fecha de vencimiento de la tarjeta no puede ser anterior a la fecha de hoy.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                            validacion = true;
+                        }
+                    }
                 }
             }
 

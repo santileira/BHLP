@@ -35,6 +35,7 @@
             this.dgCliente2 = new System.Windows.Forms.DataGridView();
             this.dgImporte = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelRestantes = new System.Windows.Forms.Label();
             this.txtKilos = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dp = new System.Windows.Forms.DateTimePicker();
@@ -52,7 +53,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtDni = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.labelRestantes = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgImporte)).BeginInit();
@@ -168,6 +168,15 @@
             this.groupBox1.TabIndex = 98;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos personales";
+            // 
+            // labelRestantes
+            // 
+            this.labelRestantes.AutoSize = true;
+            this.labelRestantes.Location = new System.Drawing.Point(182, 277);
+            this.labelRestantes.Name = "labelRestantes";
+            this.labelRestantes.Size = new System.Drawing.Size(61, 13);
+            this.labelRestantes.TabIndex = 110;
+            this.labelRestantes.Text = "Restantes: ";
             // 
             // txtKilos
             // 
@@ -308,7 +317,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(185, 22);
-            this.txtDni.MaxLength = 9;
+            this.txtDni.MaxLength = 12;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 94;
@@ -322,15 +331,6 @@
             this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 93;
             this.label1.Text = "Numero de documento:";
-            // 
-            // labelRestantes
-            // 
-            this.labelRestantes.AutoSize = true;
-            this.labelRestantes.Location = new System.Drawing.Point(182, 277);
-            this.labelRestantes.Name = "labelRestantes";
-            this.labelRestantes.Size = new System.Drawing.Size(61, 13);
-            this.labelRestantes.TabIndex = 110;
-            this.labelRestantes.Text = "Restantes: ";
             // 
             // Form5
             // 
