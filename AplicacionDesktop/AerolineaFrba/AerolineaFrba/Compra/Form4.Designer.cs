@@ -110,6 +110,9 @@
             this.dgPasajes.MultiSelect = false;
             this.dgPasajes.Name = "dgPasajes";
             this.dgPasajes.ReadOnly = true;
+            this.dgPasajes.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.dgPasajes.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.dgPasajes.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dgPasajes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgPasajes.Size = new System.Drawing.Size(616, 117);
             this.dgPasajes.TabIndex = 59;
@@ -170,6 +173,9 @@
             this.dgEncomiendas.MultiSelect = false;
             this.dgEncomiendas.Name = "dgEncomiendas";
             this.dgEncomiendas.ReadOnly = true;
+            this.dgEncomiendas.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+            this.dgEncomiendas.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            this.dgEncomiendas.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
             this.dgEncomiendas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgEncomiendas.Size = new System.Drawing.Size(616, 117);
             this.dgEncomiendas.TabIndex = 60;
