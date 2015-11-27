@@ -76,6 +76,11 @@ namespace AerolineaFrba
         {
             if (radioAdministrador.Checked)
             {
+                if (txtUsuario.Text.ToLower().Equals("invitado"))
+                {
+                    MessageBox.Show("El nombre de usuario ingresado no existe.", "Error", MessageBoxButtons.OK);
+                    return;
+                }
                 ingresarComoAdministrador();
             }
             else
@@ -119,7 +124,7 @@ namespace AerolineaFrba
             try
             {
                 manager.ejecutarSP();
-                cambiarVisibilidades(new Principal("ADMINISTRADOR", txtUsuario.Text, this));
+                cambiarVisibilidades(new Principal("Administrador", txtUsuario.Text, this));
                 
             }
             catch(Exception e)

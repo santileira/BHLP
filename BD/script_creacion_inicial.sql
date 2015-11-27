@@ -980,7 +980,7 @@ INSERT INTO ABSTRACCIONX4.FUNCIONES_ROLES (ROL_COD,FUNC_COD)
 				FROM ABSTRACCIONX4.ROLES
 				WHERE ROL_NOMBRE = 'Cliente'),FUNC_COD
 		FROM ABSTRACCIONX4.FUNCIONALIDADES
-		WHERE FUNC_DESC IN ('Consulta Millas','Compra','Devolución')
+		WHERE FUNC_DESC IN ('Consulta Millas','Compra')
 
 GO
 
@@ -1948,7 +1948,7 @@ END
 GO
 
 -------------------------------Actualizar Butacas-------------------------------
-ALTER PROCEDURE [ABSTRACCIONX4].AgregarButacas 
+CREATE PROCEDURE [ABSTRACCIONX4].AgregarButacas 
 @Matricula VARCHAR(8), 
 @CantidadPasillo SMALLINT, 
 @CantidadVentanilla SMALLINT
@@ -2001,7 +2001,7 @@ BEGIN
 	IF @FechaReinicio IS NULL
 	BEGIN
 		DECLARE @FechaMaxima DATETIME
-		SET @FechaMaxima = MAX(CONVERT(DATETIME,'31-12-2999'))
+		SET @FechaMaxima = CONVERT(DATETIME,'31-12-2999')
 		RETURN @FechaMaxima
 	END 
 	RETURN @FechaReinicio
@@ -2470,7 +2470,8 @@ AS
 UPDATE ABSTRACCIONX4.PASAJES 
 SET PASAJE_CANCELADO = 1
 WHERE PASAJE_COD IN (SELECT P.PASAJE_COD FROM [ABSTRACCIONX4].PASAJES P , [ABSTRACCIONX4].VIAJES V
-WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta)
+WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND
+	  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1)
 
 GO
 
@@ -2482,7 +2483,8 @@ AS
 UPDATE ABSTRACCIONX4.ENCOMIENDAS
 SET ENCOMIENDA_CANCELADO = 1
 WHERE ENCOMIENDA_COD IN (SELECT E.ENCOMIENDA_COD FROM [ABSTRACCIONX4].ENCOMIENDAS E , [ABSTRACCIONX4].VIAJES V
-WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta)
+WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND
+	  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) 
 
 GO
 
@@ -2829,7 +2831,6 @@ GO
 
 
 -- **************** GENERAR VIAJE **************
-
 CREATE PROCEDURE [ABSTRACCIONX4].generarNuevoViaje
 	@salida datetime, 
 	@llegadaEstimada datetime, 
@@ -2839,8 +2840,11 @@ AS
 	DECLARE @Error varchar(80)
 	SET @Error = 'La aeronave no se encuentra disponible en el periodo ingresado'
 
-	if(ABSTRACCIONX4.aeronave_disponible(@matricula, @salida, @llegadaEstimada) = 0)
+	IF(ABSTRACCIONX4.aeronave_disponible(@matricula, @salida, @llegadaEstimada) = 0)
+	BEGIN
 		RAISERROR(@Error, 16, 1)
+		RETURN
+	END
 
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.VIAJES 

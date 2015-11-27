@@ -87,7 +87,7 @@ namespace AerolineaFrba.Abm_Rol
             if (apretoSi(resultado))
             {
                 modificarRol();
-                MessageBox.Show("Se ha modificado al rol correctamente", "Modificación de roles", MessageBoxButtons.OK);
+                MessageBox.Show("Se ha modificado al rol correctamente. Los cambios tendrán efecto al reiniciar la sesión.", "Modificación de roles", MessageBoxButtons.OK);
                 this.Close();
 
             }

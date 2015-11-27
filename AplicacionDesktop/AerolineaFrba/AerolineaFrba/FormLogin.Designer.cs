@@ -180,6 +180,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.botonIngresar);
             this.Controls.Add(this.gbAdministrador);
+            this.MaximizeBox = false;
             this.Name = "FormLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
