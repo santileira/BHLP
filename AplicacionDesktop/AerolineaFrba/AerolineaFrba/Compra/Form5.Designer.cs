@@ -84,7 +84,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(85, 39);
             this.button6.TabIndex = 71;
-            this.button6.Text = "Atras";
+            this.button6.Text = "Atrás";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -169,6 +169,7 @@
             // txtKilos
             // 
             this.txtKilos.Location = new System.Drawing.Point(185, 248);
+            this.txtKilos.MaxLength = 9;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(134, 20);
             this.txtKilos.TabIndex = 109;
@@ -194,6 +195,7 @@
             // txtMail
             // 
             this.txtMail.Location = new System.Drawing.Point(185, 222);
+            this.txtMail.MaxLength = 60;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 106;
@@ -231,6 +233,7 @@
             // txtTel
             // 
             this.txtTel.Location = new System.Drawing.Point(185, 170);
+            this.txtTel.MaxLength = 9;
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 102;
@@ -248,6 +251,7 @@
             // txtDire
             // 
             this.txtDire.Location = new System.Drawing.Point(185, 144);
+            this.txtDire.MaxLength = 80;
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 100;
@@ -265,6 +269,7 @@
             // txtNom
             // 
             this.txtNom.Location = new System.Drawing.Point(185, 118);
+            this.txtNom.MaxLength = 60;
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 98;
@@ -282,6 +287,7 @@
             // txtApe
             // 
             this.txtApe.Location = new System.Drawing.Point(185, 48);
+            this.txtApe.MaxLength = 60;
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 96;
@@ -299,6 +305,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(185, 22);
+            this.txtDni.MaxLength = 9;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 94;
@@ -317,6 +324,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(366, 365);
             this.Controls.Add(this.groupBox1);
@@ -326,6 +334,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button6);
+            this.MaximizeBox = false;
             this.Name = "Form5";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Servicio de Encomiendas";

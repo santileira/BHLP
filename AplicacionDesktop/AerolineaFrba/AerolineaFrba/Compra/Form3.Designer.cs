@@ -91,6 +91,7 @@
             // 
             this.txtButacas.Enabled = false;
             this.txtButacas.Location = new System.Drawing.Point(183, 59);
+            this.txtButacas.MaxLength = 9;
             this.txtButacas.Name = "txtButacas";
             this.txtButacas.Size = new System.Drawing.Size(100, 20);
             this.txtButacas.TabIndex = 51;
@@ -132,6 +133,7 @@
             // 
             this.txtKilos.Enabled = false;
             this.txtKilos.Location = new System.Drawing.Point(181, 59);
+            this.txtKilos.MaxLength = 9;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(100, 20);
             this.txtKilos.TabIndex = 52;
@@ -159,6 +161,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(331, 316);
             this.Controls.Add(this.button4);
@@ -166,6 +169,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button6);
+            this.MaximizeBox = false;
             this.Name = "Form3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cantidad de Pasajes/Kilos requeridos";

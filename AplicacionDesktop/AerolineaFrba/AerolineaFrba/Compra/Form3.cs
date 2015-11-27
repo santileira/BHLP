@@ -63,35 +63,28 @@ namespace AerolineaFrba.Compra
 
                 if (chkPasajes.Checked)
                 {
-                    huboErrores = Validacion.esVacio(txtButacas, "Pasajes", true) || !Validacion.numeroCorrecto(txtButacas, "Pasajes", false);
-
-                    if (int.TryParse(txtButacas.Text, out but))
+                    huboErrores = Validacion.esVacio(txtButacas, "cantidad de pasajes", true) || huboErrores;
+                    huboErrores = !Validacion.esNumero(txtButacas, "cantidad de pasajes", true) || huboErrores;
+                    huboErrores = !Validacion.estaEntreLimites(txtButacas,1,cantidadButacasDisponibles,false,"cantidad de pasajes") || huboErrores;
+                    if (!Validacion.esVacio(txtButacas, "cantidad de pasajes", false) &&
+                        Validacion.esNumero(txtButacas, "cantidad de pasajes", false) &&
+                        Convert.ToInt16(txtButacas.Text) > cantidadButacasDisponibles)
                     {
-                        if (but > this.cantidadButacasDisponibles)
-                        {
-                            MessageBox.Show("La cantidad de butacas solicitadas supera a a cantidad de butacas disponibles", "Error en las butacas", MessageBoxButtons.OK);
-                            huboErrores = true;
-                        }
+                        MessageBox.Show("La cantidad de butacas disponibles restantes es " + cantidadButacasDisponibles.ToString(), "Error Compra", MessageBoxButtons.OK);
                     }
                 }
 
                 if (chkEncomiendas.Checked)
                 {
-                    huboErrores2 = Validacion.esVacio(txtKilos, "Kilos para Encomienda", true) && !Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true);
-
-                    if (Validacion.numeroCorrecto(txtKilos, "Kilos para Encomienda", true))
+                    huboErrores2 = Validacion.esVacio(txtKilos, "cantidad de kilos", true) || huboErrores2;
+                    huboErrores2 = !Validacion.esDecimal(txtKilos, "cantidad de kilos", true) || huboErrores2;
+                    huboErrores2 = !Validacion.estaEntreLimites(txtKilos, 0.01m, Convert.ToDecimal(cantidadKilosDisponibles), true, "cantidad de kilos") || huboErrores2;
+                    if (!Validacion.esVacio(txtKilos, "cantidad de kilos", false) &&
+                        Validacion.esDecimal(txtKilos, "cantidad de kilos", false) &&
+                        Convert.ToDecimal(txtKilos.Text.Replace(".",",")) > Convert.ToDecimal(cantidadKilosDisponibles))
                     {
-                        double.TryParse(txtKilos.Text, out kg);
-
-                        if (kg > this.cantidadKilosDisponibles)
-                        {
-                            MessageBox.Show("La cantidad de kilos solicitados supera a a cantidad de kilos disponibles", "Error en el pesaje de la encomienda", MessageBoxButtons.OK);
-                            huboErrores2 = true;
-                        }
-
+                        MessageBox.Show("La cantidad de kilos disponibles restantes es " + cantidadKilosDisponibles.ToString(), "Error Compra", MessageBoxButtons.OK);
                     }
-                    else
-                        huboErrores2 = true;
                 }
 
                 if (chkPasajes.Checked && !huboErrores)
@@ -112,8 +105,18 @@ namespace AerolineaFrba.Compra
 
                 if (!huboErrores && !huboErrores2)
                 {
+                    int cantBut;
+                    double cantKilo;
+                    int.TryParse(txtButacas.Text, out cantBut);
+                    double.TryParse(txtKilos.Text, out cantKilo);
+
+                    (formularioSiguiente as Compra.Form4).butacasSelec = cantBut;
+                    (formularioSiguiente as Compra.Form4).kilosSelec = cantKilo;
                     this.cambiarVisibilidades(this.formularioSiguiente);
+                    
                 }
+
+
 
             }
         }

@@ -92,7 +92,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         public String consultaSeteada()
         {
-            return "SELECT a.AERO_MATRI as Matricula,AERO_MOD as Modelo,AERO_FAB as Fabricante,SERV_DESC as Servicio,(SELECT COUNT(BUT_ID) FROM ABSTRACCIONX4.BUTACAS B WHERE B.AERO_MATRI=a.AERO_MATRI) as 'Cant. Butacas',AERO_CANT_KGS as 'Cant. Kgs', v.VIAJE_COD as 'Cod. Viaje', v.VIAJE_FECHA_SALIDA as 'Fecha de Salida', v.VIAJE_FECHA_LLEGADAE as 'Fecha de Llegada Estimada' from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI) WHERE v.VIAJE_FECHA_LLEGADA IS NULL AND v.VIAJE_FECHA_SALIDA < [ABSTRACCIONX4].obtenerFechaDeHoy()";
+            return "SELECT a.SERV_COD, a.AERO_MATRI as Matricula,AERO_MOD as Modelo,AERO_FAB as Fabricante,SERV_DESC as Servicio,(SELECT COUNT(BUT_ID) FROM ABSTRACCIONX4.BUTACAS B WHERE B.AERO_MATRI=a.AERO_MATRI) as 'Cant. Butacas',AERO_CANT_KGS as 'Cant. Kgs', v.VIAJE_COD as 'Cod. Viaje', v.VIAJE_FECHA_SALIDA as 'Fecha de Salida', v.VIAJE_FECHA_LLEGADAE as 'Fecha de Llegada Estimada' from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI) WHERE v.VIAJE_FECHA_LLEGADA IS NULL AND v.VIAJE_FECHA_SALIDA < [ABSTRACCIONX4].obtenerFechaDeHoy()";
         }
 
         private void button4_Click(object sender, EventArgs e)
