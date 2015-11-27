@@ -302,7 +302,7 @@
             // txtNroTarjeta
             // 
             this.txtNroTarjeta.Location = new System.Drawing.Point(123, 28);
-            this.txtNroTarjeta.MaxLength = 16;
+            this.txtNroTarjeta.MaxLength = 9;
             this.txtNroTarjeta.Name = "txtNroTarjeta";
             this.txtNroTarjeta.Size = new System.Drawing.Size(152, 20);
             this.txtNroTarjeta.TabIndex = 2;

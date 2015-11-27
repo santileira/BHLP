@@ -179,7 +179,7 @@ GO
 
 -- Tabla de Tarjetas
 CREATE TABLE [ABSTRACCIONX4].[TARJETAS](
-	[TARJ_NRO] [numeric] (16,0),
+	[TARJ_NRO] [numeric] (9,0),
 	[TARJ_VTO] [varchar] (10) NOT NULL,
 	[TARJ_CODSEG] [numeric] (4,0) NOT NULL,
 	[TIPOTARJ_COD] [tinyint] NOT NULL,

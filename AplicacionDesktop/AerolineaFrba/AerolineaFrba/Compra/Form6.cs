@@ -228,6 +228,7 @@ namespace AerolineaFrba.Compra
                     validacion = !Validacion.estaSeleccionado(cboCuotas, true , "cuotas") || validacion;
                     validacion = !Validacion.esNumero(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
                     validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    validacion = !Validacion.estaEntreLimites(txtNroTarjeta, 0, 9, false, "código de seguridad") || validacion;
                     validacion = !Validacion.estaEntreLimites(txtCodSeg, 0, 9999, false, "código de seguridad") || validacion;
                      
                 }
