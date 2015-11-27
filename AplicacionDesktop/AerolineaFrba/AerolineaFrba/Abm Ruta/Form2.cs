@@ -122,22 +122,22 @@ namespace AerolineaFrba.Abm_Ruta
         {
             Boolean huboErrores = false;
 
-            huboErrores = Validacion.esNumero(txtCodigo,"código",true) || huboErrores;
-            huboErrores = Validacion.esDecimal(txtPrecioPasaje,"precio de pasaje",true) || huboErrores;
-            huboErrores = Validacion.esDecimal(txtPrecioEncomienda, "precio de encomienda", true) || huboErrores;
+            huboErrores = !Validacion.esNumero(txtCodigo,"código",true) || huboErrores;
+            huboErrores = !Validacion.esDecimal(txtPrecioPasaje,"precio de pasaje",true) || huboErrores;
+            huboErrores = !Validacion.esDecimal(txtPrecioEncomienda, "precio de encomienda", true) || huboErrores;
 
-            return !huboErrores;
+            return huboErrores;
         }
 
         private bool validarLimitesNumericos()
         {
             Boolean huboErrores = false;
 
-            huboErrores = Validacion.estaEntreLimites(txtCodigo, 1,99999999,false, "código") || huboErrores;
-            huboErrores = Validacion.estaEntreLimites(txtPrecioPasaje, 0.01m, 999,true, "precio de pasaje") || huboErrores;
-            huboErrores = Validacion.estaEntreLimites(txtPrecioEncomienda, 0.01m, 999, true, "precio de encomienda") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtCodigo, 1,99999999,false, "código") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtPrecioPasaje, 0.01m, 999,true, "precio de pasaje") || huboErrores;
+            huboErrores = !Validacion.estaEntreLimites(txtPrecioEncomienda, 0.01m, 999, true, "precio de encomienda") || huboErrores;
 
-            return !huboErrores;
+            return huboErrores;
         }
 
         private void botonSelOrigen_Click(object sender, EventArgs e)

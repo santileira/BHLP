@@ -41,7 +41,7 @@ namespace AerolineaFrba.Abm_Aeronave
             consultaColumnas.CommandType = CommandType.Text;
             consultaColumnasFechas.CommandType = CommandType.Text;
 
-            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%'";
+            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT IN ('AERO_CANT_KGS','SERV_COD','CIU_COD_ORIGEN')";
             consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
 
             consultaColumnas.Connection = Program.conexion();
@@ -238,14 +238,6 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("AERO_CANT_BUTACAS") || combo.Text.Equals("AERO_CANT_KGS"))
-            {
-                if (!this.esNumero(txt))
-                {
-                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);
-                    huboErrores = true;
-                }
-            }
             else if (combo.Text.Equals("AERO_MOD") || combo.Text.Equals("AERO_MATRI") || combo.Text.Equals("AERO_FAB") || combo.Text.Equals("SERV_COD"))
             {
                 if (!this.esTexto(txt))

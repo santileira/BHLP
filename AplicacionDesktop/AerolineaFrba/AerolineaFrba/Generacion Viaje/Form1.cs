@@ -119,6 +119,11 @@ namespace AerolineaFrba.Generacion_Viaje
                 huboError = true;
                 MessageBox.Show("Las aeronaves tardan como mucho 24 hs en llegar a destino");
             }
+            else if(diferencia.Days == 0)
+            {
+                huboError = true;
+                MessageBox.Show("Las fechas de salida y llegada no pueden ser iguales");
+            }
 
             if (DateTime.Compare(Program.fechaHoy(), dateTimePicker1.Value) == 1)
             {

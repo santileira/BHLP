@@ -103,9 +103,7 @@
             "CODIGO_DE_RUTA",
             "TIPO_SERVICIO",
             "ORIGEN",
-            "DESTINO",
-            "RUTA_PRECIO_BASE_KG",
-            "RUTA_PRECIO_BASE_PASAJE"});
+            "DESTINO"});
             this.cboCamposFiltro2.Location = new System.Drawing.Point(168, 59);
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
@@ -174,6 +172,7 @@
             // txtFiltro1
             // 
             this.txtFiltro1.Location = new System.Drawing.Point(341, 24);
+            this.txtFiltro1.MaxLength = 30;
             this.txtFiltro1.Name = "txtFiltro1";
             this.txtFiltro1.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro1.TabIndex = 16;
@@ -181,6 +180,7 @@
             // txtFiltro2
             // 
             this.txtFiltro2.Location = new System.Drawing.Point(341, 60);
+            this.txtFiltro2.MaxLength = 30;
             this.txtFiltro2.Name = "txtFiltro2";
             this.txtFiltro2.Size = new System.Drawing.Size(88, 20);
             this.txtFiltro2.TabIndex = 3;
@@ -217,7 +217,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(517, 227);
+            this.button3.Location = new System.Drawing.Point(543, 227);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 23);
             this.button3.TabIndex = 2;
@@ -276,9 +276,9 @@
             this.listaFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.listaFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listaFiltros.FormattingEnabled = true;
-            this.listaFiltros.Location = new System.Drawing.Point(779, 34);
+            this.listaFiltros.Location = new System.Drawing.Point(770, 27);
             this.listaFiltros.Name = "listaFiltros";
-            this.listaFiltros.Size = new System.Drawing.Size(370, 585);
+            this.listaFiltros.Size = new System.Drawing.Size(340, 585);
             this.listaFiltros.TabIndex = 8;
             // 
             // Listado

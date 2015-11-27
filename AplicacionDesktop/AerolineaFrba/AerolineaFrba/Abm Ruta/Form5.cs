@@ -287,9 +287,9 @@ namespace AerolineaFrba.Abm_Ruta
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("RUTA_COD") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
+            if (combo.Text.Equals("CODIGO_DE_RUTA") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
-                if (!this.esNumero(txt))
+                if (!Validacion.esNumero(txt))
                 {
                     MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);
                     huboErrores = true;
@@ -297,7 +297,7 @@ namespace AerolineaFrba.Abm_Ruta
             }
             else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
             {
-                if (!this.esTexto(txt))
+                if (!Validacion.esTexto(txt))
                 {
                     MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser texto", "Error en el nombre", MessageBoxButtons.OK);
                     huboErrores = true;
@@ -307,7 +307,7 @@ namespace AerolineaFrba.Abm_Ruta
             return !huboErrores;
         }
 
-        private Boolean esTexto(TextBox txt)
+        /*private Boolean esTexto(TextBox txt)
         {
             String textPattern = "[A-Za-z]";
             System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
@@ -321,7 +321,7 @@ namespace AerolineaFrba.Abm_Ruta
             System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
 
             return regexNumero.IsMatch(txt.Text);
-        }
+        }*/
 
         private void button4_Click_1(object sender, EventArgs e)
         {
