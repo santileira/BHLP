@@ -20,6 +20,7 @@ namespace AerolineaFrba.Compra
         private bool actualizarTabla;
         private bool tarjetaNueva;
         private bool esEfectivo;
+        private decimal totalAAbonar = 0;
 
         public Form6()
         {
@@ -155,7 +156,7 @@ namespace AerolineaFrba.Compra
                     string codigoPNR = CreatePNR(10);
                     cargarDatosDeCompra(codigoPNR);
 
-                    MessageBox.Show("Se realizo la compra con éxito", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                    MessageBox.Show("Se realizo la compra con éxito. Su codigo de PNR: " + codigoPNR + ". Monto a abonar: " + totalAAbonar.ToString() + ".", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
 
                     this.Close();
 
@@ -321,6 +322,8 @@ namespace AerolineaFrba.Compra
                 int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
                 int esComprador;
 
+                totalAAbonar = totalAAbonar + precio;
+
                 if ((bool)row.Cells["ENCONTRADO"].Value)
                 {
                     encontrado = 1;
@@ -389,6 +392,8 @@ namespace AerolineaFrba.Compra
                 decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
                 decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out peso);
                 int esComprador;
+
+                totalAAbonar = totalAAbonar + precio;
 
                 if ((bool)row.Cells["ENCONTRADO"].Value)
                 {
