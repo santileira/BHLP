@@ -27,11 +27,23 @@ namespace AerolineaFrba.Compra
 
         public Form4()
         {
+            this.VisibleChanged += new EventHandler(this.Form_VisibleChanged);
             InitializeComponent();
         }
 
         private void Form4_Load(object sender, EventArgs e)
         {
+        }
+
+        private void Form_VisibleChanged(object sender, EventArgs e)
+        {
+            habilitarBotonesCompra();
+        }
+
+        public void habilitarBotonesCompra()
+        {
+            button1.Enabled = butacasRestantes() > 0;
+            button2.Enabled = kilosRestantes() > 0;
         }
 
         public Boolean seRegistroPasajeDelCliente(String dni, String apellido)
@@ -236,6 +248,7 @@ namespace AerolineaFrba.Compra
                 (this.butacas as Compra.Form2).liberarButaca(dgPasajes.SelectedRows[0].Cells["BUTACA"].Value.ToString());
                 (this.butacas as Compra.Form2).inicio();
                 dgPasajes.Rows.Remove(dgPasajes.SelectedRows[0]);
+                habilitarBotonesCompra();
             }
         }
 
@@ -247,6 +260,7 @@ namespace AerolineaFrba.Compra
             {
                 (this.servicioDeEncomiendas as Compra.Form5).liberarEspacio(dgEncomiendas.SelectedRows[0].Cells["KILOS"].Value.ToString());
                 dgEncomiendas.Rows.Remove(dgEncomiendas.SelectedRows[0]);
+                habilitarBotonesCompra();
             }
         }
 
@@ -258,6 +272,21 @@ namespace AerolineaFrba.Compra
         private void dgEncomiendas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        public int butacasRestantes()
+        {
+            return butacasSelec - dgPasajes.RowCount;
+        }
+
+        public decimal kilosRestantes()
+        {
+            decimal kilosUsados = 0;
+            foreach(DataGridViewRow fila in dgEncomiendas.Rows)
+            {
+                kilosUsados += Convert.ToDecimal(fila.Cells["KILOS"].Value);
+            }
+            return Convert.ToDecimal(kilosSelec) - kilosUsados;
         }
 
     }

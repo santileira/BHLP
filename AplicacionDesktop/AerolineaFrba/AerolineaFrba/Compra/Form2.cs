@@ -60,11 +60,6 @@ namespace AerolineaFrba.Compra
             dgButacas.CurrentCell = null;
 
             dp.Value = Program.fechaHoy();
-
-            if (this.cantidadButacas == 0)
-                button2.Enabled = false;
-            else
-                button2.Enabled = true;
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -90,11 +85,28 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+
+            Boolean validacion = false;
+            validacion = Validacion.esVacio(txtDni, "DNI", true) || validacion;
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+
+            if (validacion)
+            {
+                return;
+            }
+
             txtDire.Enabled = true;
             dp.Enabled = true;
             txtNom.Enabled = true;
             txtTel.Enabled = true;
             txtMail.Enabled = true;
+            button2.Enabled = true;
 
             SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarCliente('" + txtDni.Text + "', '" + txtApe.Text + "')", dgCliente);
 
@@ -209,8 +221,11 @@ namespace AerolineaFrba.Compra
                 }
 
                 this.cantidadButacas -= 1;
-                
+
                 this.inicio();
+                if ((anterior as Form4).butacasRestantes() == 0)
+                    this.cambiarVisibilidades(this.anterior);
+                    
             }
         }
 
@@ -239,17 +254,21 @@ namespace AerolineaFrba.Compra
         private Boolean hacerValidacionesDeTipo()
         {
             Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
-            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
-            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
-            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
-            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
-            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Dirección", true) || validacion;
+            validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Dirección", true) || validacion;
+            validacion = !Validacion.esNumero(txtTel, "Teléfono", true) || validacion;
             validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
-            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
-            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+            validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999, false, "Teléfono") || validacion;
 
             return validacion;
         }
