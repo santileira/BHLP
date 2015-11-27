@@ -180,6 +180,10 @@ namespace AerolineaFrba.Abm_Ruta
                 label6.Text += (String)e + " - ";
                 label6.Visible = true;
             }
+
+            string texto = label6.Text;
+            string textoSinBarra = texto.Remove(texto.Length - 2);
+            label6.Text = textoSinBarra;
   
         }
 

@@ -73,7 +73,9 @@ namespace AerolineaFrba.Abm_Ruta
                 label9.Text += (String)e + " - ";
                 label10.Text += (String)e + " - ";
             }
-            
+
+            label9.Text = label9.Text.Remove(label9.Text.Length - 2);
+            label10.Text = label10.Text.Remove(label10.Text.Length - 2);
             
         }
 
