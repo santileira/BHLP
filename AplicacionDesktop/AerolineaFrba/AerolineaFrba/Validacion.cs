@@ -61,17 +61,16 @@ namespace AerolineaFrba
 
             if (int.TryParse(cadena, out numero))
             {
-                return true;
-            }
-            else
-            {
-                if (mostrarMensaje)
+                if (!cadena.Contains(" "))
                 {
-                    MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número entero", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    return true;
                 }
-                return false;
             }
-            
+            if (mostrarMensaje)
+            {
+                MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número entero", "Error en los datos de entrada", MessageBoxButtons.OK);
+            }
+            return false;       
         }
 
         public static Boolean esDecimal(TextBox txtBox, string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
@@ -95,17 +94,16 @@ namespace AerolineaFrba
 
             if (Decimal.TryParse(cadena, out numero))
             {
-                return true;
-            }
-            else
-            {
-                if (mostrarMensaje)
+                if (!cadena.Contains(" "))
                 {
-                    MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    return true;
                 }
-                return false;
             }
-
+            if (mostrarMensaje)
+            {
+                MessageBox.Show("El valor del campo " + nombreCampo + " debe ser un número", "Error en los datos de entrada", MessageBoxButtons.OK);
+            }
+            return false;
         }
 
         private static bool comaYPuntoCorrectos(string cadena)
@@ -153,15 +151,28 @@ namespace AerolineaFrba
             if (cadena == "")
                 return true;
 
-            if (cadena.All((car)=>Char.IsLetter(car)))
+            if (cadena.All((car)=>Char.IsLetter(car) || Char.IsWhiteSpace(car)))
             {
+                if (Char.IsWhiteSpace(cadena[0]))
+                {
+                    MessageBox.Show("El campo " + nombreCampo + " debe comenzar con una letra.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    return false;
+                }
+                for (int i = 0; i < cadena.Length - 1; i++)
+                {
+                    if (Char.IsWhiteSpace(cadena[i]) && cadena[i]==cadena[i+1])
+                    {
+                        MessageBox.Show("El campo " + nombreCampo + " no puede contener varios espacios consecutivos", "Error en los datos de entrada", MessageBoxButtons.OK);
+                        return false;
+                    }
+                }
                 return true;
             }
             else
             {
                 if (mostrarMensaje)
                 {
-                    MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                    MessageBox.Show("El campo " + nombreCampo + " debe contener solo letras o espacios.", "Error en los datos de entrada", MessageBoxButtons.OK);
                     return false;
                 }
                 return false;

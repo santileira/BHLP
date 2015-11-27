@@ -168,6 +168,7 @@ namespace AerolineaFrba.Compra
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
 
+
             if (dp.Value.Year > Program.fechaHoy().Year && dp.Value.Month > Program.fechaHoy().Month && dp.Value.Day > Program.fechaHoy().Day)
             {
                 huboError = true;
@@ -214,16 +215,18 @@ namespace AerolineaFrba.Compra
                 if(this.encontroCliente)
                     if (this.actualizarTabla)
                     {
-                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, txtKilos.Text, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, txtKilos.Text.Replace(".",","), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }else{
-                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text.Replace(".",","), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }
                 else
-                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
+                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text.Replace(".",","), this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
 
                 this.cantidadKilos -= kg;
 
                 this.inicio();
+                if((anterior as Form4).kilosRestantes() == 0)
+                    this.cambiarVisibilidades(this.anterior);
             }
         }
 
@@ -232,7 +235,7 @@ namespace AerolineaFrba.Compra
             string origen = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).origen;
             string destino = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).destino;
 
-            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importeEncomienda('" + txtKilos.Text + "', '" + origen + "', '" + destino + "')", dgImporte);
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importeEncomienda(" + txtKilos.Text.Replace(",",".") + ", '" + origen + "', '" + destino + "')", dgImporte);
 
             return dgImporte.Rows[0].Cells["IMPORTE"].Value.ToString();
         }

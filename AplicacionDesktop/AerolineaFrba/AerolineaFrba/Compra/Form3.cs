@@ -108,7 +108,7 @@ namespace AerolineaFrba.Compra
                     int cantBut;
                     double cantKilo;
                     int.TryParse(txtButacas.Text, out cantBut);
-                    double.TryParse(txtKilos.Text, out cantKilo);
+                    double.TryParse(txtKilos.Text.Replace(".",","), out cantKilo);
 
                     (formularioSiguiente as Compra.Form4).butacasSelec = cantBut;
                     (formularioSiguiente as Compra.Form4).kilosSelec = cantKilo;
