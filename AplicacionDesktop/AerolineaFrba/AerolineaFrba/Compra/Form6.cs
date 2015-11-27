@@ -25,7 +25,10 @@ namespace AerolineaFrba.Compra
         public Form6()
         {
             InitializeComponent();
-            
+            if (Program.rolActual.Equals("Cliente"))
+            {
+                cboFormaPago.Items.Remove("Efectivo");
+            }
             //
             // Carga del contenido de combos
             //

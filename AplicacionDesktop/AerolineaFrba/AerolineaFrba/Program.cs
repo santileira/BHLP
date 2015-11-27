@@ -10,7 +10,7 @@ namespace AerolineaFrba
 {
     static class Program
     {
-
+        public static string rolActual;
        
 
         /// <summary>

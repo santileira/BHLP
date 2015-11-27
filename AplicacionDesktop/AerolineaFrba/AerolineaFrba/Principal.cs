@@ -26,6 +26,7 @@ namespace AerolineaFrba
             this.rolElegido = rolElegido;
             this.usuario = usuario;
             cerrarAplicacion = true;
+            Program.rolActual = this.rolElegido;
             InitializeComponent();
         }
 
@@ -45,8 +46,8 @@ namespace AerolineaFrba
             agregarBotonLogout();
 
             statusLabelUsuario.Text += usuario;
+            statusLabelUsuario.Text = statusLabelUsuario.Text.ToLower();
             statusLabelRol.Text += rolElegido;
-
         }
 
         private void agregarBotonLogout()

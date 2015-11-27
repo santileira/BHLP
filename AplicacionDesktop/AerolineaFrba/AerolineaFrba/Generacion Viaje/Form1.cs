@@ -119,7 +119,7 @@ namespace AerolineaFrba.Generacion_Viaje
                 huboError = true;
                 MessageBox.Show("Las aeronaves tardan como mucho 24 hs en llegar a destino");
             }
-            else if(diferencia.Days == 0)
+            else if (DateTime.Compare(dateTimePicker1.Value, dateTimePicker2.Value) == 0)
             {
                 huboError = true;
                 MessageBox.Show("Las fechas de salida y llegada no pueden ser iguales");
@@ -168,8 +168,11 @@ namespace AerolineaFrba.Generacion_Viaje
             
             if(!huboError)
             {
-                if(this.insertarNuevoViaje() != null)
+                if (this.insertarNuevoViaje() != null)
+                {
                     MessageBox.Show("Se inserto correctamente el nuevo viaje, el cual ya se encuentra disponible para la venta de pasajes", "Nuevo viaje", MessageBoxButtons.OK);
+                    this.Close();
+                }
             }
         }
 
