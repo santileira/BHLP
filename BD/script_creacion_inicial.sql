@@ -3296,13 +3296,13 @@ GO
 -------------------------------Estadistica destinos con mas pasajes vendidos-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesVendidos(@semestre tinyint, @anio smallint)
 
-RETURNS @variable_tabla TABLE (Descripcion varchar(80))
+RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad int)
 
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-			select top 5 t.Descripcion
+			select top 5 t.Descripcion, coalesce(sum(t.cantidad),0)
 			from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 					where com.COMP_PNR = p.COMP_PNR  and
@@ -3316,7 +3316,7 @@ if(@semestre = 1)
 			order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
-			select top 5 t.Descripcion
+			select top 5 t.Descripcion, coalesce(sum(t.cantidad),0)
 			from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 					where com.COMP_PNR = p.COMP_PNR  and
@@ -3414,13 +3414,13 @@ GO
 -------------------------------Estadistica destinos con mas pasajes cancelados-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesCancelados(@semestre tinyint, @anio smallint)
 
-RETURNS @variable_tabla TABLE (Descripcion varchar(80))
+RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad int)
 
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-		select top 5 t.Descripcion
+		select top 5 t.Descripcion, t.Cantidad
 		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 				where com.COMP_PNR = p.COMP_PNR and
@@ -3430,11 +3430,11 @@ if(@semestre = 1)
 				p.pasaje_cancelado = 1
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
-		group by t.Descripcion
+		group by t.Descripcion, t.Cantidad
 		order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
-		select top 5 t.Descripcion
+		select top 5 t.Descripcion, t.Cantidad
 		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 				where com.COMP_PNR = p.COMP_PNR and
@@ -3444,7 +3444,7 @@ else
 				p.pasaje_cancelado = 1
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
-		group by t.Descripcion
+		group by t.Descripcion, t.Cantidad
 		order by coalesce(sum(t.cantidad),0) desc
 
 return;
