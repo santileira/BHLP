@@ -75,20 +75,22 @@ namespace AerolineaFrba.Canje_Millas
         private void button1_Click(object sender, EventArgs e)
         {
             
-            if (validarCampo() && seSeleccionoPremio)
+            if (validarCampo())
             {
-                if (hayStockDisponible())
+                if (seSeleccionoPremio)
                 {
-                    this.agregarALista();
-                    dgListadoProductos.SelectedRows[0].Selected = false;
-                    button1.Enabled = false;
+                    if (hayStockDisponible())
+                    {
+                        this.agregarALista();
+                        dgListadoProductos.SelectedRows[0].Selected = false;
+                        button1.Enabled = false;
+                    }
                 }
+                else
+                    MessageBox.Show("Se debe seleccionar un premio", "Error", MessageBoxButtons.OK);
+  
             }
-            else
-            {
-                MessageBox.Show("Se debe seleccionar un premio", "Error", MessageBoxButtons.OK);
-            }
-           
+          
         }
 
         private Boolean validarCampo()
