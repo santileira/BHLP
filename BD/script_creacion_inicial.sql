@@ -2979,6 +2979,22 @@ END
 
 GO
 
+-------------------------------------------------------
+
+CREATE PROCEDURE [ABSTRACCIONX4].agregarCantButacasAViajes
+	@viaje_cod int
+AS
+	UPDATE [ABSTRACCIONX4].[VIAJES]
+	SET CANT_BUT_OCUPADAS = (SELECT COUNT(*) 
+								FROM [ABSTRACCIONX4].PASAJES
+								WHERE PASAJE_CANCELADO = 0 AND
+									VIAJE_COD = @viaje_cod)
+	FROM [ABSTRACCIONX4].VIAJES v WHERE VIAJE_COD = @viaje_cod
+
+
+GO
+
+
 -- ************** MILLAS ****************
 
 -------------------------------Obtener Ciudad dado el Codigo-------------------------------
