@@ -271,6 +271,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(396, 589);
             this.Controls.Add(this.label8);
@@ -278,8 +279,9 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.Color.White;
+            this.MaximizeBox = false;
             this.Name = "Alta";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alta de aeronave";
             this.Load += new System.EventHandler(this.Alta_Load);
             this.groupBox1.ResumeLayout(false);

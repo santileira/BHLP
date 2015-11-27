@@ -348,6 +348,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(716, 417);
             this.Controls.Add(this.label5);
@@ -357,6 +358,7 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.botonLimpiar);
             this.Controls.Add(this.botonGuardar);
+            this.MaximizeBox = false;
             this.Name = "Modificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Modificación de ruta";
