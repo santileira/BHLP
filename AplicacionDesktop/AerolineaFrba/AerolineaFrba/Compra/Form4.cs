@@ -22,6 +22,9 @@ namespace AerolineaFrba.Compra
         public int cantidadButacas;
         public double cantidadKilos;
 
+        public int butacasSelec;
+        public double kilosSelec;
+
         public Form4()
         {
             InitializeComponent();
@@ -188,10 +191,27 @@ namespace AerolineaFrba.Compra
 
         private void button3_Click(object sender, EventArgs e)
         {
-            (this.efectuaCompra as Compra.Form6).pasajes = dgPasajes;
-            (this.efectuaCompra as Compra.Form6).encomiendas = dgEncomiendas;
+            double kilosPedidos = 0;
+            double kilos;
+            foreach (DataGridViewRow row in dgEncomiendas.Rows)
+            {
+                double.TryParse(row.Cells["KILOS"].Value.ToString(), out kilos);
+                kilosPedidos = kilosPedidos + kilos;
+            }
+            
+            if (butacasSelec == dgPasajes.RowCount && kilosSelec == kilosPedidos)
+            {
 
-            this.cambiarVisibilidades(efectuaCompra);
+                (this.efectuaCompra as Compra.Form6).pasajes = dgPasajes;
+                (this.efectuaCompra as Compra.Form6).encomiendas = dgEncomiendas;
+
+                this.cambiarVisibilidades(efectuaCompra);
+            }
+            else
+            {
+                MessageBox.Show("No indico la totalidad de pasajes y/o kilos", "Error de Compra", MessageBoxButtons.OK);
+            }
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
