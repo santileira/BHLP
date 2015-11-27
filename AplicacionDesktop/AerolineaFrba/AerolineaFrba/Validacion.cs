@@ -289,14 +289,14 @@ namespace AerolineaFrba
             return vacio;
         }
 
-        public static Boolean estaSeleccionado(ComboBox combo , Boolean mostrarMensaje = false)
+        public static Boolean estaSeleccionado(ComboBox combo , Boolean mostrarMensaje = false , String opcional = "opciones")
         {
             
             if (combo.SelectedIndex == -1)
             {
                 if (mostrarMensaje)
                 {
-                    MessageBox.Show("Debe seleccionar un campo en el desplegable de opciones", "Error en el campo", MessageBoxButtons.OK);
+                    MessageBox.Show("Debe seleccionar un campo en el desplegable de " + opcional, "Error en el campo", MessageBoxButtons.OK);
                 }
                 return false;
             }

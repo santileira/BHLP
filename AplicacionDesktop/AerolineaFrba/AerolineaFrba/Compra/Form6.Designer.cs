@@ -79,6 +79,7 @@
             // 
             this.txtMail.Enabled = false;
             this.txtMail.Location = new System.Drawing.Point(184, 225);
+            this.txtMail.MaxLength = 60;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 105;
@@ -117,6 +118,7 @@
             // 
             this.txtTel.Enabled = false;
             this.txtTel.Location = new System.Drawing.Point(184, 173);
+            this.txtTel.MaxLength = 9;
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 101;
@@ -135,6 +137,7 @@
             // 
             this.txtDire.Enabled = false;
             this.txtDire.Location = new System.Drawing.Point(184, 147);
+            this.txtDire.MaxLength = 80;
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 99;
@@ -153,6 +156,7 @@
             // 
             this.txtNom.Enabled = false;
             this.txtNom.Location = new System.Drawing.Point(184, 121);
+            this.txtNom.MaxLength = 60;
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 97;
@@ -170,6 +174,7 @@
             // txtApe
             // 
             this.txtApe.Location = new System.Drawing.Point(184, 51);
+            this.txtApe.MaxLength = 60;
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 95;
@@ -186,6 +191,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(184, 25);
+            this.txtDni.MaxLength = 9;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 93;
@@ -288,6 +294,7 @@
             // txtCodSeg
             // 
             this.txtCodSeg.Location = new System.Drawing.Point(123, 53);
+            this.txtCodSeg.MaxLength = 9;
             this.txtCodSeg.Name = "txtCodSeg";
             this.txtCodSeg.Size = new System.Drawing.Size(86, 20);
             this.txtCodSeg.TabIndex = 12;
@@ -295,6 +302,7 @@
             // txtNroTarjeta
             // 
             this.txtNroTarjeta.Location = new System.Drawing.Point(123, 28);
+            this.txtNroTarjeta.MaxLength = 16;
             this.txtNroTarjeta.Name = "txtNroTarjeta";
             this.txtNroTarjeta.Size = new System.Drawing.Size(152, 20);
             this.txtNroTarjeta.TabIndex = 2;
