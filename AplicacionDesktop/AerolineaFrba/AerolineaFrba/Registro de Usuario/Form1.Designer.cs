@@ -125,11 +125,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(377, 201);
             this.Controls.Add(this.botonRegistrar);
             this.Controls.Add(this.gbAdministrador);
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registrar nuevo usuario";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.gbAdministrador.ResumeLayout(false);

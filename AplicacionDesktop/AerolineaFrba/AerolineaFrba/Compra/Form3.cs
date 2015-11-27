@@ -105,8 +105,14 @@ namespace AerolineaFrba.Compra
 
                 if (!huboErrores && !huboErrores2)
                 {
+
+                    (formularioSiguiente as Compra.Form4).butacasSelec = but;
+                    (formularioSiguiente as Compra.Form4).kilosSelec = kg;
                     this.cambiarVisibilidades(this.formularioSiguiente);
+                    
                 }
+
+
 
             }
         }

@@ -96,6 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(474, 172);
             this.Controls.Add(this.label2);
@@ -104,7 +105,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.botonCancelar);
             this.Controls.Add(this.fechaReinicio);
+            this.MaximizeBox = false;
             this.Name = "Form6";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Selección de fecha";
             this.Load += new System.EventHandler(this.Form6_Load);
             this.ResumeLayout(false);
