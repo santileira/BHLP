@@ -198,6 +198,7 @@ namespace AerolineaFrba.Compra
                 double.TryParse(row.Cells["KILOS"].Value.ToString(), out kilos);
                 kilosPedidos = kilosPedidos + kilos;
             }
+
             
             if (butacasSelec == dgPasajes.RowCount && kilosSelec == kilosPedidos)
             {

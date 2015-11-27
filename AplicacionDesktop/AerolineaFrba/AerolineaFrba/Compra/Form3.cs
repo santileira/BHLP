@@ -105,9 +105,13 @@ namespace AerolineaFrba.Compra
 
                 if (!huboErrores && !huboErrores2)
                 {
+                    int cantBut;
+                    double cantKilo;
+                    int.TryParse(txtButacas.Text, out cantBut);
+                    double.TryParse(txtKilos.Text, out cantKilo);
 
-                    (formularioSiguiente as Compra.Form4).butacasSelec = but;
-                    (formularioSiguiente as Compra.Form4).kilosSelec = kg;
+                    (formularioSiguiente as Compra.Form4).butacasSelec = cantBut;
+                    (formularioSiguiente as Compra.Form4).kilosSelec = cantKilo;
                     this.cambiarVisibilidades(this.formularioSiguiente);
                     
                 }

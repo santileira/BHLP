@@ -19,13 +19,14 @@ namespace AerolineaFrba.Canje_Millas
         public int millasDisponibles;
         public int millasDispFijas;
         public Form anterior;
+        public bool seSeleccionoPremio;
 
         public Form1()
         {
             InitializeComponent();
 
             this.llenarListadoProductos();
-
+            seSeleccionoPremio = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -61,6 +62,7 @@ namespace AerolineaFrba.Canje_Millas
                 button1.Enabled = true;
                 string premio_detalle = dgListadoProductos.SelectedRows[0].Cells["Producto"].Value.ToString();
                 txtProdSeleccionado.Text = premio_detalle;
+                seSeleccionoPremio = true;
 
             }
             else
@@ -72,7 +74,8 @@ namespace AerolineaFrba.Canje_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (validarCampo())
+            
+            if (validarCampo() && seSeleccionoPremio)
             {
                 if (hayStockDisponible())
                 {
@@ -81,6 +84,11 @@ namespace AerolineaFrba.Canje_Millas
                     button1.Enabled = false;
                 }
             }
+            else
+            {
+                MessageBox.Show("Se debe seleccionar un premio", "Error", MessageBoxButtons.OK);
+            }
+           
         }
 
         private Boolean validarCampo()
