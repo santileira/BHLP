@@ -36,7 +36,7 @@ namespace AerolineaFrba.Canje_Millas
 
         private void llenarListadoProductos()
         {
-            string query = "SELECT PREMIO_COD,PREMIO_DETALLE as Producto, PREMIO_PUNTOS as Puntos,PREMIO_STOCK as Stock FROM ABSTRACCIONX4.PREMIOS";
+            string query = "SELECT PREMIO_COD,PREMIO_DETALLE as Producto, PREMIO_PUNTOS as Puntos,PREMIO_STOCK as Stock FROM ABSTRACCIONX4.PREMIOS WHERE Stock > 0";
 
             SqlConnection conexion = Program.conexion();
 
