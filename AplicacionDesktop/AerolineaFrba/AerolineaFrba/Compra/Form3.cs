@@ -66,8 +66,8 @@ namespace AerolineaFrba.Compra
                     huboErrores = Validacion.esVacio(txtButacas, "cantidad de pasajes", true) || huboErrores;
                     huboErrores = !Validacion.esNumero(txtButacas, "cantidad de pasajes", true) || huboErrores;
                     huboErrores = !Validacion.estaEntreLimites(txtButacas,1,cantidadButacasDisponibles,false,"cantidad de pasajes") || huboErrores;
-                    if (!Validacion.esVacio(txtButacas, "cantidad de pasajes", true) &&
-                        Validacion.esNumero(txtButacas, "cantidad de pasajes", true) &&
+                    if (!Validacion.esVacio(txtButacas, "cantidad de pasajes", false) &&
+                        Validacion.esNumero(txtButacas, "cantidad de pasajes", false) &&
                         Convert.ToInt16(txtButacas.Text) > cantidadButacasDisponibles)
                     {
                         MessageBox.Show("La cantidad de butacas disponibles restantes es " + cantidadButacasDisponibles.ToString(), "Error Compra", MessageBoxButtons.OK);
@@ -79,8 +79,8 @@ namespace AerolineaFrba.Compra
                     huboErrores2 = Validacion.esVacio(txtKilos, "cantidad de kilos", true) || huboErrores2;
                     huboErrores2 = !Validacion.esDecimal(txtKilos, "cantidad de kilos", true) || huboErrores2;
                     huboErrores2 = !Validacion.estaEntreLimites(txtKilos, 0.01m, Convert.ToDecimal(cantidadKilosDisponibles), true, "cantidad de kilos") || huboErrores2;
-                    if (!Validacion.esVacio(txtKilos, "cantidad de kilos", true) &&
-                        Validacion.esDecimal(txtKilos, "cantidad de kilos", true) &&
+                    if (!Validacion.esVacio(txtKilos, "cantidad de kilos", false) &&
+                        Validacion.esDecimal(txtKilos, "cantidad de kilos", false) &&
                         Convert.ToDecimal(txtKilos.Text.Replace(".",",")) > Convert.ToDecimal(cantidadKilosDisponibles))
                     {
                         MessageBox.Show("La cantidad de kilos disponibles restantes es " + cantidadKilosDisponibles.ToString(), "Error Compra", MessageBoxButtons.OK);

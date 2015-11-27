@@ -74,12 +74,29 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+
+            Boolean validacion = false;
+            validacion = Validacion.esVacio(txtDni, "DNI", true) || validacion;
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+
+            if (validacion)
+            {
+                return;
+            }
+            button2.Enabled = true;
             txtDire.Enabled = true;
             dp.Enabled = true;
             txtNom.Enabled = true;
             txtTel.Enabled = true;
             txtMail.Enabled = true;
             txtKilos.Enabled = true;
+
 
             SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarCliente('" + txtDni.Text + "', '" + txtApe.Text + "')", dgCliente);
 
@@ -158,9 +175,9 @@ namespace AerolineaFrba.Compra
             }
 
             double kg = 0;
-            if (Validacion.numeroCorrecto(txtKilos, "Kilos de encomienda", true))
+            if (Validacion.esDecimal(txtKilos, "Kilos de encomienda", false))
             {
-                double.TryParse(txtKilos.Text, out kg);
+                double.TryParse(txtKilos.Text.Replace(".",","), out kg);
 
                 if (kg > this.cantidadKilos)
                 {
@@ -235,17 +252,26 @@ namespace AerolineaFrba.Compra
         private Boolean hacerValidacionesDeTipo()
         {
             Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
-            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
-            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
-            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
-            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
-            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Dirección", true) || validacion;
+            validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+            validacion = Validacion.esVacio(txtKilos, "Kilos de encomienda", true) || validacion;
+            
+
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Dirección", true) || validacion;
+            validacion = !Validacion.esNumero(txtTel, "Teléfono", true) || validacion;
             validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
-            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
-            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esDecimal(txtKilos, "Kilos de encomienda", true) || validacion;
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+            validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999,false,"Teléfono") || validacion;
+            //validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, ,true,"Kilos de encomienda") || validacion;
+            
 
             return validacion;
         }
