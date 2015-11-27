@@ -270,8 +270,13 @@ namespace AerolineaFrba.Compra
 
             validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
             validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999,false,"Teléfono") || validacion;
-            //validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, ,true,"Kilos de encomienda") || validacion;
-            
+            validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, Convert.ToDecimal((anterior as Form4).kilosSelec),true,"Kilos de encomienda") || validacion;
+            if (!Validacion.esVacio(txtKilos, "cantidad de kilos", false) &&
+                        Validacion.esDecimal(txtKilos, "cantidad de kilos", false) &&
+                        Convert.ToDecimal(txtKilos.Text.Replace(".", ",")) > Convert.ToDecimal((anterior as Form4).kilosSelec))
+            {
+                MessageBox.Show("La cantidad de kilos disponibles restantes es " + ((anterior as Form4).kilosSelec).ToString(), "Error Compra", MessageBoxButtons.OK);
+            }
 
             return validacion;
         }
