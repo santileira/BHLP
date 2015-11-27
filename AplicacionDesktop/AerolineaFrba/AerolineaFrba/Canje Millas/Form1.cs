@@ -34,9 +34,14 @@ namespace AerolineaFrba.Canje_Millas
             puntosDisp.Text = millasDisponibles.ToString();
         }
 
+        public void inicio()
+        {
+            puntosDisp.Text = millasDisponibles.ToString();
+        }
+
         private void llenarListadoProductos()
         {
-            string query = "SELECT PREMIO_COD,PREMIO_DETALLE as Producto, PREMIO_PUNTOS as Puntos,PREMIO_STOCK as Stock FROM ABSTRACCIONX4.PREMIOS WHERE Stock > 0";
+            string query = "SELECT PREMIO_COD,PREMIO_DETALLE as Producto, PREMIO_PUNTOS as Puntos,PREMIO_STOCK as Stock FROM ABSTRACCIONX4.PREMIOS WHERE PREMIO_STOCK > 0";
 
             SqlConnection conexion = Program.conexion();
 
@@ -57,7 +62,7 @@ namespace AerolineaFrba.Canje_Millas
 
         private void dgListadoProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor.Equals(Color.Gray))
+            if (!dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor.Equals(Color.DarkTurquoise))
             {
                 button1.Enabled = true;
                 string premio_detalle = dgListadoProductos.SelectedRows[0].Cells["Producto"].Value.ToString();
@@ -123,9 +128,9 @@ namespace AerolineaFrba.Canje_Millas
 
                 if (stockCant >= cantSeleccionada)
                 {
-                    dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor = Color.Gray;
-                    dgListadoProductos.SelectedRows[0].Cells["Producto"].Style.BackColor = Color.Gray;
-                    dgListadoProductos.SelectedRows[0].Cells["Puntos"].Style.BackColor = Color.Gray;
+                    dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor = Color.DarkTurquoise;
+                    dgListadoProductos.SelectedRows[0].Cells["Producto"].Style.BackColor = Color.DarkTurquoise;
+                    dgListadoProductos.SelectedRows[0].Cells["Puntos"].Style.BackColor = Color.DarkTurquoise;
 
 
                     millasDisponibles = millasDisp;

@@ -134,7 +134,7 @@ namespace AerolineaFrba.Consulta_Millas
         private void button3_Click(object sender, EventArgs e)
         {
 
-            
+
             if (validarCampos())
             {
 
@@ -153,6 +153,7 @@ namespace AerolineaFrba.Consulta_Millas
                     (canjeMillas as Canje_Millas.Form1).apellido = txtApe.Text;
                     (canjeMillas as Canje_Millas.Form1).millasDisponibles = cantMillas;
                     (canjeMillas as Canje_Millas.Form1).millasDispFijas = cantMillas;
+                    (canjeMillas as Canje_Millas.Form1).inicio();
 
                     this.cambiarVisibilidades(canjeMillas);
 
