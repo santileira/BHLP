@@ -284,7 +284,7 @@ namespace AerolineaFrba.Compra
             decimal kilosUsados = 0;
             foreach(DataGridViewRow fila in dgEncomiendas.Rows)
             {
-                kilosUsados += Convert.ToDecimal(fila.Cells["IMPORTE"].Value);
+                kilosUsados += Convert.ToDecimal(fila.Cells["KILOS"].Value);
             }
             return Convert.ToDecimal(kilosSelec) - kilosUsados;
         }

@@ -179,10 +179,10 @@ namespace AerolineaFrba.Compra
             {
                 double.TryParse(txtKilos.Text.Replace(".",","), out kg);
 
-                if (kg > this.cantidadKilos)
+                if (Convert.ToDecimal(kg) > (anterior as Form4).kilosRestantes())
                 {
                     huboError = true;
-                    MessageBox.Show("Se ha ingresado un numero de kilos mayor al disponible en la aeronave", "Error en los datos", MessageBoxButtons.OK);
+                    //MessageBox.Show("Se ha ingresado un numero de kilos mayor al disponible en la aeronave", "Error en los datos", MessageBoxButtons.OK);
                 }
             }
             else
@@ -258,7 +258,6 @@ namespace AerolineaFrba.Compra
             validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
             validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
             validacion = Validacion.esVacio(txtKilos, "Kilos de encomienda", true) || validacion;
-            
 
             validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
             validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
@@ -270,12 +269,12 @@ namespace AerolineaFrba.Compra
 
             validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
             validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999,false,"Teléfono") || validacion;
-            validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, Convert.ToDecimal((anterior as Form4).kilosSelec),true,"Kilos de encomienda") || validacion;
+            validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, (anterior as Form4).kilosRestantes(),true,"Kilos de encomienda") || validacion;
             if (!Validacion.esVacio(txtKilos, "cantidad de kilos", false) &&
                         Validacion.esDecimal(txtKilos, "cantidad de kilos", false) &&
-                        Convert.ToDecimal(txtKilos.Text.Replace(".", ",")) > Convert.ToDecimal((anterior as Form4).kilosSelec))
+                        Convert.ToDecimal(txtKilos.Text.Replace(".", ",")) > (anterior as Form4).kilosRestantes())
             {
-                MessageBox.Show("La cantidad de kilos disponibles restantes es " + ((anterior as Form4).kilosSelec).ToString(), "Error Compra", MessageBoxButtons.OK);
+                MessageBox.Show("La cantidad de kilos disponibles restantes es " + (anterior as Form4).kilosRestantes().ToString(), "Error Compra", MessageBoxButtons.OK);
             }
 
             return validacion;

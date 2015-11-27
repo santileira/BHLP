@@ -222,13 +222,10 @@ namespace AerolineaFrba.Compra
 
                 this.cantidadButacas -= 1;
 
-
-                MessageBox.Show((anterior as Form4).butacasSelec.ToString(), "Pasaje confirmado", MessageBoxButtons.OK);
-                
-                if (this.cantidadButacas == 0)
-                    this.Close();
-                else
-                    this.inicio();
+                this.inicio();
+                if ((anterior as Form4).butacasRestantes() == 0)
+                    this.cambiarVisibilidades(this.anterior);
+                    
             }
         }
 
