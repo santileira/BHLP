@@ -205,8 +205,6 @@ namespace AerolineaFrba.Compra
                 dgPasajes.Rows.Clear();
                 this.cambiarVisibilidades(this.anterior);
             }
-          
-            
         }
 
         private Boolean apretoSi(DialogResult resultado)

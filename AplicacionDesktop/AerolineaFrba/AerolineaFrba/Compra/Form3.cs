@@ -111,7 +111,7 @@ namespace AerolineaFrba.Compra
                     double.TryParse(txtKilos.Text.Replace(".",","), out cantKilo);
 
                     (formularioSiguiente as Compra.Form4).butacasSelec = cantBut;
-                    (formularioSiguiente as Compra.Form4).kilosSelec = cantKilo;
+                    (formularioSiguiente as Compra.Form4).kilosSelec = Math.Round(cantKilo,2);
                     this.cambiarVisibilidades(this.formularioSiguiente);
                     
                 }

@@ -212,16 +212,17 @@ namespace AerolineaFrba.Compra
 
                 string viaje_cod = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).viaje;
                 string matricula = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).matricula;
+                string textoKilos = Decimal.Round(Convert.ToDecimal(txtKilos.Text.Replace(".", ",")), 2).ToString();
 
                 if(this.encontroCliente)
                     if (this.actualizarTabla)
                     {
-                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, txtKilos.Text.Replace(".",","), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, textoKilos, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }else{
-                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text.Replace(".",","), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], textoKilos, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }
                 else
-                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text.Replace(".",","), this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
+                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], textoKilos, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
 
                 this.cantidadKilos -= kg;
 
