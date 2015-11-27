@@ -53,13 +53,13 @@ namespace AerolineaFrba
 
         public static Boolean esNumero(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
-            int numero;
+            long numero;
             string cadena = txtBox.Text;
 
             if (cadena == "")
                 return true;
 
-            if (int.TryParse(cadena, out numero))
+            if (long.TryParse(cadena, out numero))
             {
                 if (!cadena.Contains(" "))
                 {

@@ -62,7 +62,7 @@ namespace AerolineaFrba.Canje_Millas
             conexion.Close();
         }
 
-        private void dgListadoProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgListadoProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor.Equals(Color.DarkTurquoise))
             {

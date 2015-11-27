@@ -228,7 +228,7 @@ namespace AerolineaFrba.Compra
                     validacion = !Validacion.estaSeleccionado(cboCuotas, true , "cuotas") || validacion;
                     validacion = !Validacion.esNumero(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
                     validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
-                    validacion = !Validacion.estaEntreLimites(txtNroTarjeta, 0, 9, false, "código de seguridad") || validacion;
+                    validacion = !Validacion.estaEntreLimites(txtNroTarjeta, 0, 9999999999999999, false, "número de tarjeta") || validacion;
                     validacion = !Validacion.estaEntreLimites(txtCodSeg, 0, 9999, false, "código de seguridad") || validacion;
                      
                 }
@@ -325,38 +325,38 @@ namespace AerolineaFrba.Compra
             int.TryParse(txtDni.Text, out dniTxt);
 
             DataTable tablaPasajes = new DataTable();
-            
-            tablaPasajes.Columns.Add("CLI_COD", typeof(int));
-            tablaPasajes.Columns.Add("CLI_DNI", typeof(int));
-            tablaPasajes.Columns.Add("CLI_NOMBRE", typeof(string));
-            tablaPasajes.Columns.Add("CLI_APELLIDO", typeof(string));
-            tablaPasajes.Columns.Add("CLI_DIRECCION", typeof(string));
-            tablaPasajes.Columns.Add("CLI_TELEFONO", typeof(int));
-            tablaPasajes.Columns.Add("CLI_MAIL", typeof(string));
-            tablaPasajes.Columns.Add("CLI_FECHA_NAC", typeof(DateTime));
-            tablaPasajes.Columns.Add("VIAJE_COD", typeof(int));
-            tablaPasajes.Columns.Add("IMPORTE", typeof(decimal));
-            tablaPasajes.Columns.Add("BUTACA", typeof(int));
-            tablaPasajes.Columns.Add("MATRICULA", typeof(string));
-            tablaPasajes.Columns.Add("ENCONTRADO", typeof(bool));
-            tablaPasajes.Columns.Add("ACTUALIZAR", typeof(bool));
+
+            tablaPasajes.Columns.Add("Código", typeof(int));
+            tablaPasajes.Columns.Add("DNI", typeof(int));
+            tablaPasajes.Columns.Add("Nombre", typeof(string));
+            tablaPasajes.Columns.Add("Apellido", typeof(string));
+            tablaPasajes.Columns.Add("Dirección", typeof(string));
+            tablaPasajes.Columns.Add("Teléfono", typeof(int));
+            tablaPasajes.Columns.Add("Mail", typeof(string));
+            tablaPasajes.Columns.Add("Fecha de nacimiento", typeof(DateTime));
+            tablaPasajes.Columns.Add("Código de viaje", typeof(int));
+            tablaPasajes.Columns.Add("Importe", typeof(decimal));
+            tablaPasajes.Columns.Add("Butaca", typeof(int));
+            tablaPasajes.Columns.Add("Matrícula", typeof(string));
+            tablaPasajes.Columns.Add("Encontrado", typeof(bool));
+            tablaPasajes.Columns.Add("Actualizar", typeof(bool));
             tablaPasajes.Columns.Add("ES_COMPRADOR", typeof(int));
                        
 
             foreach (DataGridViewRow row in pasajes.Rows)
             {
-                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
-                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
-                int.TryParse(row.Cells["CLI_DNI"].Value.ToString(), out dni);
-                int.TryParse(row.Cells["CLI_TELEFONO"].Value.ToString(), out tel);
-                DateTime.TryParse(row.Cells["CLI_FECHA_NAC"].Value.ToString(), out fechaNac);
-                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
-                int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
+                int.TryParse(row.Cells["Código"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["Código de viaje"].Value.ToString(), out viajeCod);
+                int.TryParse(row.Cells["DNI"].Value.ToString(), out dni);
+                int.TryParse(row.Cells["Teléfono"].Value.ToString(), out tel);
+                DateTime.TryParse(row.Cells["Fecha de nacimiento"].Value.ToString(), out fechaNac);
+                decimal.TryParse(row.Cells["Importe"].Value.ToString(), out precio);
+                int.TryParse(row.Cells["Butaca"].Value.ToString(), out butNro);
                 int esComprador;
 
                 totalAAbonar = totalAAbonar + precio;
 
-                if ((bool)row.Cells["ENCONTRADO"].Value)
+                if ((bool)row.Cells["Encontrado"].Value)
                 {
                     encontrado = 1;
                 }
@@ -365,7 +365,7 @@ namespace AerolineaFrba.Compra
                     encontrado = 0;
                 }
 
-                if ((bool)row.Cells["ACTUALIZAR"].Value)
+                if ((bool)row.Cells["Actualizar"].Value)
                 {
                     actualizar = 1;
                 }
@@ -384,13 +384,13 @@ namespace AerolineaFrba.Compra
                 }
 
                 tablaPasajes.Rows.Add(cliCod,dni,
-                    row.Cells["CLI_NOMBRE"].Value.ToString(),
-                    row.Cells["CLI_APELLIDO"].Value.ToString(),
-                    row.Cells["CLI_DIRECCION"].Value.ToString(),
+                    row.Cells["Nombre"].Value.ToString(),
+                    row.Cells["Apellido"].Value.ToString(),
+                    row.Cells["Dirección"].Value.ToString(),
                     tel,
-                    row.Cells["CLI_MAIL"].Value.ToString(),
+                    row.Cells["Mail"].Value.ToString(),
                     fechaNac,viajeCod, precio, butNro, 
-                    row.Cells["MATRICULA"].Value.ToString(),
+                    row.Cells["Matrícula"].Value.ToString(),
                     encontrado, actualizar, esComprador);
 
             }
@@ -398,36 +398,36 @@ namespace AerolineaFrba.Compra
             
             DataTable tablaEncomiendas = new DataTable();
 
-            tablaEncomiendas.Columns.Add("CLI_COD", typeof(int));
-            tablaEncomiendas.Columns.Add("CLI_DNI", typeof(int));
-            tablaEncomiendas.Columns.Add("CLI_NOMBRE", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_APELLIDO", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_DIRECCION", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_TELEFONO", typeof(int));
-            tablaEncomiendas.Columns.Add("CLI_MAIL", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_FECHA_NAC", typeof(DateTime));
-            tablaEncomiendas.Columns.Add("VIAJE_COD", typeof(int));
-            tablaEncomiendas.Columns.Add("IMPORTE", typeof(int));
-            tablaEncomiendas.Columns.Add("KILOS", typeof(int));
-            tablaEncomiendas.Columns.Add("MATRICULA", typeof(string));
-            tablaEncomiendas.Columns.Add("ENCONTRADO", typeof(bool));
-            tablaEncomiendas.Columns.Add("ACTUALIZAR", typeof(bool));
+            tablaEncomiendas.Columns.Add("Código", typeof(int));
+            tablaEncomiendas.Columns.Add("DNI", typeof(int));
+            tablaEncomiendas.Columns.Add("Nombre", typeof(string));
+            tablaEncomiendas.Columns.Add("Apellido", typeof(string));
+            tablaEncomiendas.Columns.Add("Dirección", typeof(string));
+            tablaEncomiendas.Columns.Add("Teléfono", typeof(int));
+            tablaEncomiendas.Columns.Add("Mail", typeof(string));
+            tablaEncomiendas.Columns.Add("Fecha de nacimiento", typeof(DateTime));
+            tablaEncomiendas.Columns.Add("Código de viaje", typeof(int));
+            tablaEncomiendas.Columns.Add("Importe", typeof(int));
+            tablaEncomiendas.Columns.Add("Kilos", typeof(int));
+            tablaEncomiendas.Columns.Add("Matrícula", typeof(string));
+            tablaEncomiendas.Columns.Add("Encontrado", typeof(bool));
+            tablaEncomiendas.Columns.Add("Actualizar", typeof(bool));
             tablaEncomiendas.Columns.Add("ES_COMPRADOR", typeof(int));
 
             foreach (DataGridViewRow row in encomiendas.Rows)
             {
-                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
-                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
-                int.TryParse(row.Cells["CLI_DNI"].Value.ToString(), out dni);
-                int.TryParse(row.Cells["CLI_TELEFONO"].Value.ToString(), out tel);
-                DateTime.TryParse(row.Cells["CLI_FECHA_NAC"].Value.ToString(), out fechaNac);
-                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
-                decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out peso);
+                int.TryParse(row.Cells["Código"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["Código de viaje"].Value.ToString(), out viajeCod);
+                int.TryParse(row.Cells["DNI"].Value.ToString(), out dni);
+                int.TryParse(row.Cells["Teléfono"].Value.ToString(), out tel);
+                DateTime.TryParse(row.Cells["Fecha de nacimiento"].Value.ToString(), out fechaNac);
+                decimal.TryParse(row.Cells["Importe"].Value.ToString(), out precio);
+                decimal.TryParse(row.Cells["Kilos"].Value.ToString(), out peso);
                 int esComprador;
 
                 totalAAbonar = totalAAbonar + precio;
 
-                if ((bool)row.Cells["ENCONTRADO"].Value)
+                if ((bool)row.Cells["Encontrado"].Value)
                 {
                     encontrado = 1;
                 }
@@ -436,7 +436,7 @@ namespace AerolineaFrba.Compra
                     encontrado = 0;
                 }
 
-                if ((bool)row.Cells["ACTUALIZAR"].Value)
+                if ((bool)row.Cells["Actualizar"].Value)
                 {
                     actualizar = 1;
                 }
@@ -455,13 +455,13 @@ namespace AerolineaFrba.Compra
                 }
 
                 tablaEncomiendas.Rows.Add(cliCod,dni,
-                    row.Cells["CLI_NOMBRE"].Value.ToString(),
-                    row.Cells["CLI_APELLIDO"].Value.ToString(),
-                    row.Cells["CLI_DIRECCION"].Value.ToString(),
+                    row.Cells["Nombre"].Value.ToString(),
+                    row.Cells["Apellido"].Value.ToString(),
+                    row.Cells["Dirección"].Value.ToString(),
                     tel,
-                    row.Cells["CLI_MAIL"].Value.ToString(),
+                    row.Cells["Mail"].Value.ToString(),
                     fechaNac,viajeCod, precio, peso,
-                    row.Cells["MATRICULA"].Value.ToString(),
+                    row.Cells["Matrícula"].Value.ToString(),
                     encontrado, actualizar, esComprador);
 
 

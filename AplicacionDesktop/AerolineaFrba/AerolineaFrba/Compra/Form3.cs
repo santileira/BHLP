@@ -20,12 +20,19 @@ namespace AerolineaFrba.Compra
 
         public Form3()
         {
+            this.VisibleChanged += new EventHandler(this.Form_VisibleChanged);
             InitializeComponent();
         }
 
         private void Form3_Load(object sender, EventArgs e)
         {
             this.inicio();
+        }
+
+        private void Form_VisibleChanged(object sender, EventArgs e)
+        {
+            groupBox1.Enabled = cantidadButacasDisponibles > 0;
+            groupBox2.Enabled = cantidadKilosDisponibles > 0;
         }
 
         private void inicio()
@@ -37,7 +44,7 @@ namespace AerolineaFrba.Compra
             txtButacas.Enabled = false;
 
             txtButacas.Text = "";
-            txtKilos.Text = "";
+            txtKilos.Text = "";  
         }
 
 

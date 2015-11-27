@@ -239,7 +239,7 @@ namespace AerolineaFrba.Compra
 
             SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importeEncomienda(" + txtKilos.Text.Replace(",",".") + ", '" + origen + "', '" + destino + "')", dgImporte);
 
-            return dgImporte.Rows[0].Cells["IMPORTE"].Value.ToString();
+            return dgImporte.Rows[0].Cells["Importe"].Value.ToString();
         }
 
         private void agregarCampos(DataGridView unDg)

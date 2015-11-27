@@ -276,6 +276,7 @@
             // 
             // cboCuotas
             // 
+            this.cboCuotas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCuotas.FormattingEnabled = true;
             this.cboCuotas.Location = new System.Drawing.Point(123, 136);
             this.cboCuotas.Name = "cboCuotas";
@@ -302,13 +303,14 @@
             // txtNroTarjeta
             // 
             this.txtNroTarjeta.Location = new System.Drawing.Point(123, 28);
-            this.txtNroTarjeta.MaxLength = 9;
+            this.txtNroTarjeta.MaxLength = 19;
             this.txtNroTarjeta.Name = "txtNroTarjeta";
             this.txtNroTarjeta.Size = new System.Drawing.Size(152, 20);
             this.txtNroTarjeta.TabIndex = 2;
             // 
             // cboAnios
             // 
+            this.cboAnios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAnios.FormattingEnabled = true;
             this.cboAnios.Location = new System.Drawing.Point(162, 79);
             this.cboAnios.Name = "cboAnios";
@@ -317,6 +319,7 @@
             // 
             // cboMeses
             // 
+            this.cboMeses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMeses.FormattingEnabled = true;
             this.cboMeses.Items.AddRange(new object[] {
             1,
@@ -347,6 +350,7 @@
             // 
             // cboTipoTarjeta
             // 
+            this.cboTipoTarjeta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTipoTarjeta.FormattingEnabled = true;
             this.cboTipoTarjeta.Location = new System.Drawing.Point(123, 108);
             this.cboTipoTarjeta.Name = "cboTipoTarjeta";
