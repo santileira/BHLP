@@ -32,6 +32,7 @@ namespace AerolineaFrba.Compra
             //
             // Carga del contenido de combos
             //
+            button2.Enabled = false;
 
             SqlDataReader varTarjeta;
             SqlCommand consultaColumnas = new SqlCommand();
@@ -84,42 +85,55 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
-            txtDire.Enabled = true;
-            dp.Enabled = true;
-            txtNom.Enabled = true;
-            txtTel.Enabled = true;
-            txtMail.Enabled = true;
-
-            SqlDataReader reader;
-            SqlCommand command = new SqlCommand();
-            command.CommandType = CommandType.Text;
-            command.CommandText = "select * from [ABSTRACCIONX4].buscarCliente(@dni,@ape)";
-            command.Connection = Program.conexion();
-
-            command.Parameters.AddWithValue("@dni", txtDni.Text);
-            command.Parameters.AddWithValue("@ape", txtApe.Text);
-
-            reader = command.ExecuteReader();
-
-            reader.Read();
-
-            if (reader.HasRows)
+            if (!validarDNIYApellido())
             {
-                encontroCliente = true;
 
-                txtNom.Text = reader.GetValue(2).ToString();
-                txtDire.Text = reader.GetValue(4).ToString();
-                txtTel.Text = reader.GetValue(5).ToString();
-                txtMail.Text = reader.GetValue(6).ToString();
-                dp.Value = (DateTime)reader.GetValue(7);
+                button2.Enabled = true;
+                txtDire.Enabled = true;
+                dp.Enabled = true;
+                txtNom.Enabled = true;
+                txtTel.Enabled = true;
+                txtMail.Enabled = true;
 
+                SqlDataReader reader;
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText = "select * from [ABSTRACCIONX4].buscarCliente(@dni,@ape)";
+                command.Connection = Program.conexion();
+
+                command.Parameters.AddWithValue("@dni", txtDni.Text);
+                command.Parameters.AddWithValue("@ape", txtApe.Text);
+
+                reader = command.ExecuteReader();
+
+                reader.Read();
+
+                if (reader.HasRows)
+                {
+                    encontroCliente = true;
+
+                    txtNom.Text = reader.GetValue(2).ToString();
+                    txtDire.Text = reader.GetValue(4).ToString();
+                    txtTel.Text = reader.GetValue(5).ToString();
+                    txtMail.Text = reader.GetValue(6).ToString();
+                    dp.Value = (DateTime)reader.GetValue(7);
+
+                }
+                else
+                {
+                    MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
+                }
             }
-            else
-            {
-                MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
-            }
 
+        }
 
+        private Boolean validarDNIYApellido()
+        {
+            Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            return validacion;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -176,32 +190,47 @@ namespace AerolineaFrba.Compra
         private Boolean hacerValidacionesDeTipo()
         {
             Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
-            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
-            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
-            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
-            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
-            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Dirección", true) || validacion;
+            validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+         
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Dirección", true) || validacion;
+            validacion = !Validacion.esNumero(txtTel, "Teléfono", true) || validacion;
+            if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
+            {
+                validacion = true;
+                MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);
+            }
             validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
-            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
-            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.estaSeleccionado(cboFormaPago,true) || validacion;
+           
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+            validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999, false, "Teléfono") || validacion;
+          
+            validacion = !Validacion.estaSeleccionado(cboFormaPago,true , "forma de pago") || validacion;
 
             if (!cboFormaPago.SelectedIndex.Equals(-1))
             {
 
                 if (cboFormaPago.SelectedItem.ToString() == "Tarjeta de crédito")
                 {
-                    validacion = Validacion.esVacio(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    
                     validacion = Validacion.esVacio(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboAnios, true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboMeses, true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboTipoTarjeta, true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboCuotas, true) || validacion;
-                    validacion = !Validacion.numeroCorrecto(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
+                    validacion = Validacion.esVacio(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboAnios, true , "año de fecha de vencimiento") || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboMeses, true , "mes de fecha de vencimiento") || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboTipoTarjeta, true , "tipo de tarjeta") || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboCuotas, true , "cuotas") || validacion;
+                    validacion = !Validacion.esNumero(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
                     validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    validacion = !Validacion.estaEntreLimites(txtNroTarjeta, 0, 9, false, "código de seguridad") || validacion;
+                    validacion = !Validacion.estaEntreLimites(txtCodSeg, 0, 9999, false, "código de seguridad") || validacion;
+                     
                 }
             }
 
