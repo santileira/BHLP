@@ -141,6 +141,7 @@ namespace AerolineaFrba.Consulta_Millas
                 if (dgHistorial.RowCount > 0)
                 {
 
+                    (canjeMillas as Canje_Millas.Form1).inicio();
                     int dni;
                     dni = Convert.ToInt32(txtDni.Text);
                     dni = int.Parse(txtDni.Text);
