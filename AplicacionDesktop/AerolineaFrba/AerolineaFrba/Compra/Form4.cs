@@ -102,10 +102,12 @@ namespace AerolineaFrba.Compra
             dgPasajes.ColumnCount = 15;
             dgPasajes.ColumnHeadersVisible = true;
 
+            /*
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
             columnHeaderStyle.BackColor = Color.Beige;
             columnHeaderStyle.Font = new Font("Verdana", 8, FontStyle.Bold);
             dgPasajes.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+            */
 
             this.agregarCampos(dgPasajes);
             dgPasajes.Columns[8].Name = "BUTACA";
@@ -116,7 +118,7 @@ namespace AerolineaFrba.Compra
             dgPasajes.Columns[13].Name = "MATRICULA";
             dgPasajes.Columns[14].Name = "ENCONTRADO";
             
-            dgPasajes.Columns["CLI_COD"].Visible = false;
+            dgPasajes.Columns["CODIGO"].Visible = false;
             dgPasajes.Columns["ACTUALIZAR"].Visible = false;
             dgPasajes.Columns["VIAJE_COD"].Visible = false;
             dgPasajes.Columns["MATRICULA"].Visible = false;
@@ -125,11 +127,12 @@ namespace AerolineaFrba.Compra
             dgEncomiendas.ColumnCount = 14;
             dgEncomiendas.ColumnHeadersVisible = true;
 
+            /*
             DataGridViewCellStyle columnHeaderStyle2 = new DataGridViewCellStyle();
             columnHeaderStyle2.BackColor = Color.Beige;
             columnHeaderStyle2.Font = new Font("Verdana", 8, FontStyle.Bold);
             dgEncomiendas.ColumnHeadersDefaultCellStyle = columnHeaderStyle2;
-
+            */
             this.agregarCampos(dgEncomiendas);
             dgEncomiendas.Columns[8].Name = "KILOS";
             dgEncomiendas.Columns[9].Name = "IMPORTE";
@@ -138,7 +141,7 @@ namespace AerolineaFrba.Compra
             dgEncomiendas.Columns[12].Name = "MATRICULA";
             dgEncomiendas.Columns[13].Name = "ENCONTRADO";
 
-            dgEncomiendas.Columns["CLI_COD"].Visible = false;
+            dgEncomiendas.Columns["CODIGO"].Visible = false;
             dgEncomiendas.Columns["ACTUALIZAR"].Visible = false;
             dgEncomiendas.Columns["VIAJE_COD"].Visible = false;
             dgEncomiendas.Columns["MATRICULA"].Visible = false;
@@ -147,14 +150,14 @@ namespace AerolineaFrba.Compra
 
         private void agregarCampos(DataGridView unDg)
         {
-            unDg.Columns[0].Name = "CLI_COD";
-            unDg.Columns[1].Name = "CLI_DNI";
-            unDg.Columns[2].Name = "CLI_NOMBRE";
-            unDg.Columns[3].Name = "CLI_APELLIDO";
-            unDg.Columns[4].Name = "CLI_DIRECCION";
-            unDg.Columns[5].Name = "CLI_TELEFONO";
-            unDg.Columns[6].Name = "CLI_MAIL";
-            unDg.Columns[7].Name = "CLI_FECHA_NAC";
+            unDg.Columns[0].Name = "CODIGO";
+            unDg.Columns[1].Name = "DNI";
+            unDg.Columns[2].Name = "NOMBRE";
+            unDg.Columns[3].Name = "APELLIDO";
+            unDg.Columns[4].Name = "DIRECCION";
+            unDg.Columns[5].Name = "TELEFONO";
+            unDg.Columns[6].Name = "MAIL";
+            unDg.Columns[7].Name = "FECHA DE NACIMIENTO";
         }
 
         public void agregarPasaje(DataGridViewRow registroCliente, string numero_butaca, string tipo_butaca, string importe, Boolean actualizarTabla,Boolean encontroCliente, string viaje_cod, string matricula)

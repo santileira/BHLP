@@ -134,6 +134,7 @@
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(241, 430);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(93, 38);
@@ -223,6 +224,7 @@
             // txtMail
             // 
             this.txtMail.Location = new System.Drawing.Point(177, 221);
+            this.txtMail.MaxLength = 60;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 84;
@@ -263,6 +265,7 @@
             // txtTel
             // 
             this.txtTel.Location = new System.Drawing.Point(177, 169);
+            this.txtTel.MaxLength = 9;
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 80;
@@ -281,6 +284,7 @@
             // txtDire
             // 
             this.txtDire.Location = new System.Drawing.Point(177, 143);
+            this.txtDire.MaxLength = 80;
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 78;
@@ -299,6 +303,7 @@
             // txtNom
             // 
             this.txtNom.Location = new System.Drawing.Point(177, 117);
+            this.txtNom.MaxLength = 60;
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 76;
@@ -318,6 +323,7 @@
             // 
             this.txtApe.Enabled = false;
             this.txtApe.Location = new System.Drawing.Point(177, 47);
+            this.txtApe.MaxLength = 60;
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 74;
@@ -336,6 +342,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(177, 21);
+            this.txtDni.MaxLength = 9;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 72;

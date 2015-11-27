@@ -28,15 +28,10 @@ namespace AerolineaFrba.Listado_Estadistico
             cboEstadistica.SelectedIndex = 0;
             txtAnio.Text = "";
             dg.Visible = false;
-            
-            DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
-            columnHeaderStyle.BackColor = Color.Beige;
-            columnHeaderStyle.Font = new Font("Calibri", 12, FontStyle.Bold);
-            dg.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+
             dg.CurrentCell = null;
 
-        }
-
+        } 
         private string semestreSeleccionado()
         {
             if (cboSemestre.SelectedIndex == 0)
