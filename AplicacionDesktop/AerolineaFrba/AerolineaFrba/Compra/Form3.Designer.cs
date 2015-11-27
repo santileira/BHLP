@@ -91,6 +91,7 @@
             // 
             this.txtButacas.Enabled = false;
             this.txtButacas.Location = new System.Drawing.Point(183, 59);
+            this.txtButacas.MaxLength = 9;
             this.txtButacas.Name = "txtButacas";
             this.txtButacas.Size = new System.Drawing.Size(100, 20);
             this.txtButacas.TabIndex = 51;
@@ -132,6 +133,7 @@
             // 
             this.txtKilos.Enabled = false;
             this.txtKilos.Location = new System.Drawing.Point(181, 59);
+            this.txtKilos.MaxLength = 9;
             this.txtKilos.Name = "txtKilos";
             this.txtKilos.Size = new System.Drawing.Size(100, 20);
             this.txtKilos.TabIndex = 52;

@@ -152,7 +152,7 @@ namespace AerolineaFrba.Abm_Aeronave
             primeraConsulta = false;
 
             
-                dg.Columns["SERV_COD"].Visible = false;
+            dg.Columns["SERV_COD"].Visible = false;
             
         }
 
