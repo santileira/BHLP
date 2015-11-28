@@ -585,22 +585,23 @@ namespace AerolineaFrba.Compra
                                  .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva);
 
                 }
-
-                try
-                {
-                    manager.ejecutarSP();
-                    MessageBox.Show("Se realizo la compra con éxito. Su codigo de PNR: " + codigoPNR + ". Monto a abonar: " + totalAAbonar.ToString() + ".", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
-                }
-                catch
-                {
-                    MessageBox.Show("Fallo en la compra", "Fallo Compra", MessageBoxButtons.OK);
-                    this.Close();
-                    return;
-                }
-
-
-                
+                               
             }
+
+
+            try
+            {
+                manager.ejecutarSP();
+                MessageBox.Show("Se realizo la compra con éxito. Su codigo de PNR: " + codigoPNR + ". Monto a abonar: " + totalAAbonar.ToString() + ".", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+            }
+            catch
+            {
+                MessageBox.Show("Fallo en la compra", "Fallo Compra", MessageBoxButtons.OK);
+                this.Close();
+                return;
+            }
+
+
            
         }              
 
