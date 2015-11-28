@@ -14,14 +14,13 @@ namespace AerolineaFrba.Abm_Ruta
     public partial class Baja : Form
     {
         string query;
-        Boolean huboCondicion;
         int filtro;
+        public Boolean huboCondicion;
         private Boolean sePusoAgregarFiltro1 = false;
         private Boolean sePusoAgregarFiltro2 = false;
-        Form formularioSiguiente;
         public Listado listado;
         Boolean seleccionandoOrigen;
-        
+
         public Baja()
         {
             InitializeComponent();
@@ -153,11 +152,11 @@ namespace AerolineaFrba.Abm_Ruta
 
         private string buscarNombreCampo(string combo)
         {
-            if (combo == "ORIGEN")
+            if (combo == "Origen")
                 return this.buscarCiudad("R.CIU_COD_O");
-            else if (combo == "DESTINO")
+            else if (combo == "Destino")
                 return this.buscarCiudad("R.CIU_COD_D");
-            else if (combo == "TIPO_SERVICIO")
+            else if (combo == "Servicio")
                 return "SERV_DESC";
             else
                 return combo;
@@ -210,7 +209,7 @@ namespace AerolineaFrba.Abm_Ruta
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("RUTA_COD") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
+            if (combo.Text.Equals("Código") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
                 if (!Validacion.esNumero(txt , combo.Text , true))
                 {
@@ -218,7 +217,7 @@ namespace AerolineaFrba.Abm_Ruta
                     huboErrores = true;
                 }
             }
-            else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
+            else if(combo.Text.Equals("Servicio") || combo.Text.Equals("Origen") || combo.Text.Equals("Destino"))
             {
                 if (!Validacion.esTexto(txt , combo.Text , true))
                 {
@@ -361,14 +360,14 @@ namespace AerolineaFrba.Abm_Ruta
             if (seleccionandoOrigen)
             {
                 txtOrigen.Text = ciudad;
-                string campo = this.buscarNombreCampo("ORIGEN");
+                string campo = this.buscarNombreCampo("Origen");
                 this.query += " AND " + campo + " = '" + ciudad + "'";
             
             }
             else
             {
                 txtDestino.Text = ciudad;
-                string campo = this.buscarNombreCampo("DESTINO");
+                string campo = this.buscarNombreCampo("Destino");
                 this.query += " AND " + campo + " = '" + ciudad + "'";
             }
             this.ejecutarQuery();

@@ -257,13 +257,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private string buscarNombreCampo(ComboBox combo)
         {
-            if (combo.Text == "ORIGEN")
+            if (combo.Text == "Origen")
                 return this.buscarCiudad("R.CIU_COD_O");
-            else if (combo.Text == "DESTINO")
+            else if (combo.Text == "Destino")
                 return this.buscarCiudad("R.CIU_COD_D");
-            else if (combo.Text == "TIPO_SERVICIO")
+            else if (combo.Text == "Servicio")
                 return "S.SERV_DESC";
-            else if (combo.Text == "CODIGO_DE_RUTA")
+            else if (combo.Text == "Código de ruta")
                 return "RUTA_COD";
             else
                 return combo.Text;
@@ -308,7 +308,7 @@ namespace AerolineaFrba.Abm_Ruta
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("CODIGO_DE_RUTA") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
+            if (combo.Text.Equals("Código de ruta") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
                 if (!Validacion.esNumero(txt))
                 {
@@ -316,7 +316,7 @@ namespace AerolineaFrba.Abm_Ruta
                     huboErrores = true;
                 }
             }
-            else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
+            else if(combo.Text.Equals("Servicio") || combo.Text.Equals("Origen") || combo.Text.Equals("Destino"))
             {
                 if (!Validacion.esTexto(txt))
                 {
