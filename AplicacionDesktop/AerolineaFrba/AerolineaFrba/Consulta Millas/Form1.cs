@@ -52,7 +52,7 @@ namespace AerolineaFrba.Consulta_Millas
             consultaCanjeadas.CommandType = CommandType.Text;
 
             consultaTotal.CommandText = "SELECT SUM(Millas) FROM (SELECT CAST(Precio/10 as Int) as Millas FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION ALL  SELECT CAST(Precio/10 as Int) as Millas FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')) as Sarasa";
-            consultaCanjeadas.CommandText = "SELECT SUM(P.PREMIO_PUNTOS * C.CANJE_CANTIDAD) FROM ABSTRACCIONX4.CANJES C JOIN ABSTRACCIONX4.PREMIOS P ON C.PREMIO_COD = P.PREMIO_COD WHERE C.CLI_COD = (SELECT CU.CLI_COD FROM ABSTRACCIONX4.CLIENTES CU WHERE CU.CLI_DNI =" + txtDni.Text + " AND CU.CLI_APELLIDO = '" + txtApe.Text + "' )";
+            consultaCanjeadas.CommandText = "SELECT SUM(P.PREMIO_PUNTOS * C.CANJE_CANTIDAD) FROM ABSTRACCIONX4.CANJES C JOIN ABSTRACCIONX4.PREMIOS P ON C.PREMIO_COD = P.PREMIO_COD WHERE C.CLI_COD = (SELECT CU.CLI_COD FROM ABSTRACCIONX4.CLIENTES CU WHERE CU.CLI_DNI =" + txtDni.Text + " AND CU.CLI_APELLIDO = '" + txtApe.Text + "' ) AND C.CANJE_FECHA BETWEEN [ABSTRACCIONX4].obtenerFechaDeHoy() - 365 AND [ABSTRACCIONX4].obtenerFechaDeHoy()";
 
             consultaTotal.Connection = Program.conexion();
             consultaCanjeadas.Connection = Program.conexion();
@@ -116,6 +116,7 @@ namespace AerolineaFrba.Consulta_Millas
             Boolean esValido = true;
 
             esValido = !Validacion.esVacio(txtDni, "Dni", true) && esValido;
+            esValido = !Validacion.esVacio(txtApe, "Apellido", true) && esValido;
             esValido = Validacion.esNumero(txtDni, "Dni", true) && esValido;
             esValido = Validacion.estaEntreLimites(txtDni, 0, 99999999, true, "Dni") && esValido;
             esValido = Validacion.esSoloTexto(txtApe, "Apellido" , true) && esValido;
