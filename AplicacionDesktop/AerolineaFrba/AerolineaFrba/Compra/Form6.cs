@@ -117,16 +117,13 @@ namespace AerolineaFrba.Compra
                     txtTel.Text = reader.GetValue(5).ToString();
                     txtMail.Text = reader.GetValue(6).ToString();
                     dp.Value = (DateTime)reader.GetValue(7);
+                    txtDni.Enabled = false;
 
                 }
                 else
                 {
-                    SqlDataReader varCli;
-                    SqlCommand consulta = new SqlCommand();
-                    consulta.CommandType = CommandType.Text;
-                    consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
-                    consulta.Connection = Program.conexion();
-                    varCli = consulta.ExecuteReader();
+                    SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+                    
 
                     varCli.Read();
 
@@ -148,6 +145,18 @@ namespace AerolineaFrba.Compra
                 }
             }
 
+        }
+
+        private SqlDataReader tieneDocumento(string dni)
+        {
+            SqlDataReader varCli;
+            SqlCommand consulta = new SqlCommand();
+            consulta.CommandType = CommandType.Text;
+            consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + dni + " AND CLI_APELLIDO !='" + txtApe.Text + "'";
+            consulta.Connection = Program.conexion();
+            varCli = consulta.ExecuteReader();
+            
+            return varCli;
         }
 
         private Boolean validarDNIYApellido()
@@ -186,7 +195,15 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             bool huboError = this.hacerValidacionesDeTipo();
-            
+
+            SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+            varCli.Read();
+            if (varCli.HasRows)
+            {
+                MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                huboError = true;
+            }
+
             if (!huboError)
             {
 
@@ -654,6 +671,8 @@ namespace AerolineaFrba.Compra
         {
             this.hayQueActualizarTabla();
         }
+
+    
 
         
 

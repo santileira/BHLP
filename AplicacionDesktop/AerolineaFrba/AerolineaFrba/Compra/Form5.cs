@@ -50,7 +50,9 @@ namespace AerolineaFrba.Compra
             txtMail.Text = "";
             labelRestantes.Text = "KG Restantes: " + (anterior as Form4).kilosRestantes().ToString();
 
+            txtDni.Enabled = true;
             txtDni.Focus();
+            
 
             txtApe.Enabled = false;
             txtDire.Enabled = false;
@@ -112,16 +114,13 @@ namespace AerolineaFrba.Compra
                 txtMail.Text = dgCliente.Rows[0].Cells["CLI_MAIL"].Value.ToString();
 
                 codigoCliente = (int)dgCliente.Rows[0].Cells["CLI_COD"].Value;
+
+                txtDni.Enabled = false;
             }
             else
             {
-                SqlDataReader varCli;
-                SqlCommand consulta = new SqlCommand();
-                consulta.CommandType = CommandType.Text;
-                consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
-                consulta.Connection = Program.conexion();
-                varCli = consulta.ExecuteReader();
-
+                SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+                
                 varCli.Read();
 
                 if (varCli.HasRows)
@@ -192,7 +191,15 @@ namespace AerolineaFrba.Compra
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
 
+            SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
 
+            varCli.Read();
+            if (varCli.HasRows)
+            {
+
+                MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                huboError = true;
+            }
             if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
             {
                 huboError = true;
@@ -253,6 +260,17 @@ namespace AerolineaFrba.Compra
                 if((anterior as Form4).kilosRestantes() == 0)
                     this.cambiarVisibilidades(this.anterior);
             }
+        }
+
+        private SqlDataReader tieneDocumento(string dni)
+        {
+            SqlDataReader varCli;
+            SqlCommand consulta = new SqlCommand();
+            consulta.CommandType = CommandType.Text;
+            consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + dni + " AND CLI_APELLIDO !='" + txtApe.Text + "'";
+            consulta.Connection = Program.conexion();
+            varCli = consulta.ExecuteReader();
+            return varCli;
         }
 
         private string calcularImporte()

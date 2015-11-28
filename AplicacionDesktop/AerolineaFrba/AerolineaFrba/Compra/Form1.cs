@@ -115,6 +115,8 @@ namespace AerolineaFrba.Compra
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
                 else
                 {
+                    lblButacas.Text = "";
+                    lblKilos.Text = "";
                     SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
                     //this.ejecutarQuery();
 
@@ -136,6 +138,10 @@ namespace AerolineaFrba.Compra
             }
             else
             {
+
+                lblButacas.Text = "";
+                lblKilos.Text = "";
+                
                 SQLManager.ejecutarQuery("select VIAJE_COD 'Código de viaje', AERO_MATRI 'Matrícula',Fecha_Salida 'Fecha de salida', Fecha_Llegada 'Fecha de llegada', Origen 'Origen', Destino 'Destino', Tipo_Servicio 'Tipo de servicio' from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
                 //this.ejecutarQuery();
 
@@ -220,5 +226,6 @@ namespace AerolineaFrba.Compra
 
 
         }
+
     }
 }

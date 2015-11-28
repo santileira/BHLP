@@ -123,17 +123,13 @@ namespace AerolineaFrba.Compra
                 txtMail.Text = dgCliente.Rows[0].Cells["CLI_MAIL"].Value.ToString();
 
                 codigoCliente = (int)dgCliente.Rows[0].Cells["CLI_COD"].Value;
+                txtDni.Enabled = false;
             }
             else
             {
 
-                SqlDataReader varCli;
-                SqlCommand consulta = new SqlCommand();
-                consulta.CommandType = CommandType.Text;
-                consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
-                consulta.Connection = Program.conexion();
-                varCli = consulta.ExecuteReader();
-
+                SqlDataReader varCli = tieneDocumento(txtDni.Text);
+                
                 varCli.Read();
 
                 if (varCli.HasRows)
@@ -154,6 +150,18 @@ namespace AerolineaFrba.Compra
             }
         }
 
+        private SqlDataReader tieneDocumento(string dni)
+        {
+            SqlDataReader varCli;
+            SqlCommand consulta = new SqlCommand();
+            consulta.CommandType = CommandType.Text;
+            consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + dni + " AND CLI_APELLIDO !='" + txtApe.Text + "'";
+            consulta.Connection = Program.conexion();
+            varCli = consulta.ExecuteReader();
+
+            return varCli;
+        }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -163,6 +171,15 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
+            SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+
+            varCli.Read();
+            if (varCli.HasRows)
+            {
+                
+                MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                huboError = true;
+            }
 
             if (dp.Value.Year > Program.fechaHoy().Year && dp.Value.Month > Program.fechaHoy().Month && dp.Value.Day > Program.fechaHoy().Day)
             {
@@ -247,6 +264,9 @@ namespace AerolineaFrba.Compra
                 }
 
                 this.cantidadButacas -= 1;
+
+                
+
 
                 this.inicio();
                 if ((anterior as Form4).butacasRestantes() == 0)

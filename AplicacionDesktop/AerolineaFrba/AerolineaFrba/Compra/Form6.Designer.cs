@@ -195,6 +195,7 @@
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 93;
+
             // 
             // label1
             // 
