@@ -80,15 +80,27 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (this.primeraVez && chkEstadoIgnorar.Checked == false)
+            if (!chkEstadoIgnorar.Checked)
             {
                     this.query += " AND ";
+                    string filtro;
 
-                if (optEstadoAlta.Checked)
-                    this.query += "RUTA_ESTADO = 1"; 
-                else
-                    this.query += "RUTA_ESTADO = 0";
+                    if (optEstadoAlta.Checked)
+                    {
+                        filtro = "Se ha agregado el filtro por estado disponible";
+                        
+                        this.query += "RUTA_ESTADO = 1";
+                    }
+                    else
+                    {
+                        filtro = "Se ha agregado el filtro por estado no disponible";
+                        this.query += "RUTA_ESTADO = 0";
+                    }
 
+                    if (!listaFiltros.Items.Contains(filtro))
+                    {
+                        listaFiltros.Items.Add(filtro);
+                    }
                 this.primeraVez = false;
             }
 
@@ -181,6 +193,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void inicio()
         {
+            this.primeraVez = true;
+
             this.generarQueryInicial();
             this.ejecutarQuery();
 

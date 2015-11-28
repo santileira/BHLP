@@ -31,10 +31,6 @@ namespace AerolineaFrba.Abm_Aeronave
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.cboCamposFiltro3 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.cboCamposFiltro2 = new System.Windows.Forms.ComboBox();
@@ -56,10 +52,6 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
-            this.groupBox1.Controls.Add(this.cboCamposFiltro3);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.cboCamposFiltro2);
@@ -69,50 +61,12 @@ namespace AerolineaFrba.Abm_Aeronave
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(12, 52);
+            this.groupBox1.Location = new System.Drawing.Point(12, 23);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(802, 150);
+            this.groupBox1.Size = new System.Drawing.Size(802, 106);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
-            // 
-            // button1
-            // 
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(501, 101);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 21);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Agregar filtro";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(296, 102);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(183, 18);
-            this.dateTimePicker1.TabIndex = 24;
-            // 
-            // cboCamposFiltro3
-            // 
-            this.cboCamposFiltro3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCamposFiltro3.FormattingEnabled = true;
-            this.cboCamposFiltro3.Location = new System.Drawing.Point(173, 101);
-            this.cboCamposFiltro3.Name = "cboCamposFiltro3";
-            this.cboCamposFiltro3.Size = new System.Drawing.Size(117, 21);
-            this.cboCamposFiltro3.TabIndex = 23;
-            this.cboCamposFiltro3.SelectedIndexChanged += new System.EventHandler(this.cboCamposFiltro3_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 104);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 13);
-            this.label5.TabIndex = 22;
-            this.label5.Text = "Filtro por Fecha";
             // 
             // button4
             // 
@@ -192,7 +146,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 208);
+            this.button2.Location = new System.Drawing.Point(12, 152);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 21);
             this.button2.TabIndex = 1;
@@ -202,7 +156,7 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(713, 208);
+            this.button3.Location = new System.Drawing.Point(713, 152);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(101, 21);
             this.button3.TabIndex = 2;
@@ -221,7 +175,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.btfueradeservicio,
             this.btlogica});
             this.dg.EnableHeadersVisualStyles = false;
-            this.dg.Location = new System.Drawing.Point(12, 243);
+            this.dg.Location = new System.Drawing.Point(12, 187);
             this.dg.Name = "dg";
             this.dg.ReadOnly = true;
             this.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
@@ -259,8 +213,8 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.txtFiltros.BackColor = System.Drawing.Color.SlateGray;
             this.txtFiltros.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFiltros.Location = new System.Drawing.Point(847, 55);
+            this.txtFiltros.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.txtFiltros.Location = new System.Drawing.Point(848, 28);
             this.txtFiltros.Multiline = true;
             this.txtFiltros.Name = "txtFiltros";
             this.txtFiltros.Size = new System.Drawing.Size(385, 681);
@@ -272,7 +226,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(1245, 507);
+            this.ClientSize = new System.Drawing.Size(1245, 467);
             this.Controls.Add(this.txtFiltros);
             this.Controls.Add(this.lblErrores);
             this.Controls.Add(this.dg);
@@ -307,10 +261,6 @@ namespace AerolineaFrba.Abm_Aeronave
         private System.Windows.Forms.ComboBox cboCamposFiltro2;
         private System.Windows.Forms.ComboBox cboCamposFiltro1;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.ComboBox cboCamposFiltro3;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox txtFiltros;
         private System.Windows.Forms.DataGridViewButtonColumn btfueradeservicio;

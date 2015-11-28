@@ -34,7 +34,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT R.RUTA_ID 'Id' , RUTA_COD 'Código' , ";
+            this.query = "SELECT DISTINCT R.RUTA_ID 'Id' , RUTA_COD 'Código' , ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
             this.query += this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
             this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje', ";
@@ -103,6 +103,7 @@ namespace AerolineaFrba.Abm_Ruta
             sePusoAgregarFiltro2 = false;
             SQLManager.ejecutarQuery(query + " ORDER BY R.RUTA_COD", dg);
             dg.Columns["Id"].Visible = false;
+            dg.Columns["Servicio"].Visible = false;
         }
 
         private void iniciar()
@@ -232,7 +233,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
-            if (txtFiltro2.Enabled && /*txtFiltro2.Text.Length != 0*/!Validacion.esVacio(txtFiltro2))
+            if (txtFiltro2.Enabled && !Validacion.esVacio(txtFiltro2))
                 {
                     if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
                     {

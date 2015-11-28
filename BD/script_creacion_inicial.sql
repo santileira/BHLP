@@ -2841,14 +2841,36 @@ CREATE PROCEDURE [ABSTRACCIONX4].generarNuevoViaje
 	@ruta int, 
 	@matricula varchar(8)
 AS
-	DECLARE @Error varchar(80)
-	SET @Error = 'La aeronave no se encuentra disponible en el periodo ingresado'
+	DECLARE @HuboError BIT
+	SET @HuboError = 0
 
+	DECLARE @Error varchar(120)
 	IF(ABSTRACCIONX4.aeronave_disponible(@matricula, @salida, @llegadaEstimada) = 0)
 	BEGIN
+		SET @Error = 'La aeronave no se encuentra disponible en el periodo ingresado'
 		RAISERROR(@Error, 16, 1)
-		RETURN
+		SET @HuboError = 1
 	END
+
+	DECLARE @FechaAlta DATETIME
+	SELECT @FechaAlta = AERO_FECHA_ALTA FROM ABSTRACCIONX4.AERONAVES WHERE AERO_MATRI=@matricula
+	IF((SELECT ABSTRACCIONX4.datetime_is_between(@FechaAlta,@salida,[ABSTRACCIONX4].FechaReinicioOMaxima(NULL))) = 1)
+	BEGIN
+		SET @Error = 'No se puede generar un viaje anterior a la fecha de alta de la aeronave'
+		RAISERROR(@Error, 16, 1)
+		SET @HuboError = 1
+	END
+
+
+	IF((select count(*) from [ABSTRACCIONX4].VIAJES where AERO_MATRI=@matricula and [ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_SALIDA,@salida,[ABSTRACCIONX4].FechaReinicioOMaxima(NULL))=1) > 0)
+	BEGIN
+		SET @Error = 'No se puede generar un viaje anterior a otro de la misma aeronave'
+		RAISERROR(@Error, 16, 1)
+		SET @HuboError = 1
+	END
+
+	IF @HuboError = 1
+		RETURN
 
 	BEGIN TRY
 		INSERT INTO ABSTRACCIONX4.VIAJES 

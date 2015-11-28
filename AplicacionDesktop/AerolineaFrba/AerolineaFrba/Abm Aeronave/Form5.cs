@@ -45,13 +45,10 @@ namespace AerolineaFrba.Abm_Aeronave
             //
 
             SqlDataReader varcampo;
-            SqlDataReader varfecha;
 
             SqlCommand consultaColumnas = new SqlCommand();
-            SqlCommand consultaColumnasFechas = new SqlCommand();
 
             consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnasFechas.CommandType = CommandType.Text;
 
             if (seSeteaQuery)
             {
@@ -62,8 +59,6 @@ namespace AerolineaFrba.Abm_Aeronave
                 consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT IN ('AERO_CANT_KGS','SERV_COD','CIU_COD_ORIGEN')";
             }
 
-            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%' ";
-
             consultaColumnas.Connection = Program.conexion();
 
             varcampo = consultaColumnas.ExecuteReader();
@@ -73,16 +68,6 @@ namespace AerolineaFrba.Abm_Aeronave
                 this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
                 this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
             }
-
-            consultaColumnasFechas.Connection = Program.conexion();
-            varfecha = consultaColumnasFechas.ExecuteReader();
-
-            while (varfecha.Read())
-            {
-                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
-            }
-
-            /////////////////////////Fin carga contenido de combos//////////////////////////
 
         }
 
@@ -126,7 +111,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboCamposFiltro3.SelectedIndex != -1);
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0);
         }
 
         public void ejecutarConsulta()
@@ -207,11 +192,6 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 query = (anterior as Registro_Llegada_Destino.Form1).consultaSeteada();
 
-                label5.Visible = false;
-                cboCamposFiltro3.Visible = false;
-                dateTimePicker1.Visible = false;
-                button1.Visible = false;
-
             }
             else
             {
@@ -227,7 +207,6 @@ namespace AerolineaFrba.Abm_Aeronave
             
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
-            cboCamposFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
 
@@ -372,13 +351,6 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
-        }
-
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-           
-            this.concatenarCriterio(dateTimePicker1, cboCamposFiltro3, " = '" + dateTimePicker1.Value + "'");
         }
 
         private void concatenarCriterio(DateTimePicker dataTime, ComboBox combo, string criterio)

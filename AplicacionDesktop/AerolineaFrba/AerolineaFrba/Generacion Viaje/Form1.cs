@@ -43,6 +43,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
             txtMatricula.Text = "";
             txtRuta.Text = "";
+            txtMatricula.Enabled = false;
 
             this.listadoAeronaves.serv_cod = null;
             this.listadoRutas.serv_cod = null;
@@ -58,6 +59,8 @@ namespace AerolineaFrba.Generacion_Viaje
 
         public void seSeleccionoRuta(DataGridViewRow registro)
         {
+            button5.Enabled = true;
+            txtMatricula.Text = "";
             txtRuta.Text = registro.Cells["Id"].Value.ToString();
             this.listadoAeronaves.serv_cod = registro.Cells["Codigo Serv"].Value.ToString();
         }
@@ -82,6 +85,12 @@ namespace AerolineaFrba.Generacion_Viaje
                     this.listadoAeronaves.queryViajes += "and [ABSTRACCIONX4].sigue_la_ruta(AERO_MATRI, '" + txtRuta.Text + "', '"
                     + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
 
+                this.listadoAeronaves.queryViajes += " and [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA, '"
+                + dateTimePicker1.Value + "', [ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 0 ";
+
+                this.listadoAeronaves.queryViajes += " and (select count(*) from [ABSTRACCIONX4].VIAJES v " +
+                    "where v.AERO_MATRI=a.AERO_MATRI and [ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_SALIDA, '" + dateTimePicker1.Value + "',[ABSTRACCIONX4].FechaReinicioOMaxima(NULL))=1) = 0 ";
+
                 this.listadoAeronaves.extenderQuery();
                 this.listadoAeronaves.ejecutarConsulta();
                 this.cambiarVisibilidades(this.listadoAeronaves);
@@ -90,6 +99,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.listadoRutas.serv_cod = null;
             this.listadoRutas.generarQueryInicial();
             this.listadoRutas.ejecutarQuery();
             this.cambiarVisibilidades(this.listadoRutas);
@@ -192,7 +202,7 @@ namespace AerolineaFrba.Generacion_Viaje
             }
             catch (System.Exception e)
             {
-                MessageBox.Show(e.Message, "Erro en la base de datos", MessageBoxButtons.OK);
+                MessageBox.Show(e.Message, "Erro al generar el nuevo viaje", MessageBoxButtons.OK);
                 return null;
             }   
         }

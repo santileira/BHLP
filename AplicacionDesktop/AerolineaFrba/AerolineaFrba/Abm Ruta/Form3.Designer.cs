@@ -126,9 +126,7 @@
             this.cboCamposFiltro2.FormattingEnabled = true;
             this.cboCamposFiltro2.Items.AddRange(new object[] {
             "RUTA_COD",
-            "TIPO_SERVICIO",
-            "ORIGEN",
-            "DESTINO"});
+            "TIPO_SERVICIO"});
             this.cboCamposFiltro2.Location = new System.Drawing.Point(168, 59);
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
