@@ -893,7 +893,6 @@ INSERT INTO [ABSTRACCIONX4].PASAJES
 		[PASAJE_PRECIO],
 		[BUT_ID],
 		[COMP_PNR]
-		
 	)
 		
 SELECT T.PASAJE_COD,T.CLIENTE,
@@ -915,10 +914,11 @@ FROM
 		m.Pasaje_Codigo PASAJE_COD,
 		m.Pasaje_Precio PRECIO,
 		m.Pasaje_FechaCompra FECHA_COMPRA,
-		(SELECT BUT_ID 
+		/*(SELECT BUT_ID 
 			FROM [ABSTRACCIONX4].BUTACAS B
 			WHERE B.AERO_MATRI = m.Aeronave_Matricula AND
-				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,
+				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,*/
+		B.BUT_ID NRO_BUTACA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
 		(SELECT r.RUTA_ID 
@@ -929,7 +929,7 @@ FROM
 					AND c1.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Origen,2,100) 
 					AND c2.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Destino,2,100)
 		) ID_RUTA
-FROM gd_esquema.Maestra m 
+FROM gd_esquema.Maestra m JOIN ABSTRACCIONX4.BUTACAS B ON (m.Aeronave_Matricula = B.AERO_MATRI AND m.Butaca_Nro = B.BUT_NRO)
 WHERE Pasaje_Precio > 0) T 
 
 GO
