@@ -115,7 +115,7 @@
             this.dgListadoProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgListadoProductos.Size = new System.Drawing.Size(388, 127);
             this.dgListadoProductos.TabIndex = 0;
-            this.dgListadoProductos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgListadoProductos_CellContentClick);
+            this.dgListadoProductos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgListadoProductos_CellClick);
             // 
             // button1
             // 

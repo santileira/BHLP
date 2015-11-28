@@ -30,7 +30,6 @@
         {
             this.button6 = new System.Windows.Forms.Button();
             this.dgButacas = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
             this.dgKilos = new System.Windows.Forms.DataGridView();
             this.dgCliente = new System.Windows.Forms.DataGridView();
             this.button2 = new System.Windows.Forms.Button();
@@ -53,6 +52,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtDni = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelRestantes = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgButacas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgKilos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgCliente)).BeginInit();
@@ -87,16 +87,6 @@
             this.dgButacas.Size = new System.Drawing.Size(298, 98);
             this.dgButacas.TabIndex = 48;
             this.dgButacas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgButacas_CellContentClick);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(24, 277);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
-            this.label2.TabIndex = 50;
-            this.label2.Text = "Butacas libres:";
             // 
             // dgKilos
             // 
@@ -134,6 +124,7 @@
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(241, 430);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(93, 38);
@@ -223,6 +214,7 @@
             // txtMail
             // 
             this.txtMail.Location = new System.Drawing.Point(177, 221);
+            this.txtMail.MaxLength = 60;
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(134, 20);
             this.txtMail.TabIndex = 84;
@@ -263,6 +255,7 @@
             // txtTel
             // 
             this.txtTel.Location = new System.Drawing.Point(177, 169);
+            this.txtTel.MaxLength = 9;
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(134, 20);
             this.txtTel.TabIndex = 80;
@@ -281,6 +274,7 @@
             // txtDire
             // 
             this.txtDire.Location = new System.Drawing.Point(177, 143);
+            this.txtDire.MaxLength = 80;
             this.txtDire.Name = "txtDire";
             this.txtDire.Size = new System.Drawing.Size(134, 20);
             this.txtDire.TabIndex = 78;
@@ -299,6 +293,7 @@
             // txtNom
             // 
             this.txtNom.Location = new System.Drawing.Point(177, 117);
+            this.txtNom.MaxLength = 60;
             this.txtNom.Name = "txtNom";
             this.txtNom.Size = new System.Drawing.Size(134, 20);
             this.txtNom.TabIndex = 76;
@@ -318,6 +313,7 @@
             // 
             this.txtApe.Enabled = false;
             this.txtApe.Location = new System.Drawing.Point(177, 47);
+            this.txtApe.MaxLength = 60;
             this.txtApe.Name = "txtApe";
             this.txtApe.Size = new System.Drawing.Size(134, 20);
             this.txtApe.TabIndex = 74;
@@ -336,6 +332,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(177, 21);
+            this.txtDni.MaxLength = 12;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 72;
@@ -351,6 +348,16 @@
             this.label1.TabIndex = 71;
             this.label1.Text = "Numero de documento:";
             // 
+            // labelRestantes
+            // 
+            this.labelRestantes.AutoSize = true;
+            this.labelRestantes.ForeColor = System.Drawing.Color.White;
+            this.labelRestantes.Location = new System.Drawing.Point(22, 277);
+            this.labelRestantes.Name = "labelRestantes";
+            this.labelRestantes.Size = new System.Drawing.Size(96, 13);
+            this.labelRestantes.TabIndex = 86;
+            this.labelRestantes.Text = "Pasajes restantes: ";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -358,6 +365,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(359, 481);
+            this.Controls.Add(this.labelRestantes);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgImporte);
             this.Controls.Add(this.dgCliente2);
@@ -365,7 +373,6 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dgCliente);
             this.Controls.Add(this.dgKilos);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.dgButacas);
             this.Controls.Add(this.button6);
             this.MaximizeBox = false;
@@ -389,7 +396,6 @@
 
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.DataGridView dgButacas;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgKilos;
         private System.Windows.Forms.DataGridView dgCliente;
         private System.Windows.Forms.Button button2;
@@ -412,5 +418,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtDni;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelRestantes;
     }
 }

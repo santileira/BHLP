@@ -39,6 +39,21 @@ namespace AerolineaFrba.Canje_Millas
             txtProdSeleccionado.Text = "";
             txtCantSeleccionada.Text = "";
             puntosDisp.Text = millasDisponibles.ToString();
+
+            listaPremiosSelec.Items.Clear();
+            listCantSelec.Items.Clear();
+
+            millasDisponibles = millasDispFijas;
+
+            foreach (DataGridViewRow row in dgListadoProductos.Rows)
+            {
+                row.Cells["Stock"].Style.BackColor = Color.White;
+                row.Cells["Producto"].Style.BackColor = Color.White;
+                row.Cells["Puntos"].Style.BackColor = Color.White;
+            }
+
+            seSeleccionoPremio = false;
+
         }
 
         private void llenarListadoProductos()
@@ -62,7 +77,7 @@ namespace AerolineaFrba.Canje_Millas
             conexion.Close();
         }
 
-        private void dgListadoProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgListadoProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor.Equals(Color.DarkTurquoise))
             {
@@ -210,7 +225,7 @@ namespace AerolineaFrba.Canje_Millas
 
 
                         new SQLManager().generarSP("insertarCanje")
-                                        .agregarFechaSP("@canje_fecha", DateTime.Now)
+                                        .agregarFechaSP("@canje_fecha", Program.fechaHoy())
                                          .agregarIntSP("@canje_cantidad", cantSelect)
                                           .agregarStringSP("@descripcion", descripcion)
                                            .agregarIntSP("@dni", dni)

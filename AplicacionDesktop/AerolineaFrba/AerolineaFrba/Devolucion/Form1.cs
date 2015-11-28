@@ -71,7 +71,7 @@ namespace AerolineaFrba.Devolucion
         {
             if (dg.Rows.Count == 0)
             {
-                MessageBox.Show("No se han encontrado " + nombre + " con ese código de compra", "Informe", MessageBoxButtons.OK);
+                MessageBox.Show("No se han encontrado " + nombre + " posibles para cancelar con ese código de compra", "Informe", MessageBoxButtons.OK);
             }
         }
               
@@ -175,9 +175,6 @@ namespace AerolineaFrba.Devolucion
                     form.ShowDialog();
                     motivo = form.Motivo;
                     this.cancelarPasajesYEncomiendas();
-                    foreach (String pasaje in pasajes) {
-                        MessageBox.Show(pasaje, "asda", MessageBoxButtons.OK);
-                    }
                     
                     MessageBox.Show("Se ha realizado correctamente la devolución", "Informe", MessageBoxButtons.OK);
                     this.Close();

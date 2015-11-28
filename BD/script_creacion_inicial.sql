@@ -893,7 +893,6 @@ INSERT INTO [ABSTRACCIONX4].PASAJES
 		[PASAJE_PRECIO],
 		[BUT_ID],
 		[COMP_PNR]
-		
 	)
 		
 SELECT T.PASAJE_COD,T.CLIENTE,
@@ -915,10 +914,11 @@ FROM
 		m.Pasaje_Codigo PASAJE_COD,
 		m.Pasaje_Precio PRECIO,
 		m.Pasaje_FechaCompra FECHA_COMPRA,
-		(SELECT BUT_ID 
+		/*(SELECT BUT_ID 
 			FROM [ABSTRACCIONX4].BUTACAS B
 			WHERE B.AERO_MATRI = m.Aeronave_Matricula AND
-				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,
+				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,*/
+		B.BUT_ID NRO_BUTACA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
 		(SELECT r.RUTA_ID 
@@ -929,7 +929,7 @@ FROM
 					AND c1.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Origen,2,100) 
 					AND c2.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Destino,2,100)
 		) ID_RUTA
-FROM gd_esquema.Maestra m 
+FROM gd_esquema.Maestra m JOIN ABSTRACCIONX4.BUTACAS B ON (m.Aeronave_Matricula = B.AERO_MATRI AND m.Butaca_Nro = B.BUT_NRO)
 WHERE Pasaje_Precio > 0) T 
 
 GO
@@ -3144,13 +3144,13 @@ BEGIN
 
 	SELECT @Cantidad = COUNT(*) FROM PASAJES P , VIAJES V
 	WHERE P.VIAJE_COD = V.VIAJE_COD AND P.PASAJE_COD = @Codigo
-	AND [ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 0
-	AND [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1
+	AND ([ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 1
+	OR [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1)
 
 	IF(@Cantidad > 0)
-	SET @Esta  = 0
-	ELSE
 	SET @Esta  = 1
+	ELSE
+	SET @Esta  = 0
 	RETURN @Esta
 END
 GO
@@ -3166,11 +3166,11 @@ BEGIN
 
 	SELECT @Cantidad = COUNT(*) FROM ENCOMIENDAS E , VIAJES V
 	WHERE E.VIAJE_COD = V.VIAJE_COD AND E.ENCOMIENDA_COD = @Codigo
-	AND [ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 0
-	AND [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1
+	AND ([ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 1
+	OR [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1)
 	IF(@Cantidad > 0)
+		RETURN 1
 	RETURN 0
-	RETURN 1
 END
 GO
 
