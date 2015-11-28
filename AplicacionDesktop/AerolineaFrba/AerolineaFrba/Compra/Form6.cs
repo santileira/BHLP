@@ -121,7 +121,30 @@ namespace AerolineaFrba.Compra
                 }
                 else
                 {
-                    MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
+                    SqlDataReader varCli;
+                    SqlCommand consulta = new SqlCommand();
+                    consulta.CommandType = CommandType.Text;
+                    consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
+                    consulta.Connection = Program.conexion();
+                    varCli = consulta.ExecuteReader();
+
+                    varCli.Read();
+
+                    if (varCli.HasRows)
+                    {
+                        button2.Enabled = false;
+                        txtDire.Enabled = false;
+                        dp.Enabled = false;
+                        txtNom.Enabled = false;
+                        txtTel.Enabled = false;
+                        txtMail.Enabled = false;
+
+                        MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
+                    }
                 }
             }
 
@@ -172,8 +195,7 @@ namespace AerolineaFrba.Compra
 
                     string codigoPNR = CreatePNR(10);
                     cargarDatosDeCompra(codigoPNR);
-
-                    MessageBox.Show("Se realizo la compra con éxito. Su codigo de PNR: " + codigoPNR + ". Monto a abonar: " + totalAAbonar.ToString() + ".", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                    
 
                     this.Close();
 
@@ -482,66 +504,12 @@ namespace AerolineaFrba.Compra
             int.TryParse(cboMeses.Text, out vencMes);
             int.TryParse(cboAnios.Text, out vencAnio);
             int.TryParse(cboCuotas.Text, out cuotas);
+            SQLManager manager = new SQLManager();
 
             if (tarjetaNueva)
             {
 
-                new SQLManager().generarSP("ingresarDatosDeCompra")
-                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
-                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
-                                 .agregarIntSP("@dni", txtDni)
-                                 .agregarStringSP("@ape", txtApe)
-                                 .agregarStringSP("@nombre", txtNom)
-                                 .agregarStringSP("@direccion", txtDire)
-                                 .agregarStringSP("@mail", txtMail)
-                                 .agregarFechaSP("@fechanac", dp)
-                                 .agregarIntSP("@telefono", txtTel)
-                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
-                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
-                                 .agregarStringSP("@codigoPNR", codigoPNR)
-                                 .agregarIntSP("@cuotas",cuotas)
-                                 .agregarStringSP("@formaDePago", cboFormaPago)
-                                 .agregarIntSP("@nroTarjeta", txtNroTarjeta)
-                                 .agregarIntSP("@codSeg", txtCodSeg)
-                                 .agregarIntSP("@vencMes", vencMes)
-                                 .agregarIntSP("@vencAnio", vencAnio)
-                                 .agregarStringSP("@tipoTarjeta", cboTipoTarjeta)
-                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
-                                 .ejecutarSP();
-
-            }
-            else
-            {
-                if (esEfectivo)
-                {
-
-                    new SQLManager().generarSP("ingresarDatosDeCompra")
-                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
-                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
-                                 .agregarIntSP("@dni", txtDni)
-                                 .agregarStringSP("@ape", txtApe)
-                                 .agregarStringSP("@nombre", txtNom)
-                                 .agregarStringSP("@direccion", txtDire)
-                                 .agregarStringSP("@mail", txtMail)
-                                 .agregarFechaSP("@fechanac", dp)
-                                 .agregarIntSP("@telefono", txtTel)
-                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
-                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
-                                 .agregarStringSP("@codigoPNR", codigoPNR)
-                                 .agregarIntSP("@cuotas", 0)
-                                 .agregarStringSP("@formaDePago", cboFormaPago)
-                                 .agregarIntSP("@nroTarjeta", 0)
-                                 .agregarIntSP("@codSeg", 0)
-                                 .agregarIntSP("@vencMes", 0)
-                                 .agregarIntSP("@vencAnio", 0)
-                                 .agregarStringSP("@tipoTarjeta", "nada")
-                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
-                                 .ejecutarSP();
-
-                }
-                else
-                {
-                    new SQLManager().generarSP("ingresarDatosDeCompra")
+                manager = manager.generarSP("ingresarDatosDeCompra")
                                  .agregarTableSP("@TablaPasajes", tablaPasajes)
                                  .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
                                  .agregarIntSP("@dni", txtDni)
@@ -561,10 +529,75 @@ namespace AerolineaFrba.Compra
                                  .agregarIntSP("@vencMes", vencMes)
                                  .agregarIntSP("@vencAnio", vencAnio)
                                  .agregarStringSP("@tipoTarjeta", cboTipoTarjeta)
-                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva)
-                                 .ejecutarSP();
+                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva);
+
+            }
+            else
+            {
+                if (esEfectivo)
+                {
+
+                    manager = manager.generarSP("ingresarDatosDeCompra")
+                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
+                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@dni", txtDni)
+                                 .agregarStringSP("@ape", txtApe)
+                                 .agregarStringSP("@nombre", txtNom)
+                                 .agregarStringSP("@direccion", txtDire)
+                                 .agregarStringSP("@mail", txtMail)
+                                 .agregarFechaSP("@fechanac", dp)
+                                 .agregarIntSP("@telefono", txtTel)
+                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
+                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
+                                 .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarIntSP("@cuotas", 0)
+                                 .agregarStringSP("@formaDePago", cboFormaPago)
+                                 .agregarIntSP("@nroTarjeta", 0)
+                                 .agregarIntSP("@codSeg", 0)
+                                 .agregarIntSP("@vencMes", 0)
+                                 .agregarIntSP("@vencAnio", 0)
+                                 .agregarStringSP("@tipoTarjeta", "nada")
+                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva);
 
                 }
+                else
+                {
+                    manager = manager.generarSP("ingresarDatosDeCompra")
+                                 .agregarTableSP("@TablaPasajes", tablaPasajes)
+                                 .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@dni", txtDni)
+                                 .agregarStringSP("@ape", txtApe)
+                                 .agregarStringSP("@nombre", txtNom)
+                                 .agregarStringSP("@direccion", txtDire)
+                                 .agregarStringSP("@mail", txtMail)
+                                 .agregarFechaSP("@fechanac", dp)
+                                 .agregarIntSP("@telefono", txtTel)
+                                 .agregarBooleanoSP("@encontroComprador", encontroCliente)
+                                 .agregarBooleanoSP("@actualizarComprador", actualizarTabla)
+                                 .agregarStringSP("@codigoPNR", codigoPNR)
+                                 .agregarIntSP("@cuotas", cuotas)
+                                 .agregarStringSP("@formaDePago", cboFormaPago)
+                                 .agregarIntSP("@nroTarjeta", txtNroTarjeta)
+                                 .agregarIntSP("@codSeg", txtCodSeg)
+                                 .agregarIntSP("@vencMes", vencMes)
+                                 .agregarIntSP("@vencAnio", vencAnio)
+                                 .agregarStringSP("@tipoTarjeta", cboTipoTarjeta)
+                                 .agregarBooleanoSP("@agregarTarjeta", tarjetaNueva);
+
+                }
+
+                try
+                {
+                    manager.ejecutarSP();
+                    MessageBox.Show("Se realizo la compra con éxito. Su codigo de PNR: " + codigoPNR + ". Monto a abonar: " + totalAAbonar.ToString() + ".", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                }
+                catch
+                {
+                    MessageBox.Show("Fallo en la compra", "Fallo Compra", MessageBoxButtons.OK);
+                    this.Close();
+                    return;
+                }
+
 
                 
             }

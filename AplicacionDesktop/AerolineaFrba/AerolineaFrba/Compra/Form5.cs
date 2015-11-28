@@ -115,7 +115,30 @@ namespace AerolineaFrba.Compra
             }
             else
             {
-                MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
+                SqlDataReader varCli;
+                SqlCommand consulta = new SqlCommand();
+                consulta.CommandType = CommandType.Text;
+                consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
+                consulta.Connection = Program.conexion();
+                varCli = consulta.ExecuteReader();
+
+                varCli.Read();
+
+                if (varCli.HasRows)
+                {
+                    button2.Enabled = false;
+                    txtDire.Enabled = false;
+                    dp.Enabled = false;
+                    txtNom.Enabled = false;
+                    txtTel.Enabled = false;
+                    txtMail.Enabled = false;
+                    txtKilos.Enabled = false;
+                    MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
+                }
             }
         }
 
