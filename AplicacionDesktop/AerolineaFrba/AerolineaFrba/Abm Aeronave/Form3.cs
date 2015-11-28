@@ -27,30 +27,6 @@ namespace AerolineaFrba.Abm_Aeronave
         public Baja()
         {
             InitializeComponent();
-
-            //
-            // Carga del contenido de combos
-            //
-
-            SqlDataReader varcampo;
-
-            SqlCommand consultaColumnas = new SqlCommand();
-
-            consultaColumnas.CommandType = CommandType.Text;
-
-            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT IN ('AERO_CANT_KGS','SERV_COD','CIU_COD_ORIGEN')";
-
-            consultaColumnas.Connection = Program.conexion();
-
-            varcampo = consultaColumnas.ExecuteReader();
-
-            while (varcampo.Read())
-            {
-                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
-                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
-            }
-
-
         }
 
         private void Listado_Load(object sender, EventArgs e)
@@ -176,6 +152,22 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        private string nombreColumna(string nombre)
+        {
+            switch (nombre)
+            {
+                case "Matrícula":
+                    return "AERO_MATRI";
+                case "Servicio":
+                    return "s.SERV_DESC";
+                case "Modelo":
+                    return "AERO_MOD";
+                case "Fabricante":
+                    return "AERO_FAB";
+            }
+            return "";
+        }
+
 
         private Boolean concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
@@ -189,7 +181,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 else*/
                 this.query += " AND ";
 
-                this.query += combo.Text + criterio;
+                this.query += this.nombreColumna(combo.Text) + criterio;
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
                     txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
@@ -217,7 +209,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboErrores = true;
             }
 
-            else if (combo.Text.Equals("AERO_MOD") || combo.Text.Equals("AERO_MATRI") || combo.Text.Equals("AERO_FAB") || combo.Text.Equals("SERV_COD"))
+            else if (combo.Text.Equals("Modelo") || combo.Text.Equals("Matrícula") || combo.Text.Equals("Fabricante") || combo.Text.Equals("Servicio"))
             {
                 if (!this.esTexto(txt))
                 {
