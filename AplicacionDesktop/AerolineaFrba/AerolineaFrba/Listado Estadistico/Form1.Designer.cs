@@ -76,7 +76,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(457, 214);
+            this.button2.Location = new System.Drawing.Point(179, 214);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(126, 32);
             this.button2.TabIndex = 16;
@@ -87,7 +87,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(179, 214);
+            this.button1.Location = new System.Drawing.Point(435, 214);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 32);
             this.button1.TabIndex = 15;
@@ -98,6 +98,7 @@
             // cboEstadistica
             // 
             this.cboEstadistica.BackColor = System.Drawing.Color.White;
+            this.cboEstadistica.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboEstadistica.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboEstadistica.ForeColor = System.Drawing.Color.Black;
             this.cboEstadistica.FormattingEnabled = true;
@@ -181,6 +182,7 @@
             // cboSemestre
             // 
             this.cboSemestre.BackColor = System.Drawing.Color.White;
+            this.cboSemestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboSemestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboSemestre.ForeColor = System.Drawing.Color.Black;
             this.cboSemestre.FormattingEnabled = true;

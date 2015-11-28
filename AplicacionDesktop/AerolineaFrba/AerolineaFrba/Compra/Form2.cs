@@ -43,6 +43,8 @@ namespace AerolineaFrba.Compra
             txtTel.Text = "";
             txtMail.Text = "";
 
+            labelRestantes.Text = "Pasajes restantes: " + (anterior as Form4).butacasRestantes().ToString();
+
             txtDni.Focus();
 
             txtApe.Enabled = false;
@@ -60,11 +62,6 @@ namespace AerolineaFrba.Compra
             dgButacas.CurrentCell = null;
 
             dp.Value = Program.fechaHoy();
-
-            if (this.cantidadButacas == 0)
-                button2.Enabled = false;
-            else
-                button2.Enabled = true;
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
@@ -75,8 +72,8 @@ namespace AerolineaFrba.Compra
         
         public void seSelecciono(DataGridViewRow registro)
         {
-            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dgButacas);
-            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].kilosDisponibles('" + registro.Cells["VIAJE_COD"].Value.ToString() + "', '" + registro.Cells["AERO_MATRI"].Value.ToString() + "')", dgKilos);
+            SQLManager.ejecutarQuery("select BUT_NRO 'N° Butaca',BUT_TIPO 'Tipo' from [ABSTRACCIONX4].butacasDisponibles('" + registro.Cells["Código de viaje"].Value.ToString() + "', '" + registro.Cells["Matrícula"].Value.ToString() + "')", dgButacas);
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].kilosDisponibles('" + registro.Cells["Código de viaje"].Value.ToString() + "', '" + registro.Cells["Matrícula"].Value.ToString() + "')", dgKilos);
 
             string kilos = dgKilos.Rows[0].Cells["Kilos"].Value.ToString();
 
@@ -90,11 +87,28 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+
+            Boolean validacion = false;
+            validacion = Validacion.esVacio(txtDni, "DNI", true) || validacion;
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+
+            if (validacion)
+            {
+                return;
+            }
+
             txtDire.Enabled = true;
             dp.Enabled = true;
             txtNom.Enabled = true;
             txtTel.Enabled = true;
             txtMail.Enabled = true;
+            button2.Enabled = true;
 
             SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarCliente('" + txtDni.Text + "', '" + txtApe.Text + "')", dgCliente);
 
@@ -139,7 +153,7 @@ namespace AerolineaFrba.Compra
             }
             else
             {
-                if (dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor == Color.Gray)
+                if (dgButacas.SelectedRows[0].Cells["N° Butaca"].Style.BackColor == Color.Gray)
                 {
                     huboError = true;
                     MessageBox.Show("La butaca seleccionada ya se encuentra ocupada", "Error en los datos", MessageBoxButtons.OK);
@@ -188,29 +202,32 @@ namespace AerolineaFrba.Compra
                         txtMail.Text, dp.Value.ToString());
                 }
 
-                dgButacas.SelectedRows[0].Cells["BUT_NRO"].Style.BackColor = Color.Gray;
-                dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Style.BackColor = Color.Gray;
+                dgButacas.SelectedRows[0].Cells["N° Butaca"].Style.BackColor = Color.Gray;
+                dgButacas.SelectedRows[0].Cells["Tipo"].Style.BackColor = Color.Gray;
 
                 if (this.encontroCliente)
                 {
 
                     if (this.actualizarTabla)
                     {
-                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, dgButacas.SelectedRows[0].Cells["N° Butaca"].Value.ToString(), dgButacas.SelectedRows[0].Cells["Tipo"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }
                     else
                     {
-                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarPasaje(dgCliente.Rows[0], dgButacas.SelectedRows[0].Cells["N° Butaca"].Value.ToString(), dgButacas.SelectedRows[0].Cells["Tipo"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }
                 }
                 else
                 {
-                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["BUT_NRO"].Value.ToString(), dgButacas.SelectedRows[0].Cells["BUT_TIPO"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                    (this.anterior as Compra.Form4).agregarPasaje(dgCliente2.Rows[0], dgButacas.SelectedRows[0].Cells["N° Butaca"].Value.ToString(), dgButacas.SelectedRows[0].Cells["Tipo"].Value.ToString(), this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                 }
 
                 this.cantidadButacas -= 1;
-                
+
                 this.inicio();
+                if ((anterior as Form4).butacasRestantes() == 0)
+                    this.cambiarVisibilidades(this.anterior);
+                    
             }
         }
 
@@ -221,7 +238,7 @@ namespace AerolineaFrba.Compra
 
             SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importePasaje('" + origen + "', '" + destino + "')", dgImporte);
 
-            return dgImporte.Rows[0].Cells["IMPORTE"].Value.ToString();
+            return dgImporte.Rows[0].Cells["Importe"].Value.ToString();
         }
         
         private void agregarCampos(DataGridView unDg)
@@ -239,17 +256,21 @@ namespace AerolineaFrba.Compra
         private Boolean hacerValidacionesDeTipo()
         {
             Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
-            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
-            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
-            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
-            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
-            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Dirección", true) || validacion;
+            validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Dirección", true) || validacion;
+            validacion = !Validacion.esNumero(txtTel, "Teléfono", true) || validacion;
             validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
-            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
-            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+            validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999, false, "Teléfono") || validacion;
 
             return validacion;
         }
@@ -258,10 +279,10 @@ namespace AerolineaFrba.Compra
         {
             foreach (DataGridViewRow row in dgButacas.Rows)
             {
-                if (row.Cells["BUT_NRO"].Value.ToString() == but)
+                if (row.Cells["N° Butaca"].Value.ToString() == but)
                 {
-                    row.Cells["BUT_NRO"].Style.BackColor = Color.White;
-                    row.Cells["BUT_TIPO"].Style.BackColor = Color.White;
+                    row.Cells["N° Butaca"].Style.BackColor = Color.White;
+                    row.Cells["Tipo"].Style.BackColor = Color.White;
                 }
             }
 

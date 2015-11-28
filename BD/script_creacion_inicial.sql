@@ -893,7 +893,6 @@ INSERT INTO [ABSTRACCIONX4].PASAJES
 		[PASAJE_PRECIO],
 		[BUT_ID],
 		[COMP_PNR]
-		
 	)
 		
 SELECT T.PASAJE_COD,T.CLIENTE,
@@ -915,10 +914,11 @@ FROM
 		m.Pasaje_Codigo PASAJE_COD,
 		m.Pasaje_Precio PRECIO,
 		m.Pasaje_FechaCompra FECHA_COMPRA,
-		(SELECT BUT_ID 
+		/*(SELECT BUT_ID 
 			FROM [ABSTRACCIONX4].BUTACAS B
 			WHERE B.AERO_MATRI = m.Aeronave_Matricula AND
-				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,
+				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,*/
+		B.BUT_ID NRO_BUTACA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
 		(SELECT r.RUTA_ID 
@@ -929,7 +929,7 @@ FROM
 					AND c1.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Origen,2,100) 
 					AND c2.CIU_DESC = SUBSTRING(m.Ruta_Ciudad_Destino,2,100)
 		) ID_RUTA
-FROM gd_esquema.Maestra m 
+FROM gd_esquema.Maestra m JOIN ABSTRACCIONX4.BUTACAS B ON (m.Aeronave_Matricula = B.AERO_MATRI AND m.Butaca_Nro = B.BUT_NRO)
 WHERE Pasaje_Precio > 0) T 
 
 GO
@@ -3144,13 +3144,13 @@ BEGIN
 
 	SELECT @Cantidad = COUNT(*) FROM PASAJES P , VIAJES V
 	WHERE P.VIAJE_COD = V.VIAJE_COD AND P.PASAJE_COD = @Codigo
-	AND [ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 0
-	AND [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1
+	AND ([ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 1
+	OR [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1)
 
 	IF(@Cantidad > 0)
-	SET @Esta  = 0
-	ELSE
 	SET @Esta  = 1
+	ELSE
+	SET @Esta  = 0
 	RETURN @Esta
 END
 GO
@@ -3166,11 +3166,11 @@ BEGIN
 
 	SELECT @Cantidad = COUNT(*) FROM ENCOMIENDAS E , VIAJES V
 	WHERE E.VIAJE_COD = V.VIAJE_COD AND E.ENCOMIENDA_COD = @Codigo
-	AND [ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 0
-	AND [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1
+	AND ([ABSTRACCIONX4].datetime_is_between([ABSTRACCIONX4].obtenerFechaDeHoy(),V.VIAJE_FECHA_SALIDA,V.VIAJE_FECHA_LLEGADAE) = 1
+	OR [ABSTRACCIONX4].datetime_esMayor([ABSTRACCIONX4].obtenerFechaDeHoy() , V.VIAJE_FECHA_LLEGADAE) = 1)
 	IF(@Cantidad > 0)
+		RETURN 1
 	RETURN 0
-	RETURN 1
 END
 GO
 
@@ -3296,13 +3296,13 @@ GO
 -------------------------------Estadistica destinos con mas pasajes vendidos-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesVendidos(@semestre tinyint, @anio smallint)
 
-RETURNS @variable_tabla TABLE (Descripcion varchar(80))
+RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad int)
 
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-			select top 5 t.Descripcion
+			select top 5 t.Descripcion, coalesce(sum(t.cantidad),0)
 			from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 					where com.COMP_PNR = p.COMP_PNR  and
@@ -3316,7 +3316,7 @@ if(@semestre = 1)
 			order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
-			select top 5 t.Descripcion
+			select top 5 t.Descripcion, coalesce(sum(t.cantidad),0)
 			from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 					from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 					where com.COMP_PNR = p.COMP_PNR  and
@@ -3414,13 +3414,13 @@ GO
 -------------------------------Estadistica destinos con mas pasajes cancelados-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesCancelados(@semestre tinyint, @anio smallint)
 
-RETURNS @variable_tabla TABLE (Descripcion varchar(80))
+RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad int)
 
 AS
 begin
 if(@semestre = 1)
 	insert @variable_tabla 
-		select top 5 t.Descripcion
+		select top 5 t.Descripcion, t.Cantidad
 		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 				where com.COMP_PNR = p.COMP_PNR and
@@ -3430,11 +3430,11 @@ if(@semestre = 1)
 				p.pasaje_cancelado = 1
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
-		group by t.Descripcion
+		group by t.Descripcion, t.Cantidad
 		order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
-		select top 5 t.Descripcion
+		select top 5 t.Descripcion, t.Cantidad
 		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
 				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
 				where com.COMP_PNR = p.COMP_PNR and
@@ -3444,7 +3444,7 @@ else
 				p.pasaje_cancelado = 1
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
-		group by t.Descripcion
+		group by t.Descripcion, t.Cantidad
 		order by coalesce(sum(t.cantidad),0) desc
 
 return;

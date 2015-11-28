@@ -36,6 +36,8 @@ namespace AerolineaFrba.Canje_Millas
 
         public void inicio()
         {
+            txtProdSeleccionado.Text = "";
+            txtCantSeleccionada.Text = "";
             puntosDisp.Text = millasDisponibles.ToString();
         }
 
@@ -60,7 +62,7 @@ namespace AerolineaFrba.Canje_Millas
             conexion.Close();
         }
 
-        private void dgListadoProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgListadoProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!dgListadoProductos.SelectedRows[0].Cells["Stock"].Style.BackColor.Equals(Color.DarkTurquoise))
             {
@@ -80,22 +82,21 @@ namespace AerolineaFrba.Canje_Millas
         private void button1_Click(object sender, EventArgs e)
         {
             
-            if (validarCampo())
+            if(!seSeleccionoPremio)
+                MessageBox.Show("Se debe seleccionar un premio", "Error", MessageBoxButtons.OK);
+            if (validarCampo() && seSeleccionoPremio)
             {
-                if (seSeleccionoPremio)
+                if (hayStockDisponible())
                 {
-                    if (hayStockDisponible())
-                    {
-                        this.agregarALista();
-                        dgListadoProductos.SelectedRows[0].Selected = false;
-                        button1.Enabled = false;
-                    }
+                    this.agregarALista();
+                    dgListadoProductos.SelectedRows[0].Selected = false;
+                    button1.Enabled = false;
+                    seSeleccionoPremio = false;
                 }
-                else
-                    MessageBox.Show("Se debe seleccionar un premio", "Error", MessageBoxButtons.OK);
-  
+
             }
-          
+
+         
         }
 
         private Boolean validarCampo()
@@ -175,6 +176,8 @@ namespace AerolineaFrba.Canje_Millas
                 row.Cells["Producto"].Style.BackColor = Color.White;
                 row.Cells["Puntos"].Style.BackColor = Color.White;
             }
+
+            seSeleccionoPremio = false;
         }
 
         private void button2_Click(object sender, EventArgs e)

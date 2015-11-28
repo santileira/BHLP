@@ -6,7 +6,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AerolineaFrba.Compra
@@ -119,8 +118,8 @@ namespace AerolineaFrba.Compra
                     SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
                     //this.ejecutarQuery();
 
-                    dg.Columns["VIAJE_COD"].Visible = false;
-                    dg.Columns["AERO_MATRI"].Visible = false;
+                    dg.Columns["Código de viaje"].Visible = false;
+                    dg.Columns["Matrícula"].Visible = false;
 
                     dg.CurrentCell = null;
 
@@ -137,11 +136,11 @@ namespace AerolineaFrba.Compra
             }
             else
             {
-                SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
+                SQLManager.ejecutarQuery("select VIAJE_COD 'Código de viaje', AERO_MATRI 'Matrícula',Fecha_Salida 'Fecha de salida', Fecha_Llegada 'Fecha de llegada', Origen 'Origen', Destino 'Destino', Tipo_Servicio 'Tipo de servicio' from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
                 //this.ejecutarQuery();
 
-                dg.Columns["VIAJE_COD"].Visible = false;
-                dg.Columns["AERO_MATRI"].Visible = false;
+                dg.Columns["Código de viaje"].Visible = false;
+                dg.Columns["Matrícula"].Visible = false;
 
                 dg.CurrentCell = null;
 
@@ -182,17 +181,16 @@ namespace AerolineaFrba.Compra
 
         }
 
-        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dg_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            this.viaje = dg.SelectedRows[0].Cells["VIAJE_COD"].Value.ToString();
-            this.matricula = dg.SelectedRows[0].Cells["AERO_MATRI"].Value.ToString();
+            this.viaje = dg.SelectedRows[0].Cells["Código de viaje"].Value.ToString();
+            this.matricula = dg.SelectedRows[0].Cells["Matrícula"].Value.ToString();
             this.origen = txtCiudadOrigen.Text;
             this.destino = txtCiudadDestino.Text;
-            this.fechaSalida = dg.SelectedRows[0].Cells["Fecha_Salida"].Value.ToString();
-            this.fechaLlegada = dg.SelectedRows[0].Cells["Fecha_Llegada"].Value.ToString();
+            this.fechaSalida = dg.SelectedRows[0].Cells["Fecha de salida"].Value.ToString();
+            this.fechaLlegada = dg.SelectedRows[0].Cells["Fecha de llegada"].Value.ToString();
 
             (((formularioSiguiente as Compra.Form3).formularioSiguiente as Compra.Form4).butacas as Compra.Form2).seSelecciono(dg.SelectedRows[0]);
-
             seleccionoViaje = true;
         }
 
@@ -207,6 +205,12 @@ namespace AerolineaFrba.Compra
                     MessageBox.Show("Debe seleccionar algun viaje disponible", "Error en la seleccion de viajes", MessageBoxButtons.OK);
                 else
                 {
+                    if (Convert.ToInt32(lblButacas.Text) == 0 && Convert.ToDouble(lblKilos.Text) == 0)
+                    {
+                        MessageBox.Show("Este viaje no tiene más capacidad.", "Error en la seleccion de viajes", MessageBoxButtons.OK);
+                        return;
+                    }
+
                     (formularioSiguiente as Compra.Form3).cantidadButacasDisponibles = Convert.ToInt32(lblButacas.Text);
                     (formularioSiguiente as Compra.Form3).cantidadKilosDisponibles = Convert.ToDouble(lblKilos.Text);
 

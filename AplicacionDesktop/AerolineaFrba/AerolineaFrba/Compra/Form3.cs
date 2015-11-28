@@ -20,12 +20,19 @@ namespace AerolineaFrba.Compra
 
         public Form3()
         {
+            this.VisibleChanged += new EventHandler(this.Form_VisibleChanged);
             InitializeComponent();
         }
 
         private void Form3_Load(object sender, EventArgs e)
         {
             this.inicio();
+        }
+
+        private void Form_VisibleChanged(object sender, EventArgs e)
+        {
+            groupBox1.Enabled = cantidadButacasDisponibles > 0;
+            groupBox2.Enabled = cantidadKilosDisponibles > 0;
         }
 
         private void inicio()
@@ -37,7 +44,7 @@ namespace AerolineaFrba.Compra
             txtButacas.Enabled = false;
 
             txtButacas.Text = "";
-            txtKilos.Text = "";
+            txtKilos.Text = "";  
         }
 
 
@@ -108,10 +115,10 @@ namespace AerolineaFrba.Compra
                     int cantBut;
                     double cantKilo;
                     int.TryParse(txtButacas.Text, out cantBut);
-                    double.TryParse(txtKilos.Text, out cantKilo);
+                    double.TryParse(txtKilos.Text.Replace(".",","), out cantKilo);
 
                     (formularioSiguiente as Compra.Form4).butacasSelec = cantBut;
-                    (formularioSiguiente as Compra.Form4).kilosSelec = cantKilo;
+                    (formularioSiguiente as Compra.Form4).kilosSelec = Math.Round(cantKilo,2);
                     this.cambiarVisibilidades(this.formularioSiguiente);
                     
                 }
@@ -145,6 +152,7 @@ namespace AerolineaFrba.Compra
 
         private void button6_Click(object sender, EventArgs e)
         {
+            this.inicio();
             this.cambiarVisibilidades(this.anterior);
         }
     }

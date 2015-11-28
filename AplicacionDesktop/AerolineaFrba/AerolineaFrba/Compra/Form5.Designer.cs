@@ -35,6 +35,7 @@
             this.dgCliente2 = new System.Windows.Forms.DataGridView();
             this.dgImporte = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelRestantes = new System.Windows.Forms.Label();
             this.txtKilos = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dp = new System.Windows.Forms.DateTimePicker();
@@ -60,7 +61,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(136, 311);
+            this.button3.Location = new System.Drawing.Point(136, 339);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(85, 39);
             this.button3.TabIndex = 89;
@@ -70,7 +71,8 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(263, 312);
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(263, 340);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(85, 38);
             this.button2.TabIndex = 88;
@@ -80,7 +82,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 311);
+            this.button6.Location = new System.Drawing.Point(12, 339);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(85, 39);
             this.button6.TabIndex = 71;
@@ -141,6 +143,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelRestantes);
             this.groupBox1.Controls.Add(this.txtKilos);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.dp);
@@ -161,10 +164,19 @@
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(336, 284);
+            this.groupBox1.Size = new System.Drawing.Size(336, 306);
             this.groupBox1.TabIndex = 98;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos personales";
+            // 
+            // labelRestantes
+            // 
+            this.labelRestantes.AutoSize = true;
+            this.labelRestantes.Location = new System.Drawing.Point(182, 277);
+            this.labelRestantes.Name = "labelRestantes";
+            this.labelRestantes.Size = new System.Drawing.Size(61, 13);
+            this.labelRestantes.TabIndex = 110;
+            this.labelRestantes.Text = "Restantes: ";
             // 
             // txtKilos
             // 
@@ -305,7 +317,7 @@
             // txtDni
             // 
             this.txtDni.Location = new System.Drawing.Point(185, 22);
-            this.txtDni.MaxLength = 9;
+            this.txtDni.MaxLength = 12;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(134, 20);
             this.txtDni.TabIndex = 94;
@@ -326,7 +338,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(366, 365);
+            this.ClientSize = new System.Drawing.Size(366, 390);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgImporte);
             this.Controls.Add(this.dgCliente2);
@@ -374,5 +386,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtDni;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelRestantes;
     }
 }

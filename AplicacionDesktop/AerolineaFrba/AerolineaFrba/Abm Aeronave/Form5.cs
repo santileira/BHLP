@@ -437,6 +437,11 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        private void dg_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }
     

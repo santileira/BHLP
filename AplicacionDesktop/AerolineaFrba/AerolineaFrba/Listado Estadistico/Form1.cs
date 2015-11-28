@@ -28,15 +28,10 @@ namespace AerolineaFrba.Listado_Estadistico
             cboEstadistica.SelectedIndex = 0;
             txtAnio.Text = "";
             dg.Visible = false;
-            
-            DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
-            columnHeaderStyle.BackColor = Color.Beige;
-            columnHeaderStyle.Font = new Font("Calibri", 12, FontStyle.Bold);
-            dg.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+
             dg.CurrentCell = null;
 
-        }
-
+        } 
         private string semestreSeleccionado()
         {
             if (cboSemestre.SelectedIndex == 0)
@@ -61,8 +56,13 @@ namespace AerolineaFrba.Listado_Estadistico
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Boolean huboError = !Validacion.numeroCorrecto(txtAnio, "Año", false);
+            Boolean huboError = false;
+            huboError = !Validacion.estaSeleccionado(cboSemestre,  true , "Semestre") || huboError;
             huboError = Validacion.esVacio(txtAnio, "Año", true) || huboError;
+            huboError = !Validacion.esNumero(txtAnio, "Año", true) || huboError;
+            huboError = !Validacion.estaEntreLimites(txtAnio,1990,2050,false, "Año") || huboError;
+            huboError = !Validacion.estaSeleccionado(cboEstadistica, true, "Estadística") || huboError;
+            
 
             if (!huboError)
             {

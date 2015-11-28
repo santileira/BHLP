@@ -48,6 +48,7 @@ namespace AerolineaFrba.Compra
             txtNom.Text = "";
             txtTel.Text = "";
             txtMail.Text = "";
+            labelRestantes.Text = "KG Restantes: " + (anterior as Form4).kilosRestantes().ToString();
 
             txtDni.Focus();
 
@@ -168,7 +169,8 @@ namespace AerolineaFrba.Compra
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
 
-            if (dp.Value.Year > Program.fechaHoy().Year && dp.Value.Month > Program.fechaHoy().Month && dp.Value.Day > Program.fechaHoy().Day)
+
+            if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
             {
                 huboError = true;
                 MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);
@@ -179,10 +181,10 @@ namespace AerolineaFrba.Compra
             {
                 double.TryParse(txtKilos.Text.Replace(".",","), out kg);
 
-                if (kg > this.cantidadKilos)
+                if (Convert.ToDecimal(kg) > (anterior as Form4).kilosRestantes())
                 {
                     huboError = true;
-                    MessageBox.Show("Se ha ingresado un numero de kilos mayor al disponible en la aeronave", "Error en los datos", MessageBoxButtons.OK);
+                    //MessageBox.Show("Se ha ingresado un numero de kilos mayor al disponible en la aeronave", "Error en los datos", MessageBoxButtons.OK);
                 }
             }
             else
@@ -210,20 +212,23 @@ namespace AerolineaFrba.Compra
 
                 string viaje_cod = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).viaje;
                 string matricula = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).matricula;
+                string textoKilos = Decimal.Round(Convert.ToDecimal(txtKilos.Text.Replace(".", ",")), 2).ToString();
 
                 if(this.encontroCliente)
                     if (this.actualizarTabla)
                     {
-                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, txtKilos.Text, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0].Cells["CLI_COD"].Value.ToString(), txtDni.Text, txtNom.Text, txtApe.Text, txtDire.Text, txtTel.Text, txtMail.Text, dp.Text, textoKilos, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }else{
-                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
+                        (this.anterior as Compra.Form4).agregarEncomienda(dgCliente.Rows[0], textoKilos, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
                     }
                 else
-                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], txtKilos.Text, this.calcularImporte(), actualizarTabla,encontroCliente, viaje_cod, matricula);
+                    (this.anterior as Compra.Form4).agregarEncomienda(dgCliente2.Rows[0], textoKilos, this.calcularImporte(), actualizarTabla, encontroCliente, viaje_cod, matricula);
 
                 this.cantidadKilos -= kg;
 
                 this.inicio();
+                if((anterior as Form4).kilosRestantes() == 0)
+                    this.cambiarVisibilidades(this.anterior);
             }
         }
 
@@ -232,9 +237,9 @@ namespace AerolineaFrba.Compra
             string origen = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).origen;
             string destino = (((this.anterior as Compra.Form4).anterior as Compra.Form3).anterior as Compra.Form1).destino;
 
-            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importeEncomienda('" + txtKilos.Text + "', '" + origen + "', '" + destino + "')", dgImporte);
+            SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].importeEncomienda(" + txtKilos.Text.Replace(",",".") + ", '" + origen + "', '" + destino + "')", dgImporte);
 
-            return dgImporte.Rows[0].Cells["IMPORTE"].Value.ToString();
+            return dgImporte.Rows[0].Cells["Importe"].Value.ToString();
         }
 
         private void agregarCampos(DataGridView unDg)
@@ -258,7 +263,6 @@ namespace AerolineaFrba.Compra
             validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
             validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
             validacion = Validacion.esVacio(txtKilos, "Kilos de encomienda", true) || validacion;
-            
 
             validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
             validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
@@ -270,8 +274,7 @@ namespace AerolineaFrba.Compra
 
             validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
             validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999,false,"Teléfono") || validacion;
-            //validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, ,true,"Kilos de encomienda") || validacion;
-            
+            validacion = !Validacion.estaEntreLimites(txtKilos,0.01m, (anterior as Form4).kilosRestantes(),true,"Kilos de encomienda") || validacion;
 
             return validacion;
         }

@@ -27,6 +27,7 @@ namespace AerolineaFrba.Compra
 
         public Form4()
         {
+            this.VisibleChanged += new EventHandler(this.Form_VisibleChanged);
             InitializeComponent();
         }
 
@@ -34,11 +35,24 @@ namespace AerolineaFrba.Compra
         {
         }
 
+        private void Form_VisibleChanged(object sender, EventArgs e)
+        {
+            habilitarBotonesCompra();
+            labelPasajesRestantes.Text = "Pasajes restantes: " + butacasRestantes().ToString();
+            labelKGRestantes.Text = "KG Restantes: " + kilosRestantes().ToString();
+        }
+
+        public void habilitarBotonesCompra()
+        {
+            button1.Enabled = butacasRestantes() > 0;
+            button2.Enabled = kilosRestantes() > 0;
+        }
+
         public Boolean seRegistroPasajeDelCliente(String dni, String apellido)
         {
             foreach (DataGridViewRow row in dgPasajes.Rows)
             {
-                if (row.Cells["CLI_DNI"].Value.ToString() == dni && row.Cells["CLI_APELLIDO"].Value.ToString() == apellido)
+                if (row.Cells["DNI"].Value.ToString() == dni && row.Cells["Apellido"].Value.ToString() == apellido)
                 {
                     return true;
                 }
@@ -51,7 +65,7 @@ namespace AerolineaFrba.Compra
         {
             foreach (DataGridViewRow row in dgEncomiendas.Rows)
             {
-                if (row.Cells["CLI_DNI"].Value.ToString() == dni && row.Cells["CLI_APELLIDO"].Value.ToString() == apellido)
+                if (row.Cells["DNI"].Value.ToString() == dni && row.Cells["Apellido"].Value.ToString() == apellido)
                 {
                     return true;
                 }
@@ -64,12 +78,14 @@ namespace AerolineaFrba.Compra
         {
             button4.Enabled = true;
             button1.Enabled = true;
+            labelPasajesRestantes.Visible = true;
         }
 
         public void activarCompraEncomienda()
         {
             button2.Enabled = true;
             button5.Enabled = true;
+            labelKGRestantes.Visible = true;
         }
 
 
@@ -77,12 +93,14 @@ namespace AerolineaFrba.Compra
         {
             button4.Enabled = false;
             button1.Enabled = false;
+            labelPasajesRestantes.Visible = false;
         }
 
         public void desactivarCompraEncomienda()
         {
             button2.Enabled = false;
             button5.Enabled = false;
+            labelKGRestantes.Visible = false;
         }
 
         public void crearColumnas()
@@ -90,59 +108,62 @@ namespace AerolineaFrba.Compra
             dgPasajes.ColumnCount = 15;
             dgPasajes.ColumnHeadersVisible = true;
 
+            /*
             DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
             columnHeaderStyle.BackColor = Color.Beige;
             columnHeaderStyle.Font = new Font("Verdana", 8, FontStyle.Bold);
             dgPasajes.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
+            */
 
             this.agregarCampos(dgPasajes);
-            dgPasajes.Columns[8].Name = "BUTACA";
-            dgPasajes.Columns[9].Name = "TIPO";
-            dgPasajes.Columns[10].Name = "IMPORTE";
-            dgPasajes.Columns[11].Name = "ACTUALIZAR";
-            dgPasajes.Columns[12].Name = "VIAJE_COD";
-            dgPasajes.Columns[13].Name = "MATRICULA";
-            dgPasajes.Columns[14].Name = "ENCONTRADO";
+            dgPasajes.Columns[8].Name = "Butaca";
+            dgPasajes.Columns[9].Name = "Tipo";
+            dgPasajes.Columns[10].Name = "Importe";
+            dgPasajes.Columns[11].Name = "Actualizar";
+            dgPasajes.Columns[12].Name = "Código de viaje";
+            dgPasajes.Columns[13].Name = "Matrícula";
+            dgPasajes.Columns[14].Name = "Encontrado";
             
-            dgPasajes.Columns["CLI_COD"].Visible = false;
-            dgPasajes.Columns["ACTUALIZAR"].Visible = false;
-            dgPasajes.Columns["VIAJE_COD"].Visible = false;
-            dgPasajes.Columns["MATRICULA"].Visible = false;
-            dgPasajes.Columns["ENCONTRADO"].Visible = false;
+            dgPasajes.Columns["Código"].Visible = false;
+            dgPasajes.Columns["Actualizar"].Visible = false;
+            dgPasajes.Columns["Código de viaje"].Visible = false;
+            dgPasajes.Columns["Matrícula"].Visible = false;
+            dgPasajes.Columns["Encontrado"].Visible = false;
 
             dgEncomiendas.ColumnCount = 14;
             dgEncomiendas.ColumnHeadersVisible = true;
 
+            /*
             DataGridViewCellStyle columnHeaderStyle2 = new DataGridViewCellStyle();
             columnHeaderStyle2.BackColor = Color.Beige;
             columnHeaderStyle2.Font = new Font("Verdana", 8, FontStyle.Bold);
             dgEncomiendas.ColumnHeadersDefaultCellStyle = columnHeaderStyle2;
-
+            */
             this.agregarCampos(dgEncomiendas);
-            dgEncomiendas.Columns[8].Name = "KILOS";
-            dgEncomiendas.Columns[9].Name = "IMPORTE";
-            dgEncomiendas.Columns[10].Name = "ACTUALIZAR";
-            dgEncomiendas.Columns[11].Name = "VIAJE_COD";
-            dgEncomiendas.Columns[12].Name = "MATRICULA";
-            dgEncomiendas.Columns[13].Name = "ENCONTRADO";
+            dgEncomiendas.Columns[8].Name = "Kilos";
+            dgEncomiendas.Columns[9].Name = "Importe";
+            dgEncomiendas.Columns[10].Name = "Actualizar";
+            dgEncomiendas.Columns[11].Name = "Código de viaje";
+            dgEncomiendas.Columns[12].Name = "Matrícula";
+            dgEncomiendas.Columns[13].Name = "Encontrado";
 
-            dgEncomiendas.Columns["CLI_COD"].Visible = false;
-            dgEncomiendas.Columns["ACTUALIZAR"].Visible = false;
-            dgEncomiendas.Columns["VIAJE_COD"].Visible = false;
-            dgEncomiendas.Columns["MATRICULA"].Visible = false;
-            dgEncomiendas.Columns["ENCONTRADO"].Visible = false;
+            dgEncomiendas.Columns["Código"].Visible = false;
+            dgEncomiendas.Columns["Actualizar"].Visible = false;
+            dgEncomiendas.Columns["Código de viaje"].Visible = false;
+            dgEncomiendas.Columns["Matrícula"].Visible = false;
+            dgEncomiendas.Columns["Encontrado"].Visible = false;
         }
 
         private void agregarCampos(DataGridView unDg)
         {
-            unDg.Columns[0].Name = "CLI_COD";
-            unDg.Columns[1].Name = "CLI_DNI";
-            unDg.Columns[2].Name = "CLI_NOMBRE";
-            unDg.Columns[3].Name = "CLI_APELLIDO";
-            unDg.Columns[4].Name = "CLI_DIRECCION";
-            unDg.Columns[5].Name = "CLI_TELEFONO";
-            unDg.Columns[6].Name = "CLI_MAIL";
-            unDg.Columns[7].Name = "CLI_FECHA_NAC";
+            unDg.Columns[0].Name = "Código";
+            unDg.Columns[1].Name = "DNI";
+            unDg.Columns[2].Name = "Nombre";
+            unDg.Columns[3].Name = "Apellido";
+            unDg.Columns[4].Name = "Dirección";
+            unDg.Columns[5].Name = "Teléfono";
+            unDg.Columns[6].Name = "Mail";
+            unDg.Columns[7].Name = "Fecha de nacimiento";
         }
 
         public void agregarPasaje(DataGridViewRow registroCliente, string numero_butaca, string tipo_butaca, string importe, Boolean actualizarTabla,Boolean encontroCliente, string viaje_cod, string matricula)
@@ -177,8 +198,19 @@ namespace AerolineaFrba.Compra
 
         private void button6_Click(object sender, EventArgs e)
         {
-            this.cambiarVisibilidades(this.anterior);
+            DialogResult resultado = MessageBox.Show("Si vuelve al formulario anterior perderá los datos de pasajes/encomiendas ya cargados. ¿Desea regresar de todas formas?", "Advertencia", MessageBoxButtons.YesNo);
+            if (apretoSi(resultado))
+            {
+                dgEncomiendas.Rows.Clear();
+                dgPasajes.Rows.Clear();
+                this.cambiarVisibilidades(this.anterior);
+            }
         }
+
+        private Boolean apretoSi(DialogResult resultado)
+        {
+            return resultado == System.Windows.Forms.DialogResult.Yes;
+        } 
 
         private void cambiarVisibilidades(Form formularioSiguiente)
         {
@@ -195,7 +227,7 @@ namespace AerolineaFrba.Compra
             double kilos;
             foreach (DataGridViewRow row in dgEncomiendas.Rows)
             {
-                double.TryParse(row.Cells["KILOS"].Value.ToString(), out kilos);
+                double.TryParse(row.Cells["Kilos"].Value.ToString(), out kilos);
                 kilosPedidos = kilosPedidos + kilos;
             }
 
@@ -233,9 +265,11 @@ namespace AerolineaFrba.Compra
                 MessageBox.Show("No se puede cancelar ningun pasaje porque aun no se ha confirmado ninguno", "Error en la cancelacion de pasajes", MessageBoxButtons.OK);
             else
             {
-                (this.butacas as Compra.Form2).liberarButaca(dgPasajes.SelectedRows[0].Cells["BUTACA"].Value.ToString());
+                (this.butacas as Compra.Form2).liberarButaca(dgPasajes.SelectedRows[0].Cells["Butaca"].Value.ToString());
                 (this.butacas as Compra.Form2).inicio();
                 dgPasajes.Rows.Remove(dgPasajes.SelectedRows[0]);
+                labelPasajesRestantes.Text = "Pasajes restantes: " + butacasRestantes().ToString();
+                habilitarBotonesCompra();
             }
         }
 
@@ -245,8 +279,10 @@ namespace AerolineaFrba.Compra
                 MessageBox.Show("No se puede cancelar ninguna encomienda porque aun no se ha confirmado ninguna", "Error en la cancelacion de pasajes", MessageBoxButtons.OK);
             else
             {
-                (this.servicioDeEncomiendas as Compra.Form5).liberarEspacio(dgEncomiendas.SelectedRows[0].Cells["KILOS"].Value.ToString());
+                (this.servicioDeEncomiendas as Compra.Form5).liberarEspacio(dgEncomiendas.SelectedRows[0].Cells["Kilos"].Value.ToString());
                 dgEncomiendas.Rows.Remove(dgEncomiendas.SelectedRows[0]);
+                labelKGRestantes.Text = "KG Restantes: " + kilosRestantes().ToString();
+                habilitarBotonesCompra();
             }
         }
 
@@ -258,6 +294,21 @@ namespace AerolineaFrba.Compra
         private void dgEncomiendas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        public int butacasRestantes()
+        {
+            return butacasSelec - dgPasajes.RowCount;
+        }
+
+        public decimal kilosRestantes()
+        {
+            decimal kilosUsados = 0;
+            foreach(DataGridViewRow fila in dgEncomiendas.Rows)
+            {
+                kilosUsados += Convert.ToDecimal(fila.Cells["Kilos"].Value);
+            }
+            return Convert.ToDecimal(kilosSelec) - kilosUsados;
         }
 
     }

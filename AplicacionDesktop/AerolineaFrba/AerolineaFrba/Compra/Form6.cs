@@ -32,6 +32,7 @@ namespace AerolineaFrba.Compra
             //
             // Carga del contenido de combos
             //
+            button2.Enabled = false;
 
             SqlDataReader varTarjeta;
             SqlCommand consultaColumnas = new SqlCommand();
@@ -84,42 +85,55 @@ namespace AerolineaFrba.Compra
 
         private void button1_Click(object sender, EventArgs e)
         {
-            txtDire.Enabled = true;
-            dp.Enabled = true;
-            txtNom.Enabled = true;
-            txtTel.Enabled = true;
-            txtMail.Enabled = true;
-
-            SqlDataReader reader;
-            SqlCommand command = new SqlCommand();
-            command.CommandType = CommandType.Text;
-            command.CommandText = "select * from [ABSTRACCIONX4].buscarCliente(@dni,@ape)";
-            command.Connection = Program.conexion();
-
-            command.Parameters.AddWithValue("@dni", txtDni.Text);
-            command.Parameters.AddWithValue("@ape", txtApe.Text);
-
-            reader = command.ExecuteReader();
-
-            reader.Read();
-
-            if (reader.HasRows)
+            if (!validarDNIYApellido())
             {
-                encontroCliente = true;
 
-                txtNom.Text = reader.GetValue(2).ToString();
-                txtDire.Text = reader.GetValue(4).ToString();
-                txtTel.Text = reader.GetValue(5).ToString();
-                txtMail.Text = reader.GetValue(6).ToString();
-                dp.Value = (DateTime)reader.GetValue(7);
+                button2.Enabled = true;
+                txtDire.Enabled = true;
+                dp.Enabled = true;
+                txtNom.Enabled = true;
+                txtTel.Enabled = true;
+                txtMail.Enabled = true;
 
+                SqlDataReader reader;
+                SqlCommand command = new SqlCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText = "select * from [ABSTRACCIONX4].buscarCliente(@dni,@ape)";
+                command.Connection = Program.conexion();
+
+                command.Parameters.AddWithValue("@dni", txtDni.Text);
+                command.Parameters.AddWithValue("@ape", txtApe.Text);
+
+                reader = command.ExecuteReader();
+
+                reader.Read();
+
+                if (reader.HasRows)
+                {
+                    encontroCliente = true;
+
+                    txtNom.Text = reader.GetValue(2).ToString();
+                    txtDire.Text = reader.GetValue(4).ToString();
+                    txtTel.Text = reader.GetValue(5).ToString();
+                    txtMail.Text = reader.GetValue(6).ToString();
+                    dp.Value = (DateTime)reader.GetValue(7);
+
+                }
+                else
+                {
+                    MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
+                }
             }
-            else
-            {
-                MessageBox.Show("No se encuentra cargado el cliente en la BD. Por favor, ingresar los datos para darle de alta", "Cliente no encontrado", MessageBoxButtons.OK);
-            }
 
+        }
 
+        private Boolean validarDNIYApellido()
+        {
+            Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
+            validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            return validacion;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -166,7 +180,7 @@ namespace AerolineaFrba.Compra
                 }
                 else
                 {
-                    MessageBox.Show("Los datos de la tarjeta son inválidos", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
+                    MessageBox.Show("Los datos ingresados de la tarjeta no coinciden con los datos registrados", "Compra de pasajes y/o encomiendas", MessageBoxButtons.OK);
                 }
 
             }
@@ -176,32 +190,56 @@ namespace AerolineaFrba.Compra
         private Boolean hacerValidacionesDeTipo()
         {
             Boolean validacion = Validacion.esVacio(txtDni, "DNI", true);
-            validacion = Validacion.esVacio(txtTel, "Telefono", true) || validacion;
-            validacion = Validacion.esVacio(txtDire, "Direccion", true) || validacion;
-            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
-            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtDni, "DNI", false) || validacion;
-            validacion = !Validacion.numeroCorrecto(txtTel, "Telefono", false) || validacion;
-            validacion = !Validacion.esTexto(txtDire, "Direccion", true) || validacion;
+            validacion = Validacion.esVacio(txtNom, "Nombre", true) || validacion;
+            validacion = Validacion.esVacio(txtDire, "Dirección", true) || validacion;
+            validacion = Validacion.esVacio(txtTel, "Teléfono", true) || validacion;
+            validacion = Validacion.esVacio(txtMail, "Mail", true) || validacion;
+         
+            validacion = !Validacion.esNumero(txtDni, "DNI", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtApe, "Apellido", true) || validacion;
+            validacion = !Validacion.esSoloTexto(txtNom, "Nombre", true) || validacion;
+            validacion = !Validacion.esTexto(txtDire, "Dirección", true) || validacion;
+            validacion = !Validacion.esNumero(txtTel, "Teléfono", true) || validacion;
+            if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
+            {
+                validacion = true;
+                MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);
+            }
             validacion = !Validacion.esTexto(txtMail, "Mail", true) || validacion;
-            validacion = !Validacion.esTexto(txtNom, "Nombre", true) || validacion;
-            validacion = !Validacion.esTexto(txtApe, "Apellido", true) || validacion;
-            validacion = !Validacion.estaSeleccionado(cboFormaPago,true) || validacion;
+           
+
+            validacion = !Validacion.estaEntreLimites(txtDni, 1, 999999999, false, "DNI") || validacion;
+            validacion = !Validacion.estaEntreLimites(txtTel, 1, 999999999, false, "Teléfono") || validacion;
+          
+            validacion = !Validacion.estaSeleccionado(cboFormaPago,true , "forma de pago") || validacion;
 
             if (!cboFormaPago.SelectedIndex.Equals(-1))
             {
 
                 if (cboFormaPago.SelectedItem.ToString() == "Tarjeta de crédito")
                 {
-                    validacion = Validacion.esVacio(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    
                     validacion = Validacion.esVacio(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboAnios, true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboMeses, true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboTipoTarjeta, true) || validacion;
-                    validacion = !Validacion.estaSeleccionado(cboCuotas, true) || validacion;
-                    validacion = !Validacion.numeroCorrecto(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
+                    validacion = Validacion.esVacio(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboAnios, true , "año de fecha de vencimiento") || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboMeses, true , "mes de fecha de vencimiento") || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboTipoTarjeta, true , "tipo de tarjeta") || validacion;
+                    validacion = !Validacion.estaSeleccionado(cboCuotas, true , "cuotas") || validacion;
+                    validacion = !Validacion.esNumero(txtNroTarjeta, "Nro. Tarjeta", true) || validacion;
                     validacion = !Validacion.esNumero(txtCodSeg, "Cod. Seg.", true) || validacion;
+                    validacion = !Validacion.estaEntreLimites(txtNroTarjeta, 0, 9999999999999999, false, "número de tarjeta") || validacion;
+                    validacion = !Validacion.estaEntreLimites(txtCodSeg, 0, 9999, false, "código de seguridad") || validacion;
+
+                    if (Validacion.estaSeleccionado(cboAnios, false, "año de fecha de vencimiento") && Validacion.estaSeleccionado(cboMeses, false, "mes de fecha de vencimiento"))
+                    {
+                        if (Convert.ToInt16(cboAnios.Text) == Program.fechaHoy().Year &&
+                           Convert.ToInt16(cboMeses.Text) == 1)
+                        {
+                            MessageBox.Show("La fecha de vencimiento de la tarjeta no puede ser anterior a la fecha de hoy.", "Error en los datos de entrada", MessageBoxButtons.OK);
+                            validacion = true;
+                        }
+                    }
                 }
             }
 
@@ -296,38 +334,38 @@ namespace AerolineaFrba.Compra
             int.TryParse(txtDni.Text, out dniTxt);
 
             DataTable tablaPasajes = new DataTable();
-            
-            tablaPasajes.Columns.Add("CLI_COD", typeof(int));
-            tablaPasajes.Columns.Add("CLI_DNI", typeof(int));
-            tablaPasajes.Columns.Add("CLI_NOMBRE", typeof(string));
-            tablaPasajes.Columns.Add("CLI_APELLIDO", typeof(string));
-            tablaPasajes.Columns.Add("CLI_DIRECCION", typeof(string));
-            tablaPasajes.Columns.Add("CLI_TELEFONO", typeof(int));
-            tablaPasajes.Columns.Add("CLI_MAIL", typeof(string));
-            tablaPasajes.Columns.Add("CLI_FECHA_NAC", typeof(DateTime));
-            tablaPasajes.Columns.Add("VIAJE_COD", typeof(int));
-            tablaPasajes.Columns.Add("IMPORTE", typeof(decimal));
-            tablaPasajes.Columns.Add("BUTACA", typeof(int));
-            tablaPasajes.Columns.Add("MATRICULA", typeof(string));
-            tablaPasajes.Columns.Add("ENCONTRADO", typeof(bool));
-            tablaPasajes.Columns.Add("ACTUALIZAR", typeof(bool));
+
+            tablaPasajes.Columns.Add("Código", typeof(int));
+            tablaPasajes.Columns.Add("DNI", typeof(int));
+            tablaPasajes.Columns.Add("Nombre", typeof(string));
+            tablaPasajes.Columns.Add("Apellido", typeof(string));
+            tablaPasajes.Columns.Add("Dirección", typeof(string));
+            tablaPasajes.Columns.Add("Teléfono", typeof(int));
+            tablaPasajes.Columns.Add("Mail", typeof(string));
+            tablaPasajes.Columns.Add("Fecha de nacimiento", typeof(DateTime));
+            tablaPasajes.Columns.Add("Código de viaje", typeof(int));
+            tablaPasajes.Columns.Add("Importe", typeof(decimal));
+            tablaPasajes.Columns.Add("Butaca", typeof(int));
+            tablaPasajes.Columns.Add("Matrícula", typeof(string));
+            tablaPasajes.Columns.Add("Encontrado", typeof(bool));
+            tablaPasajes.Columns.Add("Actualizar", typeof(bool));
             tablaPasajes.Columns.Add("ES_COMPRADOR", typeof(int));
                        
 
             foreach (DataGridViewRow row in pasajes.Rows)
             {
-                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
-                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
-                int.TryParse(row.Cells["CLI_DNI"].Value.ToString(), out dni);
-                int.TryParse(row.Cells["CLI_TELEFONO"].Value.ToString(), out tel);
-                DateTime.TryParse(row.Cells["CLI_FECHA_NAC"].Value.ToString(), out fechaNac);
-                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
-                int.TryParse(row.Cells["BUTACA"].Value.ToString(), out butNro);
+                int.TryParse(row.Cells["Código"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["Código de viaje"].Value.ToString(), out viajeCod);
+                int.TryParse(row.Cells["DNI"].Value.ToString(), out dni);
+                int.TryParse(row.Cells["Teléfono"].Value.ToString(), out tel);
+                DateTime.TryParse(row.Cells["Fecha de nacimiento"].Value.ToString(), out fechaNac);
+                decimal.TryParse(row.Cells["Importe"].Value.ToString(), out precio);
+                int.TryParse(row.Cells["Butaca"].Value.ToString(), out butNro);
                 int esComprador;
 
                 totalAAbonar = totalAAbonar + precio;
 
-                if ((bool)row.Cells["ENCONTRADO"].Value)
+                if ((bool)row.Cells["Encontrado"].Value)
                 {
                     encontrado = 1;
                 }
@@ -336,7 +374,7 @@ namespace AerolineaFrba.Compra
                     encontrado = 0;
                 }
 
-                if ((bool)row.Cells["ACTUALIZAR"].Value)
+                if ((bool)row.Cells["Actualizar"].Value)
                 {
                     actualizar = 1;
                 }
@@ -355,13 +393,13 @@ namespace AerolineaFrba.Compra
                 }
 
                 tablaPasajes.Rows.Add(cliCod,dni,
-                    row.Cells["CLI_NOMBRE"].Value.ToString(),
-                    row.Cells["CLI_APELLIDO"].Value.ToString(),
-                    row.Cells["CLI_DIRECCION"].Value.ToString(),
+                    row.Cells["Nombre"].Value.ToString(),
+                    row.Cells["Apellido"].Value.ToString(),
+                    row.Cells["Dirección"].Value.ToString(),
                     tel,
-                    row.Cells["CLI_MAIL"].Value.ToString(),
+                    row.Cells["Mail"].Value.ToString(),
                     fechaNac,viajeCod, precio, butNro, 
-                    row.Cells["MATRICULA"].Value.ToString(),
+                    row.Cells["Matrícula"].Value.ToString(),
                     encontrado, actualizar, esComprador);
 
             }
@@ -369,36 +407,36 @@ namespace AerolineaFrba.Compra
             
             DataTable tablaEncomiendas = new DataTable();
 
-            tablaEncomiendas.Columns.Add("CLI_COD", typeof(int));
-            tablaEncomiendas.Columns.Add("CLI_DNI", typeof(int));
-            tablaEncomiendas.Columns.Add("CLI_NOMBRE", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_APELLIDO", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_DIRECCION", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_TELEFONO", typeof(int));
-            tablaEncomiendas.Columns.Add("CLI_MAIL", typeof(string));
-            tablaEncomiendas.Columns.Add("CLI_FECHA_NAC", typeof(DateTime));
-            tablaEncomiendas.Columns.Add("VIAJE_COD", typeof(int));
-            tablaEncomiendas.Columns.Add("IMPORTE", typeof(int));
-            tablaEncomiendas.Columns.Add("KILOS", typeof(int));
-            tablaEncomiendas.Columns.Add("MATRICULA", typeof(string));
-            tablaEncomiendas.Columns.Add("ENCONTRADO", typeof(bool));
-            tablaEncomiendas.Columns.Add("ACTUALIZAR", typeof(bool));
+            tablaEncomiendas.Columns.Add("Código", typeof(int));
+            tablaEncomiendas.Columns.Add("DNI", typeof(int));
+            tablaEncomiendas.Columns.Add("Nombre", typeof(string));
+            tablaEncomiendas.Columns.Add("Apellido", typeof(string));
+            tablaEncomiendas.Columns.Add("Dirección", typeof(string));
+            tablaEncomiendas.Columns.Add("Teléfono", typeof(int));
+            tablaEncomiendas.Columns.Add("Mail", typeof(string));
+            tablaEncomiendas.Columns.Add("Fecha de nacimiento", typeof(DateTime));
+            tablaEncomiendas.Columns.Add("Código de viaje", typeof(int));
+            tablaEncomiendas.Columns.Add("Importe", typeof(int));
+            tablaEncomiendas.Columns.Add("Kilos", typeof(int));
+            tablaEncomiendas.Columns.Add("Matrícula", typeof(string));
+            tablaEncomiendas.Columns.Add("Encontrado", typeof(bool));
+            tablaEncomiendas.Columns.Add("Actualizar", typeof(bool));
             tablaEncomiendas.Columns.Add("ES_COMPRADOR", typeof(int));
 
             foreach (DataGridViewRow row in encomiendas.Rows)
             {
-                int.TryParse(row.Cells["CLI_COD"].Value.ToString(), out cliCod);
-                int.TryParse(row.Cells["VIAJE_COD"].Value.ToString(), out viajeCod);
-                int.TryParse(row.Cells["CLI_DNI"].Value.ToString(), out dni);
-                int.TryParse(row.Cells["CLI_TELEFONO"].Value.ToString(), out tel);
-                DateTime.TryParse(row.Cells["CLI_FECHA_NAC"].Value.ToString(), out fechaNac);
-                decimal.TryParse(row.Cells["IMPORTE"].Value.ToString(), out precio);
-                decimal.TryParse(row.Cells["KILOS"].Value.ToString(), out peso);
+                int.TryParse(row.Cells["Código"].Value.ToString(), out cliCod);
+                int.TryParse(row.Cells["Código de viaje"].Value.ToString(), out viajeCod);
+                int.TryParse(row.Cells["DNI"].Value.ToString(), out dni);
+                int.TryParse(row.Cells["Teléfono"].Value.ToString(), out tel);
+                DateTime.TryParse(row.Cells["Fecha de nacimiento"].Value.ToString(), out fechaNac);
+                decimal.TryParse(row.Cells["Importe"].Value.ToString(), out precio);
+                decimal.TryParse(row.Cells["Kilos"].Value.ToString(), out peso);
                 int esComprador;
 
                 totalAAbonar = totalAAbonar + precio;
 
-                if ((bool)row.Cells["ENCONTRADO"].Value)
+                if ((bool)row.Cells["Encontrado"].Value)
                 {
                     encontrado = 1;
                 }
@@ -407,7 +445,7 @@ namespace AerolineaFrba.Compra
                     encontrado = 0;
                 }
 
-                if ((bool)row.Cells["ACTUALIZAR"].Value)
+                if ((bool)row.Cells["Actualizar"].Value)
                 {
                     actualizar = 1;
                 }
@@ -426,13 +464,13 @@ namespace AerolineaFrba.Compra
                 }
 
                 tablaEncomiendas.Rows.Add(cliCod,dni,
-                    row.Cells["CLI_NOMBRE"].Value.ToString(),
-                    row.Cells["CLI_APELLIDO"].Value.ToString(),
-                    row.Cells["CLI_DIRECCION"].Value.ToString(),
+                    row.Cells["Nombre"].Value.ToString(),
+                    row.Cells["Apellido"].Value.ToString(),
+                    row.Cells["Dirección"].Value.ToString(),
                     tel,
-                    row.Cells["CLI_MAIL"].Value.ToString(),
+                    row.Cells["Mail"].Value.ToString(),
                     fechaNac,viajeCod, precio, peso,
-                    row.Cells["MATRICULA"].Value.ToString(),
+                    row.Cells["Matrícula"].Value.ToString(),
                     encontrado, actualizar, esComprador);
 
 
