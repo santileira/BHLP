@@ -227,6 +227,7 @@
             this.Name = "dgEncomiendas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cancelación";
+          
             ((System.ComponentModel.ISupportInitialize)(this.dgPasaje)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgEncomienda)).EndInit();
             this.ResumeLayout(false);
