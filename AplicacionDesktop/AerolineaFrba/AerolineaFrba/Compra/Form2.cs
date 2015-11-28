@@ -46,6 +46,7 @@ namespace AerolineaFrba.Compra
             labelRestantes.Text = "Pasajes restantes: " + (anterior as Form4).butacasRestantes().ToString();
 
             txtDni.Focus();
+            txtDni.Enabled = true;
 
             txtApe.Enabled = false;
             txtDire.Enabled = false;
@@ -215,8 +216,10 @@ namespace AerolineaFrba.Compra
 
                 if (dgCliente.RowCount == 0)
                 {
+                    
                     MessageBox.Show("El cliente no puede realizar un viaje porque ya tiene programado otro viaje en ese periodo", "Error en los datos", MessageBoxButtons.OK);
                     huboError = true;
+                    this.inicio();
                 }
             }
 

@@ -32,6 +32,7 @@ namespace AerolineaFrba.Compra
             //
             // Carga del contenido de combos
             //
+            txtDni.Enabled = true;
             button2.Enabled = false;
 
             SqlDataReader varTarjeta;

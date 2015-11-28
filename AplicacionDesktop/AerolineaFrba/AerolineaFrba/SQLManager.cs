@@ -25,7 +25,7 @@ namespace AerolineaFrba
 
         public SQLManager agregarIntSP(string nombreVariable, TextBox txt)
         {
-            command.Parameters.AddWithValue(nombreVariable ,Convert.ToInt32(txt.Text));
+            command.Parameters.AddWithValue(nombreVariable ,Convert.ToInt64(txt.Text));
             return this;
         }
 

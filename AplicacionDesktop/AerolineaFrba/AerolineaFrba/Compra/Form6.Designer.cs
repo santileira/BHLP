@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+          
             this.dp = new System.Windows.Forms.DateTimePicker();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
