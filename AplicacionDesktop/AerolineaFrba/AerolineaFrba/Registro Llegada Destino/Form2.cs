@@ -85,7 +85,7 @@ namespace AerolineaFrba.Registro_Llegada_Destino
                                           .ejecutarSP();
 
                     new SQLManager().generarSP("agregarCantButacasAViajes")
-                                       .agregarIntSP("@viajecod", viaje_cod)
+                                       .agregarIntSP("@viaje_cod", viaje_cod)
                                         .ejecutarSP();
 
                     MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
