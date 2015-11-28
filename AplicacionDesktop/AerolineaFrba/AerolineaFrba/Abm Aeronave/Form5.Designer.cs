@@ -94,6 +94,11 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro2.FormattingEnabled = true;
+            this.cboCamposFiltro2.Items.AddRange(new object[] {
+            "Matrícula",
+            "Modelo",
+            "Fabricante",
+            "Servicio"});
             this.cboCamposFiltro2.Location = new System.Drawing.Point(173, 63);
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(117, 21);
@@ -103,6 +108,11 @@ namespace AerolineaFrba.Abm_Aeronave
             // 
             this.cboCamposFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro1.FormattingEnabled = true;
+            this.cboCamposFiltro1.Items.AddRange(new object[] {
+            "Matrícula",
+            "Modelo",
+            "Fabricante",
+            "Servicio"});
             this.cboCamposFiltro1.Location = new System.Drawing.Point(173, 28);
             this.cboCamposFiltro1.Name = "cboCamposFiltro1";
             this.cboCamposFiltro1.Size = new System.Drawing.Size(117, 21);
