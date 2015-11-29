@@ -33,6 +33,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.iniciar();
         }
 
+        // Realiza la búsqueda de las ciudades
         private void button3_Click(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
@@ -99,19 +100,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         }
 
-        /*
-        private Boolean esTexto(TextBox txt)
-        {
-            if (txt.Text.Length == 0)
-            {
-                return true;
-            }
 
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }*/
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
         {
@@ -127,19 +116,6 @@ namespace AerolineaFrba.Abm_Ruta
         private void ejecutarConsulta(string query)
         {
             SQLManager.ejecutarQuery(query, dg);
-            /*SqlCommand command = new SqlCommand();
-            SqlConnection conexion = Program.conexion();
-
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();*/
         }
 
   
@@ -177,6 +153,7 @@ namespace AerolineaFrba.Abm_Ruta
             cambiarVisibilidades(this.anterior);
         }
 
+        // Carga los datos seleccionados en el respectivo formulario de donde se llamó a éste
         private void cargarSeleccion()
         {
             if (vieneDeAlta)

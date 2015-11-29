@@ -280,6 +280,8 @@ namespace AerolineaFrba.Abm_Aeronave
             reader.Close();
         }
 
+        // Método usado para llenar los datos de los campos cuando se llama a este formulario desde baja
+        // para suplantar una aeronave
         private void cargarDatosFijos()
         {
             cboServicio.Items.Clear();

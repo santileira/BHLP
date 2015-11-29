@@ -78,6 +78,7 @@ namespace AerolineaFrba.Abm_Ruta
             return "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = " + cod + ")";
         }
 
+        // Realiza la búsqueda sobre la BD
         private void button3_Click(object sender, EventArgs e)
         {
             if (!chkEstadoIgnorar.Checked)
@@ -135,9 +136,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void ejecutarQuery()
         {
-     //       sePusoAgregarFiltro1 = false;
-      //      sePusoAgregarFiltro2 = false;
-            
+
+
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -161,6 +161,7 @@ namespace AerolineaFrba.Abm_Ruta
           
         }
 
+        // Muestra la columna de habilitado o no
         private void actualizarColumnasDeEstado(DataGridView dg)
         {
             if (primeraConsulta)
@@ -235,6 +236,7 @@ namespace AerolineaFrba.Abm_Ruta
             throw new NotImplementedException();
         }
 
+        // Agregar los criterios de filtro a la consulta
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
@@ -328,21 +330,6 @@ namespace AerolineaFrba.Abm_Ruta
             return !huboErrores;
         }
 
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }
-
-        private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-        }*/
 
         private void button4_Click_1(object sender, EventArgs e)
         {

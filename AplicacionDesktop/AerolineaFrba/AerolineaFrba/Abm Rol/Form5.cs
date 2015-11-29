@@ -34,6 +34,7 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
+        // Realiza la consulta a la BD en base a los filtros
         private void button3_Click(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
@@ -113,19 +114,6 @@ namespace AerolineaFrba.Abm_Rol
             return !huboErrores;
 
         }
-        /*
-        private Boolean esTexto(TextBox txt)
-        {
-            if (txt.Text.Length == 0)
-            {
-                return true;
-            }
-
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }*/
 
         private void generarQuery(ref Boolean huboCondicion, ref string queryselect, string condicion)
         {
@@ -212,13 +200,11 @@ namespace AerolineaFrba.Abm_Rol
             listaFuncionalidades = new List<object>();
             estadoRol = false;
             ejecutarSeleccion(ref rolSeleccionado,ref estadoRol, listaFuncionalidades);
-            /*if (siguiente != null)
-            {*/
+
                
                 (anterior as Modificacion).seSelecciono(rolSeleccionado, estadoRol, listaFuncionalidades.ToArray());
                 cambiarVisibilidades(this.anterior);
                 
-            //}
             this.Close();
        }
 
@@ -249,9 +235,9 @@ namespace AerolineaFrba.Abm_Rol
         private void button1_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
-            //this.cambiarVisibilidades(this.listado);
         }
 
+        // Muestra la columna de habilitado con si o no
         private void actualizarColumnasDeEstado(DataGridView dg)
         {
             if (primeraConsulta)

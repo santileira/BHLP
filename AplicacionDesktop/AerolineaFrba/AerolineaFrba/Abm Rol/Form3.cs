@@ -28,6 +28,7 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
+        // Realiza la consulta a la BD
         private void button3_Click_1(object sender, EventArgs e)
         {
             if (this.datosCorrectos())

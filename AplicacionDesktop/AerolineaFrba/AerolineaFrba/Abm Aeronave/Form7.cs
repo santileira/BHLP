@@ -36,6 +36,7 @@ namespace AerolineaFrba.Abm_Aeronave
             txtMensaje.ForeColor = Color.White;
         }
 
+        // Realiza la cancelación de pasajes
         private void botonCancelar_Click(object sender, EventArgs e)
         {
             SQLManager manager = new SQLManager().generarSP("CancelarPasajesEncomiendasAeronave")
@@ -54,6 +55,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Close();
         }
 
+        // Suplanta la aeronave, en caso de fallar abre el alta de aeronave
         private void botonSuplantar_Click(object sender, EventArgs e)
         {
             try

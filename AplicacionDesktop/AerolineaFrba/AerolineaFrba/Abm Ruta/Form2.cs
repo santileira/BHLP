@@ -54,6 +54,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.Visible = false;
         }
 
+        // Da de alta la ruta si no hay errores
         private void button2_Click(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
@@ -140,6 +141,7 @@ namespace AerolineaFrba.Abm_Ruta
             return huboErrores;
         }
 
+        //Llevan al listado de ciudades para seleccionar los origenes y destinos
         private void botonSelOrigen_Click(object sender, EventArgs e)
         {
             seleccionandoOrigen = true;
@@ -169,6 +171,7 @@ namespace AerolineaFrba.Abm_Ruta
         }
 
 
+        // Muestra los servicios elegidos desde el listado de servicios
         internal void serviciosElegidos(List<object> lista)
         {
             label6.Text = "";
