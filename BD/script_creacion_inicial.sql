@@ -74,7 +74,7 @@ GO
 -- Tabla Usuarios: 
 CREATE TABLE [ABSTRACCIONX4].[USUARIOS](
 	[USUA_COD] [tinyint] IDENTITY,
-	[USERNAME] [varchar] (20),
+	[USERNAME] [varchar] (20) UNIQUE,
 	[PASSWORD] [varchar] (70) NOT NULL,
 	[CANT_INT_FALL] [tinyint] DEFAULT 0,
 	[HABILITADO] [bit] DEFAULT 1

@@ -29,6 +29,10 @@ namespace AerolineaFrba.Registro_de_Usuario
             {
                 registrarUsuario();
             }
+            else
+            {
+                
+            }
         }
 
         // Realiza el llamado al sp para registrar al usuario efectivamente, si es que no hubo errores
