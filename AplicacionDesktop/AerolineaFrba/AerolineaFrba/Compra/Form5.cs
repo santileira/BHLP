@@ -75,10 +75,11 @@ namespace AerolineaFrba.Compra
                 button2.Enabled = true;
         }
 
+        /*
+         * Metodo para buscar al cliente en la base de datos. Si existe, autocompletara los text box restantes.
+         */
         private void button1_Click(object sender, EventArgs e)
         {
-            
-
             Boolean validacion = false;
             validacion = Validacion.esVacio(txtDni, "DNI", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
@@ -187,6 +188,9 @@ namespace AerolineaFrba.Compra
             this.inicio();
         }
 
+        /*
+         * Metodo agrega al listado de encomiendas del form 4, la encomienda para el cliente ingresado
+         */
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
