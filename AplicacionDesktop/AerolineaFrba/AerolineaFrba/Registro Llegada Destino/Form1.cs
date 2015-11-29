@@ -90,10 +90,16 @@ namespace AerolineaFrba.Registro_Llegada_Destino
 
         }
 
+        //Método que devuelve la query necesaria para pasarle al listado de aeronaves. Para que solo me liste
+        // aquellas aeronaves que ya salieron y que estan en vuelo o bien ya llegaron  pero no se les hizo el 
+        // registro de llegada.
+
         public String consultaSeteada()
         {
             return "SELECT a.SERV_COD, a.AERO_MATRI as Matricula,AERO_MOD as Modelo,AERO_FAB as Fabricante,SERV_DESC as Servicio,(SELECT COUNT(BUT_ID) FROM ABSTRACCIONX4.BUTACAS B WHERE B.AERO_MATRI=a.AERO_MATRI) as 'Cant. Butacas',AERO_CANT_KGS as 'Cant. Kgs', v.VIAJE_COD as 'Cod. Viaje', v.VIAJE_FECHA_SALIDA as 'Fecha de Salida', v.VIAJE_FECHA_LLEGADAE as 'Fecha de Llegada Estimada' from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD) JOIN ABSTRACCIONX4.VIAJES v ON (a.AERO_MATRI = v.AERO_MATRI) WHERE v.VIAJE_FECHA_LLEGADA IS NULL AND v.VIAJE_FECHA_SALIDA < [ABSTRACCIONX4].obtenerFechaDeHoy()";
         }
+
+        //Método que verifica los destinos indicados.
 
         private void button4_Click(object sender, EventArgs e)
         {

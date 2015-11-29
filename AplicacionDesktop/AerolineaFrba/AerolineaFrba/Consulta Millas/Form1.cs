@@ -23,6 +23,10 @@ namespace AerolineaFrba.Consulta_Millas
             InitializeComponent();            
         }
 
+        //Método usado para llenar en el dg el resultado de la query. En este caso la query arroja todos los
+        //pasajes/encomiendas del último año y las millas que aportan. Además se calcula y se muestra en un 
+        //label las millas disponibles
+
         private void llenarHistorialDeMillas()
         {
             string query = "SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')";
@@ -184,6 +188,9 @@ namespace AerolineaFrba.Consulta_Millas
         {
             this.button3.Enabled = false;
         }
+
+        //Método usado para llenar en el dg el resultado de la query. En este caso la query arroja todos los canjes
+        //realizados por el cliente
 
         private void llenarHistorialDeCanjes()
         {

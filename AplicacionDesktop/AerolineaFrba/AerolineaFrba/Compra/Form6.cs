@@ -84,6 +84,11 @@ namespace AerolineaFrba.Compra
             this.Visible = false;
         }
 
+        //Método que se ejecuta al disparar el evento del boton BUSCAR EN LA BASE DE DATOS, en donde se ejecuta
+        //un SP que verifica si dicho cliente ya existe. Si ya existe autocompleta los campos, en el caso de que
+        //no exista verifica que el dni ingresado no este ya registrado en la BD. Si todo esta bien, permite el
+        //alta del nuevo cliente.
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (!validarDNIYApellido())
@@ -193,6 +198,9 @@ namespace AerolineaFrba.Compra
 
         }
 
+
+        //Método que se ejecuta al dispararse el evento del botón efectuar Compra.
+
         private void button2_Click(object sender, EventArgs e)
         {
             bool huboError = this.hacerValidacionesDeTipo();
@@ -285,6 +293,9 @@ namespace AerolineaFrba.Compra
 
             return validacion;
         }
+               
+        // Método que verifica la validez en el pago. Esto solo tiene sentido en nuestro caso si se paga con TC.
+        // En ese caso se verifica que si la TC ya existe en nuestra BD se ingrese los datos correctos.
 
         private bool sePuedeEfectuarLaCompra()
         {
@@ -355,6 +366,10 @@ namespace AerolineaFrba.Compra
 
             return (bool)command.ExecuteScalar();
         }
+
+        // Método responsable de hacer toda la preparación de los datos para enviarlo como parámetro al SP/FUNCTION
+        // que se encargan de dar de alta todos los registros asociados a una COMPRA. Por ejemplo, altas en compras,
+        // en pasajes, en encomiendas, en tarjetas (si se pago de esa forma y la tarjeta no existe) etc.
 
         private void cargarDatosDeCompra(string codigoPNR)
         {

@@ -56,6 +56,9 @@ namespace AerolineaFrba.Canje_Millas
 
         }
 
+        //Método usado para llenar en el dg el resultado de la query. En este caso la query arroja todos los premios
+        //que poseen stock. 
+
         private void llenarListadoProductos()
         {
             string query = "SELECT PREMIO_COD,PREMIO_DETALLE as Producto, PREMIO_PUNTOS as Puntos,PREMIO_STOCK as Stock FROM ABSTRACCIONX4.PREMIOS WHERE PREMIO_STOCK > 0";
@@ -119,6 +122,9 @@ namespace AerolineaFrba.Canje_Millas
             return !Validacion.esVacio(txtCantSeleccionada, "Cant. Seleccionada",true) &&
                     Validacion.esNumero(txtCantSeleccionada, "Cant. Seleccionada",true);
         }
+
+        //Método que verifica en base a los resultados del DG, si hay stock disponible y si las millas del cliente
+        // son suficientes como para realizar el canje.
 
         private bool hayStockDisponible()
         {
@@ -195,6 +201,9 @@ namespace AerolineaFrba.Canje_Millas
             seSeleccionoPremio = false;
         }
 
+        //Método responsable de efectuar el canje una vez que todo sea correcto. Además se encarga de ejecutar
+        //los SP necesarios. Por ejemplo, reducir el stock del producto y dar de alta el registro en canje.
+
         private void button2_Click(object sender, EventArgs e)
         {
             int puntosDisponibles;
@@ -236,7 +245,7 @@ namespace AerolineaFrba.Canje_Millas
                     }
 
 
-                    MessageBox.Show("Puntos a Gastar: " + totalPuntos, "Data", MessageBoxButtons.OK);
+                    MessageBox.Show("Puntos a Gastar: " + totalPuntos, "Canje", MessageBoxButtons.OK);
                     MessageBox.Show("Se efectuó el Canje", "Canje Exitoso", MessageBoxButtons.OK);
 
                     this.Close();
