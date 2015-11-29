@@ -69,6 +69,7 @@ namespace AerolineaFrba.Abm_Aeronave
             return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0);
         }
 
+        // Realiza la búsqueda a la BD para llenar el datargid de acuerdo a los filtros usados
         public void ejecutarQuery()
         {
             sePusoAgregarFiltro1 = false;
@@ -115,6 +116,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.huboCondicion = false;
         }
 
+        // Métodos que agregan los filtros a la consulta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
@@ -173,12 +175,6 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             if (this.datosCorrectos(txt, combo))
             {
-                /*if (!this.huboCondicion)
-                {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-                }
-                else*/
                 this.query += " AND ";
 
                 this.query += this.nombreColumna(combo.Text) + criterio;
@@ -193,6 +189,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        // Validacion de textbox de filtros
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
         {
             Boolean huboErrores = false;
@@ -241,6 +238,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Visible = false;
         }
 
+        // Selección de una fila
         private void button7_Click(object sender, EventArgs e)
         {
             if (dg.RowCount == 0)
@@ -248,15 +246,10 @@ namespace AerolineaFrba.Abm_Aeronave
                 MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
                 return;
             }
-
-            //ejecutarSeleccion();
-
-            //(anterior as Modificacion).seSelecciono();
-
-            //this.Close();
-            //cambiarVisibilidades(this.anterior, true);
         }
 
+        // Se ejecuta al hacer click en el datagrid, verifica si se presionó un boton de baja o FS
+        // y llama a los métodos correspondientes
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;

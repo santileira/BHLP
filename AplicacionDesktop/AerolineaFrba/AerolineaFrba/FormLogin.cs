@@ -72,6 +72,9 @@ namespace AerolineaFrba
             reader.Close();
         }
 
+
+        // Se ejcuta al clickear en ingresar. Realiza las validaciones de acuerdo al tipo de usuario 
+        // y pasa al menú principal si todo está bien
         private void botonIngresar_Click(object sender, EventArgs e)
         {
             if (radioAdministrador.Checked)
@@ -115,6 +118,7 @@ namespace AerolineaFrba
             return !huboErrores;
         }
 
+        // Verifica la contraseña con la base de datos (y los posibles ingresos erroneos de las mismas
         private void intentarLoguearse()
         {
             SQLManager manager = new SQLManager().generarSP("LoginAdministrador")

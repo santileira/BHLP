@@ -7,8 +7,10 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba
 {
+    // Clase que contiene todas las validaciones generales que se hacen en la aplicación
     static class Validacion
     {
+        
         public static Boolean textNombre(TextBox txtBox , string nombreCampo)
         {
             Boolean huboErrores = false;
@@ -29,6 +31,7 @@ namespace AerolineaFrba
             return !huboErrores;
         }
 
+        // Validación para campos de los filtros
         public static Boolean filtrosContengaEIgualdad(TextBox filtro1, TextBox filtro2)
         {
             Boolean huboErrores = false;
@@ -51,6 +54,7 @@ namespace AerolineaFrba
 
         //****** VALIDACIONES NUMERICAS *******//
 
+        // Usado para validar números enteros
         public static Boolean esNumero(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
             long numero;
@@ -73,6 +77,7 @@ namespace AerolineaFrba
             return false;       
         }
 
+        // Usado para validar números decimales
         public static Boolean esDecimal(TextBox txtBox, string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
         {
             string cadena = txtBox.Text;
@@ -123,6 +128,7 @@ namespace AerolineaFrba
 
         //********** VALIDACIONES DE TEXTO ******//
 
+        // El texto contiene al menos una letra
         public static Boolean esTexto(TextBox txtBox , string nombreCampo = "Opcional" , Boolean mostrarMensaje = false)
         {
             String textPattern = "[A-Za-z]";
@@ -144,6 +150,7 @@ namespace AerolineaFrba
             return true;
         }
 
+        // Valida que todos los caracteres sean o letras o espacios
         public static Boolean esSoloTexto(TextBox txtBox, string nombreCampo = "Opcional", Boolean mostrarMensaje = false)
         {
             string cadena = txtBox.Text;
@@ -158,14 +165,14 @@ namespace AerolineaFrba
                     MessageBox.Show("El campo " + nombreCampo + " debe comenzar con una letra.", "Error en los datos de entrada", MessageBoxButtons.OK);
                     return false;
                 }
-                for (int i = 0; i < cadena.Length - 1; i++)
+                /*for (int i = 0; i < cadena.Length - 1; i++)
                 {
                     if (Char.IsWhiteSpace(cadena[i]) && cadena[i]==cadena[i+1])
                     {
                         MessageBox.Show("El campo " + nombreCampo + " no puede contener varios espacios consecutivos", "Error en los datos de entrada", MessageBoxButtons.OK);
                         return false;
                     }
-                }
+                }*/
                 return true;
             }
             else
@@ -219,6 +226,7 @@ namespace AerolineaFrba
             return !huboErrores;
         }
 
+        // Utilizado para validar matrícula de aeronave
         public static Boolean esMatricula(MaskedTextBox txtBox, Boolean mostrarMensaje = false)
         {
             string cadena = txtBox.Text;
@@ -409,7 +417,7 @@ namespace AerolineaFrba
             }
         }
 
-        //******* VALIDACION DE LIMITES ********//
+        //******* VALIDACION DE LIMITES NUMERICOS********//
 
         public static Boolean estaEntreLimites(TextBox txt, decimal limiteInferior, decimal limiteSuperior,Boolean numeroDecimal,string nombreCampo)
         {

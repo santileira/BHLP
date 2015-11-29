@@ -31,6 +31,8 @@ namespace AerolineaFrba.Registro_de_Usuario
             }
         }
 
+        // Realiza el llamado al sp para registrar al usuario efectivamente, si es que no hubo errores
+        // encripta la contraseña antes de enviarla
         private void registrarUsuario()
         {
             SQLManager manager = new SQLManager().generarSP("RegistrarUsuario")

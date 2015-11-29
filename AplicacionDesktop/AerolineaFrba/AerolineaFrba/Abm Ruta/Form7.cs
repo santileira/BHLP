@@ -25,6 +25,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.iniciar();
         }
 
+        // Carga los listados con los servicios de la ruta
         private void iniciar()
         {
             lstServiciosActuales.Items.Clear();
@@ -41,6 +42,7 @@ namespace AerolineaFrba.Abm_Ruta
 
         }
 
+        // Carga los servicios elegidos en el formulario del cual se llamó a éste
         private void button2_Click(object sender, EventArgs e)
         {
             if (formAlta != null)

@@ -46,8 +46,6 @@ namespace AerolineaFrba.Abm_Rol
 
                 if (!this.ExisteNombreRol())
                 {
-                    
-
                     darDeAltaRol();
                     MessageBox.Show("Se ha dado de alta al nuevo rol correctamente", "Alta de roles", MessageBoxButtons.OK);
                     this.Close();
@@ -57,6 +55,7 @@ namespace AerolineaFrba.Abm_Rol
             }
         }
 
+        // Valida la unicidad del nombre ingresado
         private bool ExisteNombreRol()
         {
             SqlCommand command = new SqlCommand();
@@ -105,6 +104,8 @@ namespace AerolineaFrba.Abm_Rol
             this.iniciar();
         }
 
+
+        // Agrega o saca elementos de las respectivas listas de funcionalidades
         private void button6_Click(object sender, EventArgs e)
         {
             this.agregarALaLista(lstFuncionalidadesTotales, lstFuncionalidadesActuales);

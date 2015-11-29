@@ -782,38 +782,6 @@ SELECT DISTINCT FechaCompra, Efectivo, CliCod FROM (
 			SELECT m2.Pasaje_FechaCompra as FechaCompra,1 as Efectivo,(SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = m2.Cli_Dni AND CLI_APELLIDO = m2.Cli_Apellido) as CliCod FROM gd_esquema.Maestra m2 WHERE Pasaje_Codigo != 0) 
 			as Tabla) as Tabla2
 
-/*
-CREATE FUNCTION [ABSTRACCIONX4].DevolverPNR (@Cli_Cod INT , @Fecha DATETIME)
-RETURNS VARCHAR(15)
-AS
-BEGIN
-	DECLARE @PNR VARCHAR(15)
-	SELECT @PNR = COMP_PNR FROM [ABSTRACCIONX4].COMPRAS WHERE COMP_FECHA = @Fecha AND CLI_COD = @Cli_Cod
-	RETURN @PNR
-END
-GO
-
-
-INSERT INTO [ABSTRACCIONX4].[COMPRAS]
-
-	(	
-		COMP_PNR ,
-		COMP_EFECTIVO,
-		CLI_COD ,
-		COMP_FECHA
-		)
-	SELECT [ABSTRACCIONX4].fnCustomPass(10,'CN') PNR, 1 EFECTIVO, T.CLIENTE , T.FECHA FROM (
-	SELECT (SELECT c.CLI_COD 
-			FROM [ABSTRACCIONX4].[CLIENTES] c 
-			WHERE c.CLI_DNI = m.Cli_Dni 
-				AND c.CLI_APELLIDO = m.Cli_Apellido 
-				AND c.CLI_NOMBRE = m.Cli_Nombre  
-		) AS CLIENTE, CASE m.Paquete_FechaCompra WHEN 0 THEN m.Pasaje_FechaCompra ELSE m.Paquete_FechaCompra END AS FECHA FROM gd_esquema.Maestra m
-		) T
-		GROUP BY T.FECHA , T.CLIENTE
-GO*/
-
-
 GO
 
 INSERT INTO ABSTRACCIONX4.ENCOMIENDAS
@@ -914,10 +882,6 @@ FROM
 		m.Pasaje_Codigo PASAJE_COD,
 		m.Pasaje_Precio PRECIO,
 		m.Pasaje_FechaCompra FECHA_COMPRA,
-		/*(SELECT BUT_ID 
-			FROM [ABSTRACCIONX4].BUTACAS B
-			WHERE B.AERO_MATRI = m.Aeronave_Matricula AND
-				  B.BUT_NRO = m.Butaca_Nro) NRO_BUTACA,*/
 		B.BUT_ID NRO_BUTACA,
 		m.FechaSalida FECHA_SALIDA,
 		m.Aeronave_Matricula MAT_AERONAVE,
@@ -934,6 +898,7 @@ WHERE Pasaje_Precio > 0) T
 
 GO
 SET IDENTITY_INSERT [ABSTRACCIONX4].[PASAJES] OFF
+
 
 -- Actualiza el valor de las butacas disponibles en viajes realizados 
 
@@ -952,6 +917,7 @@ DECLARE @Password VARCHAR(70)
 SET @Password = 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'
 INSERT INTO ABSTRACCIONX4.USUARIOS (USERNAME,PASSWORD)
 	VALUES ('Invitado',''),
+		   ('admin',@Password),
 		   ('usuarioX',@Password),
 		   ('jorge256',@Password),
 		   ('Alguien',@Password)
@@ -1430,7 +1396,7 @@ AS
 GO
 
 
---------------------------------actualizarDatosDelCliente-----------------------------------------
+--------------------------------Actualizar datos del cliente-----------------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].actualizarDatosDelCliente
 	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
@@ -1440,7 +1406,7 @@ AS
 	WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape
 GO
 
---------------------------------ingresarDatosDelCliente--------------------------------------------
+--------------------------------Ingresar datos de un cliente--------------------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDelCliente
 	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
@@ -1453,7 +1419,7 @@ AS
 
 GO
 
---------------------------------ingresarCompra------------------------------------------------
+--------------------------------Ingresar datos de una compra------------------------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].ingresarCompra
 	@codigoPNR varchar(12),
@@ -1480,7 +1446,7 @@ AS
 GO
 
 
--------------------- Ingresar Datos de la Compra  ----------------------------
+--------------------Tablas creadas para el ingreso de los datos----------------------------
 
 CREATE TYPE [ABSTRACCIONX4].TablePasajesType AS TABLE 
 
@@ -1633,7 +1599,6 @@ AS
 										 
 			FETCH NEXT FROM cursorPasajes INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@but,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		END
-		-- cerrar cursor
 
 		OPEN cursorEncomiendas
 		FETCH NEXT FROM cursorEncomiendas INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@peso,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
@@ -1670,7 +1635,6 @@ AS
 			
 			FETCH NEXT FROM cursorEncomiendas INTO @cliCod,@curDni,@curNom,@curApe,@curDir,@curTel,@curMail,@curFechaNac,@viajeCod,@precio,@peso,@matri,@clienteEncontrado,@clienteActualizado,@esComprador
 		END
-		--cerrar cursor
 
 
 		------------------
@@ -1723,7 +1687,7 @@ GO
 
 --************** ABM ROL *******************
 
--------------------------------Tipo Lista-------------------------------
+---------------Tipo creado para pasar la lista de funcionalidades-------------------
 CREATE TYPE [ABSTRACCIONX4].Lista AS TABLE 
 ( elemento VARCHAR(30) )
 
@@ -1835,9 +1799,8 @@ BEGIN
 	RETURN @Func_Cod
 END
 GO
+
 -------------------------------Baja Rol-------------------------------
-
-
 CREATE PROCEDURE [ABSTRACCIONX4].BajaRol
 	@Nombre VARCHAR(30)	
 AS
@@ -1873,7 +1836,7 @@ AS
 GO
 
 
--------------------------------Funcionalidades del rol-------------------------------
+-----------------------Consultar funcionalidades del rol-------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].FuncionalidadesRol
 	(@CodigoRol TINYINT)
@@ -1902,7 +1865,7 @@ AS
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(80)
-		--SET @Error = 'El nombre ' + @Nombre + ' ya esta en uso para otro rol'
+		SET @Error = 'El rol ingresado no existe'
 		RAISERROR(@Error, 16, 1)
 	END CATCH
 GO
@@ -1996,7 +1959,8 @@ BEGIN
 END
 GO
 
--------------------------------Fecha de reinicio o maxima-------------------------------
+-------------------------Devuelve el valor de la fecha pasada, si esta es null,---------------
+------------------------------devuelve una fecha maxima a cualquiera del sistema--------------
 CREATE FUNCTION [ABSTRACCIONX4].FechaReinicioOMaxima
 	(@FechaReinicio DATETIME)
 RETURNS DATETIME
@@ -2036,7 +2000,7 @@ END
 
 GO
 
--------------------------------Baja Aeronave-------------------------------
+-------------------------------Fuera de servicio aeronave-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].DejarAeronaveFueraDeServicio
 	@Matricula VARCHAR(8),
 	@FechaBaja DATETIME,
@@ -2185,7 +2149,7 @@ END
 GO
 
 
--------------------------------Disponible para todos los vuelos-------------------------------
+-----------------Se fija si una aeronave no tiene viajes en fechas coincidentes con la de otra aeronvae-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DisponibleParaTodosLosVuelosDe
 	(@MatriculaNueva VARCHAR(8),@MatriculaVieja VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
 RETURNS BIT
@@ -2193,9 +2157,6 @@ AS
 BEGIN
 	DECLARE @Cantidad INT
 	SET @Cantidad = 0
-
-	/*DECLARE @MaximaFechaSalida DATETIME
-	SELECT @MaximaFechaSalida = [ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)*/
 
 	SELECT @Cantidad = COUNT(*) 
 		FROM ABSTRACCIONX4.VIAJES v
@@ -2211,7 +2172,7 @@ END
 
 GO
 
--------------------------------Ciudad en la que se encuentra-------------------------------
+-------------------------------Ciudad en la que se encuentra en un momento determinado-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].CiudadEnLaQueSeEncuentra(@Matricula VARCHAR(8),@FechaBaja DATETIME)
 RETURNS VARCHAR(80)
 AS
@@ -2242,7 +2203,8 @@ END
 GO
 
 
--------------------------------Respeta origenes y destinos-------------------------------
+---------------Valida si la primera aeronave se encuentra en las ciudades en que debería durante-------
+---------------los viajes de la segunda al realizar un suplantar aeronave-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].RespetaOrigenesDestinos
 	(@MatriculaNueva VARCHAR(8),@MatriculaVieja VARCHAR(8),@FechaBaja DATETIME,@FechaReinicio DATETIME)
 RETURNS BIT
@@ -2309,7 +2271,7 @@ END
 GO
 
 
--------------------------------Reasignar butacas a pasajes-------------------------------
+-------------------------------Reasignar butacas a pasajes suplantados-------------------------------
 CREATE PROCEDURE  [ABSTRACCIONX4].ReasignarButacas
 @MatriculaVieja VARCHAR(8), 
 @MatriculaNueva VARCHAR(8),
@@ -2424,32 +2386,6 @@ BEGIN
 END
 GO
 
-/*
--------------------------------Modificacion Butaca-------------------------------
-CREATE TRIGGER [ABSTRACCIONX4].ModificacionButaca
-ON [ABSTRACCIONX4].BUTACAS
-INSTEAD OF UPDATE
-AS
-DECLARE @MatriculaVieja VARCHAR(8)
-DECLARE @MatriculaNueva VARCHAR(8)
-declaRE @Error varchar(100)
-BEGIN
-	SELECT TOP 1 @MatriculaVieja = AERO_MATRI FROM DELETED
-	SELECT TOP 1 @MatriculaNueva = AERO_MATRI FROM INSERTED
-	
-	IF(UPDATE(AERO_MATRI))
-	BEGIN TRY
-		INSERT INTO [ABSTRACCIONX4].BUTACAS (BUT_NRO , BUT_TIPO , AERO_MATRI , BUT_PISO)
-		SELECT BUT_NRO , BUT_TIPO , AERO_MATRI , BUT_PISO FROM INSERTED
-		
-		DELETE FROM [ABSTRACCIONX4].BUTACAS WHERE AERO_MATRI = @MatriculaVieja
-	END TRY
-	BEGIN CATCH
-	SET @Error = 'Error butaca no aceptada' + @MatriculaNueva 
-				RAISERROR(@Error, 16, 1)
-	END CATCH
-END
-GO*/
 
 -------------------------------Viajes asignados a aeronave-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].TieneViajeAsignado
@@ -2521,7 +2457,6 @@ BEGIN
 		DECLARE @ViajeAsignado BIT
 		SELECT @ExisteMatricula = COUNT(*) FROM [ABSTRACCIONX4].AERONAVES WHERE AERO_MATRI = @Matricula AND AERO_MATRI <> @MatriculaActual
 		SET @ViajeAsignado = [ABSTRACCIONX4].TieneViajeAsignado(@MatriculaActual)
-		--EXECUTE [ABSTRACCIONX4].BorrarButacas @MatriculaActual	
 		
 		IF(@ExisteMatricula = 0)
 		BEGIN
@@ -2575,7 +2510,7 @@ END
 GO
 
 
--------------------------------Obter Codigo de Ciudad-------------------------------
+-------------------------------Obtener Codigo de Ciudad-------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].ObtenerCodigoCiudad(@Ciudad VARCHAR(80))
 RETURNS SMALLINT
@@ -2623,7 +2558,7 @@ GO
 
 
 
--------------------------------Obtener Codigo de Ciudad-------------------------------
+------------------Datos requeridos para dar de alta a una aeronave que suplanta a otra------------------------
 CREATE FUNCTION [ABSTRACCIONX4].DatosDeAeronaveASuplantar(@Matricula VARCHAR(8),@FechaBaja DATETIME)
 RETURNS @Datos TABLE (AERO_MOD VARCHAR(30),AERO_FAB VARCHAR(30),SERV_DESC VARCHAR(30),CIU_DESC VARCHAR(80),
 				BUT_PASILLO SMALLINT, BUT_VENTANILLA SMALLINT, CANT_KGS NUMERIC(6,2))
@@ -2747,7 +2682,7 @@ BEGIN
 END
 GO
 
--------------------------------Esta Siendo Usada-------------------------------
+-------------------------------Esta Siendo Usada una ruta en un viaje-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].EstaSiendoUsada (@IdRuta INT)
 RETURNS BIT
 AS
@@ -2909,9 +2844,9 @@ GO
 
 -- ************** REGISTRO LLEGADA ****************
 
-------------------------llegaADestinoCorrecto ----------------------------
+------------------------Ver si llegó al destino correcto ----------------------------
 CREATE FUNCTION [ABSTRACCIONX4].llegaADestinoCorrecto(@MatriculaTxt varchar(8), @ciuDestinoTxt varchar(80))
-RETURNS INT --NO PONER SMALLINT 
+RETURNS INT
 AS 
 	BEGIN
 	DECLARE @rutaId int,@ciuDestinoId int, @ciuDestino varchar(80), @viajecod int 
@@ -2932,7 +2867,7 @@ AS
 GO
 
 
------------------esOrigenCorrecto ---------------------
+-----------------Ver si el origen ingresado es el correcto ---------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].esOrigenCorrecto(@MatriculaTxt varchar(8), @ciuOrigenTxt varchar(80))
 RETURNS BIT
@@ -2956,7 +2891,7 @@ AS
 GO
 
 
----------------obtenerFechaSalidaDeUnViaje ----------------------
+---------------Fecha de salida de un viaje ----------------------
 
 
 CREATE FUNCTION [ABSTRACCIONX4].obtenerFechaSalidaDeUnViaje(@ViajeCod int)
@@ -3226,15 +3161,7 @@ GO
 --------------------------------Llenar Pasajes--------------------------------
 
 CREATE FUNCTION [ABSTRACCIONX4].LlenarPasajes(@Codigo VARCHAR(12))
-RETURNS TABLE /*([PASAJE_COD] INT,
-			   [COMP_COD] INT,
-			   [CLI_COD] INT,
-			   [VIAJE_COD] INT ,
-	           [PASAJE_PRECIO] NUMERIC(7,2),
-	           [PASAJE_FECHA_COMPRA] DATETIME,
-	           [BUT_NRO] SMALLINT,
-	           [AERO_MATRI] VARCHAR(8),
-	           [PASAJE_CANCELADO] BIT)*/
+RETURNS TABLE 
 AS
 	RETURN(SELECT	[PASAJE_COD] AS 'Código',
 					[COMP_PNR] AS 'Código Compra' ,
@@ -3252,7 +3179,7 @@ AS
 
 GO
 
--------------------------------Tipo Lista1-------------------------------
+
 CREATE TYPE [ABSTRACCIONX4].Lista1 AS TABLE 
 ( elemento VARCHAR(30) )
 

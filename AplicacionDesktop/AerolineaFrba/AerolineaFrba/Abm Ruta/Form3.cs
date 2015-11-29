@@ -47,6 +47,8 @@ namespace AerolineaFrba.Abm_Ruta
             return "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = " + cod + ")";
         }
 
+
+        // Realiza la búsqueda si todos los datos ingresados son correctos
         private void button3_Click(object sender, EventArgs e)
         {
 
@@ -84,20 +86,6 @@ namespace AerolineaFrba.Abm_Ruta
         private void ejecutarQuery()
         {
 
-    
-            /*
-            SqlConnection conexion = Program.conexion();
-            
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-           
-            conexion.Close();*/
             sePusoAgregarFiltro1 = false;
             sePusoAgregarFiltro2 = false;
             SQLManager.ejecutarQuery(query + " ORDER BY R.RUTA_COD", dg);
@@ -132,6 +120,7 @@ namespace AerolineaFrba.Abm_Ruta
         }
 
         
+        // Agrega filtros a las búsquedas
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
@@ -247,7 +236,7 @@ namespace AerolineaFrba.Abm_Ruta
                 }
         }
 
-
+        // Verfica y ejecuta lo respectivo a la baja de la ruta
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;

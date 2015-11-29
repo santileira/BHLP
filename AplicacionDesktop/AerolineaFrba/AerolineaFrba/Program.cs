@@ -19,8 +19,6 @@ namespace AerolineaFrba
         [STAThread]
         static void Main()
         {
-            // Abre la conexion con sql
-             //public static SqlConnection laConexion; new SqlConnection("Data Source=localhost\\SQLSERVER2012;Initial Catalog=GD2C2015;Persist Security Info=True;User ID=gd;Password=gd2015");
 
 
             Application.EnableVisualStyles();

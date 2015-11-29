@@ -37,6 +37,8 @@ namespace AerolineaFrba
             generarMenu();
         }
 
+        // Genera los desplegables recorriendo la lista de funcionalidades 
+        // obtenida de la bd en base al rol con el que se ingresó
         private void generarMenu()
         {
             foreach (string funcionalidad in listaFuncionalidades())
@@ -50,6 +52,7 @@ namespace AerolineaFrba
             statusLabelRol.Text += rolElegido;
         }
 
+
         private void agregarBotonLogout()
         {
             ToolStripButton boton = generarBoton("Cerrar sesión",100);
@@ -59,6 +62,9 @@ namespace AerolineaFrba
             menu.Items.Add(boton);
         }
 
+
+        // Diccionario que asocia un nombre de funcionalidad de la BD con un método 
+        // para agregar los botones o desplegables correspondientes al menú
         private void cargarDiccionarioFuncionalidades()
         {
             diccionarioFunc = new Dictionary<string, Action<string>>();
@@ -75,6 +81,9 @@ namespace AerolineaFrba
             diccionarioFunc.Add("Listado Estadístico", agregarFuncionalidadUnica);
         }
 
+
+        // Diccionario que asocia el nombre de los distintos botones del menú
+        // con el método a ejecutar si se presionan, que abre los formularios correspondientes
         private void cargarDiccionarioFormularios()
         {
             diccionarioFormularios = new Dictionary<string, Func<Form>>();
@@ -97,6 +106,7 @@ namespace AerolineaFrba
             diccionarioFormularios.Add("Listado Estadístico", Constructores.ListadoEstadístico);
         }
 
+        // Agregar las distintas funcionalidades al menú
         private void agregarAMenu(string funcionalidad)
         {
             Action<string> operacion;
@@ -141,6 +151,7 @@ namespace AerolineaFrba
             agregarADesplegable(desplegable,generarBoton(funcionalidad,longitudBoton));
         }
 
+        // Funcionalidades del rol obtenidas de una consulta a la base de datos
         private List<string> listaFuncionalidades()
         {
             List<string> funcionalidades = new List<string>();
@@ -195,6 +206,7 @@ namespace AerolineaFrba
             return boton;
         }
 
+        // Método que se llaman al hacer click en cualquier boton (saca la acción a ejecutar del diccionarioFormularios
         private void boton_Click(object sender, EventArgs e)
         {
             Func<Form> metodo;
@@ -204,6 +216,7 @@ namespace AerolineaFrba
             }
         }
 
+        // Al salir se vuelve al login, no se cierra la aplicación
         private void salir_Click(object sender, EventArgs e)
         {
             cerrarAplicacion = false;

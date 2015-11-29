@@ -9,6 +9,8 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba
 {
+    // Clase encargada de simplificar la llamda a stored procedures, llenado de datagrid y otras conexiones con la BD
+
     class SQLManager
     {
         public SqlCommand command;

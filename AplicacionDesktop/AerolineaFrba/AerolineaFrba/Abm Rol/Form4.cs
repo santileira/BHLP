@@ -15,8 +15,6 @@ namespace AerolineaFrba.Abm_Rol
     public partial class Modificacion : Form
     {
 
-        
-        //public Listado listado;
 
 
         public Modificacion()
@@ -185,7 +183,6 @@ namespace AerolineaFrba.Abm_Rol
             listado.anterior = this;
             listado.llamadoDeModificacion = true;
             listado.ShowDialog();
-            //this.cambiarVisibilidades(this.listado);
             
         }
 

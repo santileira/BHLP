@@ -27,6 +27,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.inicio();
         }
 
+        // Carga los datos de acuerdo a la fila seleccionada en el listado
         public void seSelecciono(DataGridViewRow registro)
         {
             cargarComboServicio();
@@ -149,14 +150,21 @@ namespace AerolineaFrba.Abm_Aeronave
             this.inicio();
         }
 
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (this.datosCorrectos())
             {
-                this.modificar();
-                MessageBox.Show("Se modificó la aeronave de manera exitosa", "Modificación de aeronave", MessageBoxButtons.OK);
-        
-                this.Close();
+                try
+                {
+                    this.modificar();
+                    MessageBox.Show("Se modificó la aeronave de manera exitosa", "Modificación de aeronave", MessageBoxButtons.OK);
+                    this.Close();
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.Message, "Error al realizar modificación", MessageBoxButtons.OK);
+                }
             }
         }
 

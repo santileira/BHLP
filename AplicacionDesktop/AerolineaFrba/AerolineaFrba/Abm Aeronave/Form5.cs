@@ -84,6 +84,7 @@ namespace AerolineaFrba.Abm_Aeronave
             return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0);
         }
 
+        // Carga el datagrid con los datos de la consulta
         public void ejecutarConsulta()
         {
             SqlConnection conexion = Program.conexion();
@@ -97,7 +98,6 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
-            //modificar check que se pone automáticamente en los campos de tipo bit
             if (!seSeteaQuery)
             {
                 //actualizarColumnasDeEstado(dg); 
@@ -144,6 +144,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        // Para el caso de que se llame desde generar viaje
         public void extenderQuery()
         {
             query = "select a.SERV_COD, AERO_MATRI 'Matrícula',AERO_MOD 'Modelo',AERO_FAB 'Fabricante',SERV_DESC 'Tipo de servicio',AERO_CANT_KGS 'Cantidad de KG',AERO_FECHA_ALTA 'Fecha de alta',AERO_FECHA_BAJA 'Fecha de baja',(SELECT CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = a.CIU_COD_ORIGEN) 'Ciudad de origen' from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
@@ -157,7 +158,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
         }
 
-
+        // Agregan los filtros a la consulta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro1 = false;
@@ -227,6 +228,7 @@ namespace AerolineaFrba.Abm_Aeronave
             return "";
         }
 
+        // Validaciones de textbox de filtros
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
         {
             Boolean huboErrores = false;
@@ -292,11 +294,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        // Selección de una fila
         private void button7_Click_1(object sender, EventArgs e)
         {
             if (dg.RowCount == 0)
             {
-                MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
+                MessageBox.Show("No se ha seleccionado ninguna aeronave", "Selección invalida", MessageBoxButtons.OK);
                 return;
             }
 
