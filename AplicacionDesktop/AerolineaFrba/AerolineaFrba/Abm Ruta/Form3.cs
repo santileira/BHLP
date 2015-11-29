@@ -36,8 +36,8 @@ namespace AerolineaFrba.Abm_Ruta
             this.query = "SELECT DISTINCT R.RUTA_ID 'Id' , RUTA_COD 'Código' , ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
             this.query += this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
-            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje', ";
-            this.query += "S.SERV_DESC 'Servicio' FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R,[ABSTRACCIONX4].[SERVICIOS_RUTAS] SR , [ABSTRACCIONX4].[SERVICIOS] S";
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje' ";
+            this.query += " FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R,[ABSTRACCIONX4].[SERVICIOS_RUTAS] SR , [ABSTRACCIONX4].[SERVICIOS] S";
             this.query += " WHERE  R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(R.RUTA_ID) = 0";
        
         }
@@ -90,7 +90,6 @@ namespace AerolineaFrba.Abm_Ruta
             sePusoAgregarFiltro2 = false;
             SQLManager.ejecutarQuery(query + " ORDER BY R.RUTA_COD", dg);
             dg.Columns["Id"].Visible = false;
-            dg.Columns["Servicio"].Visible = false;
         }
 
         private void iniciar()
