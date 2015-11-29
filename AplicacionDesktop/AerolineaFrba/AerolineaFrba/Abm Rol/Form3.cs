@@ -78,36 +78,10 @@ namespace AerolineaFrba.Abm_Rol
 
         private Boolean datosCorrectos()
         {
-            //Boolean huboErrores = false;
             return Validacion.filtrosContengaEIgualdad(txtFiltro1, txtFiltro2);
-            /*if (!this.esTexto(txtFiltro1))
-            {
-                MessageBox.Show("El filtro que contenga la palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-
-            if (!this.esTexto(txtFiltro2))
-            {
-                MessageBox.Show("El filtro por igualdad de palabra debe ser una cadena de caracteres", "Error en el nombre", MessageBoxButtons.OK);
-                huboErrores = true;
-            }
-
-            return !huboErrores;*/
         
         }
 
-        /*private Boolean esTexto(TextBox txt)
-        {
-            if (txt.Text.Length == 0)
-            {
-                return true;
-            }
-
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }*/
 
         private void generarQuery(ref Boolean huboCondicion, ref string laQuery, string condicion)
         {
@@ -123,20 +97,7 @@ namespace AerolineaFrba.Abm_Rol
 
         private void ejecutarQuery(string query)
         {
-            /*SqlConnection conexion = Program.conexion();
 
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();*/
             SQLManager.ejecutarQuery(query, dg);
 
             
@@ -160,6 +121,7 @@ namespace AerolineaFrba.Abm_Rol
             this.cambiarVisibilidades(this.listado);
         }
 
+        // Verifica si se presionó el botón de baja, la realiza de acuerdo a las validaciones correspondientes
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -189,15 +151,6 @@ namespace AerolineaFrba.Abm_Rol
             return sqlManager.generarSP("BajaRol")
                              .agregarStringSP("@Nombre", nombre)
                              .ejecutarSP();
-            /*SqlCommand command = new SqlCommand();
-            command.Connection = Program.conexion();
-            command.CommandType = System.Data.CommandType.StoredProcedure;
-            command.CommandText = "[GD2C2015].[ABSTRACCIONX4].[BajaRol]";
-            command.CommandTimeout = 0;
-
-            command.Parameters.AddWithValue("@Nombre", nombre);
-           
-            return command.ExecuteScalar();*/
         }
 
        private void ejecutarCommand(string cadenaComando)
