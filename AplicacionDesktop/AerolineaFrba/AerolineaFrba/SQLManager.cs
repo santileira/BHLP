@@ -9,6 +9,8 @@ using System.Windows.Forms;
 
 namespace AerolineaFrba
 {
+    // Clase encargada de simplificar la llamda a stored procedures, llenado de datagrid y otras conexiones con la BD
+
     class SQLManager
     {
         public SqlCommand command;
@@ -22,6 +24,20 @@ namespace AerolineaFrba
             command.CommandTimeout = 0;
             return this;
         }
+
+        public SQLManager agregarInt64SP(string nombreVariable, TextBox txt)
+        {
+            command.Parameters.AddWithValue(nombreVariable, Convert.ToInt64(txt.Text));
+            return this;
+        }
+
+
+        public SQLManager agregarInt64SP(string nombreVariable, Int64 numero)
+        {
+            command.Parameters.AddWithValue(nombreVariable, numero);
+            return this;
+        }
+
 
         public SQLManager agregarIntSP(string nombreVariable, TextBox txt)
         {

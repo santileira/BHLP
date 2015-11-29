@@ -32,6 +32,7 @@ namespace AerolineaFrba.Compra
             //
             // Carga del contenido de combos
             //
+            txtDni.Enabled = true;
             button2.Enabled = false;
 
             SqlDataReader varTarjeta;
@@ -117,16 +118,13 @@ namespace AerolineaFrba.Compra
                     txtTel.Text = reader.GetValue(5).ToString();
                     txtMail.Text = reader.GetValue(6).ToString();
                     dp.Value = (DateTime)reader.GetValue(7);
+                    txtDni.Enabled = false;
 
                 }
                 else
                 {
-                    SqlDataReader varCli;
-                    SqlCommand consulta = new SqlCommand();
-                    consulta.CommandType = CommandType.Text;
-                    consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
-                    consulta.Connection = Program.conexion();
-                    varCli = consulta.ExecuteReader();
+                    SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+                    
 
                     varCli.Read();
 
@@ -148,6 +146,18 @@ namespace AerolineaFrba.Compra
                 }
             }
 
+        }
+
+        private SqlDataReader tieneDocumento(string dni)
+        {
+            SqlDataReader varCli;
+            SqlCommand consulta = new SqlCommand();
+            consulta.CommandType = CommandType.Text;
+            consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + dni + " AND CLI_APELLIDO !='" + txtApe.Text + "'";
+            consulta.Connection = Program.conexion();
+            varCli = consulta.ExecuteReader();
+            
+            return varCli;
         }
 
         private Boolean validarDNIYApellido()
@@ -186,7 +196,15 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             bool huboError = this.hacerValidacionesDeTipo();
-            
+
+            SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+            varCli.Read();
+            if (varCli.HasRows)
+            {
+                MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                huboError = true;
+            }
+
             if (!huboError)
             {
 
@@ -270,8 +288,8 @@ namespace AerolineaFrba.Compra
 
         private bool sePuedeEfectuarLaCompra()
         {
-            int nroTarjeta;
-            int.TryParse(txtNroTarjeta.Text, out nroTarjeta);
+            Int64 nroTarjeta;
+            Int64.TryParse(txtNroTarjeta.Text, out nroTarjeta);
 
             SqlDataReader reader;
             SqlCommand query = new SqlCommand();
@@ -312,12 +330,12 @@ namespace AerolineaFrba.Compra
         private bool esTarjetaValida()
         {
             
-            int nroTarjeta;
+            Int64 nroTarjeta;
             int vtoMes;
             int vtoAnios;
             int codSeg;
 
-            int.TryParse(txtNroTarjeta.Text, out nroTarjeta);
+            Int64.TryParse(txtNroTarjeta.Text, out nroTarjeta);
             int.TryParse(cboMeses.Text, out vtoMes);
             int.TryParse(cboAnios.Text, out vtoAnios);
             int.TryParse(txtCodSeg.Text, out codSeg);
@@ -524,7 +542,7 @@ namespace AerolineaFrba.Compra
                                  .agregarStringSP("@codigoPNR", codigoPNR)
                                  .agregarIntSP("@cuotas", cuotas)
                                  .agregarStringSP("@formaDePago", cboFormaPago)
-                                 .agregarIntSP("@nroTarjeta", txtNroTarjeta)
+                                 .agregarInt64SP("@nroTarjeta", txtNroTarjeta)
                                  .agregarIntSP("@codSeg", txtCodSeg)
                                  .agregarIntSP("@vencMes", vencMes)
                                  .agregarIntSP("@vencAnio", vencAnio)
@@ -552,7 +570,7 @@ namespace AerolineaFrba.Compra
                                  .agregarStringSP("@codigoPNR", codigoPNR)
                                  .agregarIntSP("@cuotas", 0)
                                  .agregarStringSP("@formaDePago", cboFormaPago)
-                                 .agregarIntSP("@nroTarjeta", 0)
+                                 .agregarInt64SP("@nroTarjeta", 0)
                                  .agregarIntSP("@codSeg", 0)
                                  .agregarIntSP("@vencMes", 0)
                                  .agregarIntSP("@vencAnio", 0)
@@ -577,7 +595,7 @@ namespace AerolineaFrba.Compra
                                  .agregarStringSP("@codigoPNR", codigoPNR)
                                  .agregarIntSP("@cuotas", cuotas)
                                  .agregarStringSP("@formaDePago", cboFormaPago)
-                                 .agregarIntSP("@nroTarjeta", txtNroTarjeta)
+                                 .agregarInt64SP("@nroTarjeta", txtNroTarjeta)
                                  .agregarIntSP("@codSeg", txtCodSeg)
                                  .agregarIntSP("@vencMes", vencMes)
                                  .agregarIntSP("@vencAnio", vencAnio)
@@ -654,6 +672,8 @@ namespace AerolineaFrba.Compra
         {
             this.hayQueActualizarTabla();
         }
+
+    
 
         
 

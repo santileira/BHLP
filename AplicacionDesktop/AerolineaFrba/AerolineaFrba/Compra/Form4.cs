@@ -103,17 +103,13 @@ namespace AerolineaFrba.Compra
             labelKGRestantes.Visible = false;
         }
 
+        /*
+         * Metodo que inicializa las cabeceras de los data grid para pasajes y encomiendas
+         */
         public void crearColumnas()
         {
             dgPasajes.ColumnCount = 15;
             dgPasajes.ColumnHeadersVisible = true;
-
-            /*
-            DataGridViewCellStyle columnHeaderStyle = new DataGridViewCellStyle();
-            columnHeaderStyle.BackColor = Color.Beige;
-            columnHeaderStyle.Font = new Font("Verdana", 8, FontStyle.Bold);
-            dgPasajes.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
-            */
 
             this.agregarCampos(dgPasajes);
             dgPasajes.Columns[8].Name = "Butaca";
@@ -133,12 +129,6 @@ namespace AerolineaFrba.Compra
             dgEncomiendas.ColumnCount = 14;
             dgEncomiendas.ColumnHeadersVisible = true;
 
-            /*
-            DataGridViewCellStyle columnHeaderStyle2 = new DataGridViewCellStyle();
-            columnHeaderStyle2.BackColor = Color.Beige;
-            columnHeaderStyle2.Font = new Font("Verdana", 8, FontStyle.Bold);
-            dgEncomiendas.ColumnHeadersDefaultCellStyle = columnHeaderStyle2;
-            */
             this.agregarCampos(dgEncomiendas);
             dgEncomiendas.Columns[8].Name = "Kilos";
             dgEncomiendas.Columns[9].Name = "Importe";
@@ -166,6 +156,9 @@ namespace AerolineaFrba.Compra
             unDg.Columns[7].Name = "Fecha de nacimiento";
         }
 
+        /*
+         * Metodo que settea en el data grid de pasajes los datos recibidos en el registroCliente recibido por el form 2
+         */
         public void agregarPasaje(DataGridViewRow registroCliente, string numero_butaca, string tipo_butaca, string importe, Boolean actualizarTabla,Boolean encontroCliente, string viaje_cod, string matricula)
         {
             dgPasajes.Rows.Add(registroCliente.Cells["CLI_COD"].Value.ToString(), registroCliente.Cells["CLI_DNI"].Value.ToString(),
@@ -181,6 +174,9 @@ namespace AerolineaFrba.Compra
                 numero_butaca, tipo_butaca, importe, actualizarTabla, viaje_cod, matricula, encontroCliente);
         }
 
+        /*
+         * Metodo que settea en el data grid de encomiendas los datos recibidos en el registroCliente recibido por el form 5
+         */
         public void agregarEncomienda(DataGridViewRow registroEncomienda, string kilos, string importe, Boolean actualizarTabla,Boolean encontroCliente, string viaje_cod, string matricula)
         {
             dgEncomiendas.Rows.Add(registroEncomienda.Cells["CLI_COD"].Value.ToString(), registroEncomienda.Cells["CLI_DNI"].Value.ToString(),
@@ -259,6 +255,9 @@ namespace AerolineaFrba.Compra
             this.cambiarVisibilidades(this.servicioDeEncomiendas);
         }
 
+        /*
+         * Metodo que cancela un pasaje seleccionado de entre los pasajes listados hasta el momento
+         */
         private void button4_Click_1(object sender, EventArgs e)
         {
             if (dgPasajes.RowCount == 0)
@@ -273,6 +272,9 @@ namespace AerolineaFrba.Compra
             }
         }
 
+        /*
+         * Metodo que cancela una encomienda seleccionada de entre las encomiendas listadas hasta el momento
+         */
         private void button5_Click_1(object sender, EventArgs e)
         {
             if (dgEncomiendas.RowCount == 0)

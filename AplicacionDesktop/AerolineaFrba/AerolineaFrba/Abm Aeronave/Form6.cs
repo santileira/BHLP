@@ -25,6 +25,7 @@ namespace AerolineaFrba.Abm_Aeronave
             InitializeComponent();
         }
 
+        // Muestra la fecha de reinicio si se llamó por fuera de servicio
         private void Form6_Load(object sender, EventArgs e)
         {
             fechaBaja.Value = Program.fechaHoy();
@@ -43,6 +44,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Close();
         }
 
+        // Realiza las validaciones correspondientes e intenta dar de baja en la BD
         private void botonAceptar_Click(object sender, EventArgs e)
         {
             if (!validarFecha())

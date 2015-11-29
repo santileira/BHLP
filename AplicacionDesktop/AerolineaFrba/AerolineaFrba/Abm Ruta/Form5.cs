@@ -78,17 +78,30 @@ namespace AerolineaFrba.Abm_Ruta
             return "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = " + cod + ")";
         }
 
+        // Realiza la búsqueda sobre la BD
         private void button3_Click(object sender, EventArgs e)
         {
-            if (this.primeraVez && chkEstadoIgnorar.Checked == false)
+            if (!chkEstadoIgnorar.Checked)
             {
                     this.query += " AND ";
+                    string filtro;
 
-                if (optEstadoAlta.Checked)
-                    this.query += "RUTA_ESTADO = 1"; 
-                else
-                    this.query += "RUTA_ESTADO = 0";
+                    if (optEstadoAlta.Checked)
+                    {
+                        filtro = "Se ha agregado el filtro por estado disponible";
+                        
+                        this.query += "RUTA_ESTADO = 1";
+                    }
+                    else
+                    {
+                        filtro = "Se ha agregado el filtro por estado no disponible";
+                        this.query += "RUTA_ESTADO = 0";
+                    }
 
+                    if (!listaFiltros.Items.Contains(filtro))
+                    {
+                        listaFiltros.Items.Add(filtro);
+                    }
                 this.primeraVez = false;
             }
 
@@ -123,9 +136,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void ejecutarQuery()
         {
-     //       sePusoAgregarFiltro1 = false;
-      //      sePusoAgregarFiltro2 = false;
-            
+
+
             SqlConnection conexion = Program.conexion();
 
             DataTable t = new DataTable("Busqueda");
@@ -149,6 +161,7 @@ namespace AerolineaFrba.Abm_Ruta
           
         }
 
+        // Muestra la columna de habilitado o no
         private void actualizarColumnasDeEstado(DataGridView dg)
         {
             if (primeraConsulta)
@@ -181,6 +194,8 @@ namespace AerolineaFrba.Abm_Ruta
 
         public void inicio()
         {
+            this.primeraVez = true;
+
             this.generarQueryInicial();
             this.ejecutarQuery();
 
@@ -221,6 +236,7 @@ namespace AerolineaFrba.Abm_Ruta
             throw new NotImplementedException();
         }
 
+        // Agregar los criterios de filtro a la consulta
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
@@ -243,13 +259,13 @@ namespace AerolineaFrba.Abm_Ruta
 
         private string buscarNombreCampo(ComboBox combo)
         {
-            if (combo.Text == "ORIGEN")
+            if (combo.Text == "Origen")
                 return this.buscarCiudad("R.CIU_COD_O");
-            else if (combo.Text == "DESTINO")
+            else if (combo.Text == "Destino")
                 return this.buscarCiudad("R.CIU_COD_D");
-            else if (combo.Text == "TIPO_SERVICIO")
+            else if (combo.Text == "Servicio")
                 return "S.SERV_DESC";
-            else if (combo.Text == "CODIGO_DE_RUTA")
+            else if (combo.Text == "Código de ruta")
                 return "RUTA_COD";
             else
                 return combo.Text;
@@ -294,7 +310,7 @@ namespace AerolineaFrba.Abm_Ruta
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("CODIGO_DE_RUTA") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
+            if (combo.Text.Equals("Código de ruta") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
                 if (!Validacion.esNumero(txt))
                 {
@@ -302,7 +318,7 @@ namespace AerolineaFrba.Abm_Ruta
                     huboErrores = true;
                 }
             }
-            else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
+            else if(combo.Text.Equals("Servicio") || combo.Text.Equals("Origen") || combo.Text.Equals("Destino"))
             {
                 if (!Validacion.esTexto(txt))
                 {
@@ -314,21 +330,6 @@ namespace AerolineaFrba.Abm_Ruta
             return !huboErrores;
         }
 
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }
-
-        private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-        }*/
 
         private void button4_Click_1(object sender, EventArgs e)
         {

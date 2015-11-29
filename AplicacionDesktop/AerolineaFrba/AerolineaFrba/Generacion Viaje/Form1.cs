@@ -43,6 +43,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
             txtMatricula.Text = "";
             txtRuta.Text = "";
+            txtMatricula.Enabled = false;
 
             this.listadoAeronaves.serv_cod = null;
             this.listadoRutas.serv_cod = null;
@@ -50,14 +51,24 @@ namespace AerolineaFrba.Generacion_Viaje
             sePuedeGuardar = false;
         }
 
+        /*
+         * Metodo que se invoca desde el listado de aeronave cuando se selecciona una aeronave.
+         * Su objetivo es completar el txtMatricula con la matricula seleccionada
+         */
         public void seSeleccionoAeronave(DataGridViewRow registro)
         {
             txtMatricula.Text = registro.Cells["Matrícula"].Value.ToString();
             this.listadoRutas.serv_cod = registro.Cells["Tipo de servicio"].Value.ToString();
         }
 
+        /*
+         * Metodo que se invoca desde el listado de rutas cuando se selecciona una ruta aerea.
+         * Su objetivo es completar el txtRuta con la ruta seleccionada
+         */
         public void seSeleccionoRuta(DataGridViewRow registro)
         {
+            button5.Enabled = true;
+            txtMatricula.Text = "";
             txtRuta.Text = registro.Cells["Id"].Value.ToString();
             this.listadoAeronaves.serv_cod = registro.Cells["Codigo Serv"].Value.ToString();
         }
@@ -82,6 +93,12 @@ namespace AerolineaFrba.Generacion_Viaje
                     this.listadoAeronaves.queryViajes += "and [ABSTRACCIONX4].sigue_la_ruta(AERO_MATRI, '" + txtRuta.Text + "', '"
                     + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
 
+                this.listadoAeronaves.queryViajes += " and [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA, '"
+                + dateTimePicker1.Value + "', [ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 0 ";
+
+                this.listadoAeronaves.queryViajes += " and (select count(*) from [ABSTRACCIONX4].VIAJES v " +
+                    "where v.AERO_MATRI=a.AERO_MATRI and [ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_SALIDA, '" + dateTimePicker1.Value + "',[ABSTRACCIONX4].FechaReinicioOMaxima(NULL))=1) = 0 ";
+
                 this.listadoAeronaves.extenderQuery();
                 this.listadoAeronaves.ejecutarConsulta();
                 this.cambiarVisibilidades(this.listadoAeronaves);
@@ -90,6 +107,7 @@ namespace AerolineaFrba.Generacion_Viaje
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.listadoRutas.serv_cod = null;
             this.listadoRutas.generarQueryInicial();
             this.listadoRutas.ejecutarQuery();
             this.cambiarVisibilidades(this.listadoRutas);
@@ -102,6 +120,10 @@ namespace AerolineaFrba.Generacion_Viaje
         }
 
 
+        /*
+         * Metodo que retorna true si hubo algun valor erroneo o no esperado relacionado a
+         * las fechas de salida y llegada de la aeronave. Retorna false si las fechas ingresadas son correctas
+         */
         private Boolean fechasErroneas()
         {
             Boolean huboError = false;
@@ -176,6 +198,14 @@ namespace AerolineaFrba.Generacion_Viaje
             }
         }
 
+        /*
+         * Metodo que se encarga de invocar al SQLManager para armar la cadena que ejecuta
+         * la procedure GenerarNuevoViaje, el cual inserta el nuevo registro en la tabla de viajes,
+         * siempre y cuando se cumplan las restricciones del formulario, y siempre que la insercion
+         * no haya sido fallida. En caso de no poder insertarse el registro (ya sea por fallo de constrains,
+         * o algun otro fallo relacionado a la integridad de los datos), se lanzara una excepcion que se
+         * cacheada en la aplicacion
+         */
         private Object insertarNuevoViaje()
         {
             SQLManager manejador = new SQLManager();
@@ -192,7 +222,7 @@ namespace AerolineaFrba.Generacion_Viaje
             }
             catch (System.Exception e)
             {
-                MessageBox.Show(e.Message, "Erro en la base de datos", MessageBoxButtons.OK);
+                MessageBox.Show(e.Message, "Erro al generar el nuevo viaje", MessageBoxButtons.OK);
                 return null;
             }   
         }

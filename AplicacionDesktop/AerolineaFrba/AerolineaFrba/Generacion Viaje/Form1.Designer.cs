@@ -120,6 +120,7 @@
             // 
             // button5
             // 
+            this.button5.Enabled = false;
             this.button5.ForeColor = System.Drawing.Color.Black;
             this.button5.Location = new System.Drawing.Point(359, 159);
             this.button5.Name = "button5";

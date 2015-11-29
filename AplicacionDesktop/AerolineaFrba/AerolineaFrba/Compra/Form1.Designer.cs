@@ -175,6 +175,7 @@
             this.dg.Size = new System.Drawing.Size(545, 123);
             this.dg.TabIndex = 45;
             this.dg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_CellClick);
+         
             // 
             // button5
             // 

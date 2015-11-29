@@ -9,6 +9,8 @@ namespace AerolineaFrba
 {
     class Encriptador
     {
+
+        // Método que genera el código hash para la contraseña antes de enviarlo a la BD
         public static string encriptarSegunSHA256(string cadena)
         {
             SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();

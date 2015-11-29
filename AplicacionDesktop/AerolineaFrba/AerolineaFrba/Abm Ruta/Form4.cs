@@ -30,6 +30,7 @@ namespace AerolineaFrba.Abm_Ruta
             this.iniciar();
         }
 
+        // Carga los datos seleccionados en el listado
         public void seSelecciono(DataGridViewRow registro,List<Object> tiposDeServicio)
         {
 

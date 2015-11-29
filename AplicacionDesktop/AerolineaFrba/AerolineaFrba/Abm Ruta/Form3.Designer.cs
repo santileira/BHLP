@@ -125,10 +125,8 @@
             this.cboCamposFiltro2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro2.FormattingEnabled = true;
             this.cboCamposFiltro2.Items.AddRange(new object[] {
-            "RUTA_COD",
-            "TIPO_SERVICIO",
-            "ORIGEN",
-            "DESTINO"});
+            "Origen",
+            "Destino"});
             this.cboCamposFiltro2.Location = new System.Drawing.Point(168, 59);
             this.cboCamposFiltro2.Name = "cboCamposFiltro2";
             this.cboCamposFiltro2.Size = new System.Drawing.Size(157, 21);
@@ -140,9 +138,8 @@
             this.cboCamposFiltro1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCamposFiltro1.FormattingEnabled = true;
             this.cboCamposFiltro1.Items.AddRange(new object[] {
-            "TIPO_SERVICIO",
-            "ORIGEN",
-            "DESTINO"});
+            "Origen",
+            "Destino"});
             this.cboCamposFiltro1.Location = new System.Drawing.Point(168, 24);
             this.cboCamposFiltro1.Name = "cboCamposFiltro1";
             this.cboCamposFiltro1.Size = new System.Drawing.Size(157, 21);

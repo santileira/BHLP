@@ -29,8 +29,14 @@ namespace AerolineaFrba.Registro_de_Usuario
             {
                 registrarUsuario();
             }
+            else
+            {
+                
+            }
         }
 
+        // Realiza el llamado al sp para registrar al usuario efectivamente, si es que no hubo errores
+        // encripta la contraseña antes de enviarla
         private void registrarUsuario()
         {
             SQLManager manager = new SQLManager().generarSP("RegistrarUsuario")
@@ -53,7 +59,7 @@ namespace AerolineaFrba.Registro_de_Usuario
         {
             Boolean huboError = false;
             
-            huboError = Validacion.esTextoAlfanumerico(txtUsuario,true,"usuario",true)|| huboError;
+            huboError = !Validacion.esTextoAlfanumerico(txtUsuario,true,"usuario",true)|| huboError;
             huboError = !validarLongitudContrasenias() || huboError;
             huboError = !validarContraseniasIguales() || huboError;
 

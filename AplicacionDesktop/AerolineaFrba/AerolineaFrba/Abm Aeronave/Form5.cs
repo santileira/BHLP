@@ -39,51 +39,6 @@ namespace AerolineaFrba.Abm_Aeronave
 
             InitializeComponent();
 
-
-            //
-            // Carga del contenido de combos
-            //
-
-            SqlDataReader varcampo;
-            SqlDataReader varfecha;
-
-            SqlCommand consultaColumnas = new SqlCommand();
-            SqlCommand consultaColumnasFechas = new SqlCommand();
-
-            consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnasFechas.CommandType = CommandType.Text;
-
-            if (seSeteaQuery)
-            {
-                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT LIKE 'AERO_BAJA%' AND COLUMN_NAME NOT IN ('AERO_CANT_KGS','SERV_COD','CIU_COD_ORIGEN')";
-            }
-            else
-            {
-                consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT IN ('AERO_CANT_KGS','SERV_COD','CIU_COD_ORIGEN')";
-            }
-
-            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%' ";
-
-            consultaColumnas.Connection = Program.conexion();
-
-            varcampo = consultaColumnas.ExecuteReader();
-
-            while (varcampo.Read())
-            {
-                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
-                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
-            }
-
-            consultaColumnasFechas.Connection = Program.conexion();
-            varfecha = consultaColumnasFechas.ExecuteReader();
-
-            while (varfecha.Read())
-            {
-                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
-            }
-
-            /////////////////////////Fin carga contenido de combos//////////////////////////
-
         }
 
         private void Listado_Load(object sender, EventArgs e)
@@ -126,9 +81,10 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboCamposFiltro3.SelectedIndex != -1);
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0);
         }
 
+        // Carga el datagrid con los datos de la consulta
         public void ejecutarConsulta()
         {
             SqlConnection conexion = Program.conexion();
@@ -142,7 +98,6 @@ namespace AerolineaFrba.Abm_Aeronave
             dg.DataSource = ds;
             dg.DataMember = "Busqueda";
 
-            //modificar check que se pone automáticamente en los campos de tipo bit
             if (!seSeteaQuery)
             {
                 //actualizarColumnasDeEstado(dg); 
@@ -156,61 +111,12 @@ namespace AerolineaFrba.Abm_Aeronave
             
         }
 
-        private void actualizarColumnasDeEstado(DataGridView dg)
-        {
-            if (primeraConsulta)
-            {
-                DataGridViewColumn columnaHabilitada = new DataGridViewTextBoxColumn();
-                columnaHabilitada.Name = "HABILITADA";
-                columnaHabilitada.HeaderText = "HABILITADA";
-                columnaHabilitada.ReadOnly = true;
-
-                DataGridViewColumn columnaFueraServicio = new DataGridViewTextBoxColumn();
-                columnaFueraServicio.Name = "FUERA_SERVICIO";
-                columnaFueraServicio.HeaderText = "FUERA_SERVICIO";
-                columnaFueraServicio.ReadOnly = true;
-
-                dg.Columns.Insert(dg.Columns["AERO_BAJA_VU"].Index, columnaHabilitada);
-                dg.Columns.Insert(dg.Columns["AERO_BAJA_FS"].Index, columnaFueraServicio);
-            }
-
-            foreach (DataGridViewRow fila in dg.Rows)
-            {
-                Boolean valor = (Boolean)(fila.Cells["AERO_BAJA_VU"].Value);
-                if (valor)
-                {
-                    fila.Cells["HABILITADA"].Value = "NO";
-                }
-                else
-                {
-                    fila.Cells["HABILITADA"].Value = "SI";
-                }
-                valor = (Boolean)(fila.Cells["AERO_BAJA_FS"].Value);
-                if (valor)
-                {
-                    fila.Cells["FUERA_SERVICIO"].Value = "SI";
-                }
-                else
-                {
-                    fila.Cells["FUERA_SERVICIO"].Value = "NO";
-                }
-            }
-
-            dg.Columns["AERO_BAJA_FS"].Visible = false;
-            dg.Columns["AERO_BAJA_VU"].Visible = false;
-        }
-
         public void inicio()
         {
 
             if (seSeteaQuery)
             {
                 query = (anterior as Registro_Llegada_Destino.Form1).consultaSeteada();
-
-                label5.Visible = false;
-                cboCamposFiltro3.Visible = false;
-                dateTimePicker1.Visible = false;
-                button1.Visible = false;
 
             }
             else
@@ -227,7 +133,6 @@ namespace AerolineaFrba.Abm_Aeronave
             
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
-            cboCamposFiltro3.SelectedIndex = -1;
 
             this.huboCondicion = false;
 
@@ -239,6 +144,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        // Para el caso de que se llame desde generar viaje
         public void extenderQuery()
         {
             query = "select a.SERV_COD, AERO_MATRI 'Matrícula',AERO_MOD 'Modelo',AERO_FAB 'Fabricante',SERV_DESC 'Tipo de servicio',AERO_CANT_KGS 'Cantidad de KG',AERO_FECHA_ALTA 'Fecha de alta',AERO_FECHA_BAJA 'Fecha de baja',(SELECT CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = a.CIU_COD_ORIGEN) 'Ciudad de origen' from ABSTRACCIONX4.AERONAVES a JOIN ABSTRACCIONX4.SERVICIOS s ON (a.SERV_COD = s.SERV_COD)";
@@ -252,7 +158,7 @@ namespace AerolineaFrba.Abm_Aeronave
             }
         }
 
-
+        // Agregan los filtros a la consulta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro1 = false;
@@ -289,7 +195,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 else
                     this.query += " AND ";
 
-                this.query += "a." + combo.Text + criterio;
+                this.query += nombreColumna(combo.Text) + criterio;
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 
                 if (this.filtro1)
@@ -306,6 +212,23 @@ namespace AerolineaFrba.Abm_Aeronave
             return false;
         }
 
+        private string nombreColumna(string nombre)
+        {
+            switch (nombre)
+            {
+                case "Matrícula":
+                    return "AERO_MATRI";
+                case "Servicio":
+                    return "s.SERV_DESC";
+                case "Modelo":
+                    return "AERO_MOD";
+                case "Fabricante":
+                    return "AERO_FAB";
+            }
+            return "";
+        }
+
+        // Validaciones de textbox de filtros
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
         {
             Boolean huboErrores = false;
@@ -322,15 +245,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("AERO_CANT_BUTACAS") || combo.Text.Equals("AERO_CANT_KGS"))
-            {
-                if (!Validacion.esNumero(txt))
-                {
-                    MessageBox.Show("Para el campo " + combo.Text + " el criterio debe ser numerico", "Error en el tipo de dato del criterio", MessageBoxButtons.OK);
-                    huboErrores = true;
-                }
-            }
-            else if (combo.Text.Equals("AERO_MOD") || combo.Text.Equals("AERO_MATRI") || combo.Text.Equals("AERO_FAB"))
+            else if (combo.Text.Equals("Modelo") || combo.Text.Equals("Matrícula") || combo.Text.Equals("Fabricante") || combo.Text.Equals("Servicio"))
             {
                 if (!Validacion.esTexto(txt))
                 {
@@ -342,21 +257,6 @@ namespace AerolineaFrba.Abm_Aeronave
             return !huboErrores;
         }
 
-        /*private Boolean esTexto(TextBox txt)
-        {
-            String textPattern = "[A-Za-z]";
-            System.Text.RegularExpressions.Regex regexTexto = new System.Text.RegularExpressions.Regex(textPattern);
-
-            return regexTexto.IsMatch(txt.Text);
-        }
-
-        private Boolean esNumero(TextBox txt)
-        {
-            String numericPattern = "[0-9]";
-            System.Text.RegularExpressions.Regex regexNumero = new System.Text.RegularExpressions.Regex(numericPattern);
-
-            return regexNumero.IsMatch(txt.Text);
-        }*/
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -372,13 +272,6 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             formularioSiguiente.Visible = true;
             this.Visible = false;
-        }
-
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-           
-            this.concatenarCriterio(dateTimePicker1, cboCamposFiltro3, " = '" + dateTimePicker1.Value + "'");
         }
 
         private void concatenarCriterio(DateTimePicker dataTime, ComboBox combo, string criterio)
@@ -401,11 +294,12 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        // Selección de una fila
         private void button7_Click_1(object sender, EventArgs e)
         {
             if (dg.RowCount == 0)
             {
-                MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
+                MessageBox.Show("No se ha seleccionado ninguna aeronave", "Selección invalida", MessageBoxButtons.OK);
                 return;
             }
 

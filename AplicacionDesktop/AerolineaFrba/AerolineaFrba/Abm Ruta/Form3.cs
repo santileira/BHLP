@@ -14,14 +14,13 @@ namespace AerolineaFrba.Abm_Ruta
     public partial class Baja : Form
     {
         string query;
-        Boolean huboCondicion;
         int filtro;
+        public Boolean huboCondicion;
         private Boolean sePusoAgregarFiltro1 = false;
         private Boolean sePusoAgregarFiltro2 = false;
-        Form formularioSiguiente;
         public Listado listado;
         Boolean seleccionandoOrigen;
-        
+
         public Baja()
         {
             InitializeComponent();
@@ -34,11 +33,11 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void generarQueryInicial()
         {
-            this.query = "SELECT R.RUTA_ID 'Id' , RUTA_COD 'Código' , ";
+            this.query = "SELECT DISTINCT R.RUTA_ID 'Id' , RUTA_COD 'Código' , ";
             this.query += this.buscarCiudad("R.CIU_COD_O") + " 'Origen', ";
             this.query += this.buscarCiudad("R.CIU_COD_D") + " 'Destino', ";
-            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje', ";
-            this.query += "S.SERV_DESC 'Servicio' FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R,[ABSTRACCIONX4].[SERVICIOS_RUTAS] SR , [ABSTRACCIONX4].[SERVICIOS] S";
+            this.query += "RUTA_PRECIO_BASE_KG 'Precio Base Por Kilogramo', RUTA_PRECIO_BASE_PASAJE 'Precio Base Por Pasaje' ";
+            this.query += " FROM [ABSTRACCIONX4].[RUTAS_AEREAS] R,[ABSTRACCIONX4].[SERVICIOS_RUTAS] SR , [ABSTRACCIONX4].[SERVICIOS] S";
             this.query += " WHERE  R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.RUTA_ESTADO = '1' AND [ABSTRACCIONX4].EstaSiendoUsada(R.RUTA_ID) = 0";
        
         }
@@ -48,6 +47,8 @@ namespace AerolineaFrba.Abm_Ruta
             return "(SELECT CIU_DESC FROM [ABSTRACCIONX4].[CIUDADES] C WHERE C.CIU_COD = " + cod + ")";
         }
 
+
+        // Realiza la búsqueda si todos los datos ingresados son correctos
         private void button3_Click(object sender, EventArgs e)
         {
 
@@ -85,20 +86,6 @@ namespace AerolineaFrba.Abm_Ruta
         private void ejecutarQuery()
         {
 
-    
-            /*
-            SqlConnection conexion = Program.conexion();
-            
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(this.query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-           
-            conexion.Close();*/
             sePusoAgregarFiltro1 = false;
             sePusoAgregarFiltro2 = false;
             SQLManager.ejecutarQuery(query + " ORDER BY R.RUTA_COD", dg);
@@ -132,6 +119,7 @@ namespace AerolineaFrba.Abm_Ruta
         }
 
         
+        // Agrega filtros a las búsquedas
         private void button5_Click(object sender, EventArgs e)
         {
             this.filtro = 1;
@@ -152,11 +140,11 @@ namespace AerolineaFrba.Abm_Ruta
 
         private string buscarNombreCampo(string combo)
         {
-            if (combo == "ORIGEN")
+            if (combo == "Origen")
                 return this.buscarCiudad("R.CIU_COD_O");
-            else if (combo == "DESTINO")
+            else if (combo == "Destino")
                 return this.buscarCiudad("R.CIU_COD_D");
-            else if (combo == "TIPO_SERVICIO")
+            else if (combo == "Servicio")
                 return "SERV_DESC";
             else
                 return combo;
@@ -209,7 +197,7 @@ namespace AerolineaFrba.Abm_Ruta
                 huboErrores = true;
             }
 
-            if (combo.Text.Equals("RUTA_COD") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
+            if (combo.Text.Equals("Código") || combo.Text.Equals("RUTA_PRECIO_BASE_KG") || combo.Text.Equals("RUTA_PRECIO_BASE_PASAJE"))
             {
                 if (!Validacion.esNumero(txt , combo.Text , true))
                 {
@@ -217,7 +205,7 @@ namespace AerolineaFrba.Abm_Ruta
                     huboErrores = true;
                 }
             }
-            else if(combo.Text.Equals("TIPO_SERVICIO") || combo.Text.Equals("ORIGEN") || combo.Text.Equals("DESTINO"))
+            else if(combo.Text.Equals("Servicio") || combo.Text.Equals("Origen") || combo.Text.Equals("Destino"))
             {
                 if (!Validacion.esTexto(txt , combo.Text , true))
                 {
@@ -232,7 +220,7 @@ namespace AerolineaFrba.Abm_Ruta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
-            if (txtFiltro2.Enabled && /*txtFiltro2.Text.Length != 0*/!Validacion.esVacio(txtFiltro2))
+            if (txtFiltro2.Enabled && !Validacion.esVacio(txtFiltro2))
                 {
                     if (this.concatenarCriterio(txtFiltro2, cboCamposFiltro2, " = '" + txtFiltro2.Text + "'"))
                     {
@@ -247,7 +235,7 @@ namespace AerolineaFrba.Abm_Ruta
                 }
         }
 
-
+        // Verfica y ejecuta lo respectivo a la baja de la ruta
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -360,14 +348,14 @@ namespace AerolineaFrba.Abm_Ruta
             if (seleccionandoOrigen)
             {
                 txtOrigen.Text = ciudad;
-                string campo = this.buscarNombreCampo("ORIGEN");
+                string campo = this.buscarNombreCampo("Origen");
                 this.query += " AND " + campo + " = '" + ciudad + "'";
             
             }
             else
             {
                 txtDestino.Text = ciudad;
-                string campo = this.buscarNombreCampo("DESTINO");
+                string campo = this.buscarNombreCampo("Destino");
                 this.query += " AND " + campo + " = '" + ciudad + "'";
             }
             this.ejecutarQuery();

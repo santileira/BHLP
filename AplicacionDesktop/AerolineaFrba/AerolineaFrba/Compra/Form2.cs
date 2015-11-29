@@ -46,6 +46,7 @@ namespace AerolineaFrba.Compra
             labelRestantes.Text = "Pasajes restantes: " + (anterior as Form4).butacasRestantes().ToString();
 
             txtDni.Focus();
+            txtDni.Enabled = true;
 
             txtApe.Enabled = false;
             txtDire.Enabled = false;
@@ -85,10 +86,11 @@ namespace AerolineaFrba.Compra
             this.cambiarVisibilidades(this.anterior);
         }
 
+        /*
+         * Metodo para buscar al cliente en la base de datos. Si existe, autocompletara los text box restantes.
+         */
         private void button1_Click(object sender, EventArgs e)
         {
-            
-
             Boolean validacion = false;
             validacion = Validacion.esVacio(txtDni, "DNI", true) || validacion;
             validacion = Validacion.esVacio(txtApe, "Apellido", true) || validacion;
@@ -123,17 +125,13 @@ namespace AerolineaFrba.Compra
                 txtMail.Text = dgCliente.Rows[0].Cells["CLI_MAIL"].Value.ToString();
 
                 codigoCliente = (int)dgCliente.Rows[0].Cells["CLI_COD"].Value;
+                txtDni.Enabled = false;
             }
             else
             {
 
-                SqlDataReader varCli;
-                SqlCommand consulta = new SqlCommand();
-                consulta.CommandType = CommandType.Text;
-                consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + txtDni.Text;
-                consulta.Connection = Program.conexion();
-                varCli = consulta.ExecuteReader();
-
+                SqlDataReader varCli = tieneDocumento(txtDni.Text);
+                
                 varCli.Read();
 
                 if (varCli.HasRows)
@@ -154,15 +152,39 @@ namespace AerolineaFrba.Compra
             }
         }
 
+        private SqlDataReader tieneDocumento(string dni)
+        {
+            SqlDataReader varCli;
+            SqlCommand consulta = new SqlCommand();
+            consulta.CommandType = CommandType.Text;
+            consulta.CommandText = "select 1 from [ABSTRACCIONX4].CLIENTES WHERE CLI_DNI =" + dni + " AND CLI_APELLIDO !='" + txtApe.Text + "'";
+            consulta.Connection = Program.conexion();
+            varCli = consulta.ExecuteReader();
+
+            return varCli;
+        }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
             this.inicio();
         }
 
+        /*
+         * Metodo agrega al listado de pasajes del form 4, el pasaje para el cliente ingresado
+         */
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
+            SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+
+            varCli.Read();
+            if (varCli.HasRows)
+            {
+                
+                MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                huboError = true;
+            }
 
             if (dp.Value.Year > Program.fechaHoy().Year && dp.Value.Month > Program.fechaHoy().Month && dp.Value.Day > Program.fechaHoy().Day)
             {
@@ -198,8 +220,10 @@ namespace AerolineaFrba.Compra
 
                 if (dgCliente.RowCount == 0)
                 {
+                    
                     MessageBox.Show("El cliente no puede realizar un viaje porque ya tiene programado otro viaje en ese periodo", "Error en los datos", MessageBoxButtons.OK);
                     huboError = true;
+                    this.inicio();
                 }
             }
 
@@ -247,6 +271,9 @@ namespace AerolineaFrba.Compra
                 }
 
                 this.cantidadButacas -= 1;
+
+                
+
 
                 this.inicio();
                 if ((anterior as Form4).butacasRestantes() == 0)

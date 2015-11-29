@@ -61,8 +61,11 @@ namespace AerolineaFrba.Compra
 
             seleccionoViaje = false;
         }
-        
 
+
+        /*
+         * Metodo que despliega un formulario para seleccionar una ciudad de entre un listado de ciudades disponibles
+         */
         private void button2_Click(object sender, EventArgs e)
         {
             seleccionandoOrigen = true;
@@ -106,6 +109,12 @@ namespace AerolineaFrba.Compra
             this.inicio();
         }
 
+        /*
+         * Metodo que verifica los datos ingresados (fecha de salida, origen y destino), controlando que la fecha
+         * ingresada sea una fecha valida, y que se halla ingresado un origen y un destino para el pasaje o 
+         * encomienda. Luego, se invoca a la procedure buscarViajesDisponibles que listara todos los viajes
+         * cuyas aeronaves partan durante la fecha ingresada, en el origen ingresado y arriben al destino ingresado.
+         */
         private void button1_Click(object sender, EventArgs e)
         {
             
@@ -115,6 +124,8 @@ namespace AerolineaFrba.Compra
                     MessageBox.Show("La fecha de salida no puede ser anterior a la fecha de hoy");
                 else
                 {
+                    lblButacas.Text = "";
+                    lblKilos.Text = "";
                     SQLManager.ejecutarQuery("select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
                     //this.ejecutarQuery();
 
@@ -136,6 +147,10 @@ namespace AerolineaFrba.Compra
             }
             else
             {
+
+                lblButacas.Text = "";
+                lblKilos.Text = "";
+                
                 SQLManager.ejecutarQuery("select VIAJE_COD 'Código de viaje', AERO_MATRI 'Matrícula',Fecha_Salida 'Fecha de salida', Fecha_Llegada 'Fecha de llegada', Origen 'Origen', Destino 'Destino', Tipo_Servicio 'Tipo de servicio' from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')", dg);
                 //this.ejecutarQuery();
 
@@ -155,32 +170,15 @@ namespace AerolineaFrba.Compra
             }
         }
 
-  /*      private void ejecutarQuery()
-        {
-            string query = "select * from [ABSTRACCIONX4].buscarViajesDisponibles('" + dateTimePicker1.Value.ToString() + "', '" + txtCiudadOrigen.Text + "', '" + txtCiudadDestino.Text + "')";
-            SqlConnection conexion = Program.conexion();
-            DataTable t = new DataTable("Busqueda");
-            SqlDataAdapter a = new SqlDataAdapter(query, conexion);
-            //Llenar el Dataset
-            DataSet ds = new DataSet();
-            a.Fill(ds, "Busqueda");
-            //Ligar el datagrid con la fuente de datos
-            dg.DataSource = ds;
-            dg.DataMember = "Busqueda";
-
-            conexion.Close();
-
-            dg.Columns["VIAJE_COD"].Visible = false;
-            dg.Columns["AERO_MATRI"].Visible = false;
-
-            dg.CurrentCell = null;
-        }
-  */
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
+        /*
+         * Metodo que settea en variables cada uno de los datos correspondientes al registro seleccionado
+         * del data grid que refleja los viajes disponibles
+         */
         private void dg_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             this.viaje = dg.SelectedRows[0].Cells["Código de viaje"].Value.ToString();
@@ -194,6 +192,11 @@ namespace AerolineaFrba.Compra
             seleccionoViaje = true;
         }
 
+        /*
+         * Metodo que verifica si la seleccion de viaje y la introduccion de datos es correcta. Si es asi, 
+         * settea los valores correspondientes en el siguiente formulario (form 3) con las cantidades de 
+         * butacas y encomienda disponible en la aeronave del viaje seleccionado
+         */
         private void button5_Click(object sender, EventArgs e)
         {
 
@@ -220,5 +223,6 @@ namespace AerolineaFrba.Compra
 
 
         }
+
     }
 }

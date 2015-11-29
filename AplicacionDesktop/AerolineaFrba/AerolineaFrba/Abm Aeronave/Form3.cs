@@ -27,41 +27,6 @@ namespace AerolineaFrba.Abm_Aeronave
         public Baja()
         {
             InitializeComponent();
-
-            //
-            // Carga del contenido de combos
-            //
-
-            SqlDataReader varcampo;
-            SqlDataReader varfecha;
-
-            SqlCommand consultaColumnas = new SqlCommand();
-            SqlCommand consultaColumnasFechas = new SqlCommand();
-
-            consultaColumnas.CommandType = CommandType.Text;
-            consultaColumnasFechas.CommandType = CommandType.Text;
-
-            consultaColumnas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME NOT LIKE 'AERO_FECHA%' AND COLUMN_NAME NOT IN ('AERO_CANT_KGS','SERV_COD','CIU_COD_ORIGEN')";
-            consultaColumnasFechas.CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'AERONAVES' AND COLUMN_NAME LIKE 'AERO_FECHA%'";
-
-            consultaColumnas.Connection = Program.conexion();
-
-            varcampo = consultaColumnas.ExecuteReader();
-
-            while (varcampo.Read())
-            {
-                this.cboCamposFiltro1.Items.Add(varcampo.GetValue(0));
-                this.cboCamposFiltro2.Items.Add(varcampo.GetValue(0));
-            }
-
-            consultaColumnasFechas.Connection = Program.conexion();
-            varfecha = consultaColumnasFechas.ExecuteReader();
-
-            while (varfecha.Read())
-            {
-                this.cboCamposFiltro3.Items.Add(varfecha.GetValue(0));
-            }
-
         }
 
         private void Listado_Load(object sender, EventArgs e)
@@ -89,18 +54,10 @@ namespace AerolineaFrba.Abm_Aeronave
             {
                 MessageBox.Show("No se ha agregado el filtro por igualdad de palabra. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
             }
-            if ((!sePusoAgregarFiltro3 || txtFiltros.TextLength != 0) && dateTimePicker1.Text.Length != 0 && cboCamposFiltro3.SelectedIndex != -1)
-            {
-                MessageBox.Show("No se ha agregado el filtro por fecha. Agreguelo para tenerlo en cuenta", "Informe", MessageBoxButtons.OK);
-            }
             if (txtFiltro1.TextLength == 0 && cboCamposFiltro1.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
             if (txtFiltro2.TextLength == 0 && cboCamposFiltro2.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
-            if (dateTimePicker1.Text.Length == 0 && cboCamposFiltro3.SelectedIndex != -1)
-            {
-                MessageBox.Show("No se ha agregado contenido para el filtro por fecha", "Informe", MessageBoxButtons.OK);
-            }
 
             this.ejecutarQuery();
             if (dg.Rows.Count == 0)
@@ -109,9 +66,10 @@ namespace AerolineaFrba.Abm_Aeronave
 
         private Boolean sePusoFiltro()
         {
-            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0 || cboCamposFiltro3.SelectedIndex != -1);
+            return (txtFiltro1.TextLength != 0 || txtFiltro2.TextLength != 0);
         }
 
+        // Realiza la búsqueda a la BD para llenar el datargid de acuerdo a los filtros usados
         public void ejecutarQuery()
         {
             sePusoAgregarFiltro1 = false;
@@ -153,13 +111,12 @@ namespace AerolineaFrba.Abm_Aeronave
             txtFiltro2.Enabled = false;
             cboCamposFiltro1.SelectedIndex = -1;
             cboCamposFiltro2.SelectedIndex = -1;
-            cboCamposFiltro3.SelectedIndex = -1;
-            dateTimePicker1.Enabled = false;
             txtFiltros.Text = "";
 
             this.huboCondicion = false;
         }
 
+        // Métodos que agregan los filtros a la consulta
         private void button4_Click_1(object sender, EventArgs e)
         {
             this.filtro = 2;
@@ -197,20 +154,30 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        private string nombreColumna(string nombre)
+        {
+            switch (nombre)
+            {
+                case "Matrícula":
+                    return "AERO_MATRI";
+                case "Servicio":
+                    return "s.SERV_DESC";
+                case "Modelo":
+                    return "AERO_MOD";
+                case "Fabricante":
+                    return "AERO_FAB";
+            }
+            return "";
+        }
+
 
         private Boolean concatenarCriterio(TextBox txt, ComboBox combo, string criterio)
         {
             if (this.datosCorrectos(txt, combo))
             {
-                /*if (!this.huboCondicion)
-                {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-                }
-                else*/
                 this.query += " AND ";
 
-                this.query += combo.Text + criterio;
+                this.query += this.nombreColumna(combo.Text) + criterio;
                 string mensaje = "'" + txt.Text + "'" + " sobre el campo " + combo.Text;
                 if (this.filtro == 1)
                     txtFiltros.Text += "Se ha agregado el filtro por contenido del valor " + mensaje + System.Environment.NewLine;
@@ -222,6 +189,7 @@ namespace AerolineaFrba.Abm_Aeronave
 
         }
 
+        // Validacion de textbox de filtros
         private Boolean datosCorrectos(TextBox txt, ComboBox combo)
         {
             Boolean huboErrores = false;
@@ -238,7 +206,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 huboErrores = true;
             }
 
-            else if (combo.Text.Equals("AERO_MOD") || combo.Text.Equals("AERO_MATRI") || combo.Text.Equals("AERO_FAB") || combo.Text.Equals("SERV_COD"))
+            else if (combo.Text.Equals("Modelo") || combo.Text.Equals("Matrícula") || combo.Text.Equals("Fabricante") || combo.Text.Equals("Servicio"))
             {
                 if (!this.esTexto(txt))
                 {
@@ -270,6 +238,7 @@ namespace AerolineaFrba.Abm_Aeronave
             this.Visible = false;
         }
 
+        // Selección de una fila
         private void button7_Click(object sender, EventArgs e)
         {
             if (dg.RowCount == 0)
@@ -277,15 +246,10 @@ namespace AerolineaFrba.Abm_Aeronave
                 MessageBox.Show("No se ha seleccionado ningún rol", "Selección invalida", MessageBoxButtons.OK);
                 return;
             }
-
-            //ejecutarSeleccion();
-
-            //(anterior as Modificacion).seSelecciono();
-
-            //this.Close();
-            //cambiarVisibilidades(this.anterior, true);
         }
 
+        // Se ejecuta al hacer click en el datagrid, verifica si se presionó un boton de baja o FS
+        // y llama a los métodos correspondientes
         private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -376,52 +340,11 @@ namespace AerolineaFrba.Abm_Aeronave
             return resultado == System.Windows.Forms.DialogResult.Yes;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
-            if (cboCamposFiltro3.SelectedIndex != -1 && dateTimePicker1.Text.Length != 0)
-            {
-                if (this.concatenarCriterio(dateTimePicker1, cboCamposFiltro3, " = '" + dateTimePicker1.Value + "'"))
-                {
-                    txtFiltro1.Text = "";
-                    this.sePusoAgregarFiltro3 = true;
-                    cboCamposFiltro1.SelectedIndex = -1;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Debe llenar el campo desplegable y la fecha para poder agregar filtro", "Advertencia", MessageBoxButtons.OK);
-            }
-        }
-
-        private Boolean concatenarCriterio(DateTimePicker dataTime, ComboBox combo, string criterio)
-        {
-            /*if (!this.huboCondicion)
-            {
-                    this.huboCondicion = true;
-                    this.query += " WHERE ";
-            }
-            else*/
-            this.query += " AND ";
-
-            this.query += combo.Text + criterio;
-            string mensaje = "'" + dateTimePicker1.Value + "'" + " sobre el campo " + combo.Text;
-            //MessageBox.Show("query: "+this.query ,"error", MessageBoxButtons.OK);
-            txtFiltros.Text += "Se ha agregado el filtro por fecha " + mensaje + System.Environment.NewLine;
-
-            return true;
-        }
-
 
 
         private DialogResult mostrarMensaje(string tipoDeBaja)
         {
             return MessageBox.Show("¿Está seguro que quiere " + tipoDeBaja + " esta aeronave?", "Advertencia", MessageBoxButtons.YesNo);
-        }
-
-        private void cboCamposFiltro3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            dateTimePicker1.Enabled = true;
         }
 
         private void cboCamposFiltro2_SelectedIndexChanged(object sender, EventArgs e)
