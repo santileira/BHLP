@@ -55,7 +55,7 @@ namespace AerolineaFrba.Registro_de_Usuario
         {
             Boolean huboError = false;
             
-            huboError = Validacion.esTextoAlfanumerico(txtUsuario,true,"usuario",true)|| huboError;
+            huboError = !Validacion.esTextoAlfanumerico(txtUsuario,true,"usuario",true)|| huboError;
             huboError = !validarLongitudContrasenias() || huboError;
             huboError = !validarContraseniasIguales() || huboError;
 
