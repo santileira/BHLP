@@ -53,6 +53,11 @@ namespace AerolineaFrba.Compra
             this.inicio();
         }
 
+        /*
+         * Metodo que verifica que las cantidades de pasajes y/o encomiendas ingresados sean menores o iguales
+         * a la capacidad maxima disponible de la aeronave. Si se cumple, se habilita el formulario para
+         * la seleccion de pasajes y encomiendas para los pasajeros
+         */
         private void button5_Click(object sender, EventArgs e)
         {
             if (!chkPasajes.Checked && !chkEncomiendas.Checked)

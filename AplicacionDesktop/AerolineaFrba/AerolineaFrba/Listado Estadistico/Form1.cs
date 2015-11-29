@@ -40,6 +40,10 @@ namespace AerolineaFrba.Listado_Estadistico
                 return "2";
         }
 
+        /*
+         * Metodo que, dado el elemento/index seleccionado del combo de estadisticas, devuelve la cadena
+         * que representa el nombre de la function a ejecutar para obtener el TOP 5 correspondiente
+         */
         private string estadisticaSeleccionada()
         {
             if (cboEstadistica.SelectedIndex == 0)
@@ -54,6 +58,10 @@ namespace AerolineaFrba.Listado_Estadistico
                 return "[ABSTRACCIONX4].aeronavesConMayorFueraDeServicio";
         }
 
+        /*
+         * Metodo que ejecuta la procedure setteada en el atributo estadisticaSeleccionada, con los
+         * parametros año y semestre ingresados por pantalla
+         */
         private void button1_Click_1(object sender, EventArgs e)
         {
             Boolean huboError = false;
