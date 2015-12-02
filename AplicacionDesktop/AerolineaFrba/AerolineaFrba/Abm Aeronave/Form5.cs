@@ -217,13 +217,13 @@ namespace AerolineaFrba.Abm_Aeronave
             switch (nombre)
             {
                 case "Matrícula":
-                    return "AERO_MATRI";
+                    return "a.AERO_MATRI";
                 case "Servicio":
                     return "s.SERV_DESC";
                 case "Modelo":
-                    return "AERO_MOD";
+                    return "a.AERO_MOD";
                 case "Fabricante":
-                    return "AERO_FAB";
+                    return "a.AERO_FAB";
             }
             return "";
         }
