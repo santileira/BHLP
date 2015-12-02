@@ -2925,6 +2925,9 @@ BEGIN
 	DECLARE @salidaSigVuelo datetime
 	SELECT TOP 1 @salidaSigVuelo = VIAJE_FECHA_SALIDA FROM ABSTRACCIONX4.VIAJES WHERE AERO_MATRI = @aero_matri AND VIAJE_FECHA_SALIDA > @fechaSalida ORDER BY VIAJE_FECHA_SALIDA
 	
+	IF @salidaSigVuelo is Null
+		RETURN 1
+
 	IF @fechaLlegada < @salidaSigVuelo
 	BEGIN
 		RETURN 1

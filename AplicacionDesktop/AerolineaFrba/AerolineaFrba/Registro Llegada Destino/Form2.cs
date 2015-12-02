@@ -111,11 +111,12 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             command.CommandType = System.Data.CommandType.Text;
             command.CommandText = "SELECT ABSTRACCIONX4.debeHaberLlegadoAntes(@fechaSalida,@fechaLlegada,@aero_matri)";
             command.CommandTimeout = 0;
-
-
+            
             command.Parameters.AddWithValue("@fechaSalida", fechaSalida);
             command.Parameters.AddWithValue("@fechaLlegada", fechaLlegada);
             command.Parameters.AddWithValue("@aero_matri", txtMatricula.Text);
+
+
 
             return (bool)command.ExecuteScalar();
 
