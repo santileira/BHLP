@@ -177,12 +177,46 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                
-                modificarRuta();
-                MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
-                this.Close();
+                if (!existeRuta())
+                {
+
+                    modificarRuta();
+                    MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Ya existe una ruta con las características elegidas", "Informe", MessageBoxButtons.OK);
             }
         }
+
+        private bool existeRuta()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.ExisteRuta(@Origen,@Destino,@PPasaje,@PKg,@Servicios)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Origen", txtCiudadOrigenNueva.Text);
+            command.Parameters.AddWithValue("@Destino", txtCiudadDestinoNueva.Text);
+            command.Parameters.AddWithValue("@PPasaje", txtPrecioPasajeNuevo.Text);
+            command.Parameters.AddWithValue("@PKg", txtPrecioEncomiendaNueva.Text);
+            command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios));
+
+            return (Boolean)command.ExecuteScalar();
+        }
+
+        private object crearDataTable(IEnumerable<Object> lista)
+        {
+             DataTable table = new DataTable();
+            table.Columns.Add("elemento", typeof(string));
+            foreach (string elemento in lista)
+            {
+                table.Rows.Add(elemento.ToString());
+            }
+            return table;
+        }
+        
 
         private Object modificarRuta()
         {

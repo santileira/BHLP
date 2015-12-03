@@ -59,19 +59,52 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                try
+                if (!existeRuta())
                 {
-                    darDeAltaRuta();
-                    MessageBox.Show("El alta de la ruta se realizó exitosamente.", "Alta de nueva ruta", MessageBoxButtons.OK);
+                    try
+                    {
+                        darDeAltaRuta();
+                        MessageBox.Show("El alta de la ruta se realizó exitosamente.", "Alta de nueva ruta", MessageBoxButtons.OK);
+                    }
+                    catch (Exception excepcion)
+                    {
+                        MessageBox.Show(excepcion.Message, "Advertencia", MessageBoxButtons.OK);
+                        return;
+                    }
+                    this.Close();
                 }
-                catch(Exception excepcion)
-                {
-                    MessageBox.Show(excepcion.Message,"Advertencia", MessageBoxButtons.OK);
-                    return;
-                }
-                this.Close();
+                else
+                    MessageBox.Show("Ya existe una ruta con las características elegidas", "Informe", MessageBoxButtons.OK);
             }
 
+        }
+
+        private bool existeRuta()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT ABSTRACCIONX4.ExisteRuta(@Origen,@Destino,@PPasaje,@PKg,@Servicios)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Origen", txtCiudadOrigen.Text);
+            command.Parameters.AddWithValue("@Destino", txtCiudadDestino.Text);
+            command.Parameters.AddWithValue("@PPasaje", txtPrecioPasaje.Text);
+            command.Parameters.AddWithValue("@PKg", txtPrecioEncomienda.Text);
+            command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios) );
+
+            return (Boolean)command.ExecuteScalar();
+        }
+
+        private DataTable crearDataTable(IEnumerable<Object> lista)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("elemento", typeof(string));
+            foreach (string elemento in lista)
+            {
+                table.Rows.Add(elemento.ToString());
+            }
+            return table;
         }
 
         private Object darDeAltaRuta()

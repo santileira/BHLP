@@ -2681,6 +2681,25 @@ BEGIN
 END
 GO
 
+
+-------------------------------Existe ruta-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ExisteRuta (@Origen VARCHAR(80),@Destino VARCHAR(80), @PPasaje NUMERIC(5,2) , @PKg NUMERIC(5,2) , @Servicios Lista READONLY)
+RETURNS BIT
+AS
+BEGIN
+	IF((
+	SELECT * FROM @Servicios
+	EXCEPT
+	SELECT S.SERV_DESC FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+	R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = @Origen AND R.CIU_COD_D = @Destino AND R.RUTA_PRECIO_BASE_PASAJE = @PPasaje
+	AND R.RUTA_PRECIO_BASE_KG = @PKg) = 0)
+	RETURN 1
+	
+	RETURN 0
+
+END
+GO
+
 -------------------------------Esta Siendo Usada una ruta en un viaje-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].EstaSiendoUsada (@IdRuta INT)
 RETURNS BIT
