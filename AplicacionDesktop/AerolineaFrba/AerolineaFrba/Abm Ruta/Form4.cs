@@ -179,10 +179,16 @@ namespace AerolineaFrba.Abm_Ruta
             {
                 if (!existeRuta())
                 {
-
-                    modificarRuta();
-                    MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
-                    this.Close();
+                    try
+                    {
+                        modificarRuta();
+                        MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
+                        this.Close();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show(error.Message, "Modificación de ruta", MessageBoxButtons.OK);
+                    }
                 }
                 else
                     MessageBox.Show("Ya existe una ruta con las características elegidas", "Informe", MessageBoxButtons.OK);
@@ -201,7 +207,11 @@ namespace AerolineaFrba.Abm_Ruta
             command.Parameters.AddWithValue("@Destino", txtCiudadDestinoNueva.Text);
             command.Parameters.AddWithValue("@PPasaje", txtPrecioPasajeNuevo.Text);
             command.Parameters.AddWithValue("@PKg", txtPrecioEncomiendaNueva.Text);
-            command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios));
+            //command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios));
+            SqlParameter param = new SqlParameter("@Servicios", SqlDbType.Structured);
+            param.TypeName = "ABSTRACCIONX4.Lista";
+            param.Value = crearDataTable(listaServicios);
+            command.Parameters.Add(param);
 
             return (Boolean)command.ExecuteScalar();
         }
