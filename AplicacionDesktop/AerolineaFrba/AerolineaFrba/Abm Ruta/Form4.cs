@@ -175,9 +175,12 @@ namespace AerolineaFrba.Abm_Ruta
 
         private void botonGuardar_Click(object sender, EventArgs e)
         {
+            Boolean hacerModificacion = false;
             if (this.datosCorrectos())
             {
-                if (!existeRuta())
+                
+
+                if(listaServicios.Count() == 0 || !existeRuta())
                 {
                     try
                     {
@@ -205,9 +208,9 @@ namespace AerolineaFrba.Abm_Ruta
 
             command.Parameters.AddWithValue("@Origen", txtCiudadOrigenNueva.Text);
             command.Parameters.AddWithValue("@Destino", txtCiudadDestinoNueva.Text);
-            command.Parameters.AddWithValue("@PPasaje", txtPrecioPasajeNuevo.Text);
-            command.Parameters.AddWithValue("@PKg", txtPrecioEncomiendaNueva.Text);
-            //command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios));
+            command.Parameters.AddWithValue("@PPasaje", enDecimal(txtPrecioPasajeNuevo.Text));
+            command.Parameters.AddWithValue("@PKg", enDecimal(txtPrecioEncomiendaNueva.Text));
+            //command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios) );
             SqlParameter param = new SqlParameter("@Servicios", SqlDbType.Structured);
             param.TypeName = "ABSTRACCIONX4.Lista";
             param.Value = crearDataTable(listaServicios);
@@ -216,9 +219,9 @@ namespace AerolineaFrba.Abm_Ruta
             return (Boolean)command.ExecuteScalar();
         }
 
-        private object crearDataTable(IEnumerable<Object> lista)
+        private DataTable crearDataTable(IEnumerable<Object> lista)
         {
-             DataTable table = new DataTable();
+            DataTable table = new DataTable();
             table.Columns.Add("elemento", typeof(string));
             foreach (string elemento in lista)
             {
@@ -226,7 +229,6 @@ namespace AerolineaFrba.Abm_Ruta
             }
             return table;
         }
-        
 
         private Object modificarRuta()
         {

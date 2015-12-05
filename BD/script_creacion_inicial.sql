@@ -2617,9 +2617,16 @@ AS
 
 		INSERT INTO ABSTRACCIONX4.SERVICIOS_RUTAS
 		(RUTA_ID,SERV_COD)
-		SELECT SCOPE_IDENTITY(),ABSTRACCIONX4.ObtenerCodigoServicio(S.elemento)
-		FROM @Servicios S
-
+		SELECT SCOPE_IDENTITY(),ABSTRACCIONX4.ObtenerCodigoServicio(S.Servicio)
+		FROM (
+		SELECT elemento 'Servicio' FROM @Servicios
+		EXCEPT
+		SELECT S.SERV_DESC 'Servicio' FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+		R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadOrigen)
+		AND R.CIU_COD_D = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadDestino)
+		AND R.RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje
+		AND R.RUTA_PRECIO_BASE_KG = @PrecioeEncomienda) S
+			
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(255)
@@ -2738,24 +2745,14 @@ CREATE PROCEDURE [ABSTRACCIONX4].ActualizarServiciosRuta
 	@ServiciosNuevos Lista READONLY
 AS
 BEGIN
-	INSERT INTO [ABSTRACCIONX4].SERVICIOS_RUTAS(RUTA_ID,SERV_COD)
-		SELECT @IdRuta,
-			   ABSTRACCIONX4.ObtenerCodigoServicio(elemento)
-		FROM @ServiciosNuevos
-		WHERE elemento NOT IN (SELECT * FROM [ABSTRACCIONX4].ServiciosDeRuta(@IdRuta))
 	
-	DELETE FROM ABSTRACCIONX4.SERVICIOS_RUTAS
-		WHERE RUTA_ID = @IdRuta AND
-			  SERV_COD NOT IN
-				(SELECT ABSTRACCIONX4.ObtenerCodigoServicio(elemento)
-				 FROM @ServiciosNuevos)
 END
 
 GO
 
 
 -------------------------------Modificacion ruta-------------------------------
-CREATE PROCEDURE [ABSTRACCIONX4].ModificarRuta
+ALTER PROCEDURE [ABSTRACCIONX4].ModificarRuta
 	@IdRuta INT,
 	@Codigo INT,
 	@Servicios Lista Readonly,
@@ -2774,7 +2771,30 @@ BEGIN
 				RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
 			WHERE RUTA_ID = @IdRuta
 
-		EXEC ABSTRACCIONX4.ActualizarServiciosRuta @IdRuta,@Servicios
+		INSERT INTO [ABSTRACCIONX4].SERVICIOS_RUTAS(RUTA_ID,SERV_COD)
+		SELECT @IdRuta,
+			   ABSTRACCIONX4.ObtenerCodigoServicio(S.Servicio)
+		FROM (SELECT elemento 'Servicio' FROM @Servicios
+		EXCEPT
+		SELECT S.SERV_DESC 'Servicio' FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+		R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadOrigen)
+		AND R.CIU_COD_D = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadDestino)
+		AND R.RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje
+		AND R.RUTA_PRECIO_BASE_KG = @PrecioeEncomienda) S
+		WHERE S.Servicio NOT IN (SELECT * FROM [ABSTRACCIONX4].ServiciosDeRuta(@IdRuta))
+	
+		DELETE FROM ABSTRACCIONX4.SERVICIOS_RUTAS
+		WHERE RUTA_ID = @IdRuta AND
+		SERV_COD NOT IN
+		(SELECT ABSTRACCIONX4.ObtenerCodigoServicio(S.Servicio)
+		FROM (SELECT elemento 'Servicio' FROM @Servicios
+		EXCEPT
+		SELECT S.SERV_DESC 'Servicio' FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+		R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadOrigen)
+		AND R.CIU_COD_D = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadDestino)
+		AND R.RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje
+		AND R.RUTA_PRECIO_BASE_KG = @PrecioeEncomienda) S)
+	
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(255)
