@@ -59,11 +59,13 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                if (!existeRuta())
+                List<string> listaServiciosAAgregar = ejecutarExisteRuta();
+
+                if (!serviciosADarDeAlta(listaServiciosAAgregar))
                 {
                     try
                     {
-                        darDeAltaRuta();
+                        darDeAltaRuta(listaServiciosAAgregar);
                         MessageBox.Show("El alta de la ruta se realizó exitosamente.", "Alta de nueva ruta", MessageBoxButtons.OK);
                     }
                     catch (Exception excepcion)
@@ -79,25 +81,56 @@ namespace AerolineaFrba.Abm_Ruta
 
         }
 
-        private bool existeRuta()
+
+
+        private bool serviciosADarDeAlta(List<string> listaServiciosAAgregar)
+        {
+            if (listaServiciosAAgregar.Count != 0)
+            {
+                string servicios = "Los servicios a dar de alta serán:\n";
+                foreach (string servicio in listaServiciosAAgregar)
+                {
+                    servicios += servicio + "\n";
+                }
+                if(listaServiciosAAgregar.Count != listaServicios.Count)
+                {
+                    servicios += "Para el resto de los servicios ya existe una ruta con los mismo datos";
+                }
+                MessageBox.Show(servicios, "Alta de nueva ruta", MessageBoxButtons.OK);
+                return false; 
+            }
+            
+            return true;
+        }
+
+        private List<string> ejecutarExisteRuta()
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT ABSTRACCIONX4.ExisteRuta(@Origen,@Destino,@PPasaje,@PKg,@Servicios)";
+            command.CommandText = "SELECT * FROM ABSTRACCIONX4.ExisteRuta(@Origen,@Destino,@PPasaje,@PKg,@Servicios)";
             command.CommandTimeout = 0;
 
             command.Parameters.AddWithValue("@Origen", txtCiudadOrigen.Text);
             command.Parameters.AddWithValue("@Destino", txtCiudadDestino.Text);
             command.Parameters.AddWithValue("@PPasaje", txtPrecioPasaje.Text);
             command.Parameters.AddWithValue("@PKg", txtPrecioEncomienda.Text);
-            //command.Parameters.AddWithValue("@Servicios", crearDataTable(listaServicios) );
             SqlParameter param = new SqlParameter("@Servicios", SqlDbType.Structured);
             param.TypeName = "ABSTRACCIONX4.Lista";
             param.Value = crearDataTable(listaServicios);
             command.Parameters.Add(param);
 
-            return (Boolean)command.ExecuteScalar();
+            SqlDataReader reader = command.ExecuteReader();
+            List<string> listaServiciosAAgregar = new List<string>();
+
+            while (reader.Read())
+            {
+                listaServiciosAAgregar.Add(reader.GetString(0));
+            }
+
+            reader.Close();
+
+            return listaServiciosAAgregar;
         }
 
         private DataTable crearDataTable(IEnumerable<Object> lista)
@@ -111,12 +144,12 @@ namespace AerolineaFrba.Abm_Ruta
             return table;
         }
 
-        private Object darDeAltaRuta()
+        private Object darDeAltaRuta(List<string> listaServiciosAAgregar)
         {
             SQLManager sqlManager = new SQLManager();
             return sqlManager.generarSP("AltaRuta")
                              .agregarIntSP("@Codigo", txtCodigo)
-                             .agregarListaSP("@Servicios", listaServicios)
+                             .agregarListaSP("@Servicios", listaServiciosAAgregar)
                              .agregarStringSP("@CiudadOrigen", txtCiudadOrigen)
                              .agregarStringSP("@CiudadDestino", txtCiudadDestino)
                              .agregarDecimalSP("@PrecioPasaje", enDecimal(txtPrecioPasaje.Text))

@@ -265,6 +265,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
 
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código", true);
+            algunoVacio = Validacion.listaVacia(listaServicios, "servicios", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadOrigenNueva, "ciudad de origen", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadDestinoNueva, "ciudad de destino", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtPrecioPasajeNuevo, "precio de pasaje", true) || algunoVacio;
