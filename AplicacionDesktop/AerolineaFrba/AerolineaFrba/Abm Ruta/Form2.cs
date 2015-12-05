@@ -60,12 +60,14 @@ namespace AerolineaFrba.Abm_Ruta
             if (this.datosCorrectos())
             {
                 List<string> listaServiciosAAgregar = ejecutarExisteRuta();
+                string mensajeServicios = "";
 
-                if (!serviciosADarDeAlta(listaServiciosAAgregar))
+                if (!serviciosADarDeAlta(listaServiciosAAgregar,ref mensajeServicios))
                 {
                     try
                     {
                         darDeAltaRuta(listaServiciosAAgregar);
+                        MessageBox.Show(mensajeServicios, "Alta de nueva ruta", MessageBoxButtons.OK);
                         MessageBox.Show("El alta de la ruta se realizó exitosamente.", "Alta de nueva ruta", MessageBoxButtons.OK);
                     }
                     catch (Exception excepcion)
@@ -83,7 +85,7 @@ namespace AerolineaFrba.Abm_Ruta
 
 
 
-        private bool serviciosADarDeAlta(List<string> listaServiciosAAgregar)
+        private bool serviciosADarDeAlta(List<string> listaServiciosAAgregar,ref string mensajeServicios)
         {
             if (listaServiciosAAgregar.Count != 0)
             {
@@ -96,7 +98,7 @@ namespace AerolineaFrba.Abm_Ruta
                 {
                     servicios += "Para el resto de los servicios ya existe una ruta con los mismo datos";
                 }
-                MessageBox.Show(servicios, "Alta de nueva ruta", MessageBoxButtons.OK);
+                mensajeServicios = servicios;
                 return false; 
             }
             
