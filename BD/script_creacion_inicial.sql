@@ -2740,7 +2740,7 @@ END
 GO
 
 -------------------------------Actualizar servicios de ruta-------------------------------
-CREATE PROCEDURE [ABSTRACCIONX4].ActualizarServiciosRuta
+/*CREATE PROCEDURE [ABSTRACCIONX4].ActualizarServiciosRuta
 	@IdRuta TINYINT,
 	@ServiciosNuevos Lista READONLY
 AS
@@ -2748,7 +2748,7 @@ BEGIN
 	
 END
 
-GO
+GO*/
 
 
 -------------------------------Modificacion ruta-------------------------------
