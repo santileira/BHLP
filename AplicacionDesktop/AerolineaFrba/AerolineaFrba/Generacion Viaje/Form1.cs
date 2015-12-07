@@ -83,6 +83,7 @@ namespace AerolineaFrba.Generacion_Viaje
                 MessageBox.Show("La fecha de llegada estimada no puede ser anterior a la fecha de hoy");
             else
             {
+                
                 this.listadoAeronaves.queryViajes = " WHERE ABSTRACCIONX4.aeronave_disponible(AERO_MATRI, '"
                 + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
 
@@ -90,7 +91,7 @@ namespace AerolineaFrba.Generacion_Viaje
                 + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
                 
                 if(txtRuta.Text != "")
-                    this.listadoAeronaves.queryViajes += "and [ABSTRACCIONX4].sigue_la_ruta(AERO_MATRI, '" + txtRuta.Text + "', '"
+                    this.listadoAeronaves.queryViajes += " and [ABSTRACCIONX4].sigue_la_ruta(AERO_MATRI, '" + txtRuta.Text + "', '"
                     + dateTimePicker1.Value + "', '" + dateTimePicker2.Value + "') = 1 ";
 
                 this.listadoAeronaves.queryViajes += " and [ABSTRACCIONX4].datetime_is_between(AERO_FECHA_ALTA, '"

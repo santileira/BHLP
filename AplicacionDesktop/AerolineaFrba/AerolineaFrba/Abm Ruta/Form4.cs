@@ -18,6 +18,7 @@ namespace AerolineaFrba.Abm_Ruta
         bool seleccionandoOrigen;
         private int idRuta;
         List<Object> listaServicios;
+        string codigoActual;
 
         public Modificacion()
         {
@@ -36,7 +37,7 @@ namespace AerolineaFrba.Abm_Ruta
 
             idRuta = Convert.ToInt32(registro.Cells["Id"].Value);
 
-            txtCodigo.Text = registro.Cells["Código Ruta"].Value.ToString();
+            txtCodigo.Text = codigoActual =  registro.Cells["Código Ruta"].Value.ToString();
             txtCiudadOrigenNueva.Text = txtCiudadOrigen.Text = registro.Cells["Origen"].Value.ToString();
             txtCiudadDestinoNueva.Text = txtCiudadDestino.Text = registro.Cells["Destino"].Value.ToString();
             txtPrecioEncomiendaNueva.Text = txtPrecioEncomienda.Text = registro.Cells["Precio Base Por Kilogramo"].Value.ToString();
@@ -177,11 +178,87 @@ namespace AerolineaFrba.Abm_Ruta
         {
             if (this.datosCorrectos())
             {
-                
-                modificarRuta();
-                MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
-                this.Close();
+                List<string> listaServiciosAAgregar = ejecutarExisteRuta();
+                string mensajeServicios = "";
+                if (!serviciosADarDeAlta(listaServiciosAAgregar,ref mensajeServicios))
+                {
+                    try
+                    {
+                        modificarRuta();
+                        MessageBox.Show(mensajeServicios, "Modificación de ruta", MessageBoxButtons.OK);
+                        MessageBox.Show("Se ha realizado la modificación correctamente", "Modificación de ruta", MessageBoxButtons.OK);
+                        this.Close();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show(error.Message, "Modificación de ruta", MessageBoxButtons.OK);
+                    }
+                }
+                else
+                    MessageBox.Show("Ya existe una ruta con las características elegidas", "Informe", MessageBoxButtons.OK);
             }
+        }
+
+        private bool serviciosADarDeAlta(List<string> listaServiciosAAgregar,ref string mensajeServicios)
+        {
+            if (listaServiciosAAgregar.Count != 0)
+            {
+                string servicios = "Los servicios que tendrá la ruta a partir de ahora son:\n";
+                foreach (string servicio in listaServiciosAAgregar)
+                {
+                    servicios += servicio + "\n";
+                }
+                if (listaServiciosAAgregar.Count != listaServicios.Count)
+                {
+                    servicios += "Para el resto de los servicios ya existe una ruta con los mismo datos";
+                }
+                mensajeServicios = servicios;
+                return false;
+            }
+
+            return true;
+        }
+
+        private List<string> ejecutarExisteRuta()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.conexion();
+            command.CommandType = System.Data.CommandType.Text;
+            command.CommandText = "SELECT * FROM ABSTRACCIONX4.ExisteRutaParaModificacion(@Codigo,@Origen,@Destino,@PPasaje,@PKg,@Servicios)";
+            command.CommandTimeout = 0;
+
+            command.Parameters.AddWithValue("@Codigo", int.Parse(codigoActual));
+            command.Parameters.AddWithValue("@Origen", txtCiudadOrigenNueva.Text);
+            command.Parameters.AddWithValue("@Destino", txtCiudadDestinoNueva.Text);
+            command.Parameters.AddWithValue("@PPasaje", enDecimal(txtPrecioPasajeNuevo.Text));
+            command.Parameters.AddWithValue("@PKg", enDecimal(txtPrecioEncomiendaNueva.Text));
+            SqlParameter param = new SqlParameter("@Servicios", SqlDbType.Structured);
+            param.TypeName = "ABSTRACCIONX4.Lista";
+            param.Value = crearDataTable(listaServicios);
+            command.Parameters.Add(param);
+
+            SqlDataReader reader = command.ExecuteReader();
+            List<string> listaServiciosAAgregar = new List<string>();
+
+            while (reader.Read())
+            {
+                listaServiciosAAgregar.Add(reader.GetString(0));
+            }
+
+            reader.Close();
+
+            return listaServiciosAAgregar;
+        }
+
+        private DataTable crearDataTable(IEnumerable<Object> lista)
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("elemento", typeof(string));
+            foreach (string elemento in lista)
+            {
+                table.Rows.Add(elemento.ToString());
+            }
+            return table;
         }
 
         private Object modificarRuta()
@@ -219,6 +296,7 @@ namespace AerolineaFrba.Abm_Ruta
         {
 
             Boolean algunoVacio = Validacion.esVacio(txtCodigo, "código", true);
+            algunoVacio = Validacion.listaVacia(listaServicios, "servicios", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadOrigenNueva, "ciudad de origen", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtCiudadDestinoNueva, "ciudad de destino", true) || algunoVacio;
             algunoVacio = Validacion.esVacio(txtPrecioPasajeNuevo, "precio de pasaje", true) || algunoVacio;

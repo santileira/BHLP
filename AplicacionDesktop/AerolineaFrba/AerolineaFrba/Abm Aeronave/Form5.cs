@@ -15,7 +15,7 @@ namespace AerolineaFrba.Abm_Aeronave
     public partial class Listado : Form
     {
         string query;
-        Boolean huboCondicion;
+        public Boolean huboCondicion;
         public Form anterior;
         public Form siguiente;
         public bool primeraConsulta = true;
@@ -73,7 +73,7 @@ namespace AerolineaFrba.Abm_Aeronave
                 MessageBox.Show("No se ha agregado contenido para el filtro que contenga a la palabra", "Informe", MessageBoxButtons.OK);
             if (txtFiltro2.TextLength == 0 && cboCamposFiltro2.SelectedIndex != -1)
                 MessageBox.Show("No se ha agregado contenido para el filtro por igualdad de palabra", "Informe", MessageBoxButtons.OK);
-            
+
             this.ejecutarConsulta();
             if (dg.Rows.Count == 0)
                 MessageBox.Show("No se han encontrado resultados en la consulta", "Informe", MessageBoxButtons.OK);
@@ -187,7 +187,7 @@ namespace AerolineaFrba.Abm_Aeronave
         {
             if (this.datosCorrectos(txt, combo))
             {
-                if (!this.huboCondicion)
+                if (!this.huboCondicion && !this.loActivoGenerarViajes)
                 {
                     this.huboCondicion = true;
                     this.query += " WHERE ";

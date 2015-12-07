@@ -2617,9 +2617,10 @@ AS
 
 		INSERT INTO ABSTRACCIONX4.SERVICIOS_RUTAS
 		(RUTA_ID,SERV_COD)
-		SELECT SCOPE_IDENTITY(),ABSTRACCIONX4.ObtenerCodigoServicio(S.elemento)
-		FROM @Servicios S
-
+		SELECT SCOPE_IDENTITY(),ABSTRACCIONX4.ObtenerCodigoServicio(S.Servicio)
+		FROM (
+		SELECT elemento 'Servicio' FROM @Servicios) S
+			
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(255)
@@ -2681,6 +2682,31 @@ BEGIN
 END
 GO
 
+
+-------------------------------Existe ruta-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ExisteRuta (@Origen VARCHAR(80),@Destino VARCHAR(80), @PPasaje NUMERIC(5,2) , @PKg NUMERIC(5,2) , @Servicios Lista READONLY)
+RETURNS TABLE
+AS
+	RETURN
+		(SELECT * FROM @Servicios
+		EXCEPT
+		SELECT S.SERV_DESC FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+		R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = [ABSTRACCIONX4].ObtenerCodigoCiudad(@Origen) AND R.CIU_COD_D = [ABSTRACCIONX4].ObtenerCodigoCiudad(@Destino) AND R.RUTA_PRECIO_BASE_PASAJE = @PPasaje
+		AND R.RUTA_PRECIO_BASE_KG = @PKg)
+GO
+
+-------------------------------Existe ruta para modificacion-------------------------------
+CREATE FUNCTION [ABSTRACCIONX4].ExisteRutaParaModificacion (@Codigo INT,@Origen VARCHAR(80),@Destino VARCHAR(80), @PPasaje NUMERIC(5,2) , @PKg NUMERIC(5,2) , @Servicios Lista READONLY)
+RETURNS TABLE
+AS
+	RETURN
+		(SELECT * FROM @Servicios
+		EXCEPT
+		SELECT S.SERV_DESC FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+		R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = [ABSTRACCIONX4].ObtenerCodigoCiudad(@Origen) AND R.CIU_COD_D = [ABSTRACCIONX4].ObtenerCodigoCiudad(@Destino) AND R.RUTA_PRECIO_BASE_PASAJE = @PPasaje
+		AND R.RUTA_PRECIO_BASE_KG = @PKg AND R.RUTA_COD <> @Codigo)
+GO
+
 -------------------------------Esta Siendo Usada una ruta en un viaje-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].EstaSiendoUsada (@IdRuta INT)
 RETURNS BIT
@@ -2719,17 +2745,7 @@ CREATE PROCEDURE [ABSTRACCIONX4].ActualizarServiciosRuta
 	@ServiciosNuevos Lista READONLY
 AS
 BEGIN
-	INSERT INTO [ABSTRACCIONX4].SERVICIOS_RUTAS(RUTA_ID,SERV_COD)
-		SELECT @IdRuta,
-			   ABSTRACCIONX4.ObtenerCodigoServicio(elemento)
-		FROM @ServiciosNuevos
-		WHERE elemento NOT IN (SELECT * FROM [ABSTRACCIONX4].ServiciosDeRuta(@IdRuta))
 	
-	DELETE FROM ABSTRACCIONX4.SERVICIOS_RUTAS
-		WHERE RUTA_ID = @IdRuta AND
-			  SERV_COD NOT IN
-				(SELECT ABSTRACCIONX4.ObtenerCodigoServicio(elemento)
-				 FROM @ServiciosNuevos)
 END
 
 GO
@@ -2755,7 +2771,21 @@ BEGIN
 				RUTA_PRECIO_BASE_KG = @PrecioeEncomienda
 			WHERE RUTA_ID = @IdRuta
 
-		EXEC ABSTRACCIONX4.ActualizarServiciosRuta @IdRuta,@Servicios
+		INSERT INTO [ABSTRACCIONX4].SERVICIOS_RUTAS(RUTA_ID,SERV_COD)
+		SELECT @IdRuta,
+			   ABSTRACCIONX4.ObtenerCodigoServicio(S.Servicio)
+		FROM (SELECT elemento 'Servicio' FROM @Servicios
+		EXCEPT
+		SELECT S.SERV_DESC 'Servicio' FROM ABSTRACCIONX4.RUTAS_AEREAS R , ABSTRACCIONX4.SERVICIOS_RUTAS SR , ABSTRACCIONX4.SERVICIOS S WHERE
+		R.RUTA_ID = SR.RUTA_ID AND SR.SERV_COD = S.SERV_COD AND R.CIU_COD_O = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadOrigen)
+		AND R.CIU_COD_D = [ABSTRACCIONX4].ObtenerCodigoCiudad(@CiudadDestino)
+		AND R.RUTA_PRECIO_BASE_PASAJE = @PrecioPasaje
+		AND R.RUTA_PRECIO_BASE_KG = @PrecioeEncomienda) S
+	
+		DELETE FROM ABSTRACCIONX4.SERVICIOS_RUTAS
+			WHERE RUTA_ID = @IdRuta AND
+				  SERV_COD NOT IN (SELECT ABSTRACCIONX4.ObtenerCodigoServicio(elemento) FROM @Servicios)
+	
 	END TRY
 	BEGIN CATCH
 		DECLARE @Error varchar(255)
