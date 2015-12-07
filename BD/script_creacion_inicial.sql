@@ -3462,20 +3462,37 @@ CREATE FUNCTION [ABSTRACCIONX4].aeronavesConMayorFueraDeServicio(@semestre tinyi
 RETURNS @variable_tabla TABLE (Descripcion varchar(8), CantidadDias smallint)
 AS
 begin
+
+declare @inicioSemestre tinyint, @finSemestre tinyint,@fechaInicioSemestre datetime, @fechaFinSemestre datetime
+
 if(@semestre = 1)
-	insert @variable_tabla 
-		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
-		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
-		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 1 and 6
-		and a.AERO_MATRI = fs.AERO_MATRI
-		order by a.aero_matri desc
+	begin
+		set @inicioSemestre = 1
+		set @finSemestre = 6
+		set @fechaInicioSemestre = convert(datetime,'01-01-'+CONVERT(varchar(4), @anio))
+		set @fechaFinSemestre = convert(datetime,'30-06-'+CONVERT(varchar(4), @anio))
+	end
 else
-	insert @variable_tabla	
-		select top 5 a.aero_matri, [ABSTRACCIONX4].cantidadDiasFueraDeServicio(a.aero_matri) CantidadDias
+	begin
+		set @inicioSemestre = 7
+		set @finSemestre = 12
+		set @fechaInicioSemestre = convert(datetime,'01-07-'+CONVERT(varchar(4), @anio))
+		set @fechaFinSemestre = convert(datetime,'31-12-'+CONVERT(varchar(4), @anio))
+	end
+
+	insert @variable_tabla 
+		select top 5 a.aero_matri, coalesce(sum(datediff(day, fs.fecha_fs, fs.fecha_reinicio)-
+											(case when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0
+													then (datediff(day, @fechaFinSemestre,fs.fecha_reinicio))-1
+												  when abstraccionx4.datetime_is_between(fs.fecha_fs,@fechaInicioSemestre,@fechaFinSemestre) = 0
+													then (datediff(day, fs.fecha_fs,@fechaInicioSemestre))-1
+												  else 0 end)),0) CantidadDias
 		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
-		where year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between 7 and 12
+		where ((year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between @inicioSemestre and @finSemestre) or
+			   (year(fs.FECHA_REINICIO) = @anio and month(fs.FECHA_REINICIO) between @inicioSemestre and @finSemestre))
 		and a.AERO_MATRI = fs.AERO_MATRI
-		order by a.aero_matri desc
+		group by a.AERO_MATRI
+		order by CantidadDias desc
 
 return;
 end	
