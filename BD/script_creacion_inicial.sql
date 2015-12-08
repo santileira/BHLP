@@ -3490,14 +3490,19 @@ else
 
 	insert @variable_tabla 
 		select top 5 a.aero_matri, coalesce(sum(datediff(day, fs.fecha_fs, fs.fecha_reinicio)-
-											(case when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0
+											(case when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0 AND
+											           abstraccionx4.datetime_is_between(fs.fecha_fs,@fechaInicioSemestre,@fechaFinSemestre) = 0
+													then (datediff(day, @fechaInicioSemestre,@fechaFinSemestre))
+												  when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0
 													then (datediff(day, @fechaFinSemestre,fs.fecha_reinicio))-1
 												  when abstraccionx4.datetime_is_between(fs.fecha_fs,@fechaInicioSemestre,@fechaFinSemestre) = 0
 													then (datediff(day, fs.fecha_fs,@fechaInicioSemestre))-1
 												  else 0 end)),0) CantidadDias
 		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
 		where ((year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between @inicioSemestre and @finSemestre) or
-			   (year(fs.FECHA_REINICIO) = @anio and month(fs.FECHA_REINICIO) between @inicioSemestre and @finSemestre))
+			   (year(fs.FECHA_REINICIO) = @anio and month(fs.FECHA_REINICIO) between @inicioSemestre and @finSemestre) or
+			    (ABSTRACCIONX4.datetime_is_between(@fechaInicioSemestre,fs.FECHA_FS,fs.FECHA_REINICIO) = 1 AND 
+				 ABSTRACCIONX4.datetime_is_between(@fechaFinSemestre,fs.FECHA_FS,fs.FECHA_REINICIO) = 1 ))
 		and a.AERO_MATRI = fs.AERO_MATRI
 		group by a.AERO_MATRI
 		having (coalesce(sum(datediff(day, fs.fecha_fs, fs.fecha_reinicio)-
