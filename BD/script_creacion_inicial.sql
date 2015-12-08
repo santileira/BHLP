@@ -3272,7 +3272,7 @@ END
 GO
 
 
---******************* ESTADÍSTICAS ****************
+--******************* ESTADÍSTICAS *******************
 
 -------------------------------Estadistica destinos con mas pasajes vendidos-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesVendidos(@semestre tinyint, @anio smallint)
@@ -3327,9 +3327,7 @@ end
 GO
 
 CREATE FUNCTION [ABSTRACCIONX4].destinosConAeronaveMasVacia(@semestre tinyint, @anio smallint)
-
 RETURNS @variable_tabla TABLE (Descripcion varchar(80), Cantidad smallint)
-
 AS
 begin
 if(@semestre = 1)
@@ -3340,7 +3338,8 @@ if(@semestre = 1)
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6
 				and v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = c.ciu_cod and
-				a.AERO_MATRI = v.AERO_MATRI
+				a.AERO_MATRI = v.AERO_MATRI and
+				v.VIAJE_FECHA_LLEGADA is not null
 						) t
 		group by t.Descripcion
 		having coalesce(sum(t.cantidad),0) > 0
@@ -3353,7 +3352,9 @@ else
 				where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12
 				and v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = c.ciu_cod and
-				a.AERO_MATRI = v.AERO_MATRI) t
+				a.AERO_MATRI = v.AERO_MATRI and
+				v.VIAJE_FECHA_LLEGADA is not null
+						) t
 		group by t.Descripcion
 		having coalesce(sum(t.cantidad),0) > 0
 		order by coalesce(sum(t.Cantidad),0) desc
