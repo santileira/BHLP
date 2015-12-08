@@ -83,7 +83,12 @@ namespace AerolineaFrba.Listado_Estadistico
                     dg.Visible = false;
                 }
                 else
+                {
                     dg.Visible = true;
+
+                    if (dg.RowCount < 5)
+                        MessageBox.Show("No existen registros para armar el TOP 5. Se mostraran los datos registrados hasta el momento para el año y semestre inresados", "Estadistica incompleta", MessageBoxButtons.OK);
+                }
             }
         }
 
