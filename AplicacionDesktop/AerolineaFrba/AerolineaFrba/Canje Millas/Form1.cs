@@ -99,17 +99,33 @@ namespace AerolineaFrba.Canje_Millas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
+
+            int cantS;
+            int.TryParse(txtCantSeleccionada.Text, out cantS);
+
+
             if(!seSeleccionoPremio)
                 MessageBox.Show("Se debe seleccionar un premio", "Error", MessageBoxButtons.OK);
             if (validarCampo() && seSeleccionoPremio)
             {
-                if (hayStockDisponible())
+
+                if (cantS > 0)
                 {
-                    this.agregarALista();
-                    dgListadoProductos.SelectedRows[0].Selected = false;
-                    button1.Enabled = false;
-                    seSeleccionoPremio = false;
+
+
+                    if (hayStockDisponible())
+                    {
+                        this.agregarALista();
+                        dgListadoProductos.SelectedRows[0].Selected = false;
+                        button1.Enabled = false;
+                        seSeleccionoPremio = false;
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("La cantidad ingresada es inválida. Debe ser mayor a 0", "Error", MessageBoxButtons.OK);
                 }
 
             }

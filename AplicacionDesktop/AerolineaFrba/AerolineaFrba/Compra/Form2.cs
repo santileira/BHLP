@@ -186,7 +186,7 @@ namespace AerolineaFrba.Compra
                 huboError = true;
             }
 
-            if (dp.Value.Year > Program.fechaHoy().Year && dp.Value.Month > Program.fechaHoy().Month && dp.Value.Day > Program.fechaHoy().Day)
+            if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
             {
                 huboError = true;
                 MessageBox.Show("La Fecha de Nacimiento debe ser anterior a la fecha actual", "Error en los datos", MessageBoxButtons.OK);

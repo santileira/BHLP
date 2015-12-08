@@ -2874,19 +2874,19 @@ GO
 -- ************** REGISTRO LLEGADA ****************
 
 ------------------------Ver si llegó al destino correcto ----------------------------
-CREATE FUNCTION [ABSTRACCIONX4].llegaADestinoCorrecto(@MatriculaTxt varchar(8), @ciuDestinoTxt varchar(80))
+CREATE FUNCTION [ABSTRACCIONX4].llegaADestinoCorrecto(@viaje_cod int, @ciuDestinoTxt varchar(80))
 RETURNS INT
 AS 
 	BEGIN
-	DECLARE @rutaId int,@ciuDestinoId int, @ciuDestino varchar(80), @viajecod int 
-	SELECT TOP 1 @rutaId=RUTA_ID, @viajecod = VIAJE_COD FROM [ABSTRACCIONX4].VIAJES WHERE AERO_MATRI=@MatriculaTxt AND VIAJE_FECHA_LLEGADA IS NULL ORDER BY VIAJE_FECHA_SALIDA
+	DECLARE @rutaId int,@ciuDestinoId int, @ciuDestino varchar(80) 
+	SELECT @rutaId=RUTA_ID FROM [ABSTRACCIONX4].VIAJES WHERE VIAJE_COD = @viaje_cod
 	SELECT @ciuDestinoId = CIU_COD_D FROM [ABSTRACCIONX4].RUTAS_AEREAS WHERE RUTA_ID = @rutaId 	
 	SELECT @ciuDestino = CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = @ciuDestinoId
 
 	BEGIN
 		IF(@ciuDestino = @ciuDestinoTxt)
 		BEGIN
-		RETURN @viajecod
+		RETURN @viaje_cod
 		END
 	END	
 	
@@ -2898,12 +2898,12 @@ GO
 
 -----------------Ver si el origen ingresado es el correcto ---------------------
 
-CREATE FUNCTION [ABSTRACCIONX4].esOrigenCorrecto(@MatriculaTxt varchar(8), @ciuOrigenTxt varchar(80))
+CREATE FUNCTION [ABSTRACCIONX4].esOrigenCorrecto(@viaje_cod int, @ciuOrigenTxt varchar(80))
 RETURNS BIT
 AS 
 	BEGIN
 	DECLARE @rutaId int,@ciuOrigenId int, @ciuOrigen varchar(80) 
-	SELECT TOP 1 @rutaId=RUTA_ID FROM [ABSTRACCIONX4].VIAJES WHERE AERO_MATRI=@MatriculaTxt AND VIAJE_FECHA_LLEGADA IS NULL ORDER BY VIAJE_FECHA_SALIDA
+	SELECT @rutaId=RUTA_ID FROM [ABSTRACCIONX4].VIAJES WHERE VIAJE_COD = @viaje_cod
 	SELECT @ciuOrigenId = CIU_COD_O FROM [ABSTRACCIONX4].RUTAS_AEREAS WHERE RUTA_ID = @rutaId 	
 	SELECT @ciuOrigen = CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = @ciuOrigenId
 
@@ -3294,6 +3294,7 @@ if(@semestre = 1)
 					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 			group by t.Descripcion
+			having coalesce(sum(t.cantidad),0) > 0
 			order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
@@ -3308,6 +3309,7 @@ else
 					group by ciu.ciu_desc, com.COMP_FECHA) t
 			where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 			group by t.Descripcion
+			having coalesce(sum(t.cantidad),0) > 0
 			order by coalesce(sum(t.cantidad),0) desc
 		
 return;
@@ -3341,6 +3343,7 @@ if(@semestre = 1)
 				a.AERO_MATRI = v.AERO_MATRI
 						) t
 		group by t.Descripcion
+		having coalesce(sum(t.cantidad),0) > 0
 		order by coalesce(sum(t.Cantidad),0) desc
 else
 	insert @variable_tabla 
@@ -3352,6 +3355,7 @@ else
 				r.ciu_cod_d = c.ciu_cod and
 				a.AERO_MATRI = v.AERO_MATRI) t
 		group by t.Descripcion
+		having coalesce(sum(t.cantidad),0) > 0
 		order by coalesce(sum(t.Cantidad),0) desc
 		
 return;
@@ -3376,8 +3380,9 @@ if(@semestre = 1)
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
+		where (t.MillasEncomiendas + t.MillasPasajes) > 0
 		order by (t.MillasEncomiendas + t.MillasPasajes) desc
-else
+else 
 	insert @variable_tabla 
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
@@ -3387,6 +3392,7 @@ else
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
+		where (t.MillasEncomiendas + t.MillasPasajes) > 0
 		order by (t.MillasEncomiendas + t.MillasPasajes) desc
 		
 return;
@@ -3412,6 +3418,7 @@ if(@semestre = 1)
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
+		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc
 else
 	insert @variable_tabla 
@@ -3426,6 +3433,7 @@ else
 				group by ciu.ciu_desc, com.COMP_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 		group by t.Descripcion, t.Cantidad
+		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc
 
 return;
@@ -3492,6 +3500,12 @@ else
 			   (year(fs.FECHA_REINICIO) = @anio and month(fs.FECHA_REINICIO) between @inicioSemestre and @finSemestre))
 		and a.AERO_MATRI = fs.AERO_MATRI
 		group by a.AERO_MATRI
+		having (coalesce(sum(datediff(day, fs.fecha_fs, fs.fecha_reinicio)-
+												(case when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0
+														then (datediff(day, @fechaFinSemestre,fs.fecha_reinicio))-1
+													  when abstraccionx4.datetime_is_between(fs.fecha_fs,@fechaInicioSemestre,@fechaFinSemestre) = 0
+														then (datediff(day, fs.fecha_fs,@fechaInicioSemestre))-1
+													  else 0 end)),0)) > 0
 		order by CantidadDias desc
 
 return;
