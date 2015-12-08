@@ -12,6 +12,8 @@ namespace AerolineaFrba.Listado_Estadistico
 {
     public partial class Form1 : Form
     {
+        string mensaje;
+
         public Form1()
         {
             InitializeComponent();
@@ -47,15 +49,29 @@ namespace AerolineaFrba.Listado_Estadistico
         private string estadisticaSeleccionada()
         {
             if (cboEstadistica.SelectedIndex == 0)
+            {
+                mensaje = "Para el período seleccionado no existen 5 destinos para los cuales se hayan comprado pasajes. Se mostraran los destinos para los cuales se registro compra de pasajes, ordenados por cantidad de pasajes vendidos";
                 return "[ABSTRACCIONX4].destinosConMasPasajesVendidos";
+            }
             if (cboEstadistica.SelectedIndex == 1)
+            {
+                mensaje = "Para el período seleccionado no existen 5 aeronaves que hayan realizado viajes. Se mostraran las aeronaves con viajes registrados, ordenados por cantidad de butacas vacias";
                 return "[ABSTRACCIONX4].destinosConAeronaveMasVacia";
+            }
             if (cboEstadistica.SelectedIndex == 2)
+            {
+                mensaje = "Para el período seleccionado no existen 5 clientes que hayan comprado pasajes. Se mostraran los clientes para los cuales se registraron millas por compra de pasajes no cancelados, ordenados por cantidad de millas";
                 return "[ABSTRACCIONX4].clientesConMasMillas";
+            }
             if (cboEstadistica.SelectedIndex == 3)
+            {
+                mensaje = "Para el período seleccionado no existen 5 clientes que hayan cancelado pasajes. Se mostraran los clientes que hayan comprado pasajes, y luego que los hayan cancelado, ordenados por cantidad de pasajes cancelados";
                 return "[ABSTRACCIONX4].destinosConMasPasajesCancelados";
+            }
             else
-                return "[ABSTRACCIONX4].aeronavesConMayorFueraDeServicio";
+                mensaje = "Para el período seleccionado no existen 5 aeronaves que hayan estado fuera de servicio. Se mostraran las aeronaves para los cuales se registraron periodos fuera de servicios, ordenados por tiempo fuera de servicio";
+            
+            return "[ABSTRACCIONX4].aeronavesConMayorFueraDeServicio";
         }
 
         /*
@@ -87,7 +103,7 @@ namespace AerolineaFrba.Listado_Estadistico
                     dg.Visible = true;
 
                     if (dg.RowCount < 5)
-                        MessageBox.Show("No existen registros para armar el TOP 5. Se mostraran los datos registrados hasta el momento para el año y semestre inresados", "Estadistica incompleta", MessageBoxButtons.OK);
+                        MessageBox.Show(mensaje, "Estadistica incompleta", MessageBoxButtons.OK);
                 }
             }
         }
