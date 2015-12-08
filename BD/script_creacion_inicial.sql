@@ -2874,19 +2874,19 @@ GO
 -- ************** REGISTRO LLEGADA ****************
 
 ------------------------Ver si llegó al destino correcto ----------------------------
-CREATE FUNCTION [ABSTRACCIONX4].llegaADestinoCorrecto(@MatriculaTxt varchar(8), @ciuDestinoTxt varchar(80))
+CREATE FUNCTION [ABSTRACCIONX4].llegaADestinoCorrecto(@viaje_cod int, @ciuDestinoTxt varchar(80))
 RETURNS INT
 AS 
 	BEGIN
-	DECLARE @rutaId int,@ciuDestinoId int, @ciuDestino varchar(80), @viajecod int 
-	SELECT TOP 1 @rutaId=RUTA_ID, @viajecod = VIAJE_COD FROM [ABSTRACCIONX4].VIAJES WHERE AERO_MATRI=@MatriculaTxt AND VIAJE_FECHA_LLEGADA IS NULL ORDER BY VIAJE_FECHA_SALIDA
+	DECLARE @rutaId int,@ciuDestinoId int, @ciuDestino varchar(80) 
+	SELECT @rutaId=RUTA_ID FROM [ABSTRACCIONX4].VIAJES WHERE VIAJE_COD = @viaje_cod
 	SELECT @ciuDestinoId = CIU_COD_D FROM [ABSTRACCIONX4].RUTAS_AEREAS WHERE RUTA_ID = @rutaId 	
 	SELECT @ciuDestino = CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = @ciuDestinoId
 
 	BEGIN
 		IF(@ciuDestino = @ciuDestinoTxt)
 		BEGIN
-		RETURN @viajecod
+		RETURN @viaje_cod
 		END
 	END	
 	
@@ -2898,12 +2898,12 @@ GO
 
 -----------------Ver si el origen ingresado es el correcto ---------------------
 
-CREATE FUNCTION [ABSTRACCIONX4].esOrigenCorrecto(@MatriculaTxt varchar(8), @ciuOrigenTxt varchar(80))
+CREATE FUNCTION [ABSTRACCIONX4].esOrigenCorrecto(@viaje_cod int, @ciuOrigenTxt varchar(80))
 RETURNS BIT
 AS 
 	BEGIN
 	DECLARE @rutaId int,@ciuOrigenId int, @ciuOrigen varchar(80) 
-	SELECT TOP 1 @rutaId=RUTA_ID FROM [ABSTRACCIONX4].VIAJES WHERE AERO_MATRI=@MatriculaTxt AND VIAJE_FECHA_LLEGADA IS NULL ORDER BY VIAJE_FECHA_SALIDA
+	SELECT @rutaId=RUTA_ID FROM [ABSTRACCIONX4].VIAJES WHERE VIAJE_COD = @viaje_cod
 	SELECT @ciuOrigenId = CIU_COD_O FROM [ABSTRACCIONX4].RUTAS_AEREAS WHERE RUTA_ID = @rutaId 	
 	SELECT @ciuOrigen = CIU_DESC FROM [ABSTRACCIONX4].CIUDADES WHERE CIU_COD = @ciuOrigenId
 

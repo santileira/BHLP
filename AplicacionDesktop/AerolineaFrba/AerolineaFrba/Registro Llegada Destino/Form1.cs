@@ -137,10 +137,10 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT ABSTRACCIONX4.esOrigenCorrecto(@Matricula , @ciuOrigenTxt)";
+            command.CommandText = "SELECT ABSTRACCIONX4.esOrigenCorrecto(@viaje_cod , @ciuOrigenTxt)";
             command.CommandTimeout = 0;
 
-            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
+            command.Parameters.AddWithValue("@viaje_cod", viaje_cod_diferido);
             command.Parameters.AddWithValue("@ciuOrigenTxt", txtCiudadOrigen.Text);
 
             return (bool)command.ExecuteScalar();
@@ -153,10 +153,10 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             SqlCommand command = new SqlCommand();
             command.Connection = Program.conexion();
             command.CommandType = System.Data.CommandType.Text;
-            command.CommandText = "SELECT ABSTRACCIONX4.llegaADestinoCorrecto(@Matricula , @ciuDestinoTxt)";
+            command.CommandText = "SELECT ABSTRACCIONX4.llegaADestinoCorrecto(@viaje_cod , @ciuDestinoTxt)";
             command.CommandTimeout = 0;
 
-            command.Parameters.AddWithValue("@Matricula", txtMatricula.Text);
+            command.Parameters.AddWithValue("@viaje_cod", viaje_cod_diferido);
             command.Parameters.AddWithValue("@ciuDestinoTxt", txtCiudadDestino.Text);
 
             return (int)command.ExecuteScalar();
