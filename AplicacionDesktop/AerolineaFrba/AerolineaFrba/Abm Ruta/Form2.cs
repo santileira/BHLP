@@ -115,8 +115,8 @@ namespace AerolineaFrba.Abm_Ruta
 
             command.Parameters.AddWithValue("@Origen", txtCiudadOrigen.Text);
             command.Parameters.AddWithValue("@Destino", txtCiudadDestino.Text);
-            command.Parameters.AddWithValue("@PPasaje", txtPrecioPasaje.Text);
-            command.Parameters.AddWithValue("@PKg", txtPrecioEncomienda.Text);
+            command.Parameters.AddWithValue("@PPasaje", enDecimal(txtPrecioPasaje.Text));
+            command.Parameters.AddWithValue("@PKg", enDecimal(txtPrecioEncomienda.Text));
             SqlParameter param = new SqlParameter("@Servicios", SqlDbType.Structured);
             param.TypeName = "ABSTRACCIONX4.Lista";
             param.Value = crearDataTable(listaServicios);
