@@ -88,7 +88,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 56;
-            this.label1.Text = "Numero de documento:";
+            this.label1.Text = "Número de documento:";
             // 
             // button1
             // 
