@@ -176,14 +176,17 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
-            SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
-
-            varCli.Read();
-            if (varCli.HasRows)
+            if (!encontroCliente)
             {
-                
-                MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
-                huboError = true;
+                SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+
+                varCli.Read();
+                if (varCli.HasRows)
+                {
+
+                    MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                    huboError = true;
+                }
             }
 
             if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
