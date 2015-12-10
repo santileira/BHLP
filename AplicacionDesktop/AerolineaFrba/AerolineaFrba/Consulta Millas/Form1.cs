@@ -79,8 +79,14 @@ namespace AerolineaFrba.Consulta_Millas
             var canjeadas = millas_canjeadas;
             var final = total - canjeadas;
 
-
-            cantTotalMillas.Text = final.ToString();
+            if (final > 0)
+            {
+                cantTotalMillas.Text = final.ToString();
+            }
+            else
+            {
+                cantTotalMillas.Text = "0";
+            }
 
         }
 

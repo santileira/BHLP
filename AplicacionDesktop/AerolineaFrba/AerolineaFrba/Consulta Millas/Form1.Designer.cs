@@ -161,7 +161,7 @@
             this.groupBox1.Size = new System.Drawing.Size(730, 217);
             this.groupBox1.TabIndex = 64;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Historial De Millas";
+            this.groupBox1.Text = "Historial De Millas Vigentes";
             // 
             // button3
             // 
@@ -192,7 +192,7 @@
             this.groupBox2.Size = new System.Drawing.Size(730, 196);
             this.groupBox2.TabIndex = 67;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Canjes Realizados";
+            this.groupBox2.Text = "Canjes Realizados (Histórico)";
             // 
             // dgCanjes
             // 
