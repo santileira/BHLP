@@ -2633,7 +2633,7 @@ AS
 GO
 
 -------------------------------Baja Ruta-------------------------------
-ALTER PROCEDURE [ABSTRACCIONX4].BajaRuta
+CREATE PROCEDURE [ABSTRACCIONX4].BajaRuta
 	@IdRuta INT
 AS
 	IF [ABSTRACCIONX4].EstaSiendoUsada(@IdRuta) = 1
