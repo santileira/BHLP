@@ -1387,6 +1387,7 @@ AS
 				a.SERV_COD = s.SERV_COD and
 				@origen = c1.CIU_DESC and
 				@destino = c2.CIU_DESC and
+				r1.RUTA_ESTADO = 1 and
 				year(v.VIAJE_FECHA_SALIDA) = year(@fecha) and
 				month(v.VIAJE_FECHA_SALIDA) = month(@fecha) and
 				day(v.VIAJE_FECHA_SALIDA) = day(@fecha)	and
@@ -2404,10 +2405,11 @@ GO
 
 -------------------------------Borrar Pasajes-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].BorrarPasajes
-@IdRuta INT
+@IdRuta INT,
+@Codigo INT
 AS
 UPDATE ABSTRACCIONX4.PASAJES 
-SET PASAJE_CANCELADO = 1
+SET PASAJE_CANCELADO = 1 , DEVOLUC_COD = @Codigo
 WHERE PASAJE_COD IN (SELECT P.PASAJE_COD FROM [ABSTRACCIONX4].PASAJES P , [ABSTRACCIONX4].VIAJES V
 WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND
 	  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1)
@@ -2417,10 +2419,11 @@ GO
 
 -------------------------------Borrar Encomiendas-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].BorrarEncomiendas
-@IdRuta INT
+@IdRuta INT,
+@Codigo INT
 AS
 UPDATE ABSTRACCIONX4.ENCOMIENDAS
-SET ENCOMIENDA_CANCELADO = 1
+SET ENCOMIENDA_CANCELADO = 1 , DEVOLUC_COD = @Codigo
 WHERE ENCOMIENDA_COD IN (SELECT E.ENCOMIENDA_COD FROM [ABSTRACCIONX4].ENCOMIENDAS E , [ABSTRACCIONX4].VIAJES V
 WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND
 	  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) 
@@ -2642,12 +2645,29 @@ AS
 		RETURN
 	END
 	
+	DECLARE @Codigo INT
+	DECLARE @Motivo VARCHAR(255)
+
+	SET @Codigo = 0
+	SET @Motivo = 'Se dio de baja la ruta ' + CONVERT(varchar(30) , @IdRuta) + ' que lo contenía'
 	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
 		SET RUTA_ESTADO = 0
 		WHERE RUTA_ID=@IdRuta
 
-	EXECUTE [ABSTRACCIONX4].BorrarPasajes @IdRuta
-	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta
+
+	IF((SELECT COUNT(*) FROM ABSTRACCIONX4.PASAJES P , ABSTRACCIONX4.VIAJES V WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) > 0 OR
+		(SELECT COUNT(*) FROM ABSTRACCIONX4.ENCOMIENDAS E , ABSTRACCIONX4.VIAJES V WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) > 0)
+	BEGIN
+	INSERT INTO ABSTRACCIONX4.DEVOLUCIONES (DEVOLUC_FECHA , DEVOLUC_MOTIVO)
+	VALUES (ABSTRACCIONX4.obtenerFechaDeHoy() , @Motivo)
+
+	SET @Codigo = @@IDENTITY
+	END
+
+	EXECUTE [ABSTRACCIONX4].BorrarPasajes @IdRuta , @Codigo
+	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta , @Codigo
+
+
 GO
 
 -------------------------------Tiene Viaje Programado-------------------------------
@@ -3431,10 +3451,7 @@ else
 	end
 
 	insert @variable_tabla 
-		select top 5 t.nombre, t.apellido, CASE WHEN (t.MillasEncomiendas + t.MillasPasajes - t.MillasCanjes)<0
-											    THEN 0
-												ELSE (t.MillasEncomiendas + t.MillasPasajes - t.MillasCanjes)
-												END Millas
+		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes - t.MillasCanjes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
 			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(c.cli_dni, c.cli_apellido,@fechaInicioAnio,@fechaFinAnio)) MillasPasajes,
@@ -3443,10 +3460,10 @@ else
 				from ABSTRACCIONX4.CANJES j join ABSTRACCIONX4.PREMIOS r on (j.PREMIO_COD = r.PREMIO_COD)
 				where j.CLI_COD = c.CLI_COD and
 					  ABSTRACCIONX4.datetime_is_between(j.CANJE_FECHA,@fechaInicioAnio,@fechaFinAnio) = 1) MillasCanjes
-		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
+		from ABSTRACCIONX4.CLIENTES c/*, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where ABSTRACCIONX4.datetime_is_between(v.VIAJE_FECHA_SALIDA,@fechaInicioAnio,@fechaFinAnio) = 1 and
-		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
-		where (t.MillasEncomiendas + t.MillasPasajes) > 0
+		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod*/) t
+		where (t.MillasEncomiendas + t.MillasPasajes - t.MillasCanjes) > 0
 		order by Millas desc
 		
 return
