@@ -136,17 +136,27 @@ namespace AerolineaFrba.Compra
         private void chkPasajes_CheckedChanged(object sender, EventArgs e)
         {
             if (chkPasajes.Checked)
+            {
                 txtButacas.Enabled = true;
+            }
             else
+            {
                 txtButacas.Enabled = false;
+                txtButacas.Text = "";
+            }   
         }
 
         private void chkEncomiendas_CheckedChanged(object sender, EventArgs e)
         {
             if (chkEncomiendas.Checked)
+            {
                 txtKilos.Enabled = true;
+            }
             else
+            {
                 txtKilos.Enabled = false;
+                txtKilos.Text = "";
+            }
         }
 
         private void cambiarVisibilidades(Form formularioSiguiente)
