@@ -1387,6 +1387,7 @@ AS
 				a.SERV_COD = s.SERV_COD and
 				@origen = c1.CIU_DESC and
 				@destino = c2.CIU_DESC and
+				r1.RUTA_ESTADO = 1 and
 				year(v.VIAJE_FECHA_SALIDA) = year(@fecha) and
 				month(v.VIAJE_FECHA_SALIDA) = month(@fecha) and
 				day(v.VIAJE_FECHA_SALIDA) = day(@fecha)	and
