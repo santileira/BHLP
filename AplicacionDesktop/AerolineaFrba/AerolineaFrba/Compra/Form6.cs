@@ -207,12 +207,15 @@ namespace AerolineaFrba.Compra
 
             if (!this.encontroCliente)
             {
-                SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
-                varCli.Read();
-                if (varCli.HasRows)
+                if (txtDni.Text.Length > 0 && txtApe.Text.Length > 0)
                 {
-                    MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
-                    huboError = true;
+                    SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
+                    varCli.Read();
+                    if (varCli.HasRows)
+                    {
+                        MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                        huboError = true;
+                    }
                 }
             }
 
