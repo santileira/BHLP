@@ -275,8 +275,8 @@ namespace AerolineaFrba.Compra
                 
 
 
-                this.inicio();
-                if ((anterior as Form4).butacasRestantes() == 0)
+                /*this.inicio();
+                if ((anterior as Form4).butacasRestantes() == 0)*/
                     this.cambiarVisibilidades(this.anterior);
                     
             }

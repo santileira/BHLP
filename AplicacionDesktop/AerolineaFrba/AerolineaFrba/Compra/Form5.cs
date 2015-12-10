@@ -260,8 +260,8 @@ namespace AerolineaFrba.Compra
 
                 this.cantidadKilos -= kg;
 
-                this.inicio();
-                if((anterior as Form4).kilosRestantes() == 0)
+                /*this.inicio();
+                if((anterior as Form4).kilosRestantes() == 0)*/
                     this.cambiarVisibilidades(this.anterior);
             }
         }
