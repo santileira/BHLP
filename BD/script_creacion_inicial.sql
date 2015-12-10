@@ -3440,42 +3440,33 @@ RETURNS @variable_tabla TABLE (Nombre varchar(80), Apellido varchar(80), Cantida
 AS
 begin
 
-declare @fechaInicioSemestre datetime, @fechaFinSemestre datetime
+declare @fechaInicioAnio datetime, @fechaFinAnio datetime
 if(@semestre = 1)
 	begin
-		set @fechaInicioSemestre = convert(datetime,'01-01-'+CONVERT(varchar(4), @anio))
-		set @fechaFinSemestre = convert(datetime,'30-06-'+CONVERT(varchar(4), @anio))
+		set @fechaInicioAnio = convert(datetime,'01-06-'+CONVERT(varchar(4), @anio-1))
+		set @fechaFinAnio = convert(datetime,'30-06-'+CONVERT(varchar(4), @anio))
 	end
 else
 	begin
-		set @fechaInicioSemestre = convert(datetime,'01-07-'+CONVERT(varchar(4), @anio))
-		set @fechaFinSemestre = convert(datetime,'31-12-'+CONVERT(varchar(4), @anio))
+		set @fechaInicioAnio = convert(datetime,'01-01-'+CONVERT(varchar(4), @anio))
+		set @fechaFinAnio = convert(datetime,'31-12-'+CONVERT(varchar(4), @anio))
 	end
 
-if(@semestre = 1)
 	insert @variable_tabla 
-		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
+		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes - t.MillasCanjes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasPasajes,
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendasTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasEncomiendas
-		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
-		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
-		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
-		where (t.MillasEncomiendas + t.MillasPasajes) > 0
-		order by (t.MillasEncomiendas + t.MillasPasajes) desc
-else 
-	insert @variable_tabla 
-		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
-		from
-		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasPasajes,
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendasTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasEncomiendas
-		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
-		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
-		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
-		where (t.MillasEncomiendas + t.MillasPasajes) > 0
-		order by (t.MillasEncomiendas + t.MillasPasajes) desc
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(c.cli_dni, c.cli_apellido,@fechaInicioAnio,@fechaFinAnio)) MillasPasajes,
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendasTotales(c.cli_dni, c.cli_apellido,@fechaInicioAnio,@fechaFinAnio)) MillasEncomiendas,
+			(select coalesce(sum(j.canje_cantidad*r.premio_puntos),0) 
+				from ABSTRACCIONX4.CANJES j join ABSTRACCIONX4.PREMIOS r on (j.PREMIO_COD = r.PREMIO_COD)
+				where j.CLI_COD = c.CLI_COD and
+					  ABSTRACCIONX4.datetime_is_between(j.CANJE_FECHA,@fechaInicioAnio,@fechaFinAnio) = 1) MillasCanjes
+		from ABSTRACCIONX4.CLIENTES c/*, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
+		where ABSTRACCIONX4.datetime_is_between(v.VIAJE_FECHA_SALIDA,@fechaInicioAnio,@fechaFinAnio) = 1 and
+		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod*/) t
+		where (t.MillasEncomiendas + t.MillasPasajes - t.MillasCanjes) > 0
+		order by Millas desc
 		
 return
 end
@@ -3495,14 +3486,14 @@ begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 t.Descripcion, t.Cantidad
-		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
-				where com.COMP_PNR = p.COMP_PNR and
+		from (select ciu.ciu_desc Descripcion, d.DEVOLUC_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.DEVOLUCIONES d
+				where d.DEVOLUC_COD = p.DEVOLUC_COD and
 				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by ciu.ciu_desc, com.COMP_FECHA) t
+				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
@@ -3510,15 +3501,15 @@ if(@semestre = 1)
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion, t.Cantidad
-		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
-				where com.COMP_PNR = p.COMP_PNR and
+		from (select ciu.ciu_desc Descripcion, d.DEVOLUC_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.DEVOLUCIONES d
+				where d.DEVOLUC_COD = p.DEVOLUC_COD and
 				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by ciu.ciu_desc, com.COMP_FECHA) t
-		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
+				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
+		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc
