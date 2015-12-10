@@ -195,18 +195,26 @@ namespace AerolineaFrba.Compra
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
 
+<<<<<<< HEAD
             if (!encontroCliente)
+=======
+            if (txtDni.Text.Length > 0 && txtApe.Text.Length > 0)
+>>>>>>> 43712585e9bc62634dc8487730137ad241e0b546
             {
                 SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
 
                 varCli.Read();
                 if (varCli.HasRows)
                 {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 43712585e9bc62634dc8487730137ad241e0b546
                     MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
                     huboError = true;
                 }
             }
+            
             if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
             {
                 huboError = true;

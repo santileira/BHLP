@@ -176,7 +176,11 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
+<<<<<<< HEAD
             if (!encontroCliente)
+=======
+            if (txtDni.Text.Length > 0 && txtApe.Text.Length > 0)
+>>>>>>> 43712585e9bc62634dc8487730137ad241e0b546
             {
                 SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
 
@@ -188,6 +192,7 @@ namespace AerolineaFrba.Compra
                     huboError = true;
                 }
             }
+                
 
             if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
             {
