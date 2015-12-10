@@ -2132,18 +2132,6 @@ BEGIN
 				VALUES (@Matricula,@FechaBaja,@FechaReinicio)
 		END
 		
-		
-		UPDATE ABSTRACCIONX4.PASAJES
-			SET PASAJE_CANCELADO = 1
-			FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.VIAJES V ON (P.VIAJE_COD = V.VIAJE_COD)
-			WHERE AERO_MATRI = @Matricula AND 
-				  PASAJE_COD IN (SELECT * FROM [ABSTRACCIONX4].PasajesEntreFechas(@FechaBaja,@FechaMaxima))
-
-		UPDATE ABSTRACCIONX4.ENCOMIENDAS
-			SET ENCOMIENDA_CANCELADO = 1
-			FROM ABSTRACCIONX4.ENCOMIENDAS E JOIN ABSTRACCIONX4.VIAJES V ON (E.VIAJE_COD = V.VIAJE_COD)
-			WHERE AERO_MATRI = @Matricula AND 
-				  ENCOMIENDA_COD IN (SELECT * FROM [ABSTRACCIONX4].EncomiendasEntreFechas(@FechaBaja,@FechaMaxima))
 
 		DECLARE @Motivo VARCHAR(100)
 		IF(@FechaReinicio IS NULL)
@@ -2151,12 +2139,25 @@ BEGIN
 		ELSE
 			SET @Motivo = 'Se dio de baja por fuera de servicio a la aeronave ' + CONVERT(varchar(10) , @Matricula) + ' del viaje'
 
-		IF((SELECT COUNT(*) FROM ABSTRACCIONX4.PASAJES P , ABSTRACCIONX4.VIAJES V WHERE P.VIAJE_COD = V.VIAJE_COD AND v.AERO_MATRI = @Matricula AND (ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,[ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)) = 1 OR ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_LLEGADA,@FechaBaja,[ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)) = 1)) > 0 OR
-			(SELECT COUNT(*) FROM ABSTRACCIONX4.ENCOMIENDAS E , ABSTRACCIONX4.VIAJES V WHERE E.VIAJE_COD = V.VIAJE_COD AND v.AERO_MATRI = @Matricula AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,@FechaBaja,[ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)) = 1 OR ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_LLEGADA,@FechaBaja,[ABSTRACCIONX4].FechaReinicioOMaxima(@FechaReinicio)) = 1) > 0)
-		BEGIN
-			INSERT INTO ABSTRACCIONX4.DEVOLUCIONES (DEVOLUC_FECHA , DEVOLUC_MOTIVO)
-		VALUES (ABSTRACCIONX4.obtenerFechaDeHoy() , @Motivo)
-	END
+		INSERT INTO ABSTRACCIONX4.DEVOLUCIONES (DEVOLUC_FECHA , DEVOLUC_MOTIVO)
+			VALUES (ABSTRACCIONX4.obtenerFechaDeHoy() , @Motivo)
+
+		DECLARE @Codigo INT
+		SET @Codigo = @@IDENTITY
+		
+		UPDATE ABSTRACCIONX4.PASAJES
+			SET PASAJE_CANCELADO = 1,DEVOLUC_COD = @Codigo
+			FROM ABSTRACCIONX4.PASAJES P JOIN ABSTRACCIONX4.VIAJES V ON (P.VIAJE_COD = V.VIAJE_COD)
+			WHERE AERO_MATRI = @Matricula AND 
+				  PASAJE_COD IN (SELECT * FROM [ABSTRACCIONX4].PasajesEntreFechas(@FechaBaja,@FechaMaxima))
+
+		UPDATE ABSTRACCIONX4.ENCOMIENDAS
+			SET ENCOMIENDA_CANCELADO = 1,DEVOLUC_COD = @Codigo
+			FROM ABSTRACCIONX4.ENCOMIENDAS E JOIN ABSTRACCIONX4.VIAJES V ON (E.VIAJE_COD = V.VIAJE_COD)
+			WHERE AERO_MATRI = @Matricula AND 
+				  ENCOMIENDA_COD IN (SELECT * FROM [ABSTRACCIONX4].EncomiendasEntreFechas(@FechaBaja,@FechaMaxima))
+
+		
 END
 GO
 
@@ -3521,7 +3522,7 @@ else
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
 				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
-		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
+		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc

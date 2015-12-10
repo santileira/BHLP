@@ -176,19 +176,22 @@ namespace AerolineaFrba.Compra
         private void button2_Click(object sender, EventArgs e)
         {
             Boolean huboError = this.hacerValidacionesDeTipo();
-            if (txtDni.Text.Length > 0 && txtApe.Text.Length > 0)
+
+            if (!encontroCliente)
             {
-                SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
-
-                varCli.Read();
-                if (varCli.HasRows)
+                if (txtDni.Text.Length > 0 && txtApe.Text.Length > 0)
                 {
+                    SqlDataReader varCli = this.tieneDocumento(txtDni.Text);
 
-                    MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
-                    huboError = true;
+                    varCli.Read();
+                    if (varCli.HasRows)
+                    {
+
+                        MessageBox.Show("Dni inválido. Ya existe un Cliente con ese DNI", "Error cliente", MessageBoxButtons.OK);
+                        huboError = true;
+                    }
                 }
-            }
-                
+            }  
 
             if (dp.Value.CompareTo(Program.fechaHoy()) > 0)
             {
@@ -279,8 +282,8 @@ namespace AerolineaFrba.Compra
                 
 
 
-                this.inicio();
-                if ((anterior as Form4).butacasRestantes() == 0)
+                /*this.inicio();
+                if ((anterior as Form4).butacasRestantes() == 0)*/
                     this.cambiarVisibilidades(this.anterior);
                     
             }
