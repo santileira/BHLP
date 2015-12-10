@@ -2404,10 +2404,11 @@ GO
 
 -------------------------------Borrar Pasajes-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].BorrarPasajes
-@IdRuta INT
+@IdRuta INT,
+@Codigo INT
 AS
 UPDATE ABSTRACCIONX4.PASAJES 
-SET PASAJE_CANCELADO = 1
+SET PASAJE_CANCELADO = 1 , DEVOLUC_COD = @Codigo
 WHERE PASAJE_COD IN (SELECT P.PASAJE_COD FROM [ABSTRACCIONX4].PASAJES P , [ABSTRACCIONX4].VIAJES V
 WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND
 	  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1)
@@ -2417,10 +2418,11 @@ GO
 
 -------------------------------Borrar Encomiendas-------------------------------
 CREATE PROCEDURE [ABSTRACCIONX4].BorrarEncomiendas
-@IdRuta INT
+@IdRuta INT,
+@Codigo INT
 AS
 UPDATE ABSTRACCIONX4.ENCOMIENDAS
-SET ENCOMIENDA_CANCELADO = 1
+SET ENCOMIENDA_CANCELADO = 1 , DEVOLUC_COD = @Codigo
 WHERE ENCOMIENDA_COD IN (SELECT E.ENCOMIENDA_COD FROM [ABSTRACCIONX4].ENCOMIENDAS E , [ABSTRACCIONX4].VIAJES V
 WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND
 	  ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) 
@@ -2642,12 +2644,22 @@ AS
 		RETURN
 	END
 	
+	DECLARE @Codigo INT
+	DECLARE @Motivo VARCHAR(255)
+
+	SET @Motivo = 'Se dio de baja la ruta ' + CONVERT(varchar(30) , @IdRuta) + ' que lo contenía'
 	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
 		SET RUTA_ESTADO = 0
 		WHERE RUTA_ID=@IdRuta
 
-	EXECUTE [ABSTRACCIONX4].BorrarPasajes @IdRuta
-	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta
+
+	INSERT INTO ABSTRACCIONX4.DEVOLUCIONES (DEVOLUC_FECHA , DEVOLUC_MOTIVO)
+	VALUES (ABSTRACCIONX4.obtenerFechaDeHoy() , @Motivo)
+
+	SET @Codigo = @@IDENTITY
+
+	EXECUTE [ABSTRACCIONX4].BorrarPasajes @IdRuta , @Codigo
+	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta , @Codigo
 GO
 
 -------------------------------Tiene Viaje Programado-------------------------------
