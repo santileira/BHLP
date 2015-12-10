@@ -224,5 +224,10 @@ namespace AerolineaFrba.Compra
 
         }
 
+        private void dg_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

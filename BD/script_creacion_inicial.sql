@@ -3484,14 +3484,14 @@ begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 t.Descripcion, t.Cantidad
-		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
-				where com.COMP_PNR = p.COMP_PNR and
+		from (select ciu.ciu_desc Descripcion, d.DEVOLUC_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.DEVOLUCIONES d
+				where d.DEVOLUC_COD = p.DEVOLUC_COD and
 				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by ciu.ciu_desc, com.COMP_FECHA) t
+				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
@@ -3499,15 +3499,15 @@ if(@semestre = 1)
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion, t.Cantidad
-		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
-				where com.COMP_PNR = p.COMP_PNR and
+		from (select ciu.ciu_desc Descripcion, d.DEVOLUC_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.DEVOLUCIONES d
+				where d.DEVOLUC_COD = p.DEVOLUC_COD and
 				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by ciu.ciu_desc, com.COMP_FECHA) t
-		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
+				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
+		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc
