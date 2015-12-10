@@ -119,7 +119,7 @@ DROP FUNCTION [ABSTRACCIONX4].clientesConMasMillas
 DROP FUNCTION [ABSTRACCIONX4].destinosConMasPasajesCancelados
 DROP FUNCTION [ABSTRACCIONX4].cantidadDiasFueraDeServicio
 DROP FUNCTION [ABSTRACCIONX4].aeronavesConMayorFueraDeServicio
-DROP FUNCTION [ABSTRACCIONX4].fecha_dado_datetime
+--DROP FUNCTION [ABSTRACCIONX4].fecha_dado_datetime
 ---------------------------------------------------
 DROP FUNCTION [ABSTRACCIONX4].obtenerFechaDeHoy
 DROP PROCEDURE [ABSTRACCIONX4].crearTablaFecha
