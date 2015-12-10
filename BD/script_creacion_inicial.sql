@@ -3516,7 +3516,7 @@ else
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
 				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
-		where year(t.Fecha) = @anio and month(t.Fecha) between 6 and 12
+		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc
