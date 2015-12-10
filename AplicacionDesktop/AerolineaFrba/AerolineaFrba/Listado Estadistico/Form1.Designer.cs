@@ -152,7 +152,7 @@
             this.txtAnio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAnio.ForeColor = System.Drawing.Color.Black;
             this.txtAnio.Location = new System.Drawing.Point(179, 117);
-            this.txtAnio.MaxLength = 2500;
+            this.txtAnio.MaxLength = 6;
             this.txtAnio.Name = "txtAnio";
             this.txtAnio.Size = new System.Drawing.Size(134, 20);
             this.txtAnio.TabIndex = 11;

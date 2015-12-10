@@ -3363,6 +3363,52 @@ return;
 end
 GO
 
+-------------------------------Obtener Historial de Millas Encomiendas Totales-------------------------------
+
+CREATE FUNCTION [ABSTRACCIONX4].obtenerHistorialMillasEncomiendasTotales(@dni numeric (10,0), @ape varchar(30),@fechaInicio datetime,@fechaFin datetime)
+RETURNS TABLE
+AS 
+	RETURN(
+		SELECT	E.ENCOMIENDA_COD as Codigo,
+				'Encomienda' as Tipo,
+				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
+				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
+				CO.COMP_FECHA as "Fecha de Compra",E.ENCOMIENDA_PRECIO as Precio
+			FROM ABSTRACCIONX4.CLIENTES C
+			JOIN ABSTRACCIONX4.ENCOMIENDAS E ON C.CLI_COD=E.CLI_COD
+			JOIN ABSTRACCIONX4.VIAJES V ON E.VIAJE_COD = V.VIAJE_COD 
+			JOIN ABSTRACCIONX4.RUTAS_AEREAS R ON R.RUTA_ID = V.RUTA_ID
+			JOIN ABSTRACCIONX4.COMPRAS CO ON CO.COMP_PNR = E.COMP_PNR 
+		WHERE C.CLI_DNI = @dni AND C.CLI_APELLIDO = @ape AND VIAJE_FECHA_LLEGADA is NOT NULL AND 
+			[ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_LLEGADA,@fechaInicio,@fechaFin) = 1
+			AND ENCOMIENDA_CANCELADO = 0
+
+		)
+GO
+
+-------------------------------Obtener Historial de Millas Pasajes Totales-------------------------------
+
+CREATE FUNCTION [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(@dni numeric (10,0), @ape varchar(30),@fechaInicio datetime,@fechaFin datetime)
+RETURNS TABLE
+AS 
+	RETURN(
+		SELECT	P.PASAJE_COD Codigo,
+				'Pasaje' as Tipo,
+				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
+				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
+				CO.COMP_FECHA as "Fecha de Compra",P.PASAJE_PRECIO as Precio
+			FROM ABSTRACCIONX4.CLIENTES C
+			JOIN ABSTRACCIONX4.PASAJES P ON C.CLI_COD=P.CLI_COD
+			JOIN ABSTRACCIONX4.VIAJES V ON P.VIAJE_COD = V.VIAJE_COD 
+			JOIN ABSTRACCIONX4.RUTAS_AEREAS R ON R.RUTA_ID = V.RUTA_ID
+			JOIN ABSTRACCIONX4.COMPRAS CO ON CO.COMP_PNR = P.COMP_PNR
+		WHERE C.CLI_DNI = @dni AND C.CLI_APELLIDO = @ape AND VIAJE_FECHA_LLEGADA is NOT NULL AND 
+			[ABSTRACCIONX4].datetime_is_between(VIAJE_FECHA_LLEGADA,@fechaInicio,@fechaFin) = 1
+			 AND PASAJE_CANCELADO = 0
+
+		)
+GO
+
 
 -------------------------------Estadistica clientes con mas puntos acumulados-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].clientesConMasMillas(@semestre tinyint, @anio smallint)
@@ -3371,13 +3417,26 @@ RETURNS @variable_tabla TABLE (Nombre varchar(80), Apellido varchar(80), Cantida
 
 AS
 begin
+
+declare @fechaInicioSemestre datetime, @fechaFinSemestre datetime
+if(@semestre = 1)
+	begin
+		set @fechaInicioSemestre = convert(datetime,'01-01-'+CONVERT(varchar(4), @anio))
+		set @fechaFinSemestre = convert(datetime,'30-06-'+CONVERT(varchar(4), @anio))
+	end
+else
+	begin
+		set @fechaInicioSemestre = convert(datetime,'01-07-'+CONVERT(varchar(4), @anio))
+		set @fechaFinSemestre = convert(datetime,'31-12-'+CONVERT(varchar(4), @anio))
+	end
+
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasPasajes,
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendasTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 1 and 6 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
@@ -3388,17 +3447,22 @@ else
 		select top 5 t.nombre, t.apellido, (t.MillasEncomiendas + t.MillasPasajes) Millas
 		from
 		(select distinct c.cli_nombre nombre, c.cli_apellido apellido, 
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajes(c.cli_dni, c.cli_apellido)) MillasPasajes,
-			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(c.cli_dni, c.cli_apellido)) MillasEncomiendas
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasPasajesTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasPasajes,
+			(select coalesce(sum(CAST(Precio/10 as Int)),0) from [ABSTRACCIONX4].obtenerHistorialMillasEncomiendasTotales(c.cli_dni, c.cli_apellido,@fechaInicioSemestre,@fechaFinSemestre)) MillasEncomiendas
 		from ABSTRACCIONX4.CLIENTES c, ABSTRACCIONX4.PASAJES p, ABSTRACCIONX4.VIAJES v
 		where year(v.viaje_fecha_salida) = @anio and month(v.viaje_fecha_salida) between 7 and 12 and
 		v.VIAJE_COD = p.viaje_cod and p.cli_cod = c.cli_cod) t
 		where (t.MillasEncomiendas + t.MillasPasajes) > 0
 		order by (t.MillasEncomiendas + t.MillasPasajes) desc
 		
-return;
+return
 end
 GO
+
+
+
+
+
 -------------------------------Estadistica destinos con mas pasajes cancelados-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].destinosConMasPasajesCancelados(@semestre tinyint, @anio smallint)
 
@@ -3409,14 +3473,14 @@ begin
 if(@semestre = 1)
 	insert @variable_tabla 
 		select top 5 t.Descripcion, t.Cantidad
-		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
-				where com.COMP_PNR = p.COMP_PNR and
+		from (select ciu.ciu_desc Descripcion, d.DEVOLUC_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.DEVOLUCIONES d
+				where d.DEVOLUC_COD = p.DEVOLUC_COD and
 				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by ciu.ciu_desc, com.COMP_FECHA) t
+				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
 		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
@@ -3424,15 +3488,15 @@ if(@semestre = 1)
 else
 	insert @variable_tabla 
 		select top 5 t.Descripcion, t.Cantidad
-		from (select ciu.ciu_desc Descripcion, com.COMP_FECHA Fecha, count(p.pasaje_cod) Cantidad
-				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.COMPRAS com
-				where com.COMP_PNR = p.COMP_PNR and
+		from (select ciu.ciu_desc Descripcion, d.DEVOLUC_FECHA Fecha, count(p.pasaje_cod) Cantidad
+				from abstraccionx4.pasajes p, abstraccionx4.viajes v, abstraccionx4.rutas_aereas r, abstraccionx4.ciudades ciu, ABSTRACCIONX4.DEVOLUCIONES d
+				where d.DEVOLUC_COD = p.DEVOLUC_COD and
 				p.viaje_cod = v.viaje_cod and
 				v.ruta_id = r.ruta_id and
 				r.ciu_cod_d = ciu.ciu_cod and
 				p.pasaje_cancelado = 1
-				group by ciu.ciu_desc, com.COMP_FECHA) t
-		where year(t.Fecha) = @anio and month(t.Fecha) between 7 and 12
+				group by ciu.ciu_desc, d.DEVOLUC_FECHA) t
+		where year(t.Fecha) = @anio and month(t.Fecha) between 1 and 6
 		group by t.Descripcion, t.Cantidad
 		having t.Cantidad > 0
 		order by coalesce(sum(t.cantidad),0) desc
@@ -3491,14 +3555,19 @@ else
 
 	insert @variable_tabla 
 		select top 5 a.aero_matri, coalesce(sum(datediff(day, fs.fecha_fs, fs.fecha_reinicio)-
-											(case when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0
+											(case when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0 AND
+											           abstraccionx4.datetime_is_between(fs.fecha_fs,@fechaInicioSemestre,@fechaFinSemestre) = 0
+													then (datediff(day, @fechaInicioSemestre,@fechaFinSemestre))
+												  when abstraccionx4.datetime_is_between(fs.fecha_reinicio,@fechaInicioSemestre,@fechaFinSemestre) = 0
 													then (datediff(day, @fechaFinSemestre,fs.fecha_reinicio))-1
 												  when abstraccionx4.datetime_is_between(fs.fecha_fs,@fechaInicioSemestre,@fechaFinSemestre) = 0
 													then (datediff(day, fs.fecha_fs,@fechaInicioSemestre))-1
 												  else 0 end)),0) CantidadDias
 		from [ABSTRACCIONX4].aeronaves a, ABSTRACCIONX4.FUERA_SERVICIO_AERONAVES fs
 		where ((year(fs.FECHA_FS) = @anio and month(fs.FECHA_FS) between @inicioSemestre and @finSemestre) or
-			   (year(fs.FECHA_REINICIO) = @anio and month(fs.FECHA_REINICIO) between @inicioSemestre and @finSemestre))
+			   (year(fs.FECHA_REINICIO) = @anio and month(fs.FECHA_REINICIO) between @inicioSemestre and @finSemestre) or
+			    (ABSTRACCIONX4.datetime_is_between(@fechaInicioSemestre,fs.FECHA_FS,fs.FECHA_REINICIO) = 1 AND 
+				 ABSTRACCIONX4.datetime_is_between(@fechaFinSemestre,fs.FECHA_FS,fs.FECHA_REINICIO) = 1 ))
 		and a.AERO_MATRI = fs.AERO_MATRI
 		group by a.AERO_MATRI
 		having (coalesce(sum(datediff(day, fs.fecha_fs, fs.fecha_reinicio)-
