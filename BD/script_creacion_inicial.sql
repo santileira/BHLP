@@ -3028,6 +3028,7 @@ AS
 				'Encomienda' as Tipo,
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
+				V.VIAJE_FECHA_LLEGADA as "Fecha de Obtención",
 				CO.COMP_FECHA as "Fecha de Compra",E.ENCOMIENDA_PRECIO as Precio
 			FROM ABSTRACCIONX4.CLIENTES C
 			JOIN ABSTRACCIONX4.ENCOMIENDAS E ON C.CLI_COD=E.CLI_COD
@@ -3049,7 +3050,8 @@ AS
 		SELECT	P.PASAJE_COD Codigo,
 				'Pasaje' as Tipo,
 				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_O) as Origen,  
-				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino, 
+				ABSTRACCIONX4.ObtenerCiudadDesc(R.CIU_COD_D) as Destino,
+				V.VIAJE_FECHA_LLEGADA as "Fecha de Obtención", 
 				CO.COMP_FECHA as "Fecha de Compra",P.PASAJE_PRECIO as Precio
 			FROM ABSTRACCIONX4.CLIENTES C
 			JOIN ABSTRACCIONX4.PASAJES P ON C.CLI_COD=P.CLI_COD
