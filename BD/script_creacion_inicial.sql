@@ -2633,7 +2633,7 @@ AS
 GO
 
 -------------------------------Baja Ruta-------------------------------
-CREATE PROCEDURE [ABSTRACCIONX4].BajaRuta
+ALTER PROCEDURE [ABSTRACCIONX4].BajaRuta
 	@IdRuta INT
 AS
 	IF [ABSTRACCIONX4].EstaSiendoUsada(@IdRuta) = 1
@@ -2647,19 +2647,26 @@ AS
 	DECLARE @Codigo INT
 	DECLARE @Motivo VARCHAR(255)
 
+	SET @Codigo = 0
 	SET @Motivo = 'Se dio de baja la ruta ' + CONVERT(varchar(30) , @IdRuta) + ' que lo contenía'
 	UPDATE ABSTRACCIONX4.RUTAS_AEREAS
 		SET RUTA_ESTADO = 0
 		WHERE RUTA_ID=@IdRuta
 
 
+	IF((SELECT COUNT(*) FROM ABSTRACCIONX4.PASAJES P , ABSTRACCIONX4.VIAJES V WHERE P.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) > 0 OR
+		(SELECT COUNT(*) FROM ABSTRACCIONX4.ENCOMIENDAS E , ABSTRACCIONX4.VIAJES V WHERE E.VIAJE_COD = V.VIAJE_COD AND V.RUTA_ID = @IdRuta AND ABSTRACCIONX4.datetime_is_between(VIAJE_FECHA_SALIDA,[ABSTRACCIONX4].obtenerFechaDeHoy(),[ABSTRACCIONX4].FechaReinicioOMaxima(NULL)) = 1) > 0)
+	BEGIN
 	INSERT INTO ABSTRACCIONX4.DEVOLUCIONES (DEVOLUC_FECHA , DEVOLUC_MOTIVO)
 	VALUES (ABSTRACCIONX4.obtenerFechaDeHoy() , @Motivo)
 
 	SET @Codigo = @@IDENTITY
+	END
 
 	EXECUTE [ABSTRACCIONX4].BorrarPasajes @IdRuta , @Codigo
 	EXECUTE [ABSTRACCIONX4].BorrarEncomiendas @IdRuta , @Codigo
+
+
 GO
 
 -------------------------------Tiene Viaje Programado-------------------------------
