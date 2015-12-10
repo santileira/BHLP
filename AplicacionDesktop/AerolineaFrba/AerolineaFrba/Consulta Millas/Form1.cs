@@ -29,7 +29,7 @@ namespace AerolineaFrba.Consulta_Millas
 
         private void llenarHistorialDeMillas()
         {
-            string query = "SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')";
+            string query = "SELECT Tipo,Origen,Destino,[Fecha de Obtención],[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasPasajes(" + txtDni.Text + ",'" + txtApe.Text + "') UNION SELECT Tipo,Origen,Destino,[Fecha de Obtención],[Fecha de Compra],Precio,CAST(Precio/10 as Int) as 'Cant. de Millas'  FROM [ABSTRACCIONX4].obtenerHistorialMillasEncomiendas(" + txtDni.Text + ",'" + txtApe.Text + "')";
 
             SqlConnection conexion = Program.conexion();
 
