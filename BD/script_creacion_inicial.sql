@@ -1479,8 +1479,8 @@ CLI_TELEFONO int,
 CLI_MAIL varchar(60),
 CLI_FECHA_NAC datetime,
 VIAJE_COD int,
-IMPORTE decimal,
-PESO decimal,
+IMPORTE numeric(7,2),
+PESO numeric(6,2),
 MATRICULA varchar(8),
 ENCONTRADO BIT,
 ACTUALIZAR BIT,
@@ -1488,7 +1488,7 @@ ES_COMPRADOR int
 );
 GO
 
-
+ 
 CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDeCompra
 	(@TablaPasajes [ABSTRACCIONX4].TablePasajesType READONLY,
 	@TablaEncomiendas [ABSTRACCIONX4].TableEncomiendasType READONLY,
@@ -1559,10 +1559,10 @@ AS
 		DECLARE @curMail varchar(60)
 		DECLARE @curFechaNac datetime
 		DECLARE @viajeCod int
-		DECLARE @precio decimal
+		DECLARE @precio numeric(7,2)
 		DECLARE @but int
 		DECLARE @matri varchar(8)
-		DECLARE @peso decimal
+		DECLARE @peso numeric(6,2)
 		DECLARE @clienteEncontrado BIT
 		DECLARE @clienteActualizado BIT
 		DECLARE @esComprador int

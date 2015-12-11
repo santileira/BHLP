@@ -375,9 +375,18 @@ namespace AerolineaFrba.Compra
             return (bool)command.ExecuteScalar();
         }
 
+
+        private Decimal enDecimal(string numero)
+        {
+            return Decimal.Round(Convert.ToDecimal(numero.Replace(".", ",")), 2);
+        }
+        
+        
         // Método responsable de hacer toda la preparación de los datos para enviarlo como parámetro al SP/FUNCTION
         // que se encargan de dar de alta todos los registros asociados a una COMPRA. Por ejemplo, altas en compras,
         // en pasajes, en encomiendas, en tarjetas (si se pago de esa forma y la tarjeta no existe) etc.
+
+
 
         private void cargarDatosDeCompra(string codigoPNR)
         {
@@ -422,7 +431,7 @@ namespace AerolineaFrba.Compra
                 int.TryParse(row.Cells["DNI"].Value.ToString(), out dni);
                 int.TryParse(row.Cells["Teléfono"].Value.ToString(), out tel);
                 DateTime.TryParse(row.Cells["Fecha de nacimiento"].Value.ToString(), out fechaNac);
-                decimal.TryParse(row.Cells["Importe"].Value.ToString(), out precio);
+                precio = enDecimal(row.Cells["Importe"].Value.ToString());
                 int.TryParse(row.Cells["Butaca"].Value.ToString(), out butNro);
                 int esComprador;
 
@@ -479,8 +488,8 @@ namespace AerolineaFrba.Compra
             tablaEncomiendas.Columns.Add("Mail", typeof(string));
             tablaEncomiendas.Columns.Add("Fecha de nacimiento", typeof(DateTime));
             tablaEncomiendas.Columns.Add("Código de viaje", typeof(int));
-            tablaEncomiendas.Columns.Add("Importe", typeof(int));
-            tablaEncomiendas.Columns.Add("Kilos", typeof(int));
+            tablaEncomiendas.Columns.Add("Importe", typeof(decimal));
+            tablaEncomiendas.Columns.Add("Kilos", typeof(decimal));
             tablaEncomiendas.Columns.Add("Matrícula", typeof(string));
             tablaEncomiendas.Columns.Add("Encontrado", typeof(bool));
             tablaEncomiendas.Columns.Add("Actualizar", typeof(bool));
@@ -493,8 +502,8 @@ namespace AerolineaFrba.Compra
                 int.TryParse(row.Cells["DNI"].Value.ToString(), out dni);
                 int.TryParse(row.Cells["Teléfono"].Value.ToString(), out tel);
                 DateTime.TryParse(row.Cells["Fecha de nacimiento"].Value.ToString(), out fechaNac);
-                decimal.TryParse(row.Cells["Importe"].Value.ToString(), out precio);
-                decimal.TryParse(row.Cells["Kilos"].Value.ToString(), out peso);
+                precio = enDecimal(row.Cells["Importe"].Value.ToString());
+                peso = enDecimal(row.Cells["Kilos"].Value.ToString());
                 int esComprador;
 
                 totalAAbonar = totalAAbonar + precio;
@@ -535,7 +544,6 @@ namespace AerolineaFrba.Compra
                     fechaNac,viajeCod, precio, peso,
                     row.Cells["Matrícula"].Value.ToString(),
                     encontrado, actualizar, esComprador);
-
 
             }
 
