@@ -2767,7 +2767,7 @@ GO
 
 -------------------------------Servicios de una ruta-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].ServiciosDeRuta
-	(@IdRuta TINYINT)
+	(@IdRuta SMALLINT)
 RETURNS @Servicios TABLE (tipoServicio VARCHAR(30))
 AS
 BEGIN
