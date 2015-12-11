@@ -236,7 +236,7 @@ namespace AerolineaFrba
                 return false;
             }
 
-            if (!(cadena.Take(3).All((car) => Char.IsLetter(car)) && cadena.Substring(4).All((car) => Char.IsDigit(car))))
+            if (!(cadena.Take(3).All((car) => Char.IsLetter(car)) && (cadena.Substring(4).All((car) => Char.IsDigit(car) && !Char.IsWhiteSpace(car))) && cadena.Substring(4).Length==3))
             {
                 if (mostrarMensaje)
                 {
