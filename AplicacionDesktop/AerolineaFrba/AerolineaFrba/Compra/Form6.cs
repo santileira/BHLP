@@ -289,8 +289,10 @@ namespace AerolineaFrba.Compra
 
                     if (Validacion.estaSeleccionado(cboAnios, false, "año de fecha de vencimiento") && Validacion.estaSeleccionado(cboMeses, false, "mes de fecha de vencimiento"))
                     {
-                        if (Convert.ToInt16(cboAnios.Text) == Program.fechaHoy().Year &&
-                           Convert.ToInt16(cboMeses.Text) == 1)
+                        int anioVto = Convert.ToInt16(cboAnios.Text);
+                        int mesVto = Convert.ToInt16(cboMeses.Text);
+                        if (anioVto<Program.fechaHoy().Year ||
+                            (anioVto == Program.fechaHoy().Year && mesVto < Program.fechaHoy().Month))
                         {
                             MessageBox.Show("La fecha de vencimiento de la tarjeta no puede ser anterior a la fecha de hoy.", "Error en los datos de entrada", MessageBoxButtons.OK);
                             validacion = true;
