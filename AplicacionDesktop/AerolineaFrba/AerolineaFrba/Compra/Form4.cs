@@ -200,6 +200,8 @@ namespace AerolineaFrba.Compra
                 dgEncomiendas.Rows.Clear();
                 dgPasajes.Rows.Clear();
                 this.cambiarVisibilidades(this.anterior);
+
+                (this.butacas as Compra.Form2).borrarButacasSeleccionadas();
             }
         }
 

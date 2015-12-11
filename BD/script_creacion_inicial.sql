@@ -1399,11 +1399,11 @@ GO
 --------------------------------Actualizar datos del cliente-----------------------------------------
 
 CREATE PROCEDURE [ABSTRACCIONX4].actualizarDatosDelCliente
-	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
+	@cliCod int,@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int
 AS
 	UPDATE [ABSTRACCIONX4].CLIENTES
-	SET CLI_NOMBRE = @nombre ,CLI_DIRECCION = @direccion ,CLI_MAIL = @mail, CLI_FECHA_NAC = @fechanac, CLI_TELEFONO = @telefono
-	WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape
+	SET CLI_NOMBRE = @nombre , CLI_APELLIDO = @ape, CLI_DIRECCION = @direccion ,CLI_MAIL = @mail, CLI_FECHA_NAC = @fechanac, CLI_TELEFONO = @telefono
+	WHERE CLI_COD = @cliCod
 GO
 
 --------------------------------Ingresar datos de un cliente--------------------------------------------
@@ -1492,7 +1492,7 @@ GO
 CREATE PROCEDURE [ABSTRACCIONX4].ingresarDatosDeCompra
 	(@TablaPasajes [ABSTRACCIONX4].TablePasajesType READONLY,
 	@TablaEncomiendas [ABSTRACCIONX4].TableEncomiendasType READONLY,
-	@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int,
+	@clienteCodigo int,@dni numeric(10,0), @ape varchar(60),@nombre varchar(60),@direccion varchar(80),@mail varchar(60), @fechanac datetime,@telefono int,
 	@encontroComprador BIT, @actualizarComprador BIT,
 	@codigoPNR varchar(12),@cuotas smallint, @formaDePago varchar(25),@nroTarjeta numeric(16,0),@codSeg int,@vencMes int, @vencAnio int, @tipoTarjeta varchar(30),
 	@agregarTarjeta BIT	
@@ -1517,7 +1517,7 @@ AS
 		ELSE
 		BEGIN
 			IF(@actualizarComprador = 1) -- si existe y se modifico, hay que actualizarlo
-				EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono
+				EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @clienteCodigo,@dni,@ape,@nombre,@direccion,@mail,@fechanac,@telefono
 		END	
 		-------------------------------------
 		-------------------------------------
@@ -1532,7 +1532,15 @@ AS
 		END
 
 		DECLARE @cod_cli int
+		IF(@clienteCodigo = 0)
+		BEGIN
 		SET @cod_cli = (SELECT CLI_COD FROM ABSTRACCIONX4.CLIENTES WHERE CLI_DNI = @dni AND CLI_APELLIDO = @ape)
+		END
+		ELSE
+		BEGIN
+		SET @cod_cli = @clienteCodigo
+		END
+		
 		EXEC [ABSTRACCIONX4].ingresarCompra @codigoPNR,@nroTarjeta,@formaDePago,@cod_cli,@cuotas,@fechaCompra
 		-------------------------------------
 		-------------------------------------
@@ -1589,7 +1597,7 @@ AS
 			ELSE
 			BEGIN
 			IF(@clienteActualizado = 1) -- si existe y se modifico, hay que actualizarlo
-					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
+					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @cliCod,@curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel
 
 					
 					INSERT INTO [ABSTRACCIONX4].PASAJES (COMP_PNR,CLI_COD, VIAJE_COD, PASAJE_PRECIO, BUT_ID) 
@@ -1626,7 +1634,7 @@ AS
 			ELSE
 			BEGIN
 			IF(@clienteActualizado = 1) -- si existe y se modifico, hay que actualizarlo
-					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel					
+					EXEC [ABSTRACCIONX4].actualizarDatosDelCliente @cliCod,@curDni,@curApe,@curNom,@curDir,@curMail,@curFechaNac,@curTel					
 					
 					INSERT INTO [ABSTRACCIONX4].ENCOMIENDAS (COMP_PNR,CLI_COD, VIAJE_COD, ENCOMIENDA_PRECIO, ENCOMIENDA_PESO_KG) 
 										VALUES(@codigoPNR,@cliCod,@viajeCod,@precio,@peso) 
@@ -2759,7 +2767,7 @@ GO
 
 -------------------------------Servicios de una ruta-------------------------------
 CREATE FUNCTION [ABSTRACCIONX4].ServiciosDeRuta
-	(@IdRuta TINYINT)
+	(@IdRuta SMALLINT)
 RETURNS @Servicios TABLE (tipoServicio VARCHAR(30))
 AS
 BEGIN

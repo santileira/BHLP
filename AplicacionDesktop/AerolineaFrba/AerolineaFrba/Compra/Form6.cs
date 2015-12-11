@@ -21,6 +21,7 @@ namespace AerolineaFrba.Compra
         private bool tarjetaNueva;
         private bool esEfectivo;
         private decimal totalAAbonar = 0;
+        private int clienteCodigo = 0;
 
         public Form6()
         {
@@ -118,6 +119,7 @@ namespace AerolineaFrba.Compra
                 {
                     encontroCliente = true;
 
+                    clienteCodigo = (int)reader.GetValue(0);
                     txtNom.Text = reader.GetValue(2).ToString();
                     txtDire.Text = reader.GetValue(4).ToString();
                     txtTel.Text = reader.GetValue(5).ToString();
@@ -543,6 +545,7 @@ namespace AerolineaFrba.Compra
             int.TryParse(cboMeses.Text, out vencMes);
             int.TryParse(cboAnios.Text, out vencAnio);
             int.TryParse(cboCuotas.Text, out cuotas);
+            
             SQLManager manager = new SQLManager();
 
             if (tarjetaNueva)
@@ -551,6 +554,7 @@ namespace AerolineaFrba.Compra
                 manager = manager.generarSP("ingresarDatosDeCompra")
                                  .agregarTableSP("@TablaPasajes", tablaPasajes)
                                  .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@clienteCodigo", clienteCodigo)
                                  .agregarIntSP("@dni", txtDni)
                                  .agregarStringSP("@ape", txtApe)
                                  .agregarStringSP("@nombre", txtNom)
@@ -579,6 +583,7 @@ namespace AerolineaFrba.Compra
                     manager = manager.generarSP("ingresarDatosDeCompra")
                                  .agregarTableSP("@TablaPasajes", tablaPasajes)
                                  .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@clienteCodigo", clienteCodigo)
                                  .agregarIntSP("@dni", txtDni)
                                  .agregarStringSP("@ape", txtApe)
                                  .agregarStringSP("@nombre", txtNom)
@@ -604,6 +609,7 @@ namespace AerolineaFrba.Compra
                     manager = manager.generarSP("ingresarDatosDeCompra")
                                  .agregarTableSP("@TablaPasajes", tablaPasajes)
                                  .agregarTableSP("@TablaEncomiendas", tablaEncomiendas)
+                                 .agregarIntSP("@clienteCodigo", clienteCodigo)
                                  .agregarIntSP("@dni", txtDni)
                                  .agregarStringSP("@ape", txtApe)
                                  .agregarStringSP("@nombre", txtNom)

@@ -30,6 +30,15 @@ namespace AerolineaFrba.Compra
             this.inicio();
         }
 
+        public void borrarButacasSeleccionadas()
+        {
+            foreach (DataGridViewRow row in dgButacas.Rows)
+            {
+                row.Cells["N° Butaca"].Style.BackColor = Color.White;
+                row.Cells["Tipo"].Style.BackColor = Color.White;
+            }
+        }
+
         public void inicio()
         {
 

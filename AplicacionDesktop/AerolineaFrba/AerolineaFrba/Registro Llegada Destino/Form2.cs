@@ -73,28 +73,36 @@ namespace AerolineaFrba.Registro_Llegada_Destino
             int differenceInHours = ts.Hours;
             int differenceInMinutes = ts.Minutes;*/
 
-            if ((dateTimePicker1.Value > fechaSalida) && (dateTimePicker1.Value<fechaMaxima))
+            if ((dateTimePicker1.Value > fechaSalida) && (dateTimePicker1.Value < fechaMaxima))
             {
-
-                if (debeHaberLlegadoAntes(fechaSalida, dateTimePicker1.Value))
+                if ((dateTimePicker1.Value <= Program.fechaHoy()))
                 {
 
-                    new SQLManager().generarSP("agregarFechaLlegada")
-                                      .agregarStringSP("@fecha", dateTimePicker1.Value.ToString())
-                                        .agregarIntSP("@viajecod", viaje_cod)
-                                          .ejecutarSP();
+                    if (debeHaberLlegadoAntes(fechaSalida, dateTimePicker1.Value))
+                    {
 
-                    new SQLManager().generarSP("agregarCantButacasAViajes")
-                                       .agregarIntSP("@viaje_cod", viaje_cod)
-                                        .ejecutarSP();
+                        new SQLManager().generarSP("agregarFechaLlegada")
+                                          .agregarStringSP("@fecha", dateTimePicker1.Value.ToString())
+                                            .agregarIntSP("@viajecod", viaje_cod)
+                                              .ejecutarSP();
 
-                    MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
+                        new SQLManager().generarSP("agregarCantButacasAViajes")
+                                           .agregarIntSP("@viaje_cod", viaje_cod)
+                                            .ejecutarSP();
 
-                    this.Close();
+                        MessageBox.Show("Se asigno la fecha: " + dateTimePicker1.Value.ToString(), "Fecha Llegada Asignada", MessageBoxButtons.OK);
+
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Dicha aeronave debe haber llegado antes, ya que hay un vuelo con fecha de salida anterior a la fecha indicada. ", "Fecha Incorrecta", MessageBoxButtons.OK);
+                    }
+
                 }
                 else
                 {
-                    MessageBox.Show("Dicha aeronave debe haber llegado antes, ya que hay un vuelo con fecha de salida anterior a la fecha indicada. ", "Fecha Incorrecta", MessageBoxButtons.OK);
+                    MessageBox.Show("No es posible que la fecha de llegada sea posterior a la fecha actual ", "Fecha Incorrecta", MessageBoxButtons.OK);
                 }
 
             }else{
